@@ -1,0 +1,83 @@
+﻿@model CategoryBrowseModel
+@{
+    ViewBag.Title = Model.Name;
+}
+
+@if (Model.Threads.Count() > 0)
+{
+    @*<div class="container-fluid mt-100">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="card-header pr-0 pl-0">
+                        <div class="row no-gutters align-items-center w-100">
+                            <div class="col pl-3">
+                                <a style="color: white">[Title]</a>
+                            </div>
+                            <div class="d-none d-md-block col-6 text-muted">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-3"><a style="color: white">[Likes]</a></div>
+                                    <div class="col-3"><a style="color: white">[Replies]</a></div>
+                                    <div class="col-6"><a style="color: white">[Author]</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @{
+                        foreach (var thread in Model.Threads)
+                        {
+                            <div class="card-body py-3">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col short">
+                                        <div class="tooltip shorting">
+                                            <a asp-controller="Threads"
+                                               asp-action="Read"
+                                               asp-route-threadId="@thread.Id"
+                                               class="d-block text-truncate">@thread.Title</a>
+                                            <span class="tooltiptext">@thread.Title</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-none d-md-block col-6">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-3">
+                                                <div class="tooltip shorting adjust-right">
+                                                    @thread.Points
+                                                    <span class="tooltiptext">@thread.Points likes</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="tooltip shorting adjust-right">
+                                                    @thread.CommentCount
+                                                    <span class="tooltiptext">@thread.CommentCount replies</span>
+                                                </div>
+                                            </div>
+                                            <div class="media col-6 align-items-center">
+                                                <img src="@thread.AuthorAvatarUrl" alt="" class="d-block ui-w-30 rounded-circle">
+                                                <div class="media-body flex-truncate ml-2">
+                                                    <a class="d-block text-truncate" data-abc="true">@thread.AuthorName</a>
+                                                    <div class="text-muted small text-truncate">@thread.CreatedOn</div>
+                                                </div>
+                                                <div class="tooltip media-sm align-items-center ml-3">
+                                                    <a asp-controller="Threads" asp-action="Edit" asp-route-threadId="@thread.Id">
+                                                        <img src="https://i.imgur.com/ft8o6AE.png" alt="">
+                                                    </a>
+                                                    <span class="tooltiptext">Edit</span>
+                                                </div>
+                                                <div class="tooltip media-sm align-items-center ml-3">
+                                                    <a asp-controller="Threads" asp-action="Delete" asp-route-threadId="@thread.Id">
+                                                        <img src="https://i.imgur.com/9QqbdLT.png" alt="">
+                                                    </a>
+                                                    <span class="tooltiptext">Delete</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>*@
+}
