@@ -589,8 +589,8 @@ pre code {
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
+  margin-right: -30px;
+  margin-left: -30px;
 }
 
 .no-gutters {
@@ -3121,12 +3121,12 @@ fieldset:disabled a.btn {
 
 .btn-link {
   font-weight: 400;
-  color: #158cba;
+  color: #0026ff;
   text-decoration: none;
 }
 
 .btn-link:hover {
-  color: #0d5875;
+  color: #fff;
   text-decoration: underline;
 }
 
@@ -5294,10 +5294,12 @@ a.badge-dark:focus, a.badge-dark.focus {
 }
 
 .jumbotron {
-  padding: 2rem 1rem;
-  margin-bottom: 2rem;
-  background-color: #fafafa;
-  border-radius: 0.3rem;
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    border-radius: 0.3rem;
+    text-align: center;
+    background: url(https://cutewallpaper.org/21/bootstrap-jumbotron-background-image/Bootstrap-Jumbotron-examples-tutorial-Basic-advanced-.jpg) no-repeat center center;
+    background-size: cover;
 }
 
 @media (min-width: 576px) {
@@ -6853,19 +6855,19 @@ button.bg-dark:focus {
 }
 
 .border {
-  border: 1px solid #dee2e6 !important;
+  border: 1px solid #222 !important;
 }
 
 .border-top {
-  border-top: 1px solid #dee2e6 !important;
+  border-top: 1px solid #222 !important;
 }
 
 .border-right {
-  border-right: 1px solid #dee2e6 !important;
+  border-right: 1px solid #222 !important;
 }
 
 .border-bottom {
-  border-bottom: 1px solid #dee2e6 !important;
+  border-bottom: 1px solid #222 !important;
 }
 
 .border-left {

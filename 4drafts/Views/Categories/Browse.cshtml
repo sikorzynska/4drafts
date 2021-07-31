@@ -3,28 +3,33 @@
     ViewBag.Title = Model.Name;
 }
 
-@if (Model.Threads.Count() > 0)
-{
-    @*<div class="container-fluid mt-100">
+<div class="container-fluid">
+    <div class="jumbotron">
+        <h1 class="display-3 strokeme">@Model.Name</h1>
+        <p class="lead">@Model.Description</p>
+    </div>
+    <a asp-controller="Threads" asp-action="Create" asp-route-categoryId="@Model.Id" type="button" class="btn btn-link">[Start Thread]</a>
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card mb-3">
                     <div class="card-header pr-0 pl-0">
                         <div class="row no-gutters align-items-center w-100">
                             <div class="col pl-3">
-                                <a style="color: white">[Title]</a>
+                                <a>[Title]</a>
                             </div>
                             <div class="d-none d-md-block col-6 text-muted">
                                 <div class="row no-gutters align-items-center">
-                                    <div class="col-3"><a style="color: white">[Likes]</a></div>
-                                    <div class="col-3"><a style="color: white">[Replies]</a></div>
-                                    <div class="col-6"><a style="color: white">[Author]</a></div>
+                                    <div class="col-3"><a>[Likes]</a></div>
+                                    <div class="col-3"><a>[Replies]</a></div>
+                                    <div class="col-6"><a>[Author]</a></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @{
-                        foreach (var thread in Model.Threads)
+                    @if (Model.Threads.Count() > 0)
+                    {
+                        @foreach (var thread in Model.Threads)
                         {
                             <div class="card-body py-3">
                                 <div class="row no-gutters align-items-center">
@@ -79,5 +84,5 @@
                 </div>
             </div>
         </div>
-    </div>*@
-}
+    </div>
+</div>

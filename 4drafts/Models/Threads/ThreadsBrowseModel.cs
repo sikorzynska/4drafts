@@ -16,6 +16,8 @@
 
             public string AuthorName { get; set; }
 
+            public string AuthorAvatarUrl { get; set; }
+
             public int CommentCount { get; set; }
     }
 }

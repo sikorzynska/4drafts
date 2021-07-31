@@ -7,11 +7,6 @@ a.navbar-brand {
   word-break: break-all;
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
-
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -33,6 +28,18 @@ html {
   html {
     font-size: 16px;
   }
+}
+
+.bg {
+    /* The image used */
+    background-image: url(https://i.imgur.com/0YC3OUR.png);
+    /* Full height */
+    height: 100%;
+    width: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .border-top {
@@ -143,7 +150,7 @@ body {
 }
 
 a {
-    color: #0366d6;
+    color: black;
     text-decoration: none !important;
     background-color: transparent
 }
@@ -162,5 +169,55 @@ a {
     width: 30px;
     height: auto
 }
+
+.strokeme {
+    color: black;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+}
+
+.w-40 {
+    width: 40% !important;
+}
+
+.w-30 {
+    width: 30% !important;
+}
+
+.mw-350 {
+    max-width: 350px;
+}
+
+.navbar-right {
+    float: right;
+}
+
+
+.glyphicon-user {
+    background-image: url(https://i.imgur.com/Q67mO1m.png);
+}
+
+.dropdown-link-text {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+@media only screen and (max-width:660px) {
+
+    .layout-anchor span {
+        display: none;
+    }
+
+    .nav-item {
+        display: none;
+    }
+}
+
+@media only screen and (max-width:1200px) {
+
+    .hide-sm {
+        display: none;
+    }
+}
+
 
 

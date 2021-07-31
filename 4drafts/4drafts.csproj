@@ -18,8 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Models\Comments\" />
-    <Folder Include="Models\Threads\" />
-    <Folder Include="Models\Users\" />
   </ItemGroup>
 
 </Project>

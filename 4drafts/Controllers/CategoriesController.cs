@@ -48,6 +48,7 @@ namespace _4drafts.Controllers
 
             var threads = this.data.Threads
                 .Where(t => t.CategoryId == categoryId)
+                .OrderByDescending(t => t.CreatedOn)
                 .Select(t => new ThreadsBrowseModel
                 {
                     Id = t.Id,
@@ -57,9 +58,9 @@ namespace _4drafts.Controllers
                     Points = t.Points,
                     AuthorId = t.AuthorId,
                     AuthorName = t.Author.UserName,
-                    CommentCount = CommentCount(t.Id),
+                    AuthorAvatarUrl = t.Author.AvatarUrl,
+                    CommentCount = CommentCount(t.Id, this.data),
                 })
-                .OrderByDescending(t => t.CreatedOn)
                 .ToList();
 
             return View(new CategoryBrowseModel 
@@ -71,9 +72,9 @@ namespace _4drafts.Controllers
             });
         }
 
-        private int CommentCount(string threadId)
+        private static int CommentCount(string threadId, _4draftsDbContext data)
         {
-            var result = this.data.Threads.FirstOrDefault(t => t.Id == threadId).Comments.Count();
+            var result = data.Threads.FirstOrDefault(t => t.Id == threadId).Comments.Count();
 
             return result;
         }

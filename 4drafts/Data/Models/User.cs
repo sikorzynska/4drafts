@@ -8,7 +8,7 @@ namespace _4drafts.Data.Models
     {
         public DateTime RegisteredOn { get; init; } = DateTime.UtcNow;
 
-        public string AvatarUrl { get; set; } = "https://i.imgur.com/pvUS8zx.png";
+        public string AvatarUrl { get; set; } = "https://i.imgur.com/Q67mO1m.png";
 
         public int Points { get; set; }
 

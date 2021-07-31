@@ -1,0 +1,71 @@
+﻿@{ 
+    this.userManager = userManager;
+    var user = await this.userManager.GetUserAsync(User);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - 4drafts</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="bg">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img class="layout-logo" src="https://i.imgur.com/7pLHF2D.png" alt="PrimalPhobias Logo" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1 justify-content-end">
+                            @{
+                                if (!User.Identity.IsAuthenticated)
+                                {
+                                    <li>
+                                        <a asp-controller="Users" asp-action="Login" class="media-img-30 layout-anchor btn-link">
+                                            <img src="https://i.imgur.com/Q67mO1m.png" alt="user avatar" class="rounded-circle" />
+                                            <span>Sign In</span>
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle media-img-30 btn-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="@user.AvatarUrl" alt="Avatar" /> @user.UserName<span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a asp-controller="Users" asp-action="Profile" asp-route-username="@user.UserName"><span class="dropdown-link-text">Profile</span></a></li>
+                                            <li><a asp-controller="Users" asp-action="ChangePassword" asp-route-username="@user.UserName"><span class="dropdown-link-text">Change Password</span></a></li>
+                                            <li role="separator" class="dropdown-divider"></li>
+                                            <li><a asp-controller="Users" asp-action="Logout"><span class="dropdown-link-text">Logout</span></a></li>
+                                        </ul>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.UtcNow.Year - 4drafts
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
