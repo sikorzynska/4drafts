@@ -3,10 +3,11 @@
 @{
     ViewBag.Title = "Create";
 
+    var catId = Model.CategoryId;
 }
 
 <body>
-    <form asp-controller="Threads" asp-action="Create" method="post">
+    <form asp-controller="Threads" asp-action="Create" asp-route-categoryId="@catId" method="post">
         <div class="container-fluid mw-350 mt-4">
             <div class="form-header" align="center">
                 <div class="dropdown-divider"></div>
@@ -26,7 +27,7 @@
             <div class="form-body">
                 <div class="form-group">
                     <label asp-for="CategoryId" class="form-label mt-4"></label>
-                    <select asp-for="CategoryId" class="form-control" id="category-selection">
+                    <select asp-for="CategoryId" class="form-control" placeholder="Genre" id="category-selection">
                         @foreach (var category in Model.Categories)
                         {
                             <option id="/Threads/Create?categoryId=@category.Id" value="@category.Id">@category.Name</option>
@@ -61,5 +62,4 @@
               window.location.href = this.options[this.selectedIndex].id;
         });
     </script>
-
 }

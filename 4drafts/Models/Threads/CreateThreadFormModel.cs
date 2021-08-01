@@ -9,7 +9,7 @@ namespace _4drafts.Models.Threads
     {
         [Display(Name = "Category")]
         public int CategoryId { get; init; }
-        public string CategoryName { get; init; }
+        public string CategoryName { get; set; }
 
         public IEnumerable<CategoriesBrowseModel> Categories { get; set; }
 

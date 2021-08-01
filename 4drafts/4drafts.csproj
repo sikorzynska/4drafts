@@ -16,8 +16,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Comments\" />
-  </ItemGroup>
-
 </Project>

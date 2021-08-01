@@ -1,14 +1,18 @@
 ﻿using _4drafts.Data;
 using _4drafts.Data.Models;
 using _4drafts.Models.Categories;
+using _4drafts.Models.Comments;
 using _4drafts.Models.Threads;
 using _4drafts.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace _4drafts.Controllers
 {
@@ -26,6 +30,54 @@ namespace _4drafts.Controllers
             this.userManager = userManager;
         }
 
+        public async Task<IActionResult> Read(string threadId)
+        {
+            var thread = this.data.Threads
+                .Include(t => t.Author)
+                .Include(t => t.Category)
+                .Include("Comments.Author")
+                .FirstOrDefault(t => t.Id == threadId);
+
+            if (thread == null) return NotFound();
+
+            var author = await this.userManager.FindByIdAsync(thread.AuthorId);
+
+            if (author == null) return NotFound();
+
+            var userThreadCount = this.data.Threads
+                .Where(t => t.AuthorId == author.Id)
+                .Count();
+
+            var threadResult = new ThreadViewModel
+            {
+                Id = thread.Id,
+                Title = thread.Title,
+                Content = thread.Description,
+                CreatedOn = this.timeWarper.TimeAgo(thread.CreatedOn),
+                AuthorId = author.Id,
+                AuthorName = author.UserName,
+                AuthorAvatarUrl = author.AvatarUrl,
+                AuthorRegisteredOn = author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
+                AuthorThreadCount = userThreadCount,
+                Points = thread.Points,
+                CategoryId = thread.CategoryId,
+                Comments = thread.Comments
+                .Select(c => new CommentViewModel
+                {
+                    Id = c.Id,
+                    Content = c.Content,
+                    CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
+                    AuthorId = c.AuthorId,
+                    AuthorName = c.Author.UserName,
+                    AuthorAvatarUrl = c.Author.AvatarUrl,
+                    ThreadId = c.ThreadId
+                })
+                .ToList()
+            };
+
+            return View(threadResult);
+        }
+
         [HttpGet]
         [Authorize]
         public IActionResult Create(int categoryId)
@@ -33,13 +85,15 @@ namespace _4drafts.Controllers
             if (categoryId == 0) return View(new CreateThreadFormModel 
             {
                 Categories = this.GetCategories(),
-                CategoryName = this.data.Categories.FirstOrDefault().Name
+                CategoryName = this.data.Categories.FirstOrDefault().Name,
+                CategoryId = this.data.Categories.FirstOrDefault().Id
             });
 
             return View(new CreateThreadFormModel
             {
                 Categories = this.GetCategories(),
-                CategoryName = this.data.Categories.FirstOrDefault(c => c.Id == categoryId).Name
+                CategoryName = this.data.Categories.FirstOrDefault(c => c.Id == categoryId).Name,
+                CategoryId = categoryId
             });
         }
 
@@ -52,14 +106,10 @@ namespace _4drafts.Controllers
                 this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist.");
             }
 
-            if (string.IsNullOrWhiteSpace(model.Content))
-            {
-                this.ModelState.AddModelError(nameof(model.Content), "The content field cannot be empty.");
-            }
-
             if (!ModelState.IsValid)
             {
                 model.Categories = this.GetCategories();
+                model.CategoryName = model.Categories.FirstOrDefault(c => c.Id == model.CategoryId).Name;
 
                 return View(model);
             }

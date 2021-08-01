@@ -90,7 +90,7 @@ body {
 }
 
 .shorting {
-    width: 50%;
+    width: 60%;
 }
 
 .media-img img {
@@ -199,6 +199,15 @@ a {
 .dropdown-link-text {
     display: inline-block;
     margin-left: 20px;
+}
+
+.mh-600{
+    max-height: 600px;
+    overflow: auto;
+}
+
+.zoom:hover {
+    transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 @media only screen and (max-width:660px) {
