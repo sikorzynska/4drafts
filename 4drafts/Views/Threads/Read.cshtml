@@ -50,20 +50,25 @@
         <span>Comments</span>
         <span class="badge badge-secondary float-right mt-2 mr-2" id="count_message"></span>
     </div>
-    <div class="p-2 col-md-12">
-        <div class="d-flex flex-row align-items-start media-img-40">
-            <img class="rounded-circle" src="@user.AvatarUrl">
-            <textarea type="text" rows="1" style="resize: none;" maxlength="500" class="form-control ml-1 shadow-none" placeholder="Add a public comment..." id="comment-content" name="comment-content" onchange="checkIfEmpty(), countCharacters()" onkeypress="checkIfEmpty(), countCharacters()" oninput="checkIfEmpty(), countCharacters()" onkeyup="countCharacters()" onpaste="checkIfEmpty(), countCharacters()" onclick="showButtons()" ></textarea>
+
+    <form asp-controller="Comments" asp-action="Create" asp-route-id="@Model.Id" method="post">
+        <div class="p-2 col-md-12">
+            <div class="d-flex flex-row align-items-start media-img-40">
+                <img class="rounded-circle" src="@user.AvatarUrl">
+                <input asp-for="Id" type="text" value="@Model.Id" style="display: none;" />
+                <textarea asp-for="CommentContent" type="text" rows="1" style="resize: none;" maxlength="500" class="form-control ml-1 shadow-none" placeholder="Add a public comment..." id="comment-content" onchange="checkIfEmpty(), countCharacters()" onkeypress="checkIfEmpty(), countCharacters()" oninput="checkIfEmpty(), countCharacters()" onkeyup="countCharacters()" onpaste="checkIfEmpty(), countCharacters()" onclick="showButtons()"></textarea>
+                <span asp-validation-for="CommentContent" class="small text-danger"></span>
+            </div>
+            <div class="mt-2 text-right d-none" id="comment-buttons">
+                <button class="btn btn-primary" type="submit" disabled id="comment-button">
+                    Comment
+                </button>
+                <button class="btn btn-danger ml-1" type="button" id="cancel" onclick="hideButtons()">
+                    Cancel
+                </button>
+            </div>
         </div>
-        <div class="mt-2 text-right d-none" id="comment-buttons">
-            <a asp-controller="Comments" asp-action="Post" asp-route-threadId="@Model.Id" class="btn btn-primary" type="button" disabled id="comment-button">
-                Comment
-            </a>
-            <button class="btn btn-danger ml-1" type="button" id="cancel" onclick="hideButtons()">
-                Cancel
-            </button>
-        </div>
-    </div>
+    </form>
 
     @{
         foreach (var comment in Model.Comments)
@@ -111,6 +116,11 @@
 
         $('#count_message').html(text_length + ' / ' + text_max);
     };
+
+    function getValue() {
+        var commentContent = $('#comment-content').val();
+        return commentContent;
+    }
 
     function changeScreen() {
         var foldButton = document.getElementById('fold-button');

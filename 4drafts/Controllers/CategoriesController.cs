@@ -74,7 +74,7 @@ namespace _4drafts.Controllers
 
         private static int CommentCount(string threadId, _4draftsDbContext data)
         {
-            var result = data.Threads.FirstOrDefault(t => t.Id == threadId).Comments.Count();
+            var result = data.Comments.Where(c => c.ThreadId == threadId).Count();
 
             return result;
         }

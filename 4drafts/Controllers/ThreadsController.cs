@@ -60,6 +60,7 @@ namespace _4drafts.Controllers
                 Points = thread.Points,
                 CategoryId = thread.CategoryId,
                 Comments = thread.Comments
+                .OrderByDescending(t => t.CreatedOn)
                 .Select(c => new CommentViewModel
                 {
                     Id = c.Id,
