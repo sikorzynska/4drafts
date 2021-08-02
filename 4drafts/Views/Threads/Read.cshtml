@@ -28,36 +28,126 @@
                     <hr />
                     <span style="white-space: pre-wrap;">@Model.Content</span>
                 </div>
-                <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
-                    <div class="px-4 pt-3 media-img-30"> 
-                    <a class="d-inline-flex align-items-center align-middle zoom" onclick="changeHeart()">
-                        <img src="https://i.imgur.com/4lydMB6.png" id="heartImg"/>
-                    </a> 
+                <div class="card-footer d-flex flex-wrap justify-content-start align-items-start px-0 pt-0 pb-3">
+                    <div class="px-4 pt-3 media-img-30">
+                        <a class="d-inline-flex align-items-center align-middle zoom" onclick="changeHeart()">
+                            <img src="https://i.imgur.com/4lydMB6.png" id="heartImg" />
+                        </a>
+                        <span>@Model.Points</span>
                     </div>
-                    <div class="px-4 pt-3 media-img-30"> 
-                    <a class="d-inline-flex zoom" onclick="changeScreen()">
-                        <img src="https://image.flaticon.com/icons/png/512/1057/1057155.png" id="screenImg"/>
-                    </a> 
+                    <div class="px-4 pt-3 media-img-30" style="margin-left: auto; margin-right: 0">
+                        <a class="d-inline-flex btn btn-secondary" onclick="changeScreen()">
+                            <span id="fold-button" value="unfold">unfold</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="text-">
+        <span>@Model.Comments.Count()</span>
+        <span>Comments</span>
+        <span class="badge badge-secondary float-right mt-2 mr-2" id="count_message"></span>
+    </div>
+    <div class="p-2 col-md-12">
+        <div class="d-flex flex-row align-items-start media-img-40">
+            <img class="rounded-circle" src="@user.AvatarUrl">
+            <textarea type="text" rows="1" style="resize: none;" maxlength="500" class="form-control ml-1 shadow-none" placeholder="Add a public comment..." id="comment-content" name="comment-content" onchange="checkIfEmpty(), countCharacters()" onkeypress="checkIfEmpty(), countCharacters()" oninput="checkIfEmpty(), countCharacters()" onkeyup="countCharacters()" onpaste="checkIfEmpty(), countCharacters()" onclick="showButtons()" ></textarea>
+        </div>
+        <div class="mt-2 text-right d-none" id="comment-buttons">
+            <a asp-controller="Comments" asp-action="Post" asp-route-threadId="@Model.Id" class="btn btn-primary" type="button" disabled id="comment-button">
+                Comment
+            </a>
+            <button class="btn btn-danger ml-1" type="button" id="cancel" onclick="hideButtons()">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    @{
+        foreach (var comment in Model.Comments)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <div class="media flex-wrap w-100 align-items-center">
+                                <img src="@comment.AuthorAvatarUrl" class="d-block ui-w-40 rounded-circle">
+                                <div class="media-body ml-3">
+                                    <a asp-controller="Users" asp-action="Profile" asp-route-username="@comment.AuthorName">@Model.AuthorName</a>
+                                    <div class="text-muted small">@comment.CreatedOn</div>
+                                </div>
+                                <div class="text-muted small ml-3">
+                                    <div>Member since <strong>@comment.AuthorRegisteredOn</strong></div>
+                                    <div><strong>@comment.AuthorCommentCount</strong> comments</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body mh-100" id="comment-body">
+                            <span style="white-space: pre-wrap;">@comment.Content</span>
+                        </div>
+                        <div class="card-footer d-flex flex-wrap justify-content-start align-items-start px-0 pt-0 pb-3">
+                            <div class="px-4 pt-3 media-img-30" style="margin-left: auto; margin-right: 0">
+                                <a class="d-inline-flex zoom">
+                                    <img src="https://image.flaticon.com/icons/png/512/626/626013.png" id="screenImg" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
 </div>
 
 <script>
-    function changeScreen() {
-        var screenImg = document.getElementById('screenImg');
-        var contentBody = document.getElementById('content-body');
+    var text_max = 500;
+    $('#count_message').html('0 / ' + text_max);
 
-        if (screenImg.src == "https://image.flaticon.com/icons/png/512/1057/1057155.png") {
-            screenImg.src = "https://image.flaticon.com/icons/png/512/1057/1057095.png";
+    function countCharacters() {
+        var text_length = $('#comment-content').val().length;
+        var text_remaining = text_max - text_length;
+
+        $('#count_message').html(text_length + ' / ' + text_max);
+    };
+
+    function changeScreen() {
+        var foldButton = document.getElementById('fold-button');
+        var contentBody = document.getElementById('content-body');
+        if (contentBody.classList.contains('mh-600')) {
+            foldButton.value = 'fold';
+            foldButton.innerText = 'fold';
             contentBody.classList.remove('mh-600');
-        }
-        else {
-            screenImg.src = "https://image.flaticon.com/icons/png/512/1057/1057155.png";
+        } else {
+            foldButton.value = 'unfold';
+            foldButton.innerText = 'unfold';
             contentBody.classList.add('mh-600');
         }
+    }
+    function isEmpty(str) {
+        return !$.trim(str).length;
+    }
+
+    function checkIfEmpty() {
+        var commentButton = document.getElementById('comment-button');
+        var commentContent = document.getElementById('comment-content');
+
+        if (!commentContent.value.length == 0 && /\S/.test(commentContent.value)) {
+            $(commentButton).attr('disabled', false);
+        } else {
+            $(commentButton).attr('disabled', true);
+        }
+    };
+
+    function hideButtons() {
+        var commentButtons = document.getElementById('comment-buttons');
+        commentButtons.classList.add('d-none');
+    }
+
+    function showButtons() {
+        var commentButtons = document.getElementById('comment-buttons');
+        commentButtons.classList.remove('d-none');
     }
 
     function changeHeart() {

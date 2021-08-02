@@ -37,7 +37,7 @@
                                 else
                                 {
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle media-img-30 btn-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="@user.AvatarUrl" alt="Avatar" /> @user.UserName<span class="caret"></span></a>
+                                        <a class="dropdown-toggle media-img-30 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="@user.AvatarUrl" alt="Avatar" /> <span class="caret">@user.UserName</span></a>
                                         <ul class="dropdown-menu">
                                             <li><a asp-controller="Users" asp-action="Profile" asp-route-username="@user.UserName"><span class="dropdown-link-text">Profile</span></a></li>
                                             <li><a asp-controller="Users" asp-action="ChangePassword" asp-route-username="@user.UserName"><span class="dropdown-link-text">Change Password</span></a></li>

@@ -44,9 +44,7 @@ namespace _4drafts.Controllers
 
             if (author == null) return NotFound();
 
-            var userThreadCount = this.data.Threads
-                .Where(t => t.AuthorId == author.Id)
-                .Count();
+            var threadCount = userThreadCount(thread.AuthorId);
 
             var threadResult = new ThreadViewModel
             {
@@ -58,7 +56,7 @@ namespace _4drafts.Controllers
                 AuthorName = author.UserName,
                 AuthorAvatarUrl = author.AvatarUrl,
                 AuthorRegisteredOn = author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
-                AuthorThreadCount = userThreadCount,
+                AuthorThreadCount = threadCount,
                 Points = thread.Points,
                 CategoryId = thread.CategoryId,
                 Comments = thread.Comments
@@ -70,6 +68,8 @@ namespace _4drafts.Controllers
                     AuthorId = c.AuthorId,
                     AuthorName = c.Author.UserName,
                     AuthorAvatarUrl = c.Author.AvatarUrl,
+                    AuthorRegisteredOn = c.Author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
+                    AuthorCommentCount = userCommentCount(c.AuthorId),
                     ThreadId = c.ThreadId
                 })
                 .ToList()
@@ -128,6 +128,17 @@ namespace _4drafts.Controllers
 
             return Redirect($"/Categories/Browse?categoryId={model.CategoryId}");
         }
+
+        private int userThreadCount(string userId)
+            => this.data.Threads
+                .Where(t => t.AuthorId == userId)
+                .Count();
+
+        private int userCommentCount(string userId)
+            => this.data.Comments
+                .Where(t => t.AuthorId == userId)
+                .Count();
+
         private IEnumerable<CategoriesBrowseModel> GetCategories()
             => this.data
                 .Categories

@@ -14,6 +14,10 @@
 
         public string AuthorAvatarUrl { get; set; }
 
+        public string AuthorRegisteredOn { get; set; }
+
+        public int AuthorCommentCount { get; set; }
+
         public string ThreadId { get; set; }
     }
 }
