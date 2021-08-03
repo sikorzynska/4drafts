@@ -14,13 +14,13 @@
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Input.Email" style="float: left;"></label>
-                    <input asp-for="Input.Email" placeholder="Your email here..." class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger" style="float: left;"></span>
+                    <label asp-for="Input.Username" style="float: left;"></label>
+                    <input asp-for="Input.Username" placeholder="Your email here..." class="form-control" />
+                    <span asp-validation-for="Input.Username" class="text-danger" style="float: left;"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Input.Password" style="float: left;"></label>
-                    <input asp-for="Input.Password" placeholder="Your password here..." class="form-control" />
+                    <input type="password" asp-for="Input.Password" placeholder="Your password here..." class="form-control" />
                     <span asp-validation-for="Input.Password" class="text-danger" style="float: left;"></span>
                 </div>
                 <div class="form-group">
