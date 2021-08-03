@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
+using System.Text.RegularExpressions;
 
 namespace _4drafts.Controllers
 {
@@ -31,19 +32,23 @@ namespace _4drafts.Controllers
         {
             var thread = this.data.Threads.FirstOrDefault(t => t.Id == model.Id);
 
-            if(string.IsNullOrWhiteSpace(model.Id) || thread == null)
+            var characterCount = model.CommentContent.Length;
+
+            characterCount = Regex.Replace(model.CommentContent, @"\s+", " ").Length;
+
+            if (string.IsNullOrWhiteSpace(model.Id) || thread == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            if (string.IsNullOrWhiteSpace(model.CommentContent))
+            if (string.IsNullOrWhiteSpace(model.CommentContent) || characterCount > 500)
             {
-                this.ModelState.AddModelError(nameof(model.CommentContent), "Comments cannot be empty...");
+                this.ModelState.AddModelError(nameof(model.CommentContent), "Comments cannot be empty or longer than 500 characters");
             }
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return BadRequest();
             }
 
             var comment = new Comment

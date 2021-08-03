@@ -1,0 +1,46 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row mt-3">
+    <div class="col-md-4 m-auto text-center">
+        <h1>@ViewData["Title"]</h1>
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>Sign up to share your stories</h4>
+            <hr />
+            <div class="form-group">
+                <label asp-for="Input.Username" style="float: left;"></label>
+                <input asp-for="Input.Username" placeholder="Choose a username..." class="form-control" />
+                <span asp-validation-for="Input.Username" class="text-danger" style="float: left;"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email" style="float: left;"></label>
+                <input asp-for="Input.Email" placeholder="Your email here..." class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger" style="float: left;"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password" style="float: left;"></label>
+                <input asp-for="Input.Password" placeholder="Choose a password..." class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger" style="float: left;"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword" style="float: left;"></label>
+                <input asp-for="Input.ConfirmPassword" placeholder="Repeat your password..." class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger" style="float: left;"></span>
+            </div>
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+            <div class="form-group">
+                <span class="text-muted">Already have an account?</span>
+                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Sign In</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

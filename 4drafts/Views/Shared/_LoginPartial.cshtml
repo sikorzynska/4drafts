@@ -1,26 +1,30 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{ 
+    var user = await this.UserManager.GetUserAsync(User);
+}
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="dropdown">
+            <a class="dropdown-toggle media-img-30 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="@user.AvatarUrl" alt="Avatar" /> <span class="caret">@user.UserName</span></a>
+            <ul class="dropdown-menu">
+                <li><a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><span class="dropdown-link-text">Profile</span></a></li>
+                <li><a asp-controller="Users" asp-action="ChangePassword" asp-route-username="@user.UserName"><span class="dropdown-link-text">Change Password</span></a></li>
+                <li role="separator" class="dropdown-divider"></li>
+                <li><a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"><span class="dropdown-link-text">Logout</span></a></li>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a asp-area="Identity" asp-page="/Account/Login" class="media-img-30 layout-anchor btn-link">
+                <img src="https://i.imgur.com/Q67mO1m.png" alt="user avatar" class="rounded-circle" />
+                <span>Sign In</span>
+            </a>
+        </li>
+    }
 </ul>

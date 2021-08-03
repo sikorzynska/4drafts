@@ -12,6 +12,6 @@
         public const int ThreadTitleMinLength = 5;
         public const int ThreadTitleMaxLength = 80;
 
-        public const int CommentMaxLength = 500;
+        public const int CommentMaxLength = 1000;
     }
 }

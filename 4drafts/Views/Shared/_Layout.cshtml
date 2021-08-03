@@ -24,29 +24,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1 justify-content-end">
-                            @{
-                                if (!User.Identity.IsAuthenticated)
-                                {
-                                    <li>
-                                        <a asp-controller="Users" asp-action="Login" class="media-img-30 layout-anchor btn-link">
-                                            <img src="https://i.imgur.com/Q67mO1m.png" alt="user avatar" class="rounded-circle" />
-                                            <span>Sign In</span>
-                                        </a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li class="dropdown">
-                                        <a class="dropdown-toggle media-img-30 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="@user.AvatarUrl" alt="Avatar" /> <span class="caret">@user.UserName</span></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a asp-controller="Users" asp-action="Profile" asp-route-username="@user.UserName"><span class="dropdown-link-text">Profile</span></a></li>
-                                            <li><a asp-controller="Users" asp-action="ChangePassword" asp-route-username="@user.UserName"><span class="dropdown-link-text">Change Password</span></a></li>
-                                            <li role="separator" class="dropdown-divider"></li>
-                                            <li><a asp-controller="Users" asp-action="Logout"><span class="dropdown-link-text">Logout</span></a></li>
-                                        </ul>
-                                    </li>
-                                }
-                            }
+                            <partial name="_LoginPartial" />
                         </ul>
                     </div>
                 </div>
