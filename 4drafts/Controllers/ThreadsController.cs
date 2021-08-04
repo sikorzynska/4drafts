@@ -21,13 +21,16 @@ namespace _4drafts.Controllers
         private readonly ITimeWarper timeWarper;
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
+        private readonly IUserStats userStats;
         public ThreadsController(ITimeWarper timeWarper,
             _4draftsDbContext data,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IUserStats userStats)
         {
             this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
+            this.userStats = userStats;
         }
 
         public async Task<IActionResult> Read(string threadId)
@@ -44,7 +47,7 @@ namespace _4drafts.Controllers
 
             if (author == null) return NotFound();
 
-            var threadCount = userThreadCount(thread.AuthorId);
+            var threadCount = this.userStats.userThreadCount(thread.AuthorId, this.data);
 
             var threadResult = new ThreadViewModel
             {
@@ -70,7 +73,7 @@ namespace _4drafts.Controllers
                     AuthorName = c.Author.UserName,
                     AuthorAvatarUrl = c.Author.AvatarUrl,
                     AuthorRegisteredOn = c.Author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
-                    AuthorCommentCount = userCommentCount(c.AuthorId),
+                    AuthorCommentCount = this.userStats.userCommentCount(c.AuthorId, this.data),
                     ThreadId = c.ThreadId
                 })
                 .ToList()
@@ -129,16 +132,6 @@ namespace _4drafts.Controllers
 
             return Redirect($"/Categories/Browse?categoryId={model.CategoryId}");
         }
-
-        private int userThreadCount(string userId)
-            => this.data.Threads
-                .Where(t => t.AuthorId == userId)
-                .Count();
-
-        private int userCommentCount(string userId)
-            => this.data.Comments
-                .Where(t => t.AuthorId == userId)
-                .Count();
 
         private IEnumerable<CategoriesBrowseModel> GetCategories()
             => this.data

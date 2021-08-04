@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
-using System.Text.RegularExpressions;
+using _4drafts.Models.Comments;
+using System.Globalization;
 
 namespace _4drafts.Controllers
 {
@@ -16,34 +17,35 @@ namespace _4drafts.Controllers
         private readonly ITimeWarper timeWarper;
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
+        private readonly IUserStats userStats;
 
         public CommentsController(ITimeWarper timeWarper,
             _4draftsDbContext data,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IUserStats userStats)
         {
             this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
+            this.userStats = userStats;
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create(ThreadViewModel model)
+        public IActionResult Create(string Id, string Content)
         {
-            var thread = this.data.Threads.FirstOrDefault(t => t.Id == model.Id);
+            var thread = this.data.Threads.FirstOrDefault(t => t.Id == Id);
 
-            var characterCount = model.CommentContent.Length;
+            var characterCount = Content.Length;
 
-            characterCount = Regex.Replace(model.CommentContent, @"\s+", " ").Length;
-
-            if (string.IsNullOrWhiteSpace(model.Id) || thread == null)
+            if (string.IsNullOrWhiteSpace(Id) || thread == null)
             {
                 return BadRequest();
             }
 
-            if (string.IsNullOrWhiteSpace(model.CommentContent) || characterCount > 500)
+            if (string.IsNullOrWhiteSpace(Content) || characterCount > 500)
             {
-                this.ModelState.AddModelError(nameof(model.CommentContent), "Comments cannot be empty or longer than 500 characters");
+                this.ModelState.AddModelError(nameof(Content), "Comments cannot be empty or longer than 500 characters");
             }
 
             if (!ModelState.IsValid)
@@ -53,16 +55,37 @@ namespace _4drafts.Controllers
 
             var comment = new Comment
             {
-                Content = model.CommentContent,
+                Content = Content,
                 CreatedOn = DateTime.UtcNow.ToLocalTime(),
                 AuthorId = this.userManager.GetUserId(User),
-                ThreadId = model.Id
+                ThreadId = Id
             };
 
             this.data.Comments.Add(comment);
             this.data.SaveChanges();
 
-            return RedirectToAction("Read", "Threads", new { threadId = model.Id });
+            var comments = this.data.Comments
+                .Where(c => c.ThreadId == Id)
+                .OrderByDescending(c => c.CreatedOn)
+                .Select(c => new CommentViewModel
+                {
+                    Id = c.Id,
+                    Content = c.Content,
+                    CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
+                    AuthorId = c.AuthorId,
+                    AuthorName = c.Author.UserName,
+                    AuthorAvatarUrl = c.Author.AvatarUrl,
+                    AuthorRegisteredOn = c.Author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
+                    AuthorCommentCount = this.userStats.userCommentCount(c.AuthorId, this.data),
+                    ThreadId = c.ThreadId
+                })
+                .ToList();
+
+            return PartialView("_CommentsPartial", new ThreadViewModel
+            {
+                Id = Id,
+                Comments = comments
+            });
         }
     }
 }

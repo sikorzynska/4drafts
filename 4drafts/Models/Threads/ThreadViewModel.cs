@@ -29,8 +29,6 @@ namespace _4drafts.Models.Threads
 
         public int CategoryId { get; set; }
 
-        public string CommentContent { get; set; }
-
         public List<CommentViewModel> Comments { get; set; }
     }
 }

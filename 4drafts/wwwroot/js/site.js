@@ -2,3 +2,87 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+var text_max = 500;
+$('#count_message').html('0 / ' + text_max);
+
+function showComments() {
+    var showCommentsButton = document.getElementById('comments-button');
+    var commentSection = document.getElementById('comment-section');
+
+    if (commentSection.classList.contains('d-none')) {
+        commentSection.classList.remove('d-none');
+        showCommentsButton.value = 'hide comments'
+        showCommentsButton.innerText = 'hide comments'
+    } else {
+        commentSection.classList.add('d-none');
+        showCommentsButton.value = 'show comments'
+        showCommentsButton.innerText = 'show comments'
+    }
+}
+
+function countCharacters() {
+    var text_length = $('#comment-content').val().length;
+    var text_remaining = text_max - text_length;
+
+    $('#count_message').html(text_length + ' / ' + text_max);
+};
+
+function changeScreen() {
+    var foldButton = document.getElementById('fold-button');
+    var contentBody = document.getElementById('content-body');
+    if (contentBody.classList.contains('mh-600')) {
+        foldButton.value = 'fold';
+        foldButton.innerText = 'fold';
+        contentBody.classList.remove('mh-600');
+    } else {
+        foldButton.value = 'unfold';
+        foldButton.innerText = 'unfold';
+        contentBody.classList.add('mh-600');
+    }
+}
+function isEmpty(str) {
+    return !$.trim(str).length;
+}
+
+function checkIfEmpty() {
+    var commentButton = document.getElementById('comment-button');
+    var commentContent = document.getElementById('comment-content');
+
+    if (!commentContent.value.length == 0 && /\S/.test(commentContent.value)) {
+        $(commentButton).attr('disabled', false);
+    } else {
+        $(commentButton).attr('disabled', true);
+    }
+};
+
+function hideButtons() {
+    var commentButtons = document.getElementById('comment-buttons');
+    var counter = document.getElementById('counter');
+    commentButtons.classList.add('d-none');
+    counter.classList.add('d-none');
+}
+
+function showButtons() {
+    var commentButtons = document.getElementById('comment-buttons');
+    var counter = document.getElementById('counter');
+    commentButtons.classList.remove('d-none');
+    counter.classList.remove('d-none');
+}
+
+function getCommentValue() {
+    var content = document.getElementById('comment-content');
+    var result = $(content).val();
+    return result;
+}
+
+function refreshComments(Id, Content) {
+    $.ajax({
+        url: "/Comments/Create/",
+        type: "post",
+        data: { Id: Id, Content: Content },
+        success: function (result) {
+            $('#comment-section').html(result);
+        }
+    });
+}

@@ -35,7 +35,7 @@
                         <span class="ml-1 mr-1">@Model.Points</span>
                         <a class="btn btn-danger btn-sm">-</a>
                     </div>
-                    <div class="px-4 pt-3 media-img-30" style="margin-left: auto; margin-right: 0">
+                    <div class="px-4 pt-3 media-img-30 align-end">
                         <a class="d-inline-flex btn btn-secondary" onclick="changeScreen()">
                             <span id="fold-button" value="unfold">unfold</span>
                         </a>
@@ -46,152 +46,9 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="coment-bottom bg-white p-2 px-4 card">
-                <div>
-                    <span class="badge badge-dark">@Model.Comments.Count()</span>&nbsp;<span>Comments</span>
-                </div>
-                <div class="card mt-2">
-                    <div id="counter" class="d-none">
-                        <span class="badge badge-secondary float-right mt-2 mr-2" id="count_message"></span>
-                    </div>
-                    <form asp-controller="Comments" asp-action="Create" asp-route-id="@Model.Id" method="post">
-                        <div class="p-2 col-md-12">
-                            <div class="d-flex flex-row align-items-start media-img-40">
-                                <img class="rounded-circle" src="@avatarUrl">
-                                <input asp-for="Id" type="text" value="@Model.Id" style="display: none;" />
-                                <textarea asp-for="CommentContent" wrap="hard" type="text" rows="1"
-                                          style="resize: none;"
-                                          maxlength="500"
-                                          class="form-control ml-1 shadow-none"
-                                          placeholder="Add a public comment..."
-                                          id="comment-content"
-                                          onchange="checkIfEmpty(), countCharacters()"
-                                          onkeypress="checkIfEmpty(), countCharacters()"
-                                          oninput="checkIfEmpty(), countCharacters()"
-                                          onkeyup="countCharacters()"
-                                          onpaste="checkIfEmpty(), countCharacters()"
-                                          onclick="showButtons()"></textarea>
-                                <span asp-validation-for="CommentContent" class="small text-danger"></span>
-                            </div>
-                            <div class="mt-2 text-right d-none" id="comment-buttons">
-                                <button class="btn btn-primary" type="submit" disabled id="comment-button">
-                                    Comment
-                                </button>
-                                <button class="btn btn-danger ml-1" type="button" id="cancel" onclick="hideButtons()">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <hr />
-                @*<div class="text-center mb-2">
-                    <button id="comments-button" type="button" class="btn btn-secondary" onclick="showComments()">Show Comments</button>
-                </div>*@
-                <div id="comment-section">
-                    @{
-                        foreach (var comment in Model.Comments)
-                        {
-                            <div class="card mt-1">
-                                <div class="commented-section mt-2">
-                                    <div class="card-header">
-                                        <div class="media flex-wrap w-100 align-items-center">
-                                            <img src="@comment.AuthorAvatarUrl" class="d-block ui-w-40 rounded-circle">
-                                            <div class="media-body ml-3">
-                                                <a asp-controller="Users" asp-action="Profile" asp-route-username="@comment.AuthorName">@comment.AuthorName</a>
-                                                <div class="text-muted small">@comment.CreatedOn</div>
-                                            </div>
-                                            <div class="text-muted small ml-3">
-                                                <div>Member since <strong>@comment.AuthorRegisteredOn</strong></div>
-                                                <div><strong>@comment.AuthorCommentCount</strong> comments</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body mh-50">
-                                        <span class="content-text">@comment.Content</span>
-                                    </div>
-                                    <div class="reply-section card-footer">
-                                        <div class="d-flex flex-row align-items-center voting-icons">
-                                            <a class="btn btn-success btn-sm">+</a>
-                                            <span class="ml-1 mr-1">0</span>
-                                            <a class="btn btn-danger btn-sm">-</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
-                </div>
+            <div class="container-fluid card" id="comment-section">
+                <partial name="_CommentsPartial" model="@Model" />
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    var text_max = 500;
-    $('#count_message').html('0 / ' + text_max);
-
-    function showComments() {
-        var showCommentsButton = document.getElementById('comments-button');
-        var commentSection = document.getElementById('comment-section');
-
-        if (commentSection.classList.contains('d-none')) {
-            commentSection.classList.remove('d-none');
-            showCommentsButton.value = 'hide comments'
-            showCommentsButton.innerText = 'hide comments'
-        } else {
-            commentSection.classList.add('d-none');
-            showCommentsButton.value = 'show comments'
-            showCommentsButton.innerText = 'show comments'
-        }
-    }
-
-    function countCharacters() {
-        var text_length = $('#comment-content').val().length;
-        var text_remaining = text_max - text_length;
-
-        $('#count_message').html(text_length + ' / ' + text_max);
-    };
-
-    function changeScreen() {
-        var foldButton = document.getElementById('fold-button');
-        var contentBody = document.getElementById('content-body');
-        if (contentBody.classList.contains('mh-600')) {
-            foldButton.value = 'fold';
-            foldButton.innerText = 'fold';
-            contentBody.classList.remove('mh-600');
-        } else {
-            foldButton.value = 'unfold';
-            foldButton.innerText = 'unfold';
-            contentBody.classList.add('mh-600');
-        }
-    }
-    function isEmpty(str) {
-        return !$.trim(str).length;
-    }
-
-    function checkIfEmpty() {
-        var commentButton = document.getElementById('comment-button');
-        var commentContent = document.getElementById('comment-content');
-
-        if (!commentContent.value.length == 0 && /\S/.test(commentContent.value)) {
-            $(commentButton).attr('disabled', false);
-        } else {
-            $(commentButton).attr('disabled', true);
-        }
-    };
-
-    function hideButtons() {
-        var commentButtons = document.getElementById('comment-buttons');
-        var counter = document.getElementById('counter');
-        commentButtons.classList.add('d-none');
-        counter.classList.add('d-none');
-    }
-
-    function showButtons() {
-        var commentButtons = document.getElementById('comment-buttons');
-        var counter = document.getElementById('counter');
-        commentButtons.classList.remove('d-none');
-        counter.classList.remove('d-none');
-    }
-</script>

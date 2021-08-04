@@ -1,0 +1,87 @@
+﻿@model ThreadViewModel
+@{
+    var user = await this.userManager.GetUserAsync(User);
+    var avatarUrl = user == null ? "https://i.imgur.com/Q67mO1m.png" : user.AvatarUrl;
+}
+<div class="coment-bottom bg-white p-2 px-4">
+    <div>
+        <span class="badge badge-dark">@Model.Comments.Count()</span>&nbsp;<span>Comments</span>
+    </div>
+    <div class="card mt-2">
+        <div id="counter" class="d-none">
+            <span class="badge badge-secondary float-right mt-2 mr-2" id="count_message"></span>
+        </div>
+        <div class="p-2 col-md-12">
+            <div class="d-flex flex-row align-items-start media-img-40">
+                <img class="rounded-circle" src="@avatarUrl">
+                <textarea type="text" rows="1"
+                          style="resize: none;"
+                          maxlength="500"
+                          class="form-control ml-1 shadow-none"
+                          placeholder="Add a public comment..."
+                          id="comment-content"
+                          onchange="checkIfEmpty(), countCharacters()"
+                          onkeypress="checkIfEmpty(), countCharacters()"
+                          oninput="checkIfEmpty(), countCharacters()"
+                          onkeyup="countCharacters()"
+                          onpaste="checkIfEmpty(), countCharacters()"
+                          onclick="showButtons()"></textarea>
+            </div>
+            <div class="mt-2 text-right d-none" id="comment-buttons">
+                <button class="btn btn-primary" type="button" disabled id="comment-button" onclick="refreshComments('@Model.Id', getCommentValue())">
+                    Comment
+                </button>
+                <button class="btn btn-danger ml-1" type="button" id="cancel" onclick="hideButtons()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    <hr />
+@{
+    foreach (var comment in Model.Comments)
+    {
+        <div class="card mt-1">
+            <div class="commented-section mt-2">
+                <div class="card-header">
+                    <div class="media flex-wrap w-100 align-items-center">
+                        <img src="@comment.AuthorAvatarUrl" class="d-block ui-w-40 rounded-circle">
+                        <div class="media-body ml-3">
+                            <a asp-controller="Users" asp-action="Profile" asp-route-username="@comment.AuthorName">@comment.AuthorName</a>
+                            <div class="text-muted small">@comment.CreatedOn</div>
+                        </div>
+                        <div class="text-muted small ml-3">
+                            <div>Member since <strong>@comment.AuthorRegisteredOn</strong></div>
+                            <div><strong>@comment.AuthorCommentCount</strong> comments</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body mh-50">
+                    <span class="content-text">@comment.Content</span>
+                </div>
+                <div class="reply-section card-footer d-flex flex-wrap justify-content-start">
+                    <div class="d-flex flex-row align-items-center voting-icons">
+                        <a class="btn btn-success btn-sm">+</a>
+                        <span class="ml-1 mr-1">0</span>
+                        <a class="btn btn-danger btn-sm">-</a>
+                    </div>
+                    <div class="dropdown mw-min-content align-end">
+                        <a class="dropdown-toggle media-img-30 btn btn-secondary layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options</a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="Comments" asp-action="Report" asp-route-commentId="@comment.Id"><span class="dropdown-link-text">Report</span></a></li>
+                            @{
+                                if (user.Id == comment.AuthorId)
+                                {
+                                    <li role="separator" class="dropdown-divider"></li>
+                                    <li><a asp-controller="Comments" asp-action="Edit" asp-route-commentId="@comment.Id"><span class="dropdown-link-text">Edit</span></a></li>
+                                    <li><a asp-controller="Comments" asp-action="Delete" asp-route-commentId="@comment.Id"><span class="dropdown-link-text">Delete</span></a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+</div>

@@ -40,6 +40,7 @@ namespace _4drafts
 
             services.AddControllersWithViews();
             services.AddTransient<ITimeWarper, TimeWarper>();
+            services.AddTransient<IUserStats, UserStats>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
