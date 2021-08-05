@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using _4drafts.Data;
 using _4drafts.Data.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -69,16 +70,33 @@ namespace _4drafts.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
+            if (this._signInManager.IsSignedIn(User)) return RedirectToAction("Index", "Home");
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            if (this._signInManager.IsSignedIn(User)) return RedirectToAction("Index", "Home");
+
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            if(this._userManager.FindByNameAsync(Input.Username) != null)
+            {
+                this.ModelState.AddModelError(nameof(Input.Username), "Username is already taken.");
+            }
+
+            if (this._userManager.FindByEmailAsync(Input.Email) != null)
+            {
+                this.ModelState.AddModelError(nameof(Input.Email), "Email address is already taken.");
+            }
+
             if (ModelState.IsValid)
             {
                 var user = new User { 

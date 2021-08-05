@@ -1,0 +1,33 @@
+﻿@model ThreadViewModel
+@{ 
+    ViewBag.Title = "Delete";
+    Layout = null;
+}
+<form method="post">
+    <div class="container-fluid mw-350 text-center">
+        <div class="form-header">
+            <div class="dropdown-divider"></div>
+            <h2 class="heading-margin">@ViewBag.Title</h2>
+            <p class="text-danger"><strong>Warning!</strong> This action is irreversible.</p>
+            <div class="dropdown-divider"></div>
+        </div>
+        <div class="form-body text-left">
+            <div class="form-group">
+                <label asp-for="Id" class="form-label mt-4"></label>
+                <input asp-for="Id" class="form-control" disabled />
+            </div>
+
+            <div class="form-group text-left">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" disabled />
+            </div>
+            <div class="form-group text-left">
+                <label asp-for="Content"></label>
+                <textarea asp-for="Content" rows="4" class="form-control" disabled></textarea>
+            </div>
+        </div>
+        <div class="form-footer" align="center">
+            <button asp-controller="Threads" asp-action="Delete" asp-route-threadId="@Model.Id" class="btn btn-danger" type="submit">Delete</button>
+        </div>
+    </div>
+</form>

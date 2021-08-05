@@ -1,10 +1,12 @@
 ﻿using _4drafts.Models.Comments;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace _4drafts.Models.Threads
 {
     public class ThreadViewModel
     {
+        [Display(Name = "Thread ID")]
         public string Id { get; init; }
 
         public string Title { get; set; }

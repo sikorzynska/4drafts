@@ -22,15 +22,18 @@ namespace _4drafts.Controllers
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
         private readonly IUserStats userStats;
+        private readonly IHtmlHelper htmlHelper;
         public ThreadsController(ITimeWarper timeWarper,
             _4draftsDbContext data,
             UserManager<User> userManager,
-            IUserStats userStats)
+            IUserStats userStats,
+            IHtmlHelper htmlHelper)
         {
             this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
             this.userStats = userStats;
+            this.htmlHelper = htmlHelper;
         }
 
         public async Task<IActionResult> Read(string threadId)
@@ -84,6 +87,45 @@ namespace _4drafts.Controllers
 
         [HttpGet]
         [Authorize]
+        public async Task<IActionResult> Delete(string threadId)
+        {
+            var thread = await data.Threads.FindAsync(threadId);
+            var user = await this.userManager.GetUserAsync(User);
+
+            if (thread == null)
+            {
+                return NotFound();
+            }
+
+            if(user.Id != thread.AuthorId)
+            {
+                return Unauthorized();
+            }
+
+            return View(new ThreadViewModel
+            {
+                Id = thread.Id,
+                Title = thread.Title,
+                Content = thread.Description,
+            });
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [Authorize]
+        public async Task<IActionResult> DeleteConfirmed(string threadId)
+        {
+            var thread = await data.Threads.FindAsync(threadId);
+            var categoryId = thread.CategoryId;
+
+            data.Threads.Remove(thread);
+            await data.SaveChangesAsync();
+
+            return RedirectToAction("Browse", "Categories", new { categoryId = categoryId });
+            //return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Browse", "Categories", new { categoryId = categoryId }) });
+        }
+
+        [HttpGet]
+        [Authorize]
         public IActionResult Create(int categoryId)
         {
             if (categoryId == 0) return View(new CreateThreadFormModel 
@@ -115,7 +157,7 @@ namespace _4drafts.Controllers
                 model.Categories = this.GetCategories();
                 model.CategoryName = model.Categories.FirstOrDefault(c => c.Id == model.CategoryId).Name;
 
-                return View(model);
+                return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Create", model) });
             }
 
             var thread = new Thread
@@ -130,8 +172,9 @@ namespace _4drafts.Controllers
             this.data.Threads.Add(thread);
             this.data.SaveChanges();
 
-            return Redirect($"/Categories/Browse?categoryId={model.CategoryId}");
+            return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
         }
+
 
         private IEnumerable<CategoriesBrowseModel> GetCategories()
             => this.data
@@ -144,3 +187,5 @@ namespace _4drafts.Controllers
                 .ToList();
     }
 }
+
+

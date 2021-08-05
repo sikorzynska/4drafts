@@ -295,4 +295,8 @@ a {
     margin-right: 0;
 }
 
+hide-empty:empty {
+    display: none !important;
+}
+
 

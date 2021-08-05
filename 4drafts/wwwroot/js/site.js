@@ -86,3 +86,54 @@ function refreshComments(Id, Content) {
         }
     });
 }
+
+function createThreadInPopup(categoryId) {
+    $.ajax({
+        type: 'GET',
+        url: "/Threads/Create/",
+        data: { categoryId: categoryId},
+        success: function (res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal').modal('show');
+        }
+    })
+}
+
+function deleteThreadInPopup(threadId) {
+    $.ajax({
+        type: 'GET',
+        url: "/Threads/Delete/",
+        data: { threadId: threadId },
+        success: function (res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal').modal('show');
+        }
+    })
+}
+
+jQueryAjaxPost = form => {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (!res.isValid) {
+                    $('#form-modal .modal-body').html(res.html);
+                }
+                else {
+                    window.location.href = res.redirectToUrl;
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
+}

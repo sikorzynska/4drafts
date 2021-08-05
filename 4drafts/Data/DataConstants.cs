@@ -9,7 +9,7 @@
         public const int PasswordMinLength = 6;
         public const string UserEmailRegularExpression = @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
 
-        public const int ThreadTitleMinLength = 5;
+        public const int ThreadTitleMinLength = 3;
         public const int ThreadTitleMaxLength = 80;
 
         public const int CommentMaxLength = 1000;
