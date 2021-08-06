@@ -3,6 +3,16 @@
 
 // Write your JavaScript code.
 
+$(function () {
+    $("#loaderbody").addClass('hide');
+
+    $(document).bind('ajaxStart', function () {
+        $("#loaderbody").removeClass('hide');
+    }).bind('ajaxStop', function () {
+        $("#loaderbody").addClass('hide');
+    });
+});
+
 var text_max = 500;
 $('#count_message').html('0 / ' + text_max);
 
@@ -99,19 +109,7 @@ function createThreadInPopup(categoryId) {
     })
 }
 
-function deleteThreadInPopup(threadId) {
-    $.ajax({
-        type: 'GET',
-        url: "/Threads/Delete/",
-        data: { threadId: threadId },
-        success: function (res) {
-            $('#form-modal .modal-body').html(res);
-            $('#form-modal').modal('show');
-        }
-    })
-}
-
-jQueryAjaxPost = form => {
+createThreadPost = form => {
     try {
         $.ajax({
             type: 'POST',
@@ -126,6 +124,41 @@ jQueryAjaxPost = form => {
                 else {
                     window.location.href = res.redirectToUrl;
                 }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
+}
+
+function deleteThreadInPopup(threadId) {
+    $.ajax({
+        type: 'GET',
+        url: "/Threads/Delete/",
+        data: { threadId: threadId },
+        success: function (res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal').modal('show');
+        }
+    })
+}
+
+function deleteThreadPost(threadId) {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: '/Threads/Delete/',
+            data: { threadId: threadId },
+            success: function (res) {
+                $('#threads-section').html(res);
+                $.notify('The thread has been successfully deleted', { globalPosition: 'top center', className: 'success' });
+                $('#form-modal').modal('hide');
+
             },
             error: function (err) {
                 console.log(err)

@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using static _4drafts.Services.HtmlHelper;
 
 namespace _4drafts.Controllers
 {
@@ -23,17 +23,20 @@ namespace _4drafts.Controllers
         private readonly UserManager<User> userManager;
         private readonly IUserStats userStats;
         private readonly IHtmlHelper htmlHelper;
+        private readonly IEntityGetter entityGetter;
         public ThreadsController(ITimeWarper timeWarper,
             _4draftsDbContext data,
             UserManager<User> userManager,
             IUserStats userStats,
-            IHtmlHelper htmlHelper)
+            IHtmlHelper htmlHelper,
+            IEntityGetter entityGetter)
         {
             this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
             this.userStats = userStats;
             this.htmlHelper = htmlHelper;
+            this.entityGetter = entityGetter;
         }
 
         public async Task<IActionResult> Read(string threadId)
@@ -87,6 +90,7 @@ namespace _4drafts.Controllers
 
         [HttpGet]
         [Authorize]
+        [NoDirectAccess]
         public async Task<IActionResult> Delete(string threadId)
         {
             var thread = await data.Threads.FindAsync(threadId);
@@ -106,6 +110,7 @@ namespace _4drafts.Controllers
             {
                 Id = thread.Id,
                 Title = thread.Title,
+                CategoryId = thread.CategoryId,
                 Content = thread.Description,
             });
         }
@@ -117,27 +122,35 @@ namespace _4drafts.Controllers
             var thread = await data.Threads.FindAsync(threadId);
             var categoryId = thread.CategoryId;
 
+            var comments = this.data.Comments.Where(c => c.ThreadId == threadId);
+            data.RemoveRange(comments);
             data.Threads.Remove(thread);
             await data.SaveChangesAsync();
 
-            return RedirectToAction("Browse", "Categories", new { categoryId = categoryId });
-            //return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Browse", "Categories", new { categoryId = categoryId }) });
+            var threads = this.entityGetter.CategoryThreads(categoryId, this.data);
+
+            return PartialView("_ThreadsPartial", new CategoryBrowseModel
+            {
+                Id = categoryId,
+                Threads = threads
+            });
         }
 
         [HttpGet]
         [Authorize]
+        [NoDirectAccess]
         public IActionResult Create(int categoryId)
         {
             if (categoryId == 0) return View(new CreateThreadFormModel 
             {
-                Categories = this.GetCategories(),
+                Categories = this.entityGetter.GetCategories(this.data),
                 CategoryName = this.data.Categories.FirstOrDefault().Name,
                 CategoryId = this.data.Categories.FirstOrDefault().Id
             });
 
             return View(new CreateThreadFormModel
             {
-                Categories = this.GetCategories(),
+                Categories = this.entityGetter.GetCategories(this.data),
                 CategoryName = this.data.Categories.FirstOrDefault(c => c.Id == categoryId).Name,
                 CategoryId = categoryId
             });
@@ -154,7 +167,7 @@ namespace _4drafts.Controllers
 
             if (!ModelState.IsValid)
             {
-                model.Categories = this.GetCategories();
+                model.Categories = this.entityGetter.GetCategories(this.data);
                 model.CategoryName = model.Categories.FirstOrDefault(c => c.Id == model.CategoryId).Name;
 
                 return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Create", model) });
@@ -174,17 +187,6 @@ namespace _4drafts.Controllers
 
             return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
         }
-
-
-        private IEnumerable<CategoriesBrowseModel> GetCategories()
-            => this.data
-                .Categories
-                .Select(c => new CategoriesBrowseModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                })
-                .ToList();
     }
 }
 

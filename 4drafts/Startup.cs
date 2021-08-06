@@ -42,6 +42,7 @@ namespace _4drafts
             services.AddTransient<ITimeWarper, TimeWarper>();
             services.AddTransient<IUserStats, UserStats>();
             services.AddTransient<IHtmlHelper, HtmlHelper>();
+            services.AddTransient<IEntityGetter, EntityGetter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

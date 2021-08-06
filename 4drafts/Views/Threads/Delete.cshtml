@@ -3,8 +3,7 @@
     ViewBag.Title = "Delete";
     Layout = null;
 }
-<form method="post">
-    <div class="container-fluid mw-350 text-center">
+    <div class="container-fluid mw-350 text-center" >
         <div class="form-header">
             <div class="dropdown-divider"></div>
             <h2 class="heading-margin">@ViewBag.Title</h2>
@@ -27,7 +26,6 @@
             </div>
         </div>
         <div class="form-footer" align="center">
-            <button asp-controller="Threads" asp-action="Delete" asp-route-threadId="@Model.Id" class="btn btn-danger" type="submit">Delete</button>
+            <button class="btn btn-danger" type="button" onclick="deleteThreadPost('@Model.Id');">Delete</button>
         </div>
     </div>
-</form>

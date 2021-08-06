@@ -12,15 +12,18 @@ namespace _4drafts.Controllers
     public class CategoriesController : Controller
     {
         private readonly ITimeWarper timeWarper;
+        private readonly IEntityGetter entityGetter;
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
         public CategoriesController(ITimeWarper timeWarper,
             _4draftsDbContext data,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IEntityGetter entityGetter)
         {
             this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
+            this.entityGetter = entityGetter;
         }
 
         public IActionResult All()
@@ -59,7 +62,7 @@ namespace _4drafts.Controllers
                     AuthorId = t.AuthorId,
                     AuthorName = t.Author.UserName,
                     AuthorAvatarUrl = t.Author.AvatarUrl,
-                    CommentCount = CommentCount(t.Id, this.data),
+                    CommentCount = this.entityGetter.ThreadCommentCount(t.Id, this.data),
                 })
                 .ToList();
 
@@ -70,13 +73,6 @@ namespace _4drafts.Controllers
                 Description = desc,
                 Threads = threads,
             });
-        }
-
-        private static int CommentCount(string threadId, _4draftsDbContext data)
-        {
-            var result = data.Comments.Where(c => c.ThreadId == threadId).Count();
-
-            return result;
         }
     }
 }

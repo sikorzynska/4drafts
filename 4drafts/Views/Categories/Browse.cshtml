@@ -10,7 +10,10 @@
         <h1 class="display-3 strokeme">@Model.Name</h1>
         <p class="lead">@Model.Description</p>
     </div>
-    <a onclick="createThreadInPopup('@categoryId')" class="btn btn-link">[Start Thread]</a>
+    @if (user != null)
+    {
+        <a onclick="createThreadInPopup('@categoryId')" class="btn btn-primary mb-2">Start Thread</a>
+    }
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">

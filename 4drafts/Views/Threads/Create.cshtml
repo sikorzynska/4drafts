@@ -7,7 +7,7 @@
 }
 
 <body>
-    <form asp-controller="Threads" asp-action="Create" asp-route-categoryId="@catId" method="post" onsubmit="return jQueryAjaxPost(this);">
+    <form asp-controller="Threads" asp-action="Create" asp-route-categoryId="@catId" method="post" onsubmit="return createThreadPost(this);">
         <div class="container-fluid mw-350 mt-4">
             <div class="form-header" align="center">
                 <div class="dropdown-divider"></div>
