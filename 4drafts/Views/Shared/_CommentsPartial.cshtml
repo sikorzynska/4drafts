@@ -38,53 +38,53 @@
         </div>
     </div>
     <hr />
-@{
-    foreach (var comment in Model.Comments)
-    {
-        <div class="card mt-1">
-            <div class="commented-section mt-2">
-                <div class="card-header">
-                    <div class="media flex-wrap w-100 align-items-center">
-                        <img src="@comment.AuthorAvatarUrl" class="d-block ui-w-40 rounded-circle">
-                        <div class="media-body ml-3">
-                            <a asp-controller="Users" asp-action="Profile" asp-route-username="@comment.AuthorName">@comment.AuthorName</a>
-                            <div class="text-muted small">@comment.CreatedOn</div>
-                        </div>
-                        <div class="text-muted small ml-3">
-                            <div>Member since <strong>@comment.AuthorRegisteredOn</strong></div>
-                            <div><strong>@comment.AuthorCommentCount</strong> comments</div>
+    @{
+        foreach (var comment in Model.Comments)
+        {
+            <div class="card mt-1">
+                <div class="commented-section mt-2">
+                    <div class="card-header">
+                        <div class="media flex-wrap w-100 align-items-center">
+                            <img src="@comment.AuthorAvatarUrl" class="d-block ui-w-40 rounded-circle">
+                            <div class="media-body ml-3">
+                                <a asp-controller="Users" asp-action="Profile" asp-route-username="@comment.AuthorName">@comment.AuthorName</a>
+                                <div class="text-muted small">@comment.CreatedOn</div>
+                            </div>
+                            <div class="text-muted small ml-3">
+                                <div>Member since <strong>@comment.AuthorRegisteredOn</strong></div>
+                                <div><strong>@comment.AuthorCommentCount</strong> comments</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body mh-50">
-                    <span class="content-text">@comment.Content</span>
-                </div>
-                <div class="reply-section card-footer d-flex flex-wrap justify-content-start">
-                    <div class="d-flex flex-row align-items-center voting-icons">
-                        <a class="btn btn-success btn-sm">+</a>
-                        <span class="ml-1 mr-1">0</span>
-                        <a class="btn btn-danger btn-sm">-</a>
+                    <div class="card-body mh-50">
+                        <span class="content-text">@comment.Content</span>
                     </div>
-                    <div class="dropdown mw-min-content align-end">
-                        <a class="dropdown-toggle media-img-30 btn btn-secondary layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options</a>
-                        <ul class="dropdown-menu">
-                            <li><a asp-controller="Comments" asp-action="Report" asp-route-commentId="@comment.Id"><span class="dropdown-link-text">Report</span></a></li>
-                            @{
-                                if (user != null)
-                                {
-                                    if (user.Id == comment.AuthorId)
+                    <div class="reply-section card-footer d-flex flex-wrap justify-content-start">
+                        <div class="d-flex flex-row align-items-center voting-icons">
+                            <a class="btn btn-success btn-sm"><i class="fas fa-plus"></i></a>
+                            <span class="ml-1 mr-1">0</span>
+                            <a class="btn btn-danger btn-sm"><i class="fas fa-minus"></i></a>
+                        </div>
+                        <div class="dropdown mw-min-content align-end">
+                            <a class="dropdown-toggle media-img-30 btn btn-secondary layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i> Options</a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-controller="Comments" asp-action="Report" asp-route-commentId="@comment.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a></li>
+                                @{
+                                    if (user != null)
                                     {
-                                    <li role="separator" class="dropdown-divider"></li>
-                                    <li><a asp-controller="Comments" asp-action="Edit" asp-route-commentId="@comment.Id"><span class="dropdown-link-text">Edit</span></a></li>
-                                    <li><a asp-controller="Comments" asp-action="Delete" asp-route-commentId="@comment.Id"><span class="dropdown-link-text">Delete</span></a></li>
+                                        if (user.Id == comment.AuthorId)
+                                        {
+                                            <li role="separator" class="dropdown-divider"></li>
+                                            <li><a asp-controller="Comments" asp-action="Edit" asp-route-commentId="@comment.Id"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
+                                            <li><a asp-controller="Comments" asp-action="Delete" asp-route-commentId="@comment.Id"><span class="dropdown-link-text"><i class="fas fa-trash"></i> Delete</span></a></li>
                                         }
                                     }
                                 }
-                        </ul>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     }
-}
 </div>

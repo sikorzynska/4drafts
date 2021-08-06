@@ -38,19 +38,20 @@ function countCharacters() {
     $('#count_message').html(text_length + ' / ' + text_max);
 };
 
-function changeScreen() {
-    var foldButton = document.getElementById('fold-button');
+function changeArrow() {
+    var foldArrow = document.getElementById('fold-arrow');
     var contentBody = document.getElementById('content-body');
     if (contentBody.classList.contains('mh-600')) {
-        foldButton.value = 'fold';
-        foldButton.innerText = 'fold';
+        foldArrow.classList.remove('fa-arrow-down');
+        foldArrow.classList.add('fa-arrow-up');
         contentBody.classList.remove('mh-600');
     } else {
-        foldButton.value = 'unfold';
-        foldButton.innerText = 'unfold';
+        foldArrow.classList.remove('fa-arrow-up');
+        foldArrow.classList.add('fa-arrow-down');
         contentBody.classList.add('mh-600');
     }
 }
+
 function isEmpty(str) {
     return !$.trim(str).length;
 }
