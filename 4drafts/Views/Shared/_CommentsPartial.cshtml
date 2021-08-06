@@ -70,13 +70,16 @@
                         <ul class="dropdown-menu">
                             <li><a asp-controller="Comments" asp-action="Report" asp-route-commentId="@comment.Id"><span class="dropdown-link-text">Report</span></a></li>
                             @{
-                                if (user.Id == comment.AuthorId)
+                                if (user != null)
                                 {
+                                    if (user.Id == comment.AuthorId)
+                                    {
                                     <li role="separator" class="dropdown-divider"></li>
                                     <li><a asp-controller="Comments" asp-action="Edit" asp-route-commentId="@comment.Id"><span class="dropdown-link-text">Edit</span></a></li>
                                     <li><a asp-controller="Comments" asp-action="Delete" asp-route-commentId="@comment.Id"><span class="dropdown-link-text">Delete</span></a></li>
+                                        }
+                                    }
                                 }
-                            }
                         </ul>
                     </div>
                 </div>
