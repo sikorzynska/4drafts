@@ -187,6 +187,62 @@ namespace _4drafts.Controllers
 
             return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
         }
+
+        [HttpGet]
+        [Authorize]
+        [NoDirectAccess]
+        public async Task<IActionResult> Edit(string threadId)
+        {
+            var thread = await this.data.Threads.FindAsync(threadId);
+            var user = await this.userManager.GetUserAsync(User);
+
+            if (thread == null)
+            {
+                return NotFound();
+            }
+
+            if (user.Id != thread.AuthorId)
+            {
+                return Unauthorized();
+            }
+
+            return View(new EditThreadViewModel
+            {
+                Id = thread.Id,
+                Title = thread.Title,
+                Content = thread.Description,
+            });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(EditThreadViewModel model)
+        {
+            var thread = await this.data.Threads.FindAsync(model.Id);
+            var user = await this.userManager.GetUserAsync(User);
+
+            if (thread == null)
+            {
+                return NotFound();
+            }
+
+            if (user.Id != thread.AuthorId)
+            {
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Edit", model) });
+            }
+
+            thread.Title = model.Title;
+            thread.Description = model.Content;
+
+            this.data.SaveChanges();
+
+            return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
+        }
     }
 }
 

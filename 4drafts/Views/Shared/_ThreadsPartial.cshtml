@@ -43,17 +43,11 @@
                                 {
                                     if (user.Id == thread.AuthorId)
                                     {
-                                        <div class="tooltip media-img-30 align-items-center ml-2 zoom">
-                                            <a asp-controller="Threads" asp-action="Edit" asp-route-threadId="@thread.Id">
-                                                <img src="https://image.flaticon.com/icons/png/512/1828/1828911.png" alt="">
-                                            </a>
-                                            <span class="tooltiptext-sm">Edit</span>
+                                        <div class="align-items-center ml-2 zoom">
+                                            <a onclick="editThreadInPopup('@thread.Id')"><i class="fas fa-lg fa-pencil-alt"></i></a>
                                         </div>
-                                        <div class="tooltip media-img-30 align-items-center ml-3 zoom">
-                                            <a onclick="deleteThreadInPopup('@thread.Id')">
-                                                <img src="https://image.flaticon.com/icons/png/512/1828/1828964.png" alt="">
-                                            </a>
-                                            <span class="tooltiptext-sm">Delete</span>
+                                        <div class="align-items-center ml-3 zoom">
+                                            <a onclick="deleteThreadInPopup('@thread.Id')"><i class="fas fa-lg fa-trash-alt"></i></a>
                                         </div>
                                     }
                                 }

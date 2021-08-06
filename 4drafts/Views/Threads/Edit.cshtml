@@ -1,0 +1,37 @@
+﻿@model EditThreadViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+
+    <form asp-controller="Threads" asp-action="Edit" asp-route-threadId="@Model.Id" method="post" onsubmit="return editThreadPost(this);">
+        <div class="container-fluid mw-350">
+            <div class="form-header" align="center">
+                <div class="dropdown-divider"></div>
+                <h2 class="heading-margin">@ViewBag.Title</h2>
+                <p class="text-warning">Make your changes</p>
+                <div class="dropdown-divider"></div>
+            </div>
+            <div class="form-body">
+                <div class="form-group">
+                    <label asp-for="Id"></label>
+                    <input asp-for="Id" class="form-control" id="title-input" readonly>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="form-control" id="title-input">
+                    <span asp-validation-for="Title" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Content"></label>
+                    <textarea asp-for="Content" rows="4" class="form-control" id="description-input">></textarea>
+                    <span asp-validation-for="Content" class="small text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-footer" align="center">
+                <button class="btn btn-warning" type="submit"><i class="fas fa-save"></i> Save Changes</button>
+            </div>
+        </div>
+    </form>

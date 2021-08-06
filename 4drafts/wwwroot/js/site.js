@@ -170,3 +170,45 @@ function deleteThreadPost(threadId) {
         console.log(ex)
     }
 }
+
+function editThreadInPopup(threadId) {
+    $.ajax({
+        type: 'GET',
+        url: "/Threads/Edit/",
+        data: { threadId: threadId },
+        success: function (res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal').modal('show');
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+}
+
+editThreadPost = form => {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (!res.isValid) {
+                    $('#form-modal .modal-body').html(res.html);
+                }
+                else {
+                    window.location.href = res.redirectToUrl;
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
+}

@@ -8,19 +8,19 @@
 
 <body>
     <form asp-controller="Threads" asp-action="Create" asp-route-categoryId="@catId" method="post" onsubmit="return createThreadPost(this);">
-        <div class="container-fluid mw-350 mt-4">
+        <div class="container-fluid mw-350 mt-2">
             <div class="form-header" align="center">
                 <div class="dropdown-divider"></div>
                 <h2 class="heading-margin">@ViewBag.Title</h2>
                 @{
-                   if (String.IsNullOrWhiteSpace(Model.CategoryName))
-                   {
-                   <p class="text-muted">Select a category</p>
-                   }
-                   else
-                   {
-                   <p class="text-muted">Start a thread in the <strong>@Model.CategoryName</strong> category</p>
-                   }
+                    if (String.IsNullOrWhiteSpace(Model.CategoryName))
+                    {
+                        <p class="text-muted">Select a category</p>
+                    }
+                    else
+                    {
+                        <p class="text-muted">Start a thread in the <strong>@Model.CategoryName</strong> category</p>
+                    }
                 }
                 <div class="dropdown-divider"></div>
             </div>
@@ -49,7 +49,7 @@
             </div>
 
             <div class="form-footer" align="center">
-                <button class="btn btn-primary" type="submit">Post</button>
+                <button class="btn btn-primary" type="submit"><i class="fas fa-plus-square"></i> Post</button>
             </div>
         </div>
     </form>
