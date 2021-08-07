@@ -12,5 +12,7 @@ namespace _4drafts.Services
         public int ThreadCommentCount(string threadId, _4draftsDbContext data);
 
         public List<ThreadsBrowseModel> CategoryThreads(int categoryId, _4draftsDbContext data);
+
+        public ThreadViewModel GetLastThreadInCategory(int categoryId, _4draftsDbContext data);
     }
 }

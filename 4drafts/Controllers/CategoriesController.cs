@@ -14,15 +14,12 @@ namespace _4drafts.Controllers
         private readonly ITimeWarper timeWarper;
         private readonly IEntityGetter entityGetter;
         private readonly _4draftsDbContext data;
-        private readonly UserManager<User> userManager;
         public CategoriesController(ITimeWarper timeWarper,
             _4draftsDbContext data,
-            UserManager<User> userManager,
             IEntityGetter entityGetter)
         {
             this.timeWarper = timeWarper;
             this.data = data;
-            this.userManager = userManager;
             this.entityGetter = entityGetter;
         }
 
@@ -34,7 +31,8 @@ namespace _4drafts.Controllers
                     Id = c.Id,
                     Name = c.Name,
                     Description = c.Description,
-                    ThreadCount = this.data.Threads.Where(t => t.CategoryId == c.Id).Count(),
+                    ThreadCount = this.data.Threads.Count(t => t.CategoryId == c.Id),
+                    LastEntry = this.entityGetter.GetLastThreadInCategory(c.Id, this.data)
                 })
                 .OrderByDescending(c => c.ThreadCount)
                 .ToList();

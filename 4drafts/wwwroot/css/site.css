@@ -336,4 +336,19 @@ hide-empty:empty {
     display: none;
 }
 
+.user-icon {
+    vertical-align: middle;
+    font-size: 30px;
+}
+
+.info-circle {
+    vertical-align: middle;
+    font-size: 30px;
+}
+
+.empty-category {
+    vertical-align: middle;
+    font-size: 40px;
+}
+
 

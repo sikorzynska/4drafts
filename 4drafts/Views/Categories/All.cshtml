@@ -8,12 +8,11 @@
             <div class="card mb-3">
                 <div class="card-header pr-0 pl-0">
                     <div class="row no-gutters align-items-center w-100">
-                        <div class="col font-weight-bold pl-3">Genre</div>
-                        <div class="d-none d-md-block col-6 text-muted">
+                        <div class="col font-weight-bold pl-3">[Genre]</div>
+                        <div class="d-none d-md-block col-6">
                             <div class="row no-gutters align-items-center">
-                                <div class="col-3">Threads</div>
-                                <div class="col-3">Replies</div>
-                                <div class="col-6">Last entry</div>
+                                <div class="col-3 font-weight-bold">[Threads]</div>
+                                <div class="col-6 ml-5 font-weight-bold">[Last entry]</div>
                             </div>
                         </div>
                     </div>
@@ -28,21 +27,33 @@
                                         @category.Name
                                     </a>
                                 </div>
-                                <div class="tooltip media-img-30 mr-350 hide-sm">
-                                    <img src="https://image.flaticon.com/icons/png/512/292/292178.png"/>
+                                <div class="tooltip mr-350 hide-sm zoom">
+                                    <a onclick="categoryInfo(@category.Id)"><i class="info-circle fas fa-info-circle"></i></a>
                                     <span class="tooltiptext">@category.Description</span>
                                 </div>
                                 <div class="d-none d-md-block col-6">
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col-3">@category.ThreadCount</div>
-                                        <div class="col-3">14</div>
-                                        <div class="media col-6 align-items-center">
-                                            <img src="https://i.imgur.com/Ur43esv.jpg" alt="" class="d-block ui-w-30 rounded-circle">
-                                            <div class="media-body flex-truncate ml-2">
-                                                <a href="javascript:void(0)" class="d-block text-truncate" data-abc="true">Thankyou for your help. appreciate your solution</a>
-                                                <div class="text-muted small text-truncate">2d ago &nbsp;·&nbsp; <a href="javascript:void(0)" class="text-muted" data-abc="true">William Smith</a></div>
-                                            </div>
-                                        </div>
+                                        <div class="col-3 ml-2">@category.ThreadCount</div>
+                                        @{ if (category.LastEntry != null)
+                                            {
+                                                <div class="media col-6 ml-5 align-items-center">
+                                                    <img src="@category.LastEntry.AuthorAvatarUrl" class="d-block ui-w-30 rounded-circle">
+                                                    <div class="media-body flex-truncate ml-2">
+                                                        <a asp-controller="Threads" asp-action="Read" asp-route-threadId="@category.LastEntry.Id" class="d-block text-truncate">@category.LastEntry.Title</a>
+                                                        <div class="text-muted small text-truncate">@category.LastEntry.CreatedOn &nbsp;·&nbsp; <a class="text-muted">@category.LastEntry.AuthorName</a></div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="media col-6 ml-5 align-items-center">
+                                                    <img src="https://image.flaticon.com/icons/png/512/42/42901.png" class="d-block ui-w-30 rounded-circle" />
+                                                    <div class="media-body flex-truncate ml-2">
+                                                        Such empty...
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>
