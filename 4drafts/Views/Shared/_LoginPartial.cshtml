@@ -6,7 +6,7 @@
 }
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
+    @if (user != null)
     {
         <li class="dropdown">
             <a class="dropdown-toggle media-img-30 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="@user.AvatarUrl" alt="Avatar" /> <span class="caret">@user.UserName</span></a>

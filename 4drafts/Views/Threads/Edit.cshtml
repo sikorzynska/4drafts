@@ -10,13 +10,12 @@
             <div class="form-header" align="center">
                 <div class="dropdown-divider"></div>
                 <h2 class="heading-margin">@ViewBag.Title</h2>
-                <p class="text-warning">Make your changes</p>
+                <p class="text-muted">Make your changes</p>
                 <div class="dropdown-divider"></div>
             </div>
             <div class="form-body">
-                <div class="form-group">
-                    <label asp-for="Id"></label>
-                    <input asp-for="Id" class="form-control" id="title-input" readonly>
+                <div class="form-group d-none">
+                    <input asp-for="Id" class="form-control" id="title-input" hidden>
                 </div>
                 <div class="form-group">
                     <label asp-for="Title"></label>
@@ -31,7 +30,7 @@
             </div>
 
             <div class="form-footer" align="center">
-                <button class="btn btn-warning" type="submit"><i class="fas fa-save"></i> Save Changes</button>
+                <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> Save Changes</button>
             </div>
         </div>
     </form>

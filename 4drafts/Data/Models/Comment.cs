@@ -12,7 +12,7 @@ namespace _4drafts.Data.Models
 
         [Required]
         [MaxLength(CommentMaxLength)]
-        public string Content { get; init; }
+        public string Content { get; set; }
 
         public DateTime CreatedOn { get; init; }
 

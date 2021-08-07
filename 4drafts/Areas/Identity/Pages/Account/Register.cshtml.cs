@@ -25,17 +25,20 @@ namespace _4drafts.Areas.Identity.Pages.Account
         private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly _4draftsDbContext data;
 
         public RegisterModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            _4draftsDbContext data)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            this.data = data;
         }
 
         [BindProperty]
@@ -87,12 +90,16 @@ namespace _4drafts.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            if(this._userManager.FindByNameAsync(Input.Username) != null)
+            var usernameTaken = this.data.Users.FirstOrDefault(u => u.UserName == Input.Username) != null ? true : false;
+
+            var emailTaken = this.data.Users.FirstOrDefault(u => u.Email == Input.Email) != null ? true : false;
+
+            if(usernameTaken)
             {
                 this.ModelState.AddModelError(nameof(Input.Username), "Username is already taken.");
             }
 
-            if (this._userManager.FindByEmailAsync(Input.Email) != null)
+            if (emailTaken)
             {
                 this.ModelState.AddModelError(nameof(Input.Email), "Email address is already taken.");
             }

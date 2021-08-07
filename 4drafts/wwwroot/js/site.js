@@ -213,3 +213,47 @@ editThreadPost = form => {
         console.log(ex)
     }
 }
+
+function editCommentInPopup(commentId) {
+    $.ajax({
+        type: 'GET',
+        url: "/Comments/Edit/",
+        data: { commentId: commentId },
+        success: function (res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal').modal('show');
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+}
+
+editCommentPost = form => {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (!res.isValid) {
+                    $('#form-modal .modal-body').html(res.html);
+                }
+                else {
+                    $('#form-modal').modal('hide');
+                    $('#comment-section').html(res.html);
+                    $.notify('The comment has been successfully editted', { globalPosition: 'top center', className: 'success' });
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
+}

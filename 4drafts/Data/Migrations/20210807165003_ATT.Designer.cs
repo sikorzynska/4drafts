@@ -10,7 +10,7 @@ using _4drafts.Data;
 namespace _4drafts.Data.Migrations
 {
     [DbContext(typeof(_4draftsDbContext))]
-    [Migration("20210803141449_ATT")]
+    [Migration("20210807165003_ATT")]
     partial class ATT
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
