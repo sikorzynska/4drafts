@@ -164,6 +164,7 @@ a {
   color: #000;
   text-decoration: none;
   background-color: transparent;
+  cursor: pointer;
 }
 
     a:hover {

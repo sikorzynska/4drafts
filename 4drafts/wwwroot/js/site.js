@@ -91,7 +91,7 @@ function refreshComments(Id, Content) {
     $.ajax({
         url: "/Comments/Create/",
         type: "post",
-        data: { Id: Id, Content: Content },
+        data: { threadId: Id, Content: Content },
         success: function (result) {
             $('#comment-section').html(result);
         }

@@ -18,38 +18,40 @@ namespace _4drafts.Controllers
         private readonly ITimeWarper timeWarper;
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
-        private readonly IUserStats userStats;
         private readonly IHtmlHelper htmlHelper;
 
         public CommentsController(ITimeWarper timeWarper,
             _4draftsDbContext data,
             UserManager<User> userManager,
-            IUserStats userStats,
             IHtmlHelper htmlHelper)
         {
             this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
-            this.userStats = userStats;
             this.htmlHelper = htmlHelper;
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create(string Id, string Content)
+        public async Task<IActionResult> Create(string threadId, string Content)
         {
-            var thread = this.data.Threads.FirstOrDefault(t => t.Id == Id);
+            var thread = await this.data.Threads.FindAsync(threadId);
 
-            var characterCount = Content.Length;
+            var characterCount = string.IsNullOrWhiteSpace(Content) ? 0 : Content.Length;
 
-            if (string.IsNullOrWhiteSpace(Id) || thread == null)
+            if (string.IsNullOrWhiteSpace(threadId) || thread == null)
             {
                 return BadRequest();
             }
 
-            if (string.IsNullOrWhiteSpace(Content) || characterCount > 500)
+            if (string.IsNullOrWhiteSpace(Content))
             {
-                this.ModelState.AddModelError(nameof(Content), "Comments cannot be empty or longer than 500 characters");
+                this.ModelState.AddModelError(nameof(Content), "Comments cannot be empty...");
+            }
+
+            if(characterCount > 500)
+            {
+                this.ModelState.AddModelError(nameof(Content), "Comments cannot be longer than 500 characters...");
             }
 
             if (!ModelState.IsValid)
@@ -61,15 +63,15 @@ namespace _4drafts.Controllers
             {
                 Content = Content,
                 CreatedOn = DateTime.UtcNow.ToLocalTime(),
-                AuthorId = this.userManager.GetUserId(User),
-                ThreadId = Id
+                AuthorId = this.userManager.GetUserId(this.User),
+                ThreadId = threadId
             };
 
             this.data.Comments.Add(comment);
             this.data.SaveChanges();
 
             var comments = this.data.Comments
-                .Where(c => c.ThreadId == Id)
+                .Where(c => c.ThreadId == threadId)
                 .OrderByDescending(c => c.CreatedOn)
                 .Select(c => new CommentViewModel
                 {
@@ -80,14 +82,14 @@ namespace _4drafts.Controllers
                     AuthorName = c.Author.UserName,
                     AuthorAvatarUrl = c.Author.AvatarUrl,
                     AuthorRegisteredOn = c.Author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
-                    AuthorCommentCount = this.userStats.userCommentCount(c.AuthorId, this.data),
+                    AuthorCommentCount = UserCommentCount(c.AuthorId, this.data),
                     ThreadId = c.ThreadId
                 })
                 .ToList();
 
             return PartialView("_CommentsPartial", new ThreadViewModel
             {
-                Id = Id,
+                Id = threadId,
                 Comments = comments
             });
         }
@@ -156,12 +158,15 @@ namespace _4drafts.Controllers
                     AuthorName = c.Author.UserName,
                     AuthorAvatarUrl = c.Author.AvatarUrl,
                     AuthorRegisteredOn = c.Author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
-                    AuthorCommentCount = this.userStats.userCommentCount(c.AuthorId, this.data),
+                    AuthorCommentCount = UserCommentCount(c.AuthorId, this.data),
                     ThreadId = c.ThreadId
                 })
                 .ToList();
 
             return Json(new { isValid = true, html = htmlHelper.RenderRazorViewToString(this, "_CommentsPartial", new ThreadViewModel { Id = thread.Id, Comments = comments }) });
         }
+
+        private static int UserCommentCount(string userId, _4draftsDbContext data)
+               => data.Comments.Count(c => c.AuthorId == userId);
     }
 }

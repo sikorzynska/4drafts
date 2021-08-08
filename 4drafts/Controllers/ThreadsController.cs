@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,24 +22,19 @@ namespace _4drafts.Controllers
         private readonly ITimeWarper timeWarper;
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
-        private readonly IUserStats userStats;
         private readonly IHtmlHelper htmlHelper;
-        private readonly IEntityGetter entityGetter;
         public ThreadsController(ITimeWarper timeWarper,
             _4draftsDbContext data,
             UserManager<User> userManager,
-            IUserStats userStats,
-            IHtmlHelper htmlHelper,
-            IEntityGetter entityGetter)
+            IHtmlHelper htmlHelper)
         {
             this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
-            this.userStats = userStats;
             this.htmlHelper = htmlHelper;
-            this.entityGetter = entityGetter;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Read(string threadId)
         {
             var thread = this.data.Threads
@@ -53,7 +49,7 @@ namespace _4drafts.Controllers
 
             if (author == null) return NotFound();
 
-            var threadCount = this.userStats.userThreadCount(thread.AuthorId, this.data);
+            var threadCount = UserThreadCount(thread.AuthorId, this.data);
 
             var threadResult = new ThreadViewModel
             {
@@ -79,7 +75,7 @@ namespace _4drafts.Controllers
                     AuthorName = c.Author.UserName,
                     AuthorAvatarUrl = c.Author.AvatarUrl,
                     AuthorRegisteredOn = c.Author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
-                    AuthorCommentCount = this.userStats.userCommentCount(c.AuthorId, this.data),
+                    AuthorCommentCount = UserCommentCount(c.AuthorId, this.data),
                     ThreadId = c.ThreadId
                 })
                 .ToList()
@@ -127,7 +123,22 @@ namespace _4drafts.Controllers
             data.Threads.Remove(thread);
             await data.SaveChangesAsync();
 
-            var threads = this.entityGetter.CategoryThreads(categoryId, this.data);
+            var threads = this.data.Threads
+                .Where(t => t.CategoryId == categoryId)
+                .OrderByDescending(t => t.CreatedOn)
+                .Select(t => new ThreadsBrowseModel
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                    Views = t.Views,
+                    Points = t.Points,
+                    AuthorId = t.AuthorId,
+                    AuthorName = t.Author.UserName,
+                    AuthorAvatarUrl = t.Author.AvatarUrl,
+                    CommentCount = this.data.Comments.Count(c => c.ThreadId == t.Id)
+                })
+                .ToList();
 
             return PartialView("_ThreadsPartial", new CategoryBrowseModel
             {
@@ -141,24 +152,19 @@ namespace _4drafts.Controllers
         [NoDirectAccess]
         public IActionResult Create(int categoryId)
         {
-            if (categoryId == 0) return View(new CreateThreadFormModel 
-            {
-                Categories = this.entityGetter.GetCategories(this.data),
-                CategoryName = this.data.Categories.FirstOrDefault().Name,
-                CategoryId = this.data.Categories.FirstOrDefault().Id
-            });
+            var catId = categoryId == 0 ? 1 : categoryId;
 
             return View(new CreateThreadFormModel
             {
-                Categories = this.entityGetter.GetCategories(this.data),
-                CategoryName = this.data.Categories.FirstOrDefault(c => c.Id == categoryId).Name,
-                CategoryId = categoryId
+                Categories = GetCategories(this.data),
+                CategoryName = this.data.Categories.FirstOrDefault(c => c.Id == catId).Name,
+                CategoryId = catId
             });
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create(CreateThreadFormModel model)
+        public async Task<IActionResult> Create(CreateThreadFormModel model)
         {
             if (!this.data.Categories.Any(c => c.Id == model.CategoryId))
             {
@@ -167,7 +173,7 @@ namespace _4drafts.Controllers
 
             if (!ModelState.IsValid)
             {
-                model.Categories = this.entityGetter.GetCategories(this.data);
+                model.Categories = GetCategories(this.data);
                 model.CategoryName = model.Categories.FirstOrDefault(c => c.Id == model.CategoryId).Name;
 
                 return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Create", model) });
@@ -182,8 +188,8 @@ namespace _4drafts.Controllers
                 CategoryId = model.CategoryId,
             };
 
-            this.data.Threads.Add(thread);
-            this.data.SaveChanges();
+            await this.data.Threads.AddAsync(thread);
+            await this.data.SaveChangesAsync();
 
             return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
         }
@@ -243,6 +249,23 @@ namespace _4drafts.Controllers
 
             return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
         }
+
+        //Functions
+        private static int UserThreadCount(string userId, _4draftsDbContext data)
+                => data.Threads.Count(t => t.AuthorId == userId);
+
+        private static int UserCommentCount(string userId, _4draftsDbContext data)
+                => data.Comments.Count(c => c.AuthorId == userId);
+
+        private static IEnumerable<CategoriesBrowseModel> GetCategories(_4draftsDbContext data)
+                => data
+                  .Categories
+                  .Select(c => new CategoriesBrowseModel
+                  {
+                      Id = c.Id,
+                      Name = c.Name
+                  })
+                  .ToList();
     }
 }
 
