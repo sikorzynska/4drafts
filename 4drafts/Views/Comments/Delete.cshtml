@@ -1,6 +1,6 @@
-﻿@model ThreadViewModel
+﻿@model EditCommentViewModel
 @{
-    ViewBag.Title = "Delete Thread";
+    ViewBag.Title = "Delete Comment";
     Layout = null;
 }
 <div class="container-fluid mw-350 text-center">
@@ -11,6 +11,6 @@
         <div class="dropdown-divider"></div>
     </div>
     <div class="form-footer" align="center">
-        <button class="btn btn-danger" type="button" onclick="deleteThreadPost('@Model.Id');"><i class="fas fa-trash"></i> Delete</button>
+        <button class="btn btn-danger" type="button" onclick="deleteCommentPost('@Model.Id');"><i class="fas fa-trash"></i> Delete</button>
     </div>
 </div>

@@ -76,7 +76,7 @@
                                         {
                                             <li role="separator" class="dropdown-divider"></li>
                                             <li><a onclick="editCommentInPopup('@comment.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
-                                            <li><a asp-controller="Comments" asp-action="Delete" asp-route-commentId="@comment.Id"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
+                                            <li><a onclick="deleteCommentInPopup('@comment.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
                                         }
                                     }
                                 }

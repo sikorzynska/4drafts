@@ -257,3 +257,41 @@ editCommentPost = form => {
         console.log(ex)
     }
 }
+
+function deleteCommentInPopup(commentId) {
+    $.ajax({
+        type: 'GET',
+        url: "/Comments/Delete/",
+        data: { commentId: commentId },
+        success: function (res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal').modal('show');
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+}
+
+function deleteCommentPost(commentId) {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: '/Comments/Delete/',
+            data: { commentId: commentId },
+            success: function (res) {
+                $('#comment-section').html(res.html);
+                $('#form-modal').modal('hide');
+                $.notify('The comment has been successfully deleted', { globalPosition: 'top center', className: 'success' });
+
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
+}
