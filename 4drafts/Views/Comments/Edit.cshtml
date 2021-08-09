@@ -1,7 +1,7 @@
 ﻿@model EditCommentViewModel
 
 @{
-    ViewBag.Title = "Edit Comment";
+    ViewBag.Title = "Edit";
     Layout = null;
 }
 
@@ -10,7 +10,7 @@
         <div class="form-header" align="center">
             <div class="dropdown-divider"></div>
             <h2 class="heading-margin">@ViewBag.Title</h2>
-            <p class="text-muted">Make your changes</p>
+            <p class="text-muted">Make the desired changes to this <strong>comment</strong></p>
             <div class="dropdown-divider"></div>
         </div>
         <div class="form-body ">
@@ -23,7 +23,8 @@
             </div>
         </div>
         <div class="form-footer" align="center">
-            <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> Save Changes</button>
+            <button class="btn btn-outline-primary" type="submit"><i class="fas fa-save"></i> Save Changes</button>
+            <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Cancel</button>
         </div>
     </div>
 </form>

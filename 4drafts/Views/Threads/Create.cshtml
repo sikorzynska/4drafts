@@ -1,7 +1,7 @@
 ﻿@model CreateThreadFormModel
 
 @{
-    ViewBag.Title = "Create Thread";
+    ViewBag.Title = "Create";
     Layout = null;
     var catId = Model.CategoryId;
 }
@@ -49,7 +49,8 @@
             </div>
 
             <div class="form-footer" align="center">
-                <button class="btn btn-primary" type="submit"><i class="fas fa-plus-square"></i> Post</button>
+                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-plus-square"></i> Post</button>
+                <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Cancel</button>
             </div>
         </div>
     </form>

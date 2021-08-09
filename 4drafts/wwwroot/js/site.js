@@ -295,3 +295,7 @@ function deleteCommentPost(commentId) {
         console.log(ex)
     }
 }
+
+function cancelModal() {
+    $('#form-modal').modal('hide');
+}
