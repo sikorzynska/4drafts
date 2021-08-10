@@ -307,6 +307,17 @@ function likeThread(threadId) {
     })
 }
 
+function likeComment(commentId) {
+    $.ajax({
+        type: 'post',
+        url: "/Comments/Like/",
+        data: { commentId: commentId },
+        success: function (res) {
+            $('#comment-section').html(res);
+        }
+    })
+}
+
 function cancelModal() {
     $('#form-modal').modal('hide');
 }

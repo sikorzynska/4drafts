@@ -12,21 +12,38 @@
             <span class="badge badge-secondary float-right mt-2 mr-2" id="count_message"></span>
         </div>
         <div class="p-2 col-md-12">
-            <div class="d-flex flex-row align-items-start media-img-40">
-                <img class="rounded-circle" src="@avatarUrl">
-                <textarea type="text" rows="1"
-                          style="resize: none;"
-                          maxlength="500"
-                          class="form-control ml-1 shadow-none"
-                          placeholder="Add a public comment..."
-                          id="comment-content"
-                          onchange="checkIfEmpty(), countCharacters()"
-                          onkeypress="checkIfEmpty(), countCharacters()"
-                          oninput="checkIfEmpty(), countCharacters()"
-                          onkeyup="countCharacters()"
-                          onpaste="checkIfEmpty(), countCharacters()"
-                          onclick="showButtons()"></textarea>
-            </div>
+            @{
+                if (user != null)
+                {
+                    <div class="d-flex flex-row align-items-start media-img-40">
+                        <img class="rounded-circle" src="@avatarUrl">
+                        <textarea type="text" rows="1"
+                                  style="resize: none;"
+                                  maxlength="500"
+                                  class="form-control ml-1 shadow-none"
+                                  placeholder="Add a public comment..."
+                                  id="comment-content"
+                                  onchange="checkIfEmpty(), countCharacters()"
+                                  onkeypress="checkIfEmpty(), countCharacters()"
+                                  oninput="checkIfEmpty(), countCharacters()"
+                                  onkeyup="countCharacters()"
+                                  onpaste="checkIfEmpty(), countCharacters()"
+                                  onclick="showButtons()"></textarea>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex flex-row align-items-start media-img-40">
+                        <img class="rounded-circle" src="@avatarUrl">
+                        <textarea type="text" rows="1"
+                                  style="resize: none;"
+                                  maxlength="500"
+                                  class="form-control ml-1 shadow-none"
+                                  placeholder="Sign in to add a public comment..."
+                                  disabled="disabled"></textarea>
+                    </div>
+                }
+            }
             <div class="mt-2 text-right d-none" id="comment-buttons">
                 <button class="btn btn-primary" type="button" disabled id="comment-button" onclick="refreshComments('@Model.Id', getCommentValue())">
                     Comment
@@ -61,26 +78,46 @@
                     </div>
                     <div class="reply-section card-footer d-flex flex-wrap justify-content-start">
                         <div class="d-flex flex-row align-items-center voting-icons">
-                            <a onclick="likeComment('@comment.Id')" class="btn btn-info btn-sm"><i class="far fa-heart"></i></a>
-                            <span class="ml-1 mr-1">0</span>
-                        </div>
-                        <div class="dropdown mw-min-content align-end">
-                            <a class="dropdown-toggle media-img-30 btn btn-secondary layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i> Options</a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-controller="Comments" asp-action="Report" asp-route-commentId="@comment.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a></li>
-                                @{
-                                    if (user != null)
+                            @{
+                                if (user != null)
+                                {
+                                    if (comment.Liked)
                                     {
-                                        if (user.Id == comment.AuthorId)
+                                        <a onclick="likeComment('@comment.Id')" class="btn btn-primary btn-sm"><i class="fas fa-heart"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a onclick="likeComment('@comment.Id')" class="btn btn-info btn-sm"><i class="far fa-heart"></i></a>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <a class="btn btn-info btn-sm disabled"><i class="far fa-heart"></i></a>
+                                }
+                            }
+                            <span class="ml-1 mr-1">@comment.Points <span class="text-muted">likes</span></span>
+                        </div>
+                        @if (user != null)
+                        {
+                            <div class="dropdown mw-min-content align-end">
+                                <a class="dropdown-toggle media-img-30 btn btn-secondary layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i> Options</a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-controller="Comments" asp-action="Report" asp-route-commentId="@comment.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a></li>
+                                    @{
+                                        if (user != null)
                                         {
-                                            <li role="separator" class="dropdown-divider"></li>
-                                            <li><a onclick="editCommentInPopup('@comment.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
-                                            <li><a onclick="deleteCommentInPopup('@comment.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
+                                            if (user.Id == comment.AuthorId)
+                                            {
+                                                <li role="separator" class="dropdown-divider"></li>
+                                                <li><a onclick="editCommentInPopup('@comment.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
+                                                <li><a onclick="deleteCommentInPopup('@comment.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
+                                            }
                                         }
                                     }
-                                }
-                            </ul>
-                        </div>
+                                </ul>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

@@ -77,6 +77,8 @@ namespace _4drafts.Controllers
                 {
                     Id = c.Id,
                     Content = c.Content,
+                    Points = c.Points,
+                    Liked = IsLiked(c.Id, userId, this.data),
                     CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
                     AuthorId = c.AuthorId,
                     AuthorName = c.Author.UserName,
@@ -319,6 +321,8 @@ namespace _4drafts.Controllers
                       Name = c.Name
                   })
                   .ToList();
+        private static bool IsLiked(string commentId, string userId, _4draftsDbContext data)
+                => data.UserComments.Any(uc => uc.UserId == userId && uc.CommentId == commentId);
     }
 }
 

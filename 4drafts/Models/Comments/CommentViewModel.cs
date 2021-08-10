@@ -8,6 +8,8 @@
 
         public int Points { get; set; }
 
+        public bool Liked { get; set; }
+
         public string CreatedOn { get; init; }
 
         public string AuthorId { get; set; }

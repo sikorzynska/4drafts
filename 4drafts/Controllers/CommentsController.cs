@@ -11,6 +11,8 @@ using _4drafts.Models.Comments;
 using System.Globalization;
 using System.Threading.Tasks;
 using static _4drafts.Services.HtmlHelper;
+using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace _4drafts.Controllers
 {
@@ -37,13 +39,13 @@ namespace _4drafts.Controllers
         public async Task<IActionResult> Create(string threadId, string Content)
         {
             var thread = await this.data.Threads.FindAsync(threadId);
+            var user = await this.userManager.GetUserAsync(User);
 
             var characterCount = string.IsNullOrWhiteSpace(Content) ? 0 : Content.Length;
 
-            if (string.IsNullOrWhiteSpace(threadId) || thread == null)
-            {
-                return BadRequest();
-            }
+            if (user == null) return Unauthorized();
+
+            if (string.IsNullOrWhiteSpace(threadId) || thread == null) return BadRequest();
 
             if (string.IsNullOrWhiteSpace(Content))
             {
@@ -55,16 +57,13 @@ namespace _4drafts.Controllers
                 this.ModelState.AddModelError(nameof(Content), "Comments cannot be longer than 500 characters...");
             }
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            if (!ModelState.IsValid) return BadRequest();
 
             var comment = new Comment
             {
                 Content = Content,
                 CreatedOn = DateTime.UtcNow.ToLocalTime(),
-                AuthorId = this.userManager.GetUserId(this.User),
+                AuthorId = user.Id,
                 ThreadId = threadId
             };
 
@@ -78,6 +77,8 @@ namespace _4drafts.Controllers
                 {
                     Id = c.Id,
                     Content = c.Content,
+                    Points = c.Points,
+                    Liked = IsLiked(c.Id, user.Id, this.data),
                     CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
                     AuthorId = c.AuthorId,
                     AuthorName = c.Author.UserName,
@@ -127,15 +128,9 @@ namespace _4drafts.Controllers
             var comment = await this.data.Comments.FindAsync(model.Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (comment == null)
-            {
-                return NotFound();
-            }
+            if (comment == null) return NotFound();
 
-            if (user.Id != comment.AuthorId)
-            {
-                return Unauthorized();
-            }
+            if (user.Id != comment.AuthorId || user == null) return Unauthorized();
 
             if (!ModelState.IsValid)
             {
@@ -155,6 +150,8 @@ namespace _4drafts.Controllers
                 {
                     Id = c.Id,
                     Content = c.Content,
+                    Points = c.Points,
+                    Liked = IsLiked(c.Id, user.Id, this.data),
                     CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
                     AuthorId = c.AuthorId,
                     AuthorName = c.Author.UserName,
@@ -201,15 +198,9 @@ namespace _4drafts.Controllers
             var comment = await this.data.Comments.FindAsync(commentId);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (comment == null)
-            {
-                return NotFound();
-            }
+            if (comment == null) return NotFound();
 
-            if (user.Id != comment.AuthorId)
-            {
-                return Unauthorized();
-            }
+            if (user.Id != comment.AuthorId || user == null) return NotFound();
 
             var thread = await this.data.Threads.FindAsync(comment.ThreadId);
 
@@ -224,6 +215,8 @@ namespace _4drafts.Controllers
                 {
                     Id = c.Id,
                     Content = c.Content,
+                    Points = c.Points,
+                    Liked = IsLiked(c.Id, user.Id, this.data),
                     CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
                     AuthorId = c.AuthorId,
                     AuthorName = c.Author.UserName,
@@ -237,7 +230,68 @@ namespace _4drafts.Controllers
             return Json(new { html = htmlHelper.RenderRazorViewToString(this, "_CommentsPartial", new ThreadViewModel { Id = thread.Id, Comments = comments }) });
         }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Like(string commentId)
+        {
+            var comment = await this.data.Comments.FindAsync(commentId);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await this.data.Users
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (comment == null) return NotFound();
+
+            if (user == null) return Unauthorized();
+
+            var uc = await this.data.UserComments
+                .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.CommentId == commentId);
+
+            if (uc != null)
+            {
+                this.data.UserComments.Remove(uc);
+                comment.Points--;
+            }
+            else
+            {
+                this.data.UserComments.Add(new UserComment
+                {
+                    UserId = userId,
+                    CommentId = commentId
+                });
+                comment.Points++;
+            }
+            await this.data.SaveChangesAsync();
+
+            var comments = this.data.Comments
+                  .Where(c => c.ThreadId == comment.ThreadId)
+                  .OrderByDescending(c => c.CreatedOn)
+                  .Select(c => new CommentViewModel
+                  {
+                      Id = c.Id,
+                      Content = c.Content,
+                      Points = c.Points,
+                      Liked = IsLiked(c.Id, userId, this.data),
+                      CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
+                      AuthorId = c.AuthorId,
+                      AuthorName = c.Author.UserName,
+                      AuthorAvatarUrl = c.Author.AvatarUrl,
+                      AuthorRegisteredOn = c.Author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
+                      AuthorCommentCount = UserCommentCount(c.AuthorId, this.data),
+                      ThreadId = c.ThreadId
+                  })
+                  .ToList();
+
+            return PartialView("_CommentsPartial", new ThreadViewModel
+            {
+                Id = comment.ThreadId,
+                Comments = comments,
+            });
+        }
+
         private static int UserCommentCount(string userId, _4draftsDbContext data)
                => data.Comments.Count(c => c.AuthorId == userId);
+
+        private static bool IsLiked(string commentId, string userId, _4draftsDbContext data)
+            => data.UserComments.Any(uc => uc.UserId == userId && uc.CommentId == commentId);
     }
 }
