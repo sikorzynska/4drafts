@@ -10,9 +10,9 @@ using System;
 using _4drafts.Models.Comments;
 using System.Globalization;
 using System.Threading.Tasks;
-using static _4drafts.Services.HtmlHelper;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using static _4drafts.Services.HtmlHelper;
 
 namespace _4drafts.Controllers
 {
