@@ -4,7 +4,9 @@
     {
         public string Id { get; init; }
 
-        public string Content { get; init; }
+        public string Content { get; set; }
+
+        public int Points { get; set; }
 
         public string CreatedOn { get; init; }
 

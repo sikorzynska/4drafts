@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using static _4drafts.Services.HtmlHelper;
 
@@ -49,6 +50,11 @@ namespace _4drafts.Controllers
 
             if (author == null) return NotFound();
 
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var liked = this.data
+                .UserThreads.Any(ut => ut.UserId == userId && ut.ThreadId == threadId);
+
             var threadCount = UserThreadCount(thread.AuthorId, this.data);
 
             var threadResult = new ThreadViewModel
@@ -63,6 +69,7 @@ namespace _4drafts.Controllers
                 AuthorRegisteredOn = author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
                 AuthorThreadCount = threadCount,
                 Points = thread.Points,
+                Liked = liked,
                 CategoryId = thread.CategoryId,
                 Comments = thread.Comments
                 .OrderByDescending(t => t.CreatedOn)
@@ -248,6 +255,52 @@ namespace _4drafts.Controllers
             this.data.SaveChanges();
 
             return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Like(string threadId)
+        {
+            var thread = await this.data.Threads.FindAsync(threadId);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await this.data.Users
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (thread == null) return NotFound();
+
+            if (user == null) return Unauthorized();
+
+            var ut = await this.data.UserThreads
+                .FirstOrDefaultAsync(ut => ut.UserId == userId && ut.ThreadId == threadId);
+
+            var liked = false;
+
+            if (ut != null)
+            {
+                this.data.UserThreads.Remove(ut);
+                thread.Points--;
+                liked = false;
+            }
+            else
+            {
+                this.data.UserThreads.Add(new UserThread
+                {
+                    UserId = userId,
+                    ThreadId = threadId
+                });
+                thread.Points++;
+                liked = true;
+            }
+            await this.data.SaveChangesAsync();
+
+            var points = this.data.Threads.FirstOrDefault(t => t.Id == threadId).Points;
+
+            return PartialView("_ThreadLikesPartial", new ThreadViewModel
+            {
+                Id = threadId,
+                Points = points,
+                Liked = liked,
+            });
         }
 
         //Functions

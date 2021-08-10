@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using static _4drafts.Data.DataConstants;
 
@@ -27,5 +28,7 @@ namespace _4drafts.Data.Models
         public string ThreadId { get; set; }
 
         public Thread Thread { get; set; }
+
+        public ICollection<UserComment> UserComments { get; set; } = new List<UserComment>();
     }
 }

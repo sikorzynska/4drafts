@@ -296,6 +296,17 @@ function deleteCommentPost(commentId) {
     }
 }
 
+function likeThread(threadId) {
+    $.ajax({
+        type: 'Post',
+        url: "/Threads/Like/",
+        data: { threadId: threadId },
+        success: function (res) {
+            $('#thread-likes-section').html(res);
+        }
+    })
+}
+
 function cancelModal() {
     $('#form-modal').modal('hide');
 }

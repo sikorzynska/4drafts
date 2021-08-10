@@ -35,6 +35,7 @@ namespace _4drafts.Data.Models
 
         public Category Category { get; set; }
 
-        public IEnumerable<Comment> Comments { get; init; } = new List<Comment>();
+        public ICollection<Comment> Comments { get; init; } = new List<Comment>();
+        public ICollection<UserThread> UserThreads { get; set; } = new List<UserThread>();
     }
 }

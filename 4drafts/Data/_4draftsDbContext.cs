@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _4drafts.Data
 {
-    public class _4draftsDbContext : IdentityDbContext
+    public class _4draftsDbContext : IdentityDbContext<User>
     {
         public _4draftsDbContext(DbContextOptions<_4draftsDbContext> options)
             : base(options)
@@ -14,6 +14,8 @@ namespace _4drafts.Data
         public DbSet<Thread> Threads { get; init; }
         public DbSet<Category> Categories { get; init; }
         public DbSet<Comment> Comments { get; init; }
+        public DbSet<UserThread> UserThreads { get; init; }
+        public DbSet<UserComment> UserComments { get; init; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -44,6 +46,32 @@ namespace _4drafts.Data
                 .WithMany(t => t.Comments)
                 .HasForeignKey(t => t.ThreadId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<UserThread>()
+                .HasKey(ut => new { ut.UserId, ut.ThreadId });
+
+            builder.Entity<UserThread>()
+                .HasOne(ut => ut.User)
+                .WithMany(t => t.UserThreads)
+                .HasForeignKey(ut => ut.UserId);
+
+            builder.Entity<UserThread>()
+                .HasOne(ut => ut.Thread)
+                .WithMany(t => t.UserThreads)
+                .HasForeignKey(ut => ut.ThreadId);
+
+            builder.Entity<UserComment>()
+                .HasKey(uc => new { uc.UserId, uc.CommentId });
+
+            builder.Entity<UserComment>()
+                .HasOne(uc => uc.User)
+                .WithMany(c => c.UserComments)
+                .HasForeignKey(uc => uc.UserId);
+
+            builder.Entity<UserComment>()
+                .HasOne(uc => uc.Comment)
+                .WithMany(c => c.UserComments)
+                .HasForeignKey(uc => uc.CommentId);
 
             base.OnModelCreating(builder);
         }

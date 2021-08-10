@@ -1,0 +1,23 @@
+﻿@model ThreadViewModel
+@{
+    var user = await this.userManager.GetUserAsync(User);
+}
+
+@{
+    if (user != null)
+    {
+        if (Model.Liked)
+        {
+            <a onclick="likeThread('@Model.Id')" class="btn btn-info btn-sm"><i class="fas fa-heart"></i></a>
+        }
+        else
+        {
+            <a onclick="likeThread('@Model.Id')" class="btn btn-info btn-sm"><i class="far fa-heart"></i></a>
+        }
+    }
+    else
+    {
+        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-info btn-sm" disabled><i class="far fa-heart"></i></a>
+    }
+}
+<span class="ml-1 mr-1">@Model.Points <span class="text-muted">likes</span></span>

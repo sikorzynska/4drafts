@@ -17,6 +17,6 @@ namespace _4drafts.Data.Models
 
         public string ImageUrl { get; set; }
 
-        public IEnumerable<Thread> Threads { get; init; } = new List<Thread>();
+        public ICollection<Thread> Threads { get; init; } = new List<Thread>();
     }
 }

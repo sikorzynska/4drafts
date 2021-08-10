@@ -12,7 +12,9 @@ namespace _4drafts.Data.Models
 
         public int Points { get; set; }
 
-        public IEnumerable<Thread> Threads { get; init; } = new List<Thread>();
-        public IEnumerable<Comment> Comments { get; init; } = new List<Comment>();
+        public ICollection<Thread> Threads { get; init; } = new List<Thread>();
+        public ICollection<Comment> Comments { get; init; } = new List<Comment>();
+        public ICollection<UserThread> UserThreads { get; set; } = new List<UserThread>();
+        public ICollection<UserComment> UserComments { get; set; } = new List<UserComment>();
     }
 }
