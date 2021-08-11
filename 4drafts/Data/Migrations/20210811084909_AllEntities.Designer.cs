@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4drafts.Data;
 
-namespace _4drafts.Migrations
+namespace _4drafts.Data.Migrations
 {
     [DbContext(typeof(_4draftsDbContext))]
     [Migration("20210811084909_AllEntities")]

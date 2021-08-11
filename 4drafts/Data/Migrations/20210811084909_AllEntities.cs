@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace _4drafts.Migrations
+namespace _4drafts.Data.Migrations
 {
     public partial class AllEntities : Migration
     {

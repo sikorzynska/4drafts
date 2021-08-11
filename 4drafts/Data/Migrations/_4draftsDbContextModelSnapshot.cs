@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4drafts.Data;
 
-namespace _4drafts.Migrations
+namespace _4drafts.Data.Migrations
 {
     [DbContext(typeof(_4draftsDbContext))]
     partial class _4draftsDbContextModelSnapshot : ModelSnapshot
