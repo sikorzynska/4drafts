@@ -324,8 +324,8 @@ function viewProfile(userId) {
         url: "/Users/Profile/",
         data: { userId: userId },
         success: function (res) {
-            $('#form-modal-profile .modal-dialog').html(res);
-            $('#form-modal-profile').modal('show');
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal').modal('show');
         },
         error: function (err) {
             console.log(err);

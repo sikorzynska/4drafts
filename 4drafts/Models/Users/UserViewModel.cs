@@ -1,4 +1,7 @@
-﻿namespace _4drafts.Models.Users
+﻿using _4drafts.Models.Threads;
+using System.Collections.Generic;
+
+namespace _4drafts.Models.Users
 {
     public class UserViewModel
     {
@@ -18,6 +21,7 @@
         public string AboutMe { get; set; }
         public int ThreadCount { get; set; }
         public int CommentCount { get; set; }
+        public List<ThreadsBrowseModel> Threads { get; set; }
 
     }
 }

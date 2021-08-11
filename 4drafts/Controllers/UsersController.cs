@@ -1,5 +1,6 @@
 ﻿using _4drafts.Data;
 using _4drafts.Data.Models;
+using _4drafts.Models.Threads;
 using _4drafts.Models.Users;
 using _4drafts.Services;
 using Microsoft.AspNetCore.Identity;
@@ -56,6 +57,16 @@ namespace _4drafts.Controllers
                 AboutMe = user.AboutMe == null ? "---" : user.AboutMe,
                 ThreadCount = UserThreadCount(userId, this.data),
                 CommentCount = UserCommentCount(userId, this.data),
+                Threads = this.data.Threads
+                .Where(t => t.AuthorId == userId)
+                .OrderByDescending(t => t.CreatedOn)
+                .Select(t => new ThreadsBrowseModel
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    Points = t.Points,
+                    CommentCount = ThreadCommentCount(t.Id, this.data),
+                }).ToList(),
             };
 
             return View(res);
@@ -63,9 +74,12 @@ namespace _4drafts.Controllers
 
         //Functions
         private static int UserThreadCount(string userId, _4draftsDbContext data)
-        => data.Threads.Count(t => t.AuthorId == userId);
+                => data.Threads.Count(t => t.AuthorId == userId);
 
         private static int UserCommentCount(string userId, _4draftsDbContext data)
                 => data.Comments.Count(c => c.AuthorId == userId);
+
+        private static int ThreadCommentCount(string threadId,_4draftsDbContext data)
+                => data.Comments.Count(c => c.ThreadId == threadId);
     }
 }

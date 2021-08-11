@@ -375,7 +375,7 @@ hide-empty:empty {
             display: inline-block;
         }
 
-        .profile-nav .user-heading a img {
+        .profile-nav .user-heading img {
             width: 112px;
             height: 112px;
             border-radius: 50%;
@@ -520,7 +520,7 @@ hide-empty:empty {
             color: #caa3da;
         }
 
-.user-heading a img {
+.user-heading img {
     width: 112px;
     height: 112px;
     border-radius: 50%;

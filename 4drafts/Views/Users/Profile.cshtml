@@ -6,97 +6,104 @@
     Layout = null;
 }
 
-    <div class="container-fluid">
-        <div class="col" align="center">
-            <div class="profile-info col">
-                <div class="card">
-                    <div class="bio-graph-heading">
-                        <div class="user-heading round">
-                            <a>
-                                <img src="@Model.AvatarUrl" alt="">
-                            </a>
-                            <h1>@Model.Username</h1>
-                            <span><i class="fas fa-envelope"></i> @Model.Email</span>
-                            <p>Member since @Model.RegisteredOn</p>
-                            <div><span class="badge bg-info">total threads: @Model.ThreadCount</span> &nbsp; <span class="badge bg-info">total comments: @Model.CommentCount</span></div>
+<div class="container-fluid mb-3">
+    <div class="col" align="center">
+        <div class="profile-info col">
+                <div class="user-heading round mb-3">
+                    <img src="@Model.AvatarUrl">
+                    <h1>@Model.Username</h1>
+                    <span><i class="fas fa-envelope"></i> @Model.Email</span><br />
+                    <span>Member since @Model.RegisteredOn</span>
+                    <div><span class="badge bg-info">threads: @Model.ThreadCount</span> &nbsp; <span class="badge bg-info">comments: @Model.CommentCount</span></div>
+                </div>
+                <div class="text-left">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#links">Links</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#threads">Threads</a>
+                        </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active show" id="about">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted">First name: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.FirstName</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted">Last name: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.LastName</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted">Gender: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Gender</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted">About me: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.AboutMe</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="links">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted"><i class="fas fa-globe"></i> Website: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Website</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted"><i class="fab fa-github"></i> Github: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Github</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted"><i class="fab fa-twitter"></i> Twitter: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Twitter</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted"><i class="fab fa-instagram"></i> Instagram: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Instagram</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted"><i class="fab fa-facebook"></i> Facebook: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Facebook</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="threads">
+                            <ul class="list-group">
+                                @{
+                                    foreach (var thread in Model.Threads)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                           <a class="text-truncate shorting" asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id">@thread.Title</a>
+                                           <div class="d-inline">
+                                               <span class="mr-2"><i class="fas fa-heart"></i> @thread.Points</span>
+                                               <span><i class="fas fa-reply-all"></i> @thread.CommentCount</span>
+                                           </div>
+                                        </li>
+                                    }
+                                }
+                            </ul>
                         </div>
                     </div>
-                    <div class="card-body bio-graph-info text-left">
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                        About
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
-                                    <div class="accordion-body">
-                                        <ul class="list-group">
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="text-muted">First name: &nbsp; </span><p class="d-inline">@Model.FirstName</p>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="text-muted">Last name: &nbsp; </span><p class="d-inline">@Model.LastName</p>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="text-muted">Gender: &nbsp; </span><p class="d-inline">@Model.Gender</p>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="text-muted">About me: &nbsp; </span><p class="d-inline">@Model.AboutMe</p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Links
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul class="list-group">
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="text-muted"><i class="fas fa-globe"></i> Website: &nbsp; </span><p class="d-inline">@Model.Website</p>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="text-muted"><i class="fab fa-github"></i> Github: &nbsp; </span><p class="d-inline">@Model.Github</p>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="text-muted"><i class="fab fa-twitter"></i> Twitter: &nbsp; </span><p class="d-inline">@Model.Twitter</p>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="text-muted"><i class="fab fa-instagram"></i> Instagram: &nbsp; </span><p class="d-inline">@Model.Instagram</p>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="text-muted"><i class="fab fa-facebook"></i> Facebook: &nbsp; </span><p class="d-inline">@Model.Facebook</p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                   </div>
                 </div>
             </div>
         </div>
     </div>
+<div align="center">
+    <button class="btn btn-outline-primary disabled" type="button"><i class="far fa-heart"></i> Follow</button>
+    <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Close</button>
+</div>
