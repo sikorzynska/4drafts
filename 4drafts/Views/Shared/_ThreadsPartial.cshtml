@@ -9,7 +9,7 @@
     {
         <div class="card-body py-3">
             <div class="row no-gutters align-items-center">
-                <div class="col short">
+                <div class="col shorting-40">
                     <div class="tooltip shorting">
                         <a asp-controller="Threads"
                            asp-action="Read"
@@ -18,7 +18,7 @@
                         <span class="tooltiptext">@thread.Title</span>
                     </div>
                 </div>
-                <div class="d-none d-md-block col-6">
+                <div class="d-md-block col-6 align-end">
                     <div class="row no-gutters align-items-center">
                         <div class="col-3">
                             <div class="tooltip shorting">
@@ -43,10 +43,10 @@
                                     {
                                         if (user.Id == thread.AuthorId)
                                         {
-                                            <div class="align-items-center ml-2 zoom d-inline">
+                                            <div class="align-items-center ml-2 zoom d-inline thread-icon">
                                                 <a onclick="editThreadInPopup('@thread.Id')"><i class="fas fa-lg fa-pencil-alt"></i></a>
                                             </div>
-                                            <div class="align-items-center ml-3 zoom d-inline">
+                                            <div class="align-items-center ml-3 zoom d-inline thread-icon">
                                                 <a onclick="deleteThreadInPopup('@thread.Id')"><i class="fas fa-lg fa-trash-alt"></i></a>
                                             </div>
                                         }

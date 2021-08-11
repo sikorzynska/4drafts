@@ -66,6 +66,7 @@ namespace _4drafts.Controllers
                     Title = t.Title,
                     Points = t.Points,
                     CommentCount = ThreadCommentCount(t.Id, this.data),
+                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                 }).ToList(),
             };
 

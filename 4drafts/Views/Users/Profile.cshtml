@@ -88,11 +88,17 @@
                                     foreach (var thread in Model.Threads)
                                     {
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                           <a class="text-truncate shorting" asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id">@thread.Title</a>
-                                           <div class="d-inline">
-                                               <span class="mr-2"><i class="fas fa-heart"></i> @thread.Points</span>
-                                               <span><i class="fas fa-reply-all"></i> @thread.CommentCount</span>
-                                           </div>
+                                            <div class="shorting-40 text-truncate">
+                                                <a class="text-truncate"
+                                                   asp-controller="Threads"
+                                                   asp-action="Read"
+                                                   asp-route-threadId="@thread.Id">@thread.Title</a>
+                                            </div>
+                                            <span class="small text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
+                                            <div class="d-inline">
+                                                <span class="mr-2"><i class="fas fa-heart"></i> @thread.Points</span>
+                                                <span><i class="fas fa-reply-all"></i> @thread.CommentCount</span>
+                                            </div>
                                         </li>
                                     }
                                 }
