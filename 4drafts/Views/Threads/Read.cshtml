@@ -13,7 +13,7 @@
                     <div class="media flex-wrap w-100 align-items-center">
                         <img src="@Model.AuthorAvatarUrl" class="d-block ui-w-40 rounded-circle">
                         <div class="media-body ml-3">
-                            <a asp-controller="Users" asp-action="Profile" asp-route-username="@Model.AuthorName">@Model.AuthorName</a>
+                            <a onclick="viewProfile('@Model.AuthorId')">@Model.AuthorName</a>
                             <div class="text-muted small">@Model.CreatedOn</div>
                         </div>
                         <div class="text-muted small ml-3">

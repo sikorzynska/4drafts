@@ -35,7 +35,7 @@
                         <div class="media col-6 align-items-center">
                             <img src="@thread.AuthorAvatarUrl" class="d-block ui-w-30 rounded-circle">
                             <div class="media-body flex-truncate ml-2">
-                                <a class="d-block text-truncate" data-abc="true">@thread.AuthorName</a>
+                                <a onclick="viewProfile('@thread.AuthorId')" class="d-block text-truncate" data-abc="true">@thread.AuthorName</a>
                                 <div class="text-muted small text-truncate">@thread.CreatedOn</div>
                             </div>
                                 @{

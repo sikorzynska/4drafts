@@ -40,7 +40,7 @@
                                                     <img src="@category.LastEntry.AuthorAvatarUrl" class="d-block ui-w-30 rounded-circle">
                                                     <div class="media-body flex-truncate ml-2">
                                                         <a asp-controller="Threads" asp-action="Read" asp-route-threadId="@category.LastEntry.Id" class="d-block text-truncate">@category.LastEntry.Title</a>
-                                                        <div class="text-muted small text-truncate">@category.LastEntry.CreatedOn &nbsp;·&nbsp; <a class="text-muted">@category.LastEntry.AuthorName</a></div>
+                                                        <div class="text-muted small text-truncate">@category.LastEntry.CreatedOn &nbsp;·&nbsp; <a onclick="viewProfile('@category.LastEntry.AuthorId')" class="text-muted">@category.LastEntry.AuthorName</a></div>
                                                     </div>
                                                 </div>
                                             }

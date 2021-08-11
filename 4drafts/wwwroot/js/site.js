@@ -318,6 +318,21 @@ function likeComment(commentId) {
     })
 }
 
+function viewProfile(userId) {
+    $.ajax({
+        type: 'get',
+        url: "/Users/Profile/",
+        data: { userId: userId },
+        success: function (res) {
+            $('#form-modal-profile .modal-dialog').html(res);
+            $('#form-modal-profile').modal('show');
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+}
+
 function cancelModal() {
     $('#form-modal').modal('hide');
 }

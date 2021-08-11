@@ -8,7 +8,25 @@ namespace _4drafts.Data.Models
     {
         public DateTime RegisteredOn { get; init; } = DateTime.UtcNow;
 
-        public string AvatarUrl { get; set; } = "https://i.imgur.com/Q67mO1m.png";
+        public string AvatarUrl { get; set; } = "https://www.angrybirdsnest.com/wp-content/uploads/2013/10/Hand-Drawn-Blue-Bird-Avatar.jpg";
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Gender { get; set; }
+
+        public string Website { get; set; }
+
+        public string Github { get; set; }
+
+        public string Twitter { get; set; }
+
+        public string Instagram { get; set; }
+
+        public string Facebook { get; set; }
+
+        public string AboutMe { get; set; }
 
         public int Points { get; set; }
 
