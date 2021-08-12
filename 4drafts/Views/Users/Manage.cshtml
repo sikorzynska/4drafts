@@ -1,0 +1,141 @@
+﻿@model UserViewModel
+@{
+    ViewBag.Title = "Manage Profile";
+}
+
+<div class="container">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="@Model.AvatarUrl" class="rounded-circle p-1 bg-primary" width="110">
+                            <div class="mt-3">
+                                <h4>@Model.Username</h4>
+                                <span class="text-secondary mb-1">@Model.Email</span><br />
+                                <span class="text-muted font-size-sm">Member since @Model.RegisteredOn</span>
+                                <div><span class="badge bg-info">threads: @Model.ThreadCount</span> &nbsp; <span class="badge bg-info">comments: @Model.CommentCount</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-2">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h6 class="mb-0"><i class="fas fa-2x fa-globe big-icon"></i> Website:</h6>
+                            <span class="text-secondary">@Model.Website</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h6 class="mb-0"><i class="fab fa-2x fa-github big-icon"></i> Github:</h6>
+                            <span class="text-secondary">@Model.Github</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h6 class="mb-0"><i class="fab fa-2x fa-twitter big-icon"></i> Twitter:</h6>
+                            <span class="text-secondary">@Model.Twitter</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h6 class="mb-0"><i class="fab fa-2x fa-instagram big-icon"></i> Instagram:</h6>
+                            <span class="text-secondary">@Model.Instagram</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h6 class="mb-0"><i class="fab fa-2x fa-facebook big-icon"></i> Facebook:</h6>
+                            <span class="text-secondary">@Model.Facebook</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#edit">Edit</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#profile">Profile</a>
+                </li>
+            </ul>
+            <div class="tab-content card">
+                <div class="tab-pane fade card-body" id="edit">
+                    <form action="/" method="post">
+                        <div class="form-group">
+                            <label asp-for="AvatarUrl"></label>
+                            <input asp-for="AvatarUrl" class="form-control" placeholder="@Model.AvatarUrl">
+                            <span asp-validation-for="AvatarUrl" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FirstName"></label>
+                            <input asp-for="FirstName" class="form-control" placeholder="@Model.FirstName">
+                            <span asp-validation-for="FirstName" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="LastName"></label>
+                            <input asp-for="LastName" class="form-control" placeholder="@Model.LastName">
+                            <span asp-validation-for="LastName" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Gender"></label>
+                            <select asp-for="Gender" class="form-control" placeholder="@Model.Gender">
+                                <option>Male</option>
+                                <option>Female</option>
+                            </select>
+                            <span asp-validation-for="Gender" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AboutMe"></label>
+                            <textarea asp-for="AboutMe" class="form-control" placeholder="@Model.AboutMe"></textarea>
+                            <span asp-validation-for="AboutMe" class="small text-danger"></span>
+                        </div>
+                        <hr />
+                        <h3>Links</h3>
+                        <hr />
+                        <div class="form-group">
+                            <label asp-for="Website"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="website"><i class="fas fa-lg fa-globe big-icon"></i></span>
+                                <input type="url" asp-for="Website" class="form-control" placeholder="@Model.Website" aria-describedby="website">
+                            </div>
+                            <span asp-validation-for="Website" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Github"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="github"><i class="fab fa-lg fa-github big-icon"></i></span>
+                                <input type="url" asp-for="Github" class="form-control" placeholder="@Model.Github" aria-describedby="github">
+                            </div>
+                            <span asp-validation-for="Github" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Twitter"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="twitter"><i class="fab fa-lg fa-twitter big-icon"></i></span>
+                                <input type="url" asp-for="Twitter" class="form-control" placeholder="@Model.Twitter" aria-describedby="twitter">
+                            </div>
+                            <span asp-validation-for="Twitter" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Instagram"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="instagram"><i class="fab fa-lg fa-instagram big-icon"></i></span>
+                                <input type="url" asp-for="Instagram" class="form-control" placeholder="@Model.Instagram" aria-describedby="instagram">
+                            </div>
+                            <span asp-validation-for="Instagram" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Facebook"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="facebook"><i class="fab fa-lg fa-facebook big-icon"></i></span>
+                                <input type="url" asp-for="Facebook" class="form-control" placeholder="@Model.Facebook" aria-describedby="facebook">
+                            </div>
+                            <span asp-validation-for="Facebook" class="small text-danger"></span>
+                        </div>
+                        <div class="text-secondary" align="center">
+                            <input type="button" class="btn btn-primary px-4" value="Save Changes">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
