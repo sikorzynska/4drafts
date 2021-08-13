@@ -16,8 +16,8 @@
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade active show" id="editProfile">
-            <h3 align="center" class="mt-2">Profile</h3>
-            <hr style="background-color: black;" />
+            <h3 align="center" class="mt-3">Profile</h3>
+            <hr style="background-color: black; width: 30%;" />
             <div class="form-group">
                 <label asp-for="AvatarUrl"></label>
                 <input type="url" asp-for="AvatarUrl" class="form-control" placeholder="https://image.flaticon.com/icons/png/512/64/64572.png">
@@ -56,11 +56,10 @@
                 <textarea asp-for="AboutMe" class="form-control" placeholder="More about me..."></textarea>
                 <span asp-validation-for="AboutMe" class="small text-danger"></span>
             </div>
-            <hr style="background-color: black;" />
         </div>
         <div class="tab-pane fade" id="editLinks">
-            <h3 align="center" class="mt-2">Links</h3>
-            <hr style="background-color: black;" />
+            <h3 align="center" class="mt-3">Links</h3>
+            <hr style="background-color: black; width: 30%;" />
             <div class="form-group">
                 <label asp-for="Website"></label>
                 <div class="input-group-prepend">
@@ -101,7 +100,6 @@
                 </div>
                 <span asp-validation-for="Facebook" class="small text-danger"></span>
             </div>
-            <hr style="background-color: black;" />
         </div>
     </div>
     <div class="text-secondary" align="center">

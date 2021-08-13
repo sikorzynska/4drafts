@@ -40,7 +40,7 @@
                                                 if (!String.IsNullOrWhiteSpace(category.LastEntry.AuthorAvatarUrl)) avatar = category.LastEntry.AuthorAvatarUrl;
                                                 else avatar = "https://image.flaticon.com/icons/png/512/64/64572.png";
                                                 <div class="media col-6 ml-5 align-items-center">
-                                                    <img src="@avatar" class="d-block ui-w-30 rounded-circle">
+                                                    <img src="@avatar" class="d-block ui-w-30 rounded-circle border">
                                                     <div class="media-body flex-truncate ml-2">
                                                         <a asp-controller="Threads" asp-action="Read" asp-route-threadId="@category.LastEntry.Id" class="d-block text-truncate">@category.LastEntry.Title</a>
                                                         <div class="text-muted small text-truncate">@category.LastEntry.CreatedOn &nbsp;·&nbsp; <a onclick="viewProfile('@category.LastEntry.AuthorId')" class="text-muted">@category.LastEntry.AuthorName</a></div>

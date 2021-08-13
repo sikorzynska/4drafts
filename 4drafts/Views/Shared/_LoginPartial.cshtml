@@ -12,7 +12,7 @@
     @if (user != null)
     {
         <li class="dropdown">
-            <a class="dropdown-toggle media-img-30 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle" src="@avatar" alt="Avatar" /> <span class="caret">@user.UserName</span></a>
+            <a class="dropdown-toggle media-img-40 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle border" src="@avatar" alt="Avatar" /> <span class="caret">@user.UserName</span></a>
             <ul class="dropdown-menu">
                 <li><a asp-controller="Users" asp-action="Manage" title="Manage"><span class="dropdown-link-text"><i class="fas fa-user-alt"></i> Manage</span></a></li>
                 <li role="separator" class="dropdown-divider"></li>

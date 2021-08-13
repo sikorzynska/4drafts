@@ -11,8 +11,8 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex flex-column align-items-center text-center">
-                            <img src="@avatar" class="rounded-circle p-1 bg-primary" width="110">
+                        <div class="d-flex flex-column align-items-center text-center user-heading">
+                            <img src="@avatar" class="rounded-circle" width="110">
                             <div class="mt-3">
                                 <h4>@Model.Username</h4>
                                 <span class="text-secondary mb-1">@Model.Email</span><br />
@@ -75,90 +75,83 @@
                 <div class="tab-content card">
                     <div class="tab-pane fade active show card-body" id="about">
                         <h3 align="center">About</h3>
-                        <hr style="background-color: black;" />
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><h5 class="text-muted">First name: <span class="text-secondary">&nbsp; @Model.FirstName</span></h5></li>
-                            <li class="list-group-item"><h5 class="text-muted">Last name: <span class="text-secondary">&nbsp; @Model.LastName</span></h5></li>
-                            <li class="list-group-item"><h5 class="text-muted">Age: <span class="text-secondary">&nbsp; @Model.Age</span></h5></li>
-                            <li class="list-group-item"><h5 class="text-muted">Gender: <span class="text-secondary">&nbsp; @Model.Gender</span></h5></li>
-                            <li class="list-group-item"><h5 class="text-muted">Occupation: <span class="text-secondary">&nbsp; @Model.Occupation</span></h5></li>
-                            <li class="list-group-item"><h5 class="text-muted d-inline" style="word-break: break-word;">About me: <span class="text-secondary">&nbsp; @Model.AboutMe</span></h5></li>
+                        <hr style="background-color: black; width: 30%;" />
+                        <ul class="list-group">
+                            <li class="list-group-item"><h5 class="mt-2">First name: <span class="text-muted">&nbsp; @Model.FirstName</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2">Last name: <span class="text-muted">&nbsp; @Model.LastName</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2">Age: <span class="text-muted">&nbsp; @Model.Age</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2">Gender: <span class="text-muted">&nbsp; @Model.Gender</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2">Occupation: <span class="text-muted">&nbsp; @Model.Occupation</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2 d-inline" style="word-break: break-word;">About me: <span class="text-muted">&nbsp; @Model.AboutMe</span></h5></li>
                         </ul>
-                        <hr style="background-color: black;" />
                     </div>
                     <div class="tab-pane fade card-body" id="links">
                         <h3 align="center">Links</h3>
-                        <hr style="background-color: black;" />
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><h5><i class="fas fa-globe fa-lg big-icon"></i> Website: <span class="text-secondary">&nbsp; @Model.Website</span></h5></li>
-                            <li class="list-group-item"><h5><i class="fab fa-discord fa-lg big-icon"></i> Discord: <span class="text-secondary">&nbsp; @Model.Discord</span></h5></li>
-                            <li class="list-group-item"><h5><i class="fab fa-twitter fa-lg big-icon"></i> Twitter: <span class="text-secondary">&nbsp; @Model.Twitter</span></h5></li>
-                            <li class="list-group-item"><h5><i class="fab fa-instagram fa-lg big-icon"></i> Instagram: <span class="text-secondary">&nbsp; @Model.Instagram</span></h5></li>
-                            <li class="list-group-item"><h5><i class="fab fa-facebook fa-lg big-icon"></i> Facebook: <span class="text-secondary">&nbsp; @Model.Facebook</span></h5></li>
+                        <hr style="background-color: black; width: 30%;" />
+                        <ul class="list-group">
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fas fa-globe fa-lg big-icon"></i> Website: <span class="text-muted">&nbsp; @Model.Website</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fab fa-discord fa-lg big-icon"></i> Discord: <span class="text-muted">&nbsp; @Model.Discord</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fab fa-twitter fa-lg big-icon"></i> Twitter: <span class="text-muted">&nbsp; @Model.Twitter</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fab fa-instagram fa-lg big-icon"></i> Instagram: <span class="text-muted">&nbsp; @Model.Instagram</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fab fa-facebook fa-lg big-icon"></i> Facebook: <span class="text-muted">&nbsp; @Model.Facebook</span></h5></li>
                         </ul>
-                        <hr style="background-color: black;" />
                     </div>
                     <div class="tab-pane fade card-body" id="statistics">
                         <h3 align="center">Statistics</h3>
-                        <hr style="background-color: black;" />
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><h5><i class="fa-lg fas fa-star big-icon"></i> Points: <span class="text-secondary">&nbsp; 118</span></h5></li>
-                            <li class="list-group-item"><h5><i class="fa-lg fas fa-medal big-icon"></i> Awards: <span class="text-secondary">&nbsp; 6</span></h5></li>
-                            <li class="list-group-item"><h5><i class="fa-lg fas fa-box big-icon"></i> Total threads: <span class="text-secondary">&nbsp; @Model.ThreadCount</span></h5></li>
-                            <li class="list-group-item"><h5><i class="fa-lg fas fa-box-open big-icon"></i> Active threads: <span class="text-secondary">&nbsp; @Model.ThreadCount</span></h5></li>
-                            <li class="list-group-item"><h5><i class="fa-lg fas fa-comments big-icon"></i> Total comments: <span class="text-secondary">&nbsp; @Model.CommentCount</span></h5></li>
-                            <li class="list-group-item"><h5><i class="fa-lg fas fa-comment big-icon"></i> Active comments: <span class="text-secondary">&nbsp; @Model.CommentCount</span></h5></li>
+                        <hr style="background-color: black; width: 30%;" />
+                        <ul class="list-group">
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fa-lg fas fa-star big-icon"></i> Points: <span class="text-muted">&nbsp; 118</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fa-lg fas fa-medal big-icon"></i> Awards: <span class="text-muted">&nbsp; 6</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fa-lg fas fa-box big-icon"></i> Total threads: <span class="text-muted">&nbsp; @Model.ThreadCount</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fa-lg fas fa-box-open big-icon"></i> Active threads: <span class="text-muted">&nbsp; @Model.ThreadCount</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fa-lg fas fa-comments big-icon"></i> Total comments: <span class="text-muted">&nbsp; @Model.CommentCount</span></h5></li>
+                            <li class="list-group-item"><h5 class="mt-2"><i class="fa-lg fas fa-comment big-icon"></i> Active comments: <span class="text-muted">&nbsp; @Model.CommentCount</span></h5></li>
                         </ul>
-                        <hr style="background-color: black;" />
                     </div>
                     <div class="tab-pane fade card-body" id="mythreads">
                         <h3 align="center">My threads</h3>
-                        <hr style="background-color: black;" />
-                        <ul class="list-group">
-                            <ul class="list-group">
-                                @{
-                                    foreach (var thread in Model.Threads)
-                                    {
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div class="text-truncate mw-250">
-                                                <a asp-controller="Threads"
-                                                   asp-action="Read"
-                                                   asp-route-threadId="@thread.Id">@thread.Title</a>
-                                            </div>
-                                            <span class="small text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
-                                            <div class="d-inline">
-                                                <span class="mr-2"><i class="fas fa-heart"></i> @thread.Points</span>
-                                                <span><i class="fas fa-reply-all"></i> @thread.CommentCount</span>
-                                            </div>
-                                        </li>
-                                    }
-                                }
-                            </ul>
-                        </ul>
+                        <hr style="background-color: black; width: 30%;" />
+                           <ul class="list-group">
+                               @{
+                                   foreach (var thread in Model.Threads)
+                                   {
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                           <h5 class="text-truncate mw-250 mt-2">
+                                               <a asp-controller="Threads"
+                                                  asp-action="Read"
+                                                  asp-route-threadId="@thread.Id">@thread.Title</a>
+                                           </h5>
+                                           <span class="text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
+                                           <div class="d-inline">
+                                               <span class="mr-2"><i class="fas fa-lg big-icon fa-heart"></i> @thread.Points</span>
+                                               <span><i class="fas fa-lg big-icon fa-reply-all"></i> @thread.CommentCount</span>
+                                           </div>
+                                       </li>
+                                   }
+                               }
+                           </ul>
                     </div>
                     <div class="tab-pane fade card-body" id="likedthreads">
                         <h3 align="center">Liked threads</h3>
-                        <hr style="background-color: black;" />
+                        <hr style="background-color: black; width: 30%;" />
                         <ul class="list-group">
-                            <ul class="list-group">
-                                @{
-                                    foreach (var thread in Model.LikedThreads)
-                                    {
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div class="text-truncate mw-250">
-                                                <a asp-controller="Threads"
-                                                   asp-action="Read"
-                                                   asp-route-threadId="@thread.Id">@thread.Title</a>
-                                            </div>
-                                            <span class="small text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
-                                            <div class="d-inline">
-                                                <span class="mr-2"><i class="fas fa-heart"></i> @thread.Points</span>
-                                                <span><i class="fas fa-reply-all"></i> @thread.CommentCount</span>
-                                            </div>
-                                        </li>
-                                    }
+                            @{
+                                foreach (var thread in Model.LikedThreads)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <h5 class="text-truncate mw-250 mt-2">
+                                            <a asp-controller="Threads"
+                                               asp-action="Read"
+                                               asp-route-threadId="@thread.Id">@thread.Title</a>
+                                        </h5>
+                                        <span class="text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
+                                        <div class="d-inline">
+                                            <span class="mr-2"><i class="fas fa-lg big-icon fa-heart"></i> @thread.Points</span>
+                                            <span><i class="fas fa-lg big-icon fa-reply-all"></i> @thread.CommentCount</span>
+                                        </div>
+                                    </li>
                                 }
-                            </ul>
+                            }
                         </ul>
                     </div>
                 </div>

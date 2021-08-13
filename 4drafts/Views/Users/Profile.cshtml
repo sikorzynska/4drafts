@@ -38,32 +38,32 @@
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted">First name: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.FirstName</p>
+                                        <span>First name: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.FirstName</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted">Last name: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.LastName</p>
+                                        <span>Last name: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.LastName</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted">Age: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Age</p>
+                                        <span>Age: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.Age</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted">Gender: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Gender</p>
+                                        <span>Gender: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.Gender</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted">Occupation: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Occupation</p>
+                                        <span>Occupation: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.Occupation</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted">About me: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.AboutMe</p>
+                                        <span>About me: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.AboutMe</p>
                                     </div>
                                 </li>
                             </ul>
@@ -72,41 +72,39 @@
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted"><i class="fas fa-globe"></i> Website: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Website</p>
+                                        <span><i class="fas fa-globe"></i> Website: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.Website</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted"><i class="fab fa-discord"></i> Discord: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Discord</p>
+                                        <span><i class="fab fa-discord"></i> Discord: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.Discord</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted"><i class="fab fa-twitter"></i> Twitter: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Twitter</p>
+                                        <span><i class="fab fa-twitter"></i> Twitter: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.Twitter</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted"><i class="fab fa-instagram"></i> Instagram: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Instagram</p>
+                                        <span><i class="fab fa-instagram"></i> Instagram: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.Instagram</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted"><i class="fab fa-facebook"></i> Facebook: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Facebook</p>
+                                        <span><i class="fab fa-facebook"></i> Facebook: &nbsp; </span><p class="d-inline text-muted" style="word-break: break-word;">@Model.Facebook</p>
                                     </div>
                                 </li>
                             </ul>
                         </div>
                         <div class="tab-pane fade" id="statistics">
                             <ul class="list-group">
-                                <li class="list-group-item">
-                                <div><i class="fas fa-star big-icon"></i> Points: <span class="text-secondary">&nbsp; 118</span></div>
-                                </li>
-                                <li class="list-group-item"><div><i class="fas fa-medal big-icon"></i> Awards: <span class="text-secondary">&nbsp; 6</span></div></li>
-                                <li class="list-group-item"><div><i class="fas fa-box big-icon"></i> Total threads: <span class="text-secondary">&nbsp; @Model.ThreadCount</span></div></li>
-                                <li class="list-group-item"><div><i class="fas fa-box-open big-icon"></i> Active threads: <span class="text-secondary">&nbsp; @Model.ThreadCount</span></div></li>
-                                <li class="list-group-item"><div><i class="fas fa-comments big-icon"></i> Total comments: <span class="text-secondary">&nbsp; @Model.CommentCount</span></div></li>
-                                <li class="list-group-item"><div><i class="fas fa-comment big-icon"></i> Active comments: <span class="text-secondary">&nbsp; @Model.CommentCount</span></div></li>
+                                <li class="list-group-item"><div><i class="fas fa-star big-icon"></i> Points: <span class="text-muted">&nbsp; 118</span></div></li>
+                                <li class="list-group-item"><div><i class="fas fa-medal big-icon"></i> Awards: <span class="text-muted">&nbsp; 6</span></div></li>
+                                <li class="list-group-item"><div><i class="fas fa-box big-icon"></i> Total threads: <span class="text-muted">&nbsp; @Model.ThreadCount</span></div></li>
+                                <li class="list-group-item"><div><i class="fas fa-box-open big-icon"></i> Active threads: <span class="text-muted">&nbsp; @Model.ThreadCount</span></div></li>
+                                <li class="list-group-item"><div><i class="fas fa-comments big-icon"></i> Total comments: <span class="text-muted">&nbsp; @Model.CommentCount</span></div></li>
+                                <li class="list-group-item"><div><i class="fas fa-comment big-icon"></i> Active comments: <span class="text-muted">&nbsp; @Model.CommentCount</span></div></li>
                             </ul>
                         </div>
                         <div class="tab-pane fade" id="threads">
