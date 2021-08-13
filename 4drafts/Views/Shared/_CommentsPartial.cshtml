@@ -1,7 +1,9 @@
 ﻿@model ThreadViewModel
 @{
     var user = await this.userManager.GetUserAsync(User);
-    var avatarUrl = user == null ? "https://i.imgur.com/Q67mO1m.png" : user.AvatarUrl;
+    var avatar = "";
+    if (user != null) avatar = String.IsNullOrWhiteSpace(user.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : user.AvatarUrl;
+    else avatar = "https://image.flaticon.com/icons/png/512/64/64572.png";
 }
 <div class="coment-bottom bg-white p-2 px-4">
     <div>
@@ -16,7 +18,7 @@
                 if (user != null)
                 {
                     <div class="d-flex flex-row align-items-start media-img-40">
-                        <img class="rounded-circle" src="@avatarUrl">
+                        <img class="rounded-circle" src="@avatar">
                         <textarea type="text" rows="1"
                                   style="resize: none;"
                                   maxlength="500"
@@ -34,7 +36,7 @@
                 else
                 {
                     <div class="d-flex flex-row align-items-start media-img-40">
-                        <img class="rounded-circle" src="@avatarUrl">
+                        <img class="rounded-circle" src="@avatar">
                         <textarea type="text" rows="1"
                                   style="resize: none;"
                                   maxlength="500"
@@ -58,11 +60,13 @@
     @{
         foreach (var comment in Model.Comments)
         {
+            var authorAvatar = "";
+            authorAvatar = String.IsNullOrWhiteSpace(comment.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : comment.AuthorAvatarUrl;
             <div class="card mt-1">
                 <div class="commented-section mt-2">
                     <div class="card-header">
                         <div class="media flex-wrap w-100 align-items-center">
-                            <img src="@comment.AuthorAvatarUrl" class="d-block ui-w-40 rounded-circle">
+                            <img src="@authorAvatar" class="d-block ui-w-40 rounded-circle">
                             <div class="media-body ml-3">
                                 <a onclick="viewProfile('@Model.AuthorId')">@comment.AuthorName</a>
                                 <div class="text-muted small">@comment.CreatedOn</div>

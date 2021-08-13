@@ -46,17 +46,19 @@ namespace _4drafts.Controllers
                 Id = user.Id,
                 Username = user.UserName,
                 AvatarUrl = user.AvatarUrl,
-                FirstName = user.FirstName == null ? "---" : user.FirstName,
-                LastName = user.LastName == null ? "---" : user.LastName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Age = user.Age,
                 Email = user.Email,
                 RegisteredOn = user.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
-                Gender = user.Gender == null ? "---" : user.Gender,
-                Website = user.Website == null ? "---" : user.Website,
-                Github = user.Github == null ? "---" : user.Github,
-                Twitter = user.Twitter == null ? "---" : user.Twitter,
-                Facebook = user.Facebook == null ? "---" : user.Facebook,
-                Instagram = user.Instagram == null ? "---" : user.Instagram,
-                AboutMe = user.AboutMe == null ? "---" : user.AboutMe,
+                Gender = user.Gender,
+                Occupation = user.Occupation,
+                Website = user.Website,
+                Discord = user.Discord,
+                Twitter = user.Twitter,
+                Facebook = user.Facebook,
+                Instagram = user.Instagram,
+                AboutMe = user.AboutMe,
                 ThreadCount = UserThreadCount(userId, this.data),
                 CommentCount = UserCommentCount(userId, this.data),
                 Threads = this.data.Threads
@@ -92,17 +94,19 @@ namespace _4drafts.Controllers
                 Id = user.Id,
                 Username = user.UserName,
                 AvatarUrl = user.AvatarUrl,
-                FirstName = user.FirstName == null ? "---" : user.FirstName,
-                LastName = user.LastName == null ? "---" : user.LastName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Email = user.Email,
                 RegisteredOn = user.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
-                Gender = user.Gender == null ? "---" : user.Gender,
-                Website = user.Website == null ? "---" : user.Website,
-                Github = user.Github == null ? "---" : user.Github,
-                Twitter = user.Twitter == null ? "---" : user.Twitter,
-                Facebook = user.Facebook == null ? "---" : user.Facebook,
-                Instagram = user.Instagram == null ? "---" : user.Instagram,
-                AboutMe = user.AboutMe == null ? "---" : user.AboutMe,
+                Gender = user.Gender,
+                Age = user.Age,
+                Occupation = user.Occupation,
+                Website = user.Website,
+                Discord = user.Discord,
+                Twitter = user.Twitter,
+                Facebook = user.Facebook,
+                Instagram = user.Instagram,
+                AboutMe = user.AboutMe,
                 ThreadCount = UserThreadCount(user.Id, this.data),
                 CommentCount = UserCommentCount(user.Id, this.data),
                 Threads = this.data.Threads
@@ -123,6 +127,69 @@ namespace _4drafts.Controllers
             };
 
             return View(res);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [NoDirectAccess]
+        public async Task<IActionResult> Edit()
+        {
+            var user = await this.userManager.GetUserAsync(User);
+
+            return View(new UserViewModel
+            {
+                Id = user.Id,
+                AvatarUrl = user.AvatarUrl,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Gender = user.Gender,
+                Occupation = user.Occupation,
+                AboutMe = user.AboutMe,
+                Website = user.Website,
+                Facebook = user.Facebook,
+                Discord = user.Discord,
+                Instagram = user.Instagram,
+                Twitter = user.Twitter,
+            });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(UserViewModel model)
+        {
+            if (!String.IsNullOrWhiteSpace(model.Gender))
+            {
+                if (model.Gender != "Male" && model.Gender != "Female")
+                this.ModelState.AddModelError(nameof(model.Gender), "Invalid gender selection");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Edit", model) });
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
+
+            var user = await this.data.Users
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            user.AvatarUrl = model.AvatarUrl;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Gender = model.Gender;
+            user.Age = model.Age;
+            user.Occupation = model.Occupation;
+            user.AboutMe = model.AboutMe;
+            user.Website = model.Website;
+            user.Discord = model.Discord;
+            user.Facebook = model.Facebook;
+            user.Twitter = model.Twitter;
+            user.Instagram = model.Instagram;
+
+            await this.data.SaveChangesAsync();
+
+            return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Manage", "Users") });
+
         }
 
         //Functions

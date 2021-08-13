@@ -97,6 +97,14 @@ body {
     max-width: 40%;
 }
 
+.shorting-10 {
+    max-width: 10%;
+}
+
+.mw-250 {
+    max-width: 250px;
+}
+
 .media-img img {
     width: 40px;
     height: auto

@@ -4,17 +4,19 @@
     ViewBag.Title = "Profile";
     var user = await this.userManager.GetUserAsync(User);
     Layout = null;
+    var avatar = "";
+    avatar = String.IsNullOrWhiteSpace(Model.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : Model.AvatarUrl;
 }
 
 <div class="container-fluid mb-3">
     <div class="col" align="center">
         <div class="profile-info col">
                 <div class="user-heading round mb-3">
-                    <img src="@Model.AvatarUrl">
+                    <img src="@avatar">
                     <h1>@Model.Username</h1>
                     <span><i class="fas fa-envelope"></i> @Model.Email</span><br />
-                    <span>Member since @Model.RegisteredOn</span>
-                    <div><span class="badge bg-info">threads: @Model.ThreadCount</span> &nbsp; <span class="badge bg-info">comments: @Model.CommentCount</span></div>
+                    <span>Member since @Model.RegisteredOn</span><br />
+                    <span class="badge bg-info">new user </span>
                 </div>
                 <div class="text-left">
                     <ul class="nav nav-tabs">
@@ -25,7 +27,10 @@
                             <a class="nav-link" data-toggle="tab" href="#links">Links</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#threads">Threads</a>
+                            <a class="nav-link" data-toggle="tab" href="#statistics">Statistics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#threads">Threads (@Model.ThreadCount)</a>
                         </li>
                     </ul>
                     <div id="myTabContent" class="tab-content">
@@ -43,7 +48,17 @@
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
+                                        <span class="text-muted">Age: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Age</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
                                         <span class="text-muted">Gender: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Gender</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted">Occupation: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Occupation</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -62,7 +77,7 @@
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="text-muted"><i class="fab fa-github"></i> Github: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Github</p>
+                                        <span class="text-muted"><i class="fab fa-discord"></i> Discord: &nbsp; </span><p class="d-inline" style="word-break: break-word;">@Model.Discord</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -82,24 +97,36 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="tab-pane fade" id="statistics">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                <div><i class="fas fa-star big-icon"></i> Points: <span class="text-secondary">&nbsp; 118</span></div>
+                                </li>
+                                <li class="list-group-item"><div><i class="fas fa-medal big-icon"></i> Awards: <span class="text-secondary">&nbsp; 6</span></div></li>
+                                <li class="list-group-item"><div><i class="fas fa-box big-icon"></i> Total threads: <span class="text-secondary">&nbsp; @Model.ThreadCount</span></div></li>
+                                <li class="list-group-item"><div><i class="fas fa-box-open big-icon"></i> Active threads: <span class="text-secondary">&nbsp; @Model.ThreadCount</span></div></li>
+                                <li class="list-group-item"><div><i class="fas fa-comments big-icon"></i> Total comments: <span class="text-secondary">&nbsp; @Model.CommentCount</span></div></li>
+                                <li class="list-group-item"><div><i class="fas fa-comment big-icon"></i> Active comments: <span class="text-secondary">&nbsp; @Model.CommentCount</span></div></li>
+                            </ul>
+                        </div>
                         <div class="tab-pane fade" id="threads">
                             <ul class="list-group">
                                 @{
                                     foreach (var thread in Model.Threads)
                                     {
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div class="shorting-40 text-truncate">
-                                                <a class="text-truncate"
-                                                   asp-controller="Threads"
-                                                   asp-action="Read"
-                                                   asp-route-threadId="@thread.Id">@thread.Title</a>
-                                            </div>
-                                            <span class="small text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
-                                            <div class="d-inline">
-                                                <span class="mr-2"><i class="fas fa-heart"></i> @thread.Points</span>
-                                                <span><i class="fas fa-reply-all"></i> @thread.CommentCount</span>
-                                            </div>
-                                        </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                           <div class="shorting-40 text-truncate">
+                                               <a class="text-truncate"
+                                                  asp-controller="Threads"
+                                                  asp-action="Read"
+                                                  asp-route-threadId="@thread.Id">@thread.Title</a>
+                                           </div>
+                                           <span class="small text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
+                                           <div class="d-inline">
+                                               <span class="mr-2"><i class="fas fa-heart"></i> @thread.Points</span>
+                                               <span><i class="fas fa-reply-all"></i> @thread.CommentCount</span>
+                                           </div>
+                                       </li>
                                     }
                                 }
                             </ul>
@@ -110,6 +137,15 @@
         </div>
     </div>
 <div align="center">
-    <button class="btn btn-outline-primary disabled" type="button"><i class="far fa-heart"></i> Follow</button>
+    @{
+        if (user.Id != Model.Id)
+        {
+            <button class="btn btn-outline-primary disabled" type="button"><i class="far fa-heart"></i> Follow</button>
+        }
+        else
+        {
+            <a asp-controller="Users" asp-action="Manage" class="btn btn-outline-primary" type="button"><i class="fas fa-tasks"></i> Manage</a>
+        }
+    }
     <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Close</button>
 </div>

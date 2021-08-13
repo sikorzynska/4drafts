@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace _4drafts.Data.Models
 {
@@ -8,17 +9,26 @@ namespace _4drafts.Data.Models
     {
         public DateTime RegisteredOn { get; init; } = DateTime.UtcNow;
 
-        public string AvatarUrl { get; set; } = "https://www.angrybirdsnest.com/wp-content/uploads/2013/10/Hand-Drawn-Blue-Bird-Avatar.jpg";
+        public string AvatarUrl { get; set; }
 
+        [MaxLength(20)]
         public string FirstName { get; set; }
 
+        [MaxLength(20)]
         public string LastName { get; set; }
 
+        [Range(1, 100)]
+        public int? Age { get; set; }
+
+        [MaxLength(20)]
+        public string Occupation { get; set; }
+
+        [MaxLength(6)]
         public string Gender { get; set; }
 
         public string Website { get; set; }
 
-        public string Github { get; set; }
+        public string Discord { get; set; }
 
         public string Twitter { get; set; }
 
@@ -26,6 +36,7 @@ namespace _4drafts.Data.Models
 
         public string Facebook { get; set; }
 
+        [MaxLength(500)]
         public string AboutMe { get; set; }
 
         public int Points { get; set; }
