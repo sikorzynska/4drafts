@@ -1,65 +1,199 @@
-﻿@model CategoryBrowseModel
-@{ 
+﻿@model List<ThreadsBrowseModel>
+@{
     var user = await this.userManager.GetUserAsync(User);
+    var userId = user == null ? null : user.Id;
+    var avatar = "";
+    var includeCategory = false;
+    if (Model.Any()) includeCategory = Model.FirstOrDefault().CategoryName != null;
+
 }
 
-@if (Model.Threads.Count() > 0)
-{
-    @foreach (var thread in Model.Threads)
+@{
+    if (includeCategory)
     {
-        var avatar = "";
-        if (!String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl)) avatar = thread.AuthorAvatarUrl;
-        else avatar = "https://image.flaticon.com/icons/png/512/64/64572.png";
-
-        <div class="card-body py-3">
-            <div class="row no-gutters align-items-center">
-                <div class="col shorting-40">
-                    <div class="tooltip shorting">
-                        <a asp-controller="Threads"
-                           asp-action="Read"
-                           asp-route-threadId="@thread.Id"
-                           class="d-block text-truncate">@thread.Title</a>
-                        <span class="tooltiptext">@thread.Title</span>
-                    </div>
-                </div>
-                <div class="d-md-block col-6 align-end">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col-3">
-                            <div class="tooltip shorting">
-                                @thread.Points
-                                <span class="tooltiptext-sm">@thread.Points likes</span>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="tooltip shorting">
-                                @thread.CommentCount
-                                <span class="tooltiptext-sm">@thread.CommentCount replies</span>
-                            </div>
-                        </div>
-                        <div class="media col-6 align-items-center">
-                            <img src="@avatar" class="d-block ui-w-30 rounded-circle border">
-                            <div class="media-body flex-truncate ml-2">
-                                <a onclick="viewProfile('@thread.AuthorId')" class="d-block text-truncate" data-abc="true">@thread.AuthorName</a>
-                                <div class="text-muted small text-truncate">@thread.CreatedOn</div>
-                            </div>
-                                @{
-                                    if (user != null)
-                                    {
-                                        if (user.Id == thread.AuthorId)
-                                        {
-                                            <div class="align-items-center ml-2 zoom d-inline thread-icon">
-                                                <a onclick="editThreadInPopup('@thread.Id')"><i class="fas fa-lg fa-pencil-alt"></i></a>
-                                            </div>
-                                            <div class="align-items-center ml-3 zoom d-inline thread-icon">
-                                                <a onclick="deleteThreadInPopup('@thread.Id')"><i class="fas fa-lg fa-trash-alt"></i></a>
-                                            </div>
-                                        }
-                                    }
-                                }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <table class="table table-hover border table-fixed">
+            <thead class="bg-color-blue">
+                <tr>
+                    <th class="text-truncate" scope="col">Title</th>
+                    <th class="text-truncate" scope="col">Category</th>
+                    <th class="text-truncate" scope="col">Posted</th>
+                    <th class="text-truncate" scope="col">Likes</th>
+                    <th class="text-truncate" scope="col">Replies</th>
+                    <th class="text-truncate" scope="col">Author</th>
+                    <th class="text-truncate" scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model.Any())
+                    {
+                        foreach (var thread in Model)
+                        {
+                            avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
+                            if (userId == thread.AuthorId)
+                            {
+                                <tr class="table-light">
+                                    <th scope="row"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                                    <td class="text-truncate"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
+                                    <td class="text-truncate">@thread.CreatedOn</td>
+                                    <td>@thread.Points</td>
+                                    <td>@thread.CommentCount</td>
+                                    <td class="text-truncate">
+                                        <div class="d-inline media-img-30">
+                                            <a onclick="viewProfile('@thread.AuthorId')">
+                                                <img class="rounded-circle border" src="@avatar" />
+                                                @thread.AuthorName
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown mw-min-content">
+                                            <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a></li>
+                                                @{
+                                                    if (userId == thread.AuthorId)
+                                                    {
+                                                        <li role="separator" class="dropdown-divider"></li>
+                                                        <li><a onclick="editThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
+                                                        <li><a onclick="deleteThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                 <tr class="table-secondary">
+                                     <th scope="row"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                                     <td class="text-truncate"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
+                                     <td class="text-truncate">@thread.CreatedOn</td>
+                                     <td>@thread.Points</td>
+                                     <td>@thread.CommentCount</td>
+                                     <td class="text-truncate"><div class="d-inline media-img-30"><a class="text-truncate" onclick="viewProfile('@thread.AuthorId')"><img class="rounded-circle border" src="@thread.AuthorAvatarUrl" /> @thread.AuthorName</a></div></td>
+                                     <td>
+                                         <div class="dropdown mw-min-content">
+                                             <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+                                             <ul class="dropdown-menu">
+                                                 <li>
+                                                     <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a>
+                                                 </li>
+                                                 @{
+                                                     if (userId == thread.AuthorId)
+                                                     {
+                                                         <li role="separator" class="dropdown-divider"></li>
+                                                         <li><a onclick="editThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
+                                                         <li><a onclick="deleteThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
+                                                     }
+                                                 }
+                                             </ul>
+                                         </div>
+                                     </td>
+                                 </tr>
+                            }
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table class="table table-hover border table-fixed">
+            <thead class="bg-color-blue">
+                <tr>
+                    <th class="text-truncate" scope="col">Title</th>
+                    <th class="text-truncate" scope="col">Posted</th>
+                    <th class="text-truncate" scope="col">Likes</th>
+                    <th class="text-truncate" scope="col">Replies</th>
+                    <th class="text-truncate" scope="col">Author</th>
+                    <th class="text-truncate" scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model.Any())
+                    {
+                        foreach (var thread in Model)
+                        {
+                            avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
+                            if (userId == thread.AuthorId)
+                            {
+                                <tr class="table-light">
+                                    <th><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                                    <td class="text-truncate">@thread.CreatedOn</td>
+                                    <td>@thread.Points</td>
+                                    <td>@thread.CommentCount</td>
+                                    <td class="text-truncate">
+                                        <div class="d-inline media-img-30">
+                                            <a onclick="viewProfile('@thread.AuthorId')">
+                                                <img class="rounded-circle border" src="@avatar" />
+                                                @thread.AuthorName
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown mw-min-content">
+                                            <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a>
+                                                </li>
+                                                @{
+                                                    if (userId == thread.AuthorId)
+                                                    {
+                                                        <li role="separator" class="dropdown-divider"></li>
+                                                        <li><a onclick="editThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
+                                                        <li><a onclick="deleteThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr class="table-secondary">
+                                    <th><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                                    <td class="text-truncate">@thread.CreatedOn</td>
+                                    <td>@thread.Points</td>
+                                    <td>@thread.CommentCount</td>
+                                    <td class="text-truncate">
+                                        <div class="d-inline media-img-30">
+                                            <a onclick="viewProfile('@thread.AuthorId')">
+                                                <img class="rounded-circle border" src="@thread.AuthorAvatarUrl" />
+                                                @thread.AuthorName
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown mw-min-content">
+                                            <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a>
+                                                </li>
+                                                @{
+                                                    if (userId == thread.AuthorId)
+                                                    {
+                                                        <li role="separator" class="dropdown-divider"></li>
+                                                        <li><a onclick="editThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
+                                                        <li><a onclick="deleteThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                }
+            </tbody>
+        </table>
     }
 }

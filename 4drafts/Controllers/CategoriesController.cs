@@ -44,6 +44,7 @@ namespace _4drafts.Controllers
             var desc = this.data.Categories.FirstOrDefault(c => c.Id == categoryId).Description;
 
             var threads = this.data.Threads
+                .Include(t => t.Category)
                 .Where(t => t.CategoryId == categoryId)
                 .OrderByDescending(t => t.CreatedOn)
                 .Select(t => new ThreadsBrowseModel

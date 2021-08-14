@@ -6,41 +6,21 @@
 }
 
 <div class="container-fluid">
-    <div class="jumbotron">
+    <div class="jumbotron smaller-center">
         <h1 class="display-3 strokeme">@Model.Name</h1>
         <p class="lead">@Model.Description</p>
     </div>
-    @if (user != null)
-    {
-        <a onclick="createThreadInPopup('@categoryId')" class="btn btn-primary mb-2"><i class="fas fa-plus-square"></i> Start Thread</a>
-    }
-    @if (user == null)
-    {
-        <a class="btn btn-primary mb-2 disabled"><i class="fas fa-plus-square"></i> Start Thread</a>
-    }
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-3">
-                    <div class="card-header pr-0 pl-0">
-                        <div class="row no-gutters align-items-center w-100">
-                            <div class="col pl-3">
-                                <a>[Title]</a>
-                            </div>
-                            <div class="d-none d-md-block col-6">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-3"><a>[Likes]</a></div>
-                                    <div class="col-3"><a>[Replies]</a></div>
-                                    <div class="col-6"><a>[Author]</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid" id="threads-section">
-                        <partial name="_ThreadsPartial" model="@Model" />
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="ml-3">
+        @if (user != null)
+        {
+            <a onclick="createThreadInPopup('@categoryId')" class="btn btn-primary mb-2"><i class="fas fa-plus-square"></i> Start Thread</a>
+        }
+        @if (user == null)
+        {
+            <a class="btn btn-primary mb-2 disabled"><i class="fas fa-plus-square"></i> Start Thread</a>
+        }
+    </div>
+    <div class="container-fluid" id="threads-section">
+        <partial name="_ThreadsPartial" model="@Model.Threads" />
     </div>
 </div>

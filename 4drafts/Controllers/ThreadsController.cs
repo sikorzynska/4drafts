@@ -94,6 +94,32 @@ namespace _4drafts.Controllers
         }
 
         [HttpGet]
+        public IActionResult Popular()
+        {
+            var threads = this.data.Threads
+                .Include(t => t.Comments)
+                .Include(t => t.Category)
+                .OrderByDescending(t => t.Points)
+                .ThenByDescending(t => t.Comments.Count())
+                .Select(t => new ThreadsBrowseModel
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    CategoryId = t.CategoryId,
+                    CategoryName = t.Category.Name,
+                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                    Views = t.Views,
+                    Points = t.Points,
+                    AuthorId = t.AuthorId,
+                    AuthorName = t.Author.UserName,
+                    AuthorAvatarUrl = t.Author.AvatarUrl,
+                    CommentCount = ThreadCommentCount(t.Id, this.data),
+                }).ToList();
+
+            return View(threads);
+        }
+
+        [HttpGet]
         [Authorize]
         [NoDirectAccess]
         public async Task<IActionResult> Delete(string threadId)
@@ -311,6 +337,10 @@ namespace _4drafts.Controllers
 
         private static int UserCommentCount(string userId, _4draftsDbContext data)
                 => data.Comments.Count(c => c.AuthorId == userId);
+
+        private static int ThreadCommentCount(string threadId,
+                _4draftsDbContext data)
+                => data.Comments.Count(c => c.ThreadId == threadId);
 
         private static IEnumerable<CategoriesBrowseModel> GetCategories(_4draftsDbContext data)
                 => data

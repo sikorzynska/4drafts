@@ -79,15 +79,13 @@ namespace _4drafts.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Manage()
+        public async Task<IActionResult> Browse(string userId)
         {
-            var userId = this.userManager.GetUserId(this.User);
-
             var user = await this.data.Users
                 .Include(u => u.UserThreads)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (user == null) return Redirect("/Identity/Account/Login");
+            if (user == null) return NotFound();
 
             var res = new UserViewModel
             {
@@ -188,7 +186,7 @@ namespace _4drafts.Controllers
 
             await this.data.SaveChangesAsync();
 
-            return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Manage", "Users") });
+            return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Browse", "Users", new { userId = user.Id }) });
 
         }
 

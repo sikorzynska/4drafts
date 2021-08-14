@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = Model.Title;
     var user = await this.userManager.GetUserAsync(User);
+    var userId = user == null ? null : user.Id;
     var avatarUrl = user == null ? "https://i.imgur.com/Q67mO1m.png" : user.AvatarUrl;
 }
 
@@ -11,12 +12,18 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <div class="media flex-wrap w-100 align-items-center">
-                        <img src="@Model.AuthorAvatarUrl" class="d-block ui-w-40 rounded-circle">
-                        <div class="media-body ml-3">
+                        <img src="@Model.AuthorAvatarUrl" class="d-block ui-w-40 rounded-circle border">
+                        <div class="media-body ml-3 mw-min-content">
                             <a onclick="viewProfile('@Model.AuthorId')">@Model.AuthorName</a>
                             <div class="text-muted small">@Model.CreatedOn</div>
                         </div>
-                        <div class="text-muted small ml-3">
+                        @if (userId == Model.AuthorId)
+                        {
+                                <div class="align-items-center ml-3 zoom d-inline thread-icon">
+                                    <a onclick="editThreadInPopup('@Model.Id')"><i class="fas fa-lg fa-pencil-alt"></i></a>
+                                </div>
+                        }
+                        <div class="text-muted small mr-1 ml-auto">
                             <div>Member since <strong>@Model.AuthorRegisteredOn</strong></div>
                             <div><strong>@Model.AuthorThreadCount</strong> posts</div>
                         </div>

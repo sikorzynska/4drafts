@@ -186,6 +186,25 @@ a {
     height: auto
 }
 
+.bg-color-blue {
+    background: rgb(109,100,255) !important;
+    background: linear-gradient(90deg, rgba(109,100,255,1) 0%, rgba(56,222,220,1) 47%, rgba(0,212,255,1) 100%) !important;
+}
+
+.text-color-black {
+    color: black !important;
+}
+
+.table-fixed {
+    table-layout: fixed;
+}
+
+.smaller-center {
+    width: 97.3%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .strokeme {
     color: black;
     text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
