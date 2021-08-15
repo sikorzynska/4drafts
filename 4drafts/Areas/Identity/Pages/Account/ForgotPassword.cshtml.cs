@@ -11,10 +11,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using _4drafts.Data.Models;
+using static _4drafts.Services.HtmlHelper;
 
 namespace _4drafts.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
+    [NoDirectAccess]
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<User> _userManager;

@@ -14,6 +14,7 @@ namespace _4drafts.Data
         public DbSet<Thread> Threads { get; init; }
         public DbSet<Category> Categories { get; init; }
         public DbSet<Comment> Comments { get; init; }
+        public DbSet<Draft> Drafts { get; init; }
         public DbSet<UserThread> UserThreads { get; init; }
         public DbSet<UserComment> UserComments { get; init; }
 
@@ -45,6 +46,13 @@ namespace _4drafts.Data
                 .HasOne(t => t.Thread)
                 .WithMany(t => t.Comments)
                 .HasForeignKey(t => t.ThreadId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Draft>()
+                .HasOne(d => d.Author)
+                .WithMany(a => a.Drafts)
+                .HasForeignKey(d => d.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<UserThread>()

@@ -104,8 +104,8 @@ function createThreadInPopup(categoryId) {
         url: "/Threads/Create/",
         data: { categoryId: categoryId},
         success: function (res) {
-            $('#form-modal .modal-body').html(res);
-            $('#form-modal').modal('show');
+            $('#staticBackdrop .modal-body').html(res);
+            $('#staticBackdrop').modal('show');
         }
     })
 }
@@ -120,7 +120,7 @@ createThreadPost = form => {
             processData: false,
             success: function (res) {
                 if (!res.isValid) {
-                    $('#form-modal .modal-body').html(res.html);
+                    $('#staticBackdrop .modal-body').html(res.html);
                 }
                 else {
                     window.location.href = res.redirectToUrl;
@@ -178,8 +178,8 @@ function editThreadInPopup(threadId) {
         url: "/Threads/Edit/",
         data: { threadId: threadId },
         success: function (res) {
-            $('#form-modal .modal-body').html(res);
-            $('#form-modal').modal('show');
+            $('#staticBackdrop .modal-body').html(res);
+            $('#staticBackdrop').modal('show');
         },
         error: function (err) {
             console.log(err);
@@ -197,7 +197,7 @@ editThreadPost = form => {
             processData: false,
             success: function (res) {
                 if (!res.isValid) {
-                    $('#form-modal .modal-body').html(res.html);
+                    $('#staticBackdrop .modal-body').html(res.html);
                 }
                 else {
                     window.location.href = res.redirectToUrl;
@@ -220,8 +220,8 @@ function editCommentInPopup(commentId) {
         url: "/Comments/Edit/",
         data: { commentId: commentId },
         success: function (res) {
-            $('#form-modal .modal-body').html(res);
-            $('#form-modal').modal('show');
+            $('#staticBackdrop .modal-body').html(res);
+            $('#staticBackdrop').modal('show');
         },
         error: function (err) {
             console.log(err);
@@ -239,10 +239,10 @@ editCommentPost = form => {
             processData: false,
             success: function (res) {
                 if (!res.isValid) {
-                    $('#form-modal .modal-body').html(res.html);
+                    $('#staticBackdrop .modal-body').html(res.html);
                 }
                 else {
-                    $('#form-modal').modal('hide');
+                    $('#staticBackdrop').modal('hide');
                     $('#comment-section').html(res.html);
                     $.notify('The comment has been successfully editted', { globalPosition: 'top center', className: 'success' });
                 }
@@ -338,8 +338,8 @@ function editAccountInPopup() {
         type: 'GET',
         url: "/Users/Edit/",
         success: function (res) {
-            $('#form-modal .modal-body').html(res);
-            $('#form-modal').modal('show');
+            $('#staticBackdrop .modal-body').html(res);
+            $('#staticBackdrop').modal('show');
         },
         error: function (err) {
             console.log(err);
@@ -357,7 +357,7 @@ editAccountPost = form => {
             processData: false,
             success: function (res) {
                 if (!res.isValid) {
-                    $('#form-modal .modal-body').html(res.html);
+                    $('#staticBackdrop .modal-body').html(res.html);
                 }
                 else {
                     window.location.href = res.redirectToUrl;
@@ -374,6 +374,51 @@ editAccountPost = form => {
     }
 }
 
+function loginPopup(returnUrl) {
+    $.ajax({
+        type: 'GET',
+        url: "/Identity/Account/Login/",
+        data: { returnUrl: returnUrl },
+        success: function (res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal').modal('show');
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+}
+
+function registerPopup(returnUrl) {
+    $.ajax({
+        type: 'GET',
+        url: "/Identity/Account/Register/",
+        data: { returnUrl: returnUrl },
+        success: function (res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal').modal('show');
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+}
+
+function forgotPasswordPopup() {
+    $.ajax({
+        type: 'GET',
+        url: "/Identity/Account/ForgotPassword/",
+        success: function (res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal').modal('show');
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+}
+
 function cancelModal() {
     $('#form-modal').modal('hide');
+    $('#staticBackdrop').modal('hide');
 }

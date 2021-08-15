@@ -41,8 +41,9 @@ namespace _4drafts.Data.Models
 
         public int Points { get; set; }
 
-        public ICollection<Thread> Threads { get; init; } = new List<Thread>();
-        public ICollection<Comment> Comments { get; init; } = new List<Comment>();
+        public ICollection<Draft> Drafts { get; set; } = new List<Draft>();
+        public ICollection<Thread> Threads { get; set; } = new List<Thread>();
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public ICollection<UserThread> UserThreads { get; set; } = new List<UserThread>();
         public ICollection<UserComment> UserComments { get; set; } = new List<UserComment>();
     }

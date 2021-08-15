@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace _4drafts.Data
+﻿namespace _4drafts.Data
 {
     public class DataConstants
     {
@@ -14,6 +12,8 @@ namespace _4drafts.Data
 
         public const int ThreadTitleMinLength = 3;
         public const int ThreadTitleMaxLength = 80;
+        public const int ThreadDescriptionMinLength = 10;
+        public const int ThreadDescriptionMaxLength = 500;
 
         public const int CommentMaxLength = 1000;
     }

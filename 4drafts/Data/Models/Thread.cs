@@ -15,13 +15,14 @@ namespace _4drafts.Data.Models
         [MaxLength(ThreadTitleMaxLength)]
         public string Title { get; set; }
 
+        [Required]
+        public string Content { get; set; }
+
+        [Required]
+        [MaxLength(ThreadDescriptionMaxLength)]
         public string Description { get; set; }
 
-        public string ImageUrl { get; set; }
-
         public DateTime CreatedOn { get; init; }
-
-        public int Views { get; set; }
 
         public int Points { get; set; }
 

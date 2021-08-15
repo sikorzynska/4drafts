@@ -15,10 +15,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using static _4drafts.Data.DataConstants;
+using static _4drafts.Services.HtmlHelper;
 
 namespace _4drafts.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
+    [NoDirectAccess]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
@@ -133,7 +135,7 @@ namespace _4drafts.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return Redirect(returnUrl);
                     }
                 }
                 foreach (var error in result.Errors)

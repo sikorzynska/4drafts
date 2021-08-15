@@ -195,6 +195,10 @@ a {
     color: black !important;
 }
 
+.mw-120p {
+    max-width: 120px;
+}
+
 .table-fixed {
     table-layout: fixed;
 }
@@ -377,7 +381,7 @@ hide-empty:empty {
 
 .user-icon {
     vertical-align: middle;
-    font-size: 30px;
+    font-size: 40px;
 }
 
 .big-icon {

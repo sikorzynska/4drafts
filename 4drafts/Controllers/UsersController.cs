@@ -46,32 +46,11 @@ namespace _4drafts.Controllers
                 Id = user.Id,
                 Username = user.UserName,
                 AvatarUrl = user.AvatarUrl,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Age = user.Age,
                 Email = user.Email,
                 RegisteredOn = user.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
-                Gender = user.Gender,
-                Occupation = user.Occupation,
-                Website = user.Website,
-                Discord = user.Discord,
-                Twitter = user.Twitter,
-                Facebook = user.Facebook,
-                Instagram = user.Instagram,
-                AboutMe = user.AboutMe,
                 ThreadCount = UserThreadCount(userId, this.data),
                 CommentCount = UserCommentCount(userId, this.data),
-                Threads = this.data.Threads
-                .Where(t => t.AuthorId == userId)
-                .OrderByDescending(t => t.CreatedOn)
-                .Select(t => new ThreadsBrowseModel
-                {
-                    Id = t.Id,
-                    Title = t.Title,
-                    Points = t.Points,
-                    CommentCount = ThreadCommentCount(t.Id, this.data),
-                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
-                }).ToList(),
+
             };
 
             return View(res);
@@ -115,6 +94,7 @@ namespace _4drafts.Controllers
                 {
                     Id = t.Id,
                     Title = t.Title,
+                    Description = t.Description,
                     Points = t.Points,
                     CommentCount = ThreadCommentCount(t.Id, this.data),
                     CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
@@ -217,6 +197,7 @@ namespace _4drafts.Controllers
                     Id = t.Id,
                     Title = t.Title,
                     Points = t.Points,
+                    AuthorId = t.AuthorId,
                     CommentCount = ThreadCommentCount(t.Id, data),
                     CreatedOn = timeWarper.TimeAgo(t.CreatedOn),
                     CategoryId = t.CategoryId,

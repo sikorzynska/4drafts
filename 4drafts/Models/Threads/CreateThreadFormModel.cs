@@ -20,6 +20,12 @@ namespace _4drafts.Models.Threads
         public string Title { get; set; }
 
         [Required]
+        [StringLength(ThreadDescriptionMaxLength,
+            MinimumLength = ThreadDescriptionMinLength,
+            ErrorMessage = "The description field must have a minimum length of {2}.")]
+        public string Description { get; set; }
+
+        [Required]
         [MinLength(20, ErrorMessage = "The content field must have a minimum length of 20.")]
         public string Content { get; set; }
     }

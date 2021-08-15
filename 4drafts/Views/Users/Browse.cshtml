@@ -2,8 +2,9 @@
 @{
     ViewBag.Title = "Browse Profile";
     var user = await this.userManager.GetUserAsync(this.User);
+    var userId = user == null ? null : user.Id;
     var avatar = String.IsNullOrWhiteSpace(Model.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : Model.AvatarUrl;
-    var ownAccount = user.Id == Model.Id;
+    var ownAccount = userId == Model.Id;
 }
 
 <div class="container">
@@ -109,18 +110,29 @@
                             @{
                                 foreach (var thread in Model.Threads)
                                 {
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <h5 class="text-truncate mw-250 mt-2">
-                                            <a asp-controller="Threads"
-                                               asp-action="Read"
-                                               asp-route-threadId="@thread.Id">@thread.Title</a>
-                                        </h5>
-                                        <span class="text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
-                                        <div class="d-inline">
-                                            <span class="mr-2"><i class="fas fa-lg big-icon fa-heart"></i> @thread.Points</span>
-                                            <span><i class="fas fa-lg big-icon fa-reply-all"></i> @thread.CommentCount</span>
-                                        </div>
-                                    </li>
+                                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <h5 class="text-truncate mw-250 mt-2">
+                                              <a asp-controller="Threads"
+                                                 asp-action="Read"
+                                                 asp-route-threadId="@thread.Id">@thread.Title</a>
+                                          </h5>
+                                          <span class="text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
+                                          <div class="d-inline">
+                                              <span class="mr-2"><i class="fas fa-lg big-icon fa-heart"></i> @thread.Points</span>
+                                              <span><i class="fas fa-lg big-icon fa-comment"></i> @thread.CommentCount</span>
+                                          </div>
+                                          <div class="dropdown mw-min-content ml-4">
+                                              <a class="dropdown-toggle media-img-30 layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-lg big-icon fa-ellipsis-h"></i></a>
+                                              <ul class="dropdown-menu">
+                                                  <li>
+                                                      <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a>
+                                                  </li>
+                                                  <li role="separator" class="dropdown-divider"></li>
+                                                  <li><a onclick="editThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
+                                                  <li><a onclick="deleteThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
+                                              </ul>
+                                          </div>
+                                      </li>
                                 }
                             }
                         </ul>
@@ -132,18 +144,34 @@
                             @{
                                 foreach (var thread in Model.LikedThreads)
                                 {
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <h5 class="text-truncate mw-250 mt-2">
-                                            <a asp-controller="Threads"
-                                               asp-action="Read"
-                                               asp-route-threadId="@thread.Id">@thread.Title</a>
-                                        </h5>
-                                        <span class="text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
-                                        <div class="d-inline">
-                                            <span class="mr-2"><i class="fas fa-lg big-icon fa-heart"></i> @thread.Points</span>
-                                            <span><i class="fas fa-lg big-icon fa-reply-all"></i> @thread.CommentCount</span>
-                                        </div>
-                                    </li>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            <h5 class="text-truncate mw-250 mt-2">
+                                                                <a asp-controller="Threads"
+                                                                   asp-action="Read"
+                                                                   asp-route-threadId="@thread.Id">@thread.Title</a>
+                                                            </h5>
+                                                            <span class="text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
+                                                            <div class="d-inline">
+                                                                <span class="mr-2"><i class="fas fa-lg big-icon fa-heart"></i> @thread.Points</span>
+                                                                <span><i class="fas fa-lg big-icon fa-comment"></i> @thread.CommentCount</span>
+                                                            </div>
+                                                            <div class="dropdown mw-min-content ml-4">
+                                                                <a class="dropdown-toggle media-img-30 layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-lg big-icon fa-ellipsis-h"></i></a>
+                                                                <ul class="dropdown-menu">
+                                                                    <li>
+                                                                        <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a>
+                                                                    </li>
+                                                                    @{
+                                                                        if (userId == thread.AuthorId)
+                                                                        {
+                                                                            <li role="separator" class="dropdown-divider"></li>
+                                                                            <li><a onclick="editThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
+                                                                            <li><a onclick="deleteThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
+                                                                        }
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </li>
                                 }
                             }
                         </ul>

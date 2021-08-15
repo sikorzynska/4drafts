@@ -3,49 +3,47 @@
 
 @{
     ViewData["Title"] = "Login";
+    Layout = null;
 }
 
-<div class="row mt-3">
-    <div class="col-md-4 m-auto text-center">
-        <h1>@ViewData["Title"]</h1>
-        <section>
-            <form id="account" method="post">
-                <h4>Sign in to share your stories</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.Username" style="float: left;"></label>
-                    <input asp-for="Input.Username" placeholder="Your username here..." class="form-control" />
-                    <span asp-validation-for="Input.Username" class="text-danger" style="float: left;"></span>
+<body>
+    <form id="account" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div class="container-fluid text-center col-8">
+            <h1>@ViewData["Title"]</h1>
+            <h4>Sign in to share your stories</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Username" style="float: left;"></label>
+                <input asp-for="Input.Username" placeholder="Your username here..." class="form-control" />
+                <span asp-validation-for="Input.Username" class="text-danger" style="float: left;"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password" style="float: left;"></label>
+                <input type="password" asp-for="Input.Password" placeholder="Your password here..." class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger" style="float: left;"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label asp-for="Input.RememberMe">
+                        <input asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password" style="float: left;"></label>
-                    <input type="password" asp-for="Input.Password" placeholder="Your password here..." class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger" style="float: left;"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group mt-4">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </div>
-                <div class="form-group">
-                    <span class="text-muted">Don't have an account?</span>
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign Up</a>
-                    <br />
-                    <span class="text-muted">Forgot your password?</span>
-                    <a id="forgot-password" asp-page="./ForgotPassword">Help</a>
-                </div>
-            </form>
-        </section>
-    </div>
-
-</div>
+            </div>
+            <div class="form-group mt-2">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            <div class="form-group">
+                <span class="text-muted">Don't have an account?</span>
+                <a onclick="registerPopup('@Model.ReturnUrl')">Sign Up</a>
+                <br />
+                <span class="text-muted">Forgot your password?</span>
+                <a onclick="forgotPasswordPopup()" id="forgot-password">Help</a>
+            </div>
+        </div>
+    </form>
+</body>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

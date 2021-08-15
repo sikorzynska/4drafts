@@ -10,10 +10,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using _4drafts.Data.Models;
 using static _4drafts.Data.DataConstants;
+using static _4drafts.Services.HtmlHelper;
 
 namespace _4drafts.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
+    [NoDirectAccess]
     public class LoginModel : PageModel
     {
         private readonly UserManager<User> _userManager;
@@ -92,7 +94,7 @@ namespace _4drafts.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return Redirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {

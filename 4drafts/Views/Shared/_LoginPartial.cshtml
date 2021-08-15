@@ -16,14 +16,14 @@
             <ul class="dropdown-menu">
                 <li><a asp-controller="Users" asp-action="Browse" asp-route-userId="@user.Id" title="Browse"><span class="dropdown-link-text"><i class="fas fa-user-alt"></i> Profile</span></a></li>
                 <li role="separator" class="dropdown-divider"></li>
-                <li><a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"><span class="dropdown-link-text"><i class="fas fa-sign-out-alt"></i> Logout</span></a></li>
+                <li><a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Context.Request.GetDisplayUrl()"><span class="dropdown-link-text"><i class="fas fa-sign-out-alt"></i> Logout</span></a></li>
             </ul>
         </li>
     }
     else
     {
 <li>
-    <a asp-area="Identity" asp-page="/Account/Login" class="btn-link"><i class="user-icon fas fa-user-circle"></i><span> Sign In</span></a>
+    <a onclick="loginPopup('@Context.Request.GetDisplayUrl()')" class="btn-link"><i class="user-icon fas fa-user-circle"></i><span> Login / Register</span></a>
 </li>
     }
 </ul>

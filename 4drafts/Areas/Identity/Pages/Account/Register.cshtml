@@ -2,12 +2,13 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
+    Layout = null;
 }
 
-<div class="row mt-3">
-    <div class="col-md-4 m-auto text-center">
-        <h1>@ViewData["Title"]</h1>
-        <form autocomplete="off" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+<body>
+    <form autocomplete="off" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div class="container-fluid col-8 text-center">
+            <h1>@ViewData["Title"]</h1>
             <h4>Sign up to share your stories</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger text-left"></div>
@@ -31,16 +32,16 @@
                 <input autocomplete="off" asp-for="Input.ConfirmPassword" placeholder="Repeat your password..." class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger" style="float: left;"></span>
             </div>
-            <div class="form-group mt-4" autocomplete="off">
+            <div class="form-group mt-2" autocomplete="off">
                 <button type="submit" class="btn btn-primary">Register</button>
             </div>
             <div class="form-group">
                 <span class="text-muted">Already have an account?</span>
-                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Sign In</a>
+                <a onclick="loginPopup('@Model.ReturnUrl')">Sign In</a>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
+    </form>
+</body>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -61,7 +61,8 @@ namespace _4drafts.Controllers
             {
                 Id = thread.Id,
                 Title = thread.Title,
-                Content = thread.Description,
+                Content = thread.Content,
+                Description = thread.Description,
                 CreatedOn = this.timeWarper.TimeAgo(thread.CreatedOn),
                 AuthorId = author.Id,
                 AuthorName = author.UserName,
@@ -105,10 +106,10 @@ namespace _4drafts.Controllers
                 {
                     Id = t.Id,
                     Title = t.Title,
+                    Description = t.Description,
                     CategoryId = t.CategoryId,
                     CategoryName = t.Category.Name,
                     CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
-                    Views = t.Views,
                     Points = t.Points,
                     AuthorId = t.AuthorId,
                     AuthorName = t.Author.UserName,
@@ -140,9 +141,6 @@ namespace _4drafts.Controllers
             return View(new ThreadViewModel
             {
                 Id = thread.Id,
-                Title = thread.Title,
-                CategoryId = thread.CategoryId,
-                Content = thread.Description,
             });
         }
 
@@ -165,8 +163,8 @@ namespace _4drafts.Controllers
                 {
                     Id = t.Id,
                     Title = t.Title,
+                    Description = t.Description,
                     CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
-                    Views = t.Views,
                     Points = t.Points,
                     AuthorId = t.AuthorId,
                     AuthorName = t.Author.UserName,
@@ -217,7 +215,8 @@ namespace _4drafts.Controllers
             var thread = new Thread
             {
                 Title = model.Title,
-                Description = model.Content,
+                Description = model.Description, 
+                Content = model.Content,
                 CreatedOn = DateTime.UtcNow.ToLocalTime(),
                 AuthorId = this.userManager.GetUserId(this.User),
                 CategoryId = model.CategoryId,
@@ -251,7 +250,8 @@ namespace _4drafts.Controllers
             {
                 Id = thread.Id,
                 Title = thread.Title,
-                Content = thread.Description,
+                Description = thread.Description,
+                Content = thread.Content,
             });
         }
 
@@ -278,6 +278,7 @@ namespace _4drafts.Controllers
             }
 
             thread.Title = model.Title;
+            thread.Description = model.Description;
             thread.Description = model.Content;
 
             this.data.SaveChanges();
