@@ -52,6 +52,7 @@ namespace _4drafts.Controllers
                     Id = t.Id,
                     Title = t.Title,
                     Description = t.Description,
+                    CategoryId = t.CategoryId,
                     CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                     Points = t.Points,
                     AuthorId = t.AuthorId,

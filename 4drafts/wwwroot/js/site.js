@@ -137,11 +137,11 @@ createThreadPost = form => {
     }
 }
 
-function deleteThreadInPopup(threadId) {
+function deleteThreadInPopup(threadId, categoryId) {
     $.ajax({
         type: 'GET',
         url: "/Threads/Delete/",
-        data: { threadId: threadId },
+        data: { threadId: threadId, categoryId: categoryId },
         success: function (res) {
             $('#form-modal .modal-body').html(res);
             $('#form-modal').modal('show');
@@ -149,12 +149,12 @@ function deleteThreadInPopup(threadId) {
     })
 }
 
-function deleteThreadPost(threadId) {
+function deleteThreadPost(threadId, categoryId) {
     try {
         $.ajax({
             type: 'POST',
             url: '/Threads/Delete/',
-            data: { threadId: threadId },
+            data: { threadId: threadId, categoryId: categoryId },
             success: function (res) {
                 $('#threads-section').html(res);
                 $.notify('The thread has been successfully deleted', { globalPosition: 'top center', className: 'success' });
