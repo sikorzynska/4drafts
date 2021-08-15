@@ -1,5 +1,6 @@
 ﻿@model List<ThreadsBrowseModel>
 @{
+    ViewBag.Title = "Popular";
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
     var bestThreads = new List<ThreadsBrowseModel>();
@@ -24,11 +25,11 @@
     <div class="ml-3">
         @if (user != null)
         {
-            <a onclick="createThreadInPopup()" class="btn btn-primary mb-2"><i class="fas fa-plus-square"></i> Start Thread</a>
+            <a onclick="createThreadInPopup()" class="btn btn-link mb-2"><i class="fas fa-plus"></i> [Start Thread]</a>
         }
         @if (user == null)
         {
-            <a class="btn btn-primary mb-2 disabled"><i class="fas fa-plus-square"></i> Start Thread</a>
+            <a class="btn btn-link mb-2 disabled"><i class="fas fa-plus"></i> [Start Thread]</a>
         }
     </div>
     <div class="container-fluid" id="threads-section">

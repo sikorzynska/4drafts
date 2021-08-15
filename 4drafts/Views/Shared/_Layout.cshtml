@@ -46,6 +46,12 @@
                     <li class="nav-item">
                         <a asp-controller="Threads" asp-action="New" class="nav-link text-color-black"><i class="fas fa-fan"></i> New</a>
                     </li>
+                    @if (user != null)
+                    {
+                        <li class="nav-item">
+                            <a onclick="createThreadInPopup()" class="nav-link text-color-black"><i class="fas fa-plus"></i> Post</a>
+                        </li>
+                    }
                 </ul>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">

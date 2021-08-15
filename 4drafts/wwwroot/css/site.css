@@ -413,6 +413,10 @@ hide-empty:empty {
     pointer-events: none;
 }
 
+.table-info {
+    color: black !important;
+}
+
 .btn-link {
     font-weight: 400;
     color: black !important;
@@ -420,7 +424,7 @@ hide-empty:empty {
 }
 
     .btn-link:hover {
-        color: #fff !important;
+        color: blue !important;
     }
 
 .color {

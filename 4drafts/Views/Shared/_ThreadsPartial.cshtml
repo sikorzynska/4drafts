@@ -14,13 +14,13 @@
         <table class="table table-hover border table-fixed">
             <thead class="bg-color-blue">
                 <tr>
-                    <th class="text-truncate" scope="col">Title</th>
-                    <th class="text-truncate" scope="col">Category</th>
-                    <th class="text-truncate" scope="col">Posted</th>
-                    <th class="text-truncate" scope="col">Likes</th>
-                    <th class="text-truncate" scope="col">Replies</th>
-                    <th class="text-truncate" scope="col">Author</th>
-                    <th class="text-truncate" scope="col">Options</th>
+                    <th class="text-truncate border" scope="col">Title</th>
+                    <th class="text-truncate border" scope="col">Category</th>
+                    <th class="text-truncate border" scope="col">Posted</th>
+                    <th class="text-truncate border" scope="col">Likes</th>
+                    <th class="text-truncate border" scope="col">Replies</th>
+                    <th class="text-truncate border" scope="col">Author</th>
+                    <th class="text-truncate border" scope="col">Options</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,13 +32,13 @@
                             avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
                             if (userId == thread.AuthorId)
                             {
-                                <tr class="table-light">
-                                    <th scope="row"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
-                                    <td class="text-truncate"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
-                                    <td class="text-truncate">@thread.CreatedOn</td>
-                                    <td>@thread.Points</td>
-                                    <td>@thread.CommentCount</td>
-                                    <td class="text-truncate">
+                                <tr class="table-info">
+                                    <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                                    <td class="text-truncate border"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
+                                    <td class="text-truncate border">@thread.CreatedOn</td>
+                                    <td class="border">@thread.Points</td>
+                                    <td class="border">@thread.CommentCount</td>
+                                    <td class="text-truncate border">
                                         <div class="d-inline media-img-30">
                                             <a onclick="viewProfile('@thread.AuthorId')">
                                                 <img class="rounded-circle border" src="@avatar" />
@@ -46,9 +46,9 @@
                                             </a>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="border">
                                         <div class="dropdown mw-min-content">
-                                            <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+                                            <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i> [options]</a>
                                             <ul class="dropdown-menu">
                                                 <li>
                                                 <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a></li>
@@ -68,15 +68,15 @@
                             else
                             {
                                  <tr class="table-secondary">
-                                     <th scope="row"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
-                                     <td class="text-truncate"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
-                                     <td class="text-truncate">@thread.CreatedOn</td>
-                                     <td>@thread.Points</td>
-                                     <td>@thread.CommentCount</td>
-                                     <td class="text-truncate"><div class="d-inline media-img-30"><a class="text-truncate" onclick="viewProfile('@thread.AuthorId')"><img class="rounded-circle border" src="@thread.AuthorAvatarUrl" /> @thread.AuthorName</a></div></td>
-                                     <td>
+                                     <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                                     <td class="text-truncate border"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
+                                     <td class="text-truncate border">@thread.CreatedOn</td>
+                                     <td class="border">@thread.Points</td>
+                                     <td class="border">@thread.CommentCount</td>
+                                     <td class="text-truncate border"><div class="d-inline media-img-30"><a class="text-truncate" onclick="viewProfile('@thread.AuthorId')"><img class="rounded-circle border" src="@thread.AuthorAvatarUrl" /> @thread.AuthorName</a></div></td>
+                                     <td class="border">
                                          <div class="dropdown mw-min-content">
-                                             <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+                                             <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i> [options]</a>
                                              <ul class="dropdown-menu">
                                                  <li>
                                                      <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a>
@@ -102,15 +102,15 @@
     }
     else
     {
-        <table class="table table-hover border table-fixed">
+        <table class="table table-hover table-fixed">
             <thead class="bg-color-blue">
                 <tr>
-                    <th class="text-truncate" scope="col">Title</th>
-                    <th class="text-truncate" scope="col">Posted</th>
-                    <th class="text-truncate" scope="col">Likes</th>
-                    <th class="text-truncate" scope="col">Replies</th>
-                    <th class="text-truncate" scope="col">Author</th>
-                    <th class="text-truncate" scope="col">Options</th>
+                    <th class="text-truncate border" scope="col">Title</th>
+                    <th class="text-truncate border" scope="col">Posted</th>
+                    <th class="text-truncate border" scope="col">Likes</th>
+                    <th class="text-truncate border" scope="col">Replies</th>
+                    <th class="text-truncate border" scope="col">Author</th>
+                    <th class="text-truncate border" scope="col">Options</th>
                 </tr>
             </thead>
             <tbody>
@@ -122,12 +122,12 @@
                             avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
                             if (userId == thread.AuthorId)
                             {
-                                <tr class="table-light">
-                                    <th><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
-                                    <td class="text-truncate">@thread.CreatedOn</td>
-                                    <td>@thread.Points</td>
-                                    <td>@thread.CommentCount</td>
-                                    <td class="text-truncate">
+                                <tr class="table-info">
+                                    <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                                    <td class="text-truncate border">@thread.CreatedOn</td>
+                                    <td class="border">@thread.Points</td>
+                                    <td class="border">@thread.CommentCount</td>
+                                    <td class="text-truncate border">
                                         <div class="d-inline media-img-30">
                                             <a onclick="viewProfile('@thread.AuthorId')">
                                                 <img class="rounded-circle border" src="@avatar" />
@@ -135,9 +135,9 @@
                                             </a>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="border">
                                         <div class="dropdown mw-min-content">
-                                            <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+                                            <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i> [options]</a>
                                             <ul class="dropdown-menu">
                                                 <li>
                                                     <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a>
@@ -158,11 +158,11 @@
                             else
                             {
                                 <tr class="table-secondary">
-                                    <th><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
-                                    <td class="text-truncate">@thread.CreatedOn</td>
-                                    <td>@thread.Points</td>
-                                    <td>@thread.CommentCount</td>
-                                    <td class="text-truncate">
+                                    <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                                    <td class="text-truncate border">@thread.CreatedOn</td>
+                                    <td class="border">@thread.Points</td>
+                                    <td class="border">@thread.CommentCount</td>
+                                    <td class="text-truncate border">
                                         <div class="d-inline media-img-30">
                                             <a onclick="viewProfile('@thread.AuthorId')">
                                                 <img class="rounded-circle border" src="@thread.AuthorAvatarUrl" />
@@ -170,9 +170,9 @@
                                             </a>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="border">
                                         <div class="dropdown mw-min-content">
-                                            <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+                                            <a class="dropdown-toggle media-img-30 btn btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i> [options]</a>
                                             <ul class="dropdown-menu">
                                                 <li>
                                                     <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a>

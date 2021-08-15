@@ -57,7 +57,6 @@ namespace _4drafts.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Browse(string userId)
         {
             var user = await this.data.Users

@@ -50,6 +50,7 @@ namespace _4drafts.Areas.Identity.Pages.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
+        [NoDirectAccess]
         public class InputModel
         {
             [Required]

@@ -173,11 +173,7 @@ namespace _4drafts.Controllers
                 })
                 .ToList();
 
-            return PartialView("_ThreadsPartial", new CategoryBrowseModel
-            {
-                Id = categoryId,
-                Threads = threads
-            });
+            return PartialView("_ThreadsPartial", threads);
         }
 
         [HttpGet]
