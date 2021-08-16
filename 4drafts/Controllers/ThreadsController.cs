@@ -95,13 +95,11 @@ namespace _4drafts.Controllers
         }
 
         [HttpGet]
-        public IActionResult Popular()
+        public IActionResult Browse()
         {
             var threads = this.data.Threads
                 .Include(t => t.Comments)
                 .Include(t => t.Category)
-                .OrderByDescending(t => t.Points)
-                .ThenByDescending(t => t.Comments.Count())
                 .Select(t => new ThreadsBrowseModel
                 {
                     Id = t.Id,

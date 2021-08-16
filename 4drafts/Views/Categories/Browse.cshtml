@@ -6,19 +6,9 @@
 }
 
 <div class="container-fluid">
-    <div class="jumbotron smaller-center">
+    <div class="jumbotron">
         <h1 class="display-3 strokeme">@Model.Name</h1>
         <p class="lead">@Model.Description</p>
-    </div>
-    <div class="ml-3">
-        @if (user != null)
-        {
-            <a onclick="createThreadInPopup('@categoryId')" class="btn btn-link mb-2"><i class="fas fa-plus"></i> [Start Thread]</a>
-        }
-        @if (user == null)
-        {
-            <a class="btn btn-link mb-2 disabled"><i class="fas fa-plus"></i> [Start Thread]</a>
-        }
     </div>
     <div class="container-fluid" id="threads-section">
         <partial name="_ThreadsPartial" model="@Model.Threads" />

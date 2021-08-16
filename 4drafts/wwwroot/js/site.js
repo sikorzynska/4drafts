@@ -3,6 +3,13 @@
 
 // Write your JavaScript code.
 
+$(document).ready(function () {
+    $('#threadTable').DataTable({
+        "scrollCollapse": true,
+        "paging": true
+    });
+});
+
 $(function () {
     $("#loaderbody").addClass('hide');
 
