@@ -4,11 +4,15 @@
 // Write your JavaScript code.
 
 $(document).ready(function () {
+    paging();
+});
+
+function paging() {
     $('#threadTable').DataTable({
         "scrollCollapse": true,
         "paging": true
     });
-});
+}
 
 $(function () {
     $("#loaderbody").addClass('hide');
@@ -166,7 +170,7 @@ function deleteThreadPost(threadId, categoryId) {
                 $('#threads-section').html(res);
                 $.notify('The thread has been successfully deleted', { globalPosition: 'top center', className: 'success' });
                 $('#form-modal').modal('hide');
-
+                paging();
             },
             error: function (err) {
                 console.log(err)
