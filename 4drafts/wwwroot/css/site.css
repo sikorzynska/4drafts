@@ -178,12 +178,12 @@ a {
 
 .media-img-40 img {
     width: 40px;
-    height: auto
+    height: 40px;
 }
 
 .media-img-30 img {
     width: 30px;
-    height: auto
+    height: 30px;
 }
 
 .bg-color-blue {

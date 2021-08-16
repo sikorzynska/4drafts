@@ -19,7 +19,6 @@ namespace _4drafts.Models.Threads
             ErrorMessage = "The title field must have a minimum length of {2}.")]
         public string Title { get; set; }
 
-        [Required]
         [StringLength(ThreadDescriptionMaxLength,
             MinimumLength = ThreadDescriptionMinLength,
             ErrorMessage = "The description field must have a minimum length of {2}.")]

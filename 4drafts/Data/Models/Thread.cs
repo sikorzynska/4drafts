@@ -18,7 +18,6 @@ namespace _4drafts.Data.Models
         [Required]
         public string Content { get; set; }
 
-        [Required]
         [MaxLength(ThreadDescriptionMaxLength)]
         public string Description { get; set; }
 

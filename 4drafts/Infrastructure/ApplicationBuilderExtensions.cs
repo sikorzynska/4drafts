@@ -5,6 +5,7 @@ using _4drafts.Data;
 using _4drafts.Data.Models;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace _4drafts.Infrastructure
 {
@@ -20,6 +21,8 @@ namespace _4drafts.Infrastructure
             data.Database.Migrate();
 
             SeedCategories(data);
+            SeedUsers(data);
+            SeedThreads(data);
 
             return app;
         }
@@ -63,6 +66,428 @@ namespace _4drafts.Infrastructure
             });
 
             data.SaveChanges();
+        }
+
+        private static void SeedUsers(_4draftsDbContext data)
+        {
+            if (data.Users.Any(u => u.Id == "68091adf-6141-48d9-8374-4693f21c6882")) return;
+
+            var users = new List<User>
+            {
+                new User{
+                    Id = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
+                    UserName = "Dave",
+                    NormalizedUserName = "Dave".ToUpper(),
+                    Email = "david88@gmail.com",
+                    NormalizedEmail = "david88@gmail.com".ToUpper(),
+                    FirstName = "David",
+                    LastName = "Copperfield",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://i.redd.it/7qalrjf53th51.png",
+                },
+                new User{
+                    Id = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    UserName = "LadyBug",
+                    NormalizedUserName = "LadyBug".ToUpper(),
+                    Email = "kristen@gmail.com",
+                    NormalizedEmail = "kristen@gmail.com".ToUpper(),
+                    FirstName = "Kristen",
+                    LastName = "Seinfeld",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://cdn.pixabay.com/photo/2021/08/07/07/37/woman-6527938_960_720.png",
+                },
+                new User{
+                    Id = "f76ba675-da23-45ae-b351-7854af84d238",
+                    UserName = "Randy",
+                    NormalizedUserName = "Randy".ToUpper(),
+                    Email = "clipper77@gmail.com",
+                    NormalizedEmail = "clipper77@gmail.com".ToUpper(),
+                    FirstName = "Ronald",
+                    LastName = "Raegan",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://cdn.pixabay.com/photo/2016/03/31/19/57/avatar-1295404_960_720.png",
+                },
+                new User{
+                    Id = "742466ec-5456-4f41-8b02-5ca6c710fa76",
+                    UserName = "Ratata",
+                    NormalizedUserName = "Ratata".ToUpper(),
+                    Email = "malibu@gmail.com",
+                    NormalizedEmail = "malibu@gmail.com".ToUpper(),
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://cdn.pixabay.com/photo/2019/09/14/09/44/cat-4475583_960_720.png",
+                },
+                new User{
+                    Id = "efe1761c-030d-4329-a41a-bca51041bd2b",
+                    UserName = "MagicalProwess",
+                    NormalizedUserName = "MagicalProwess".ToUpper(),
+                    Email = "zenmaster@gmail.com",
+                    NormalizedEmail = "zenmaster@gmail.com".ToUpper(),
+                    FirstName = "Kiki",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://cdn.pixabay.com/photo/2020/02/19/12/25/pug-4862083_960_720.png",
+                },
+                new User{
+                    Id = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
+                    UserName = "Annie",
+                    NormalizedUserName = "Annie".ToUpper(),
+                    Email = "anastasia@gmail.com",
+                    NormalizedEmail = "anastasia@gmail.com".ToUpper(),
+                    FirstName = "Annie",
+                    LastName = "Ruok",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://cdn.pixabay.com/photo/2013/11/28/11/30/lips-220244_960_720.jpg",
+                },
+                new User{
+                    Id = "5386f041-5c28-4572-a60b-81f04ad32e61",
+                    UserName = "Janitor",
+                    NormalizedUserName = "Janitor".ToUpper(),
+                    Email = "janjan@gmail.com",
+                    NormalizedEmail = "janjan@gmail.com".ToUpper(),
+                    FirstName = "Roberto",
+                    LastName = "Rodrigez",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://static.vecteezy.com/system/resources/previews/001/952/720/non_2x/mexican-cartoon-man-design-vector.jpg",
+                },
+                new User{
+                    Id = "68091adf-6141-48d9-8374-4693f21c6882",
+                    UserName = "Orochimaru",
+                    NormalizedUserName = "Orochimaru".ToUpper(),
+                    Email = "snakeboy@gmail.com",
+                    NormalizedEmail = "snakeboy@gmail.com".ToUpper(),
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://www.looper.com/img/gallery/why-orochimarus-character-arc-in-naruto-makes-no-sense/intro-1614956886.jpg",
+                },
+                new User{
+                    Id = "f3e14356-cd02-4756-baf1-93fbce922a45",
+                    UserName = "Zombie",
+                    NormalizedUserName = "Zombie".ToUpper(),
+                    Email = "zombie@gmail.com",
+                    NormalizedEmail = "zombie@gmail.com".ToUpper(),
+                    FirstName = "Zom",
+                    LastName = "Bie",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/zombie_avatar_monster_dead-512.png",
+                },
+            };
+
+            data.Users.AddRange(users);
+            data.SaveChanges();
+        }
+
+        private static void SeedThreads(_4draftsDbContext data)
+        {
+            if (data.Threads.Any(t => t.Id == "8725ba9f-490d-460a-b6cf-d19d9c2ecb37")) return;
+            Random rnd = new Random();
+
+            var threads = new List<Thread>
+            {
+                new Thread
+                {
+                    Id = "fe016357-389e-4d3f-b335-1e3a9f17ffb3",
+                    Title = "My sister was a sociopath. Then she had surgery.",
+                    Description = "After the surgery of her sociopathic sister, Karen quickly realizes that something is clearly wrong.",
+                    Content = "There was always something wrong with Annie. For years, it felt like I was the only one who knew.",
+                    CategoryId = 3,
+                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "972026cd-3505-4f04-9ac7-382c6541ba70",
+                    Title = "Incomplete",
+                    Description = "A Modern Love Story by Kobra",
+                    Content = "It was never about the idea of you, it was you. I never wanted a relationship, I told myself there was no way I'd ever consider marriage again before we met. But between all of the little things, the big things, the things others may never even notice...every single part that makes you who you are...I fell for it all.",
+                    CategoryId = 6,
+                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "937e8c3d-5474-4e32-b019-cbe628bba891",
+                    Title = "Days Passing",
+                    Description = "When Cathy (a bored girl) decides to pretend she's missing, things start to go south quickly.",
+                    Content = "Mikayla Murray went missing twelve years ago, on the eve of her 18th birthday. She didn’t have any big plans or anything, but her friends described her as having been in a particularly good mood for what was an otherwise perfectly normal Friday. She’d gone to school, soccer practice, work, and then came home for a night of movies with her kid brother, James. He was more excited for her birthday than she was. Even wanted to stay awake with her until midnight but, of course, had fallen asleep right away. When he woke in the middle of the night, he saw her headlights shining through his window and watched as they rushed down their country road, not knowing that it was the last he’d ever see of her. The poor kid was only five and would be forever tormented over why she’d left him, or why she’d never come back.",
+                    CategoryId = 2,
+                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "e78055f5-d6da-4ab4-a05d-000a3c5c5281",
+                    Title = "Annabelle vs. the Monster Under the Bed",
+                    Description = "Children's story",
+                    Content = "Mommy closed the book she’d been reading and stood up, plopping Annabelle on her feet. Annabelle really wanted to hear the rest of the story, but she yawned before she could complain. Maybe Mommy was right. Annabelle started to skip down the hall to Mommy’s room before she remembered.",
+                    CategoryId = 9,
+                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "aa5067eb-6029-48f3-968a-6ab92d66b953",
+                    Title = "Kind Gestures",
+                    Description = "I Offered a Homeless Man Coffee, but He Asked Me Why",
+                    Content = " saw a homeless man outside of my local coffee shop, and I offered to buy him coffee. He appeared to be in his 60s, with frizzy white hair similar to what a mad scientist might don in an old black and white film. Winter was coming, and the chill air was a constant reminder of that.",
+                    CategoryId = 10,
+                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "df049477-da1e-4a0c-a779-729db036e4d9",
+                    Title = "Did You Lock The Door?",
+                    Description = "",
+                    Content = "Did you remember to lock the door? Before you answer that, I want you to really think about it. One, or maybe two of you, might have actually checked the locks as soon as you read the title. Maybe some of you habitually lock the door as soon as you get home. Twisting the deadbolt and hooking the chain just come as second nature. Did you notice anything out of place? Anything that could lead you to believe you aren’t alone? Would you even notice? What about the windows?",
+                    CategoryId = 4,
+                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "0760686a-6598-43e6-9ed7-87f340c78d7c",
+                    Title = "Passage",
+                    Description = "What if one could go back to being 10 years old...",
+                    Content = "I rubbed my eyes, but the genie was still there when I opened them again. His bulky, dark blue torso originated from a trail of smoke wafting from a broken lamp on the ground.",
+                    CategoryId = 11,
+                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "49e9dbca-b7c0-4852-987d-73c265ee0b3f",
+                    Title = "Can you see the moon?",
+                    Description = "",
+                    Content = "“When it is time you will see it.” He slowly looked down at her again. Her dress was almost completely red now. He felt them pressing behind his eyes, but he kept them back. There is still time, you can’t give in yet.",
+                    CategoryId = 5,
+                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "1894e044-dd59-4000-8865-6804b13c8cd5",
+                    Title = "Battered",
+                    Description = "Copious amounts of twisted bottle caps",
+                    Content = "This is absolutely annoying, what a not dream job whatsoever.",
+                    CategoryId = 14,
+                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "b0194a3c-711b-4aff-93f1-8ecaaef7d389",
+                    Title = "Christopher Walking",
+                    Description = "Better than Twilight",
+                    Content = "Using my newfound funding, which I later found to be not limited to man hunting, I bought a rental car, some rope, a good knife, and some other kidnapping essentials.",
+                    CategoryId = 13,
+                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "57cf58c3-44a5-4a32-a83a-49b36d8bf7c6",
+                    Title = "Better than Twilight",
+                    Description = "Christopher Walking",
+                    Content = "Finding the school was an easy look up, as was putting a face to the name. Their website had pictures of all their staff members, and the schedule.",
+                    CategoryId = 12,
+                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "e8d2f57f-2832-421f-aac0-207ea9b5e3e5",
+                    Title = "Barrens",
+                    Description = "Finding the school",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 7,
+                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "ffa37ac4-575a-4b06-b4b9-23365c62d15c",
+                    Title = "Kalimdor",
+                    Description = "Artificial",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 8,
+                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "52de4f3a-7ec4-464f-a6e0-aa77c881cc53",
+                    Title = "Azeroth",
+                    Description = "Artificial",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 4,
+                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "e6409d32-32ff-4186-9c3f-d63523794eae",
+                    Title = "Harry Styles",
+                    Description = "Artificial",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 7,
+                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "8725ba9f-490d-460a-b6cf-d19d9c2ecb37",
+                    Title = "Zendaya",
+                    Description = "Artificial",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 1,
+                    AuthorId = "742466ec-5456-4f41-8b02-5ca6c710fa76",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "8a8e339a-8c68-4bad-9b29-c926b6aca412",
+                    Title = "Title",
+                    Description = "Artificial",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 1,
+                    AuthorId = "742466ec-5456-4f41-8b02-5ca6c710fa76",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "331900b4-2c7e-4682-b0b8-5c5928eec238",
+                    Title = "Tommy is the boy next door",
+                    Description = "This is an artificially injected thread for testing purposes.",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 13,
+                    AuthorId = "f76ba675-da23-45ae-b351-7854af84d238",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "6aa06fee-025d-4120-aa4e-9b6310273443",
+                    Title = "Title is a title",
+                    Description = "Michael Jackson",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 12,
+                    AuthorId = "f76ba675-da23-45ae-b351-7854af84d238",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "651c10e9-6439-479e-8fad-c5784ecff65b",
+                    Title = "Puppy on a desk",
+                    Description = "Rolling Stones",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 2,
+                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "9fd6f1e8-ccf1-4a78-b3f1-c70bdbd2733e",
+                    Title = "Rotoscope",
+                    Description = "Kevin is home alone",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 3,
+                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "e98d96ea-7c4a-4228-8373-f9f6bb3a8880",
+                    Title = "Revision",
+                    Description = "Raptorman",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 4,
+                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "f1767a58-5c40-4a1d-b256-bb96fa60d9ea",
+                    Title = "Television",
+                    Description = "Copperfield",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 5,
+                    AuthorId = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "fe8b0fc3-174f-4270-8e77-de2c00e6c47c",
+                    Title = "Copperfield",
+                    Description = "Television",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 6,
+                    AuthorId = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "b2f87ea3-676e-4e8c-9878-908a24ee4354",
+                    Title = "Velocity",
+                    Description = "Opacity",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 3,
+                    AuthorId = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "f3cd7787-ead6-4eae-899c-e5952e4934c1",
+                    Title = "Opacity",
+                    Description = "Velocity",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    CategoryId = 10,
+                    AuthorId = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
+                    Points = rnd.Next(200),
+                    CreatedOn = RandomDayFunc(),
+                },
+            };
+
+            data.Threads.AddRange(threads);
+            data.SaveChanges();
+        }
+
+        private static DateTime RandomDayFunc()
+        {
+            DateTime start = new DateTime(1995, 1, 1);
+            Random gen = new Random();
+            int range = ((TimeSpan)(DateTime.Today - start)).Days;
+            return start.AddDays(gen.Next(range));
         }
     }
 }

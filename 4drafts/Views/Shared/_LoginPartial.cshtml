@@ -1,8 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
 @{ 
-    var user = await this.UserManager.GetUserAsync(User);
+    var user = await this.userManager.GetUserAsync(User);
     var avatar = "";
     if (user != null) avatar = String.IsNullOrWhiteSpace(user.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : user.AvatarUrl;
     else avatar = "https://image.flaticon.com/icons/png/512/64/64572.png";
