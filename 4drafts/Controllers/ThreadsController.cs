@@ -121,7 +121,7 @@ namespace _4drafts.Controllers
         [HttpGet]
         [Authorize]
         [NoDirectAccess]
-        public async Task<IActionResult> Delete(string threadId, int? categoryId)
+        public async Task<IActionResult> Delete(string threadId, int? method,  int? categoryId)
         {
             var thread = await data.Threads.FindAsync(threadId);
             var user = await this.userManager.GetUserAsync(User);
@@ -136,16 +136,19 @@ namespace _4drafts.Controllers
                 return Unauthorized();
             }
 
+            var deleteMethod = method == null ? 1 : method;
+
             return View(new ThreadViewModel
             {
                 Id = thread.Id,
                 CategoryId = categoryId,
+                DeleteMethod = deleteMethod,
             });
         }
 
         [HttpPost, ActionName("Delete")]
         [Authorize]
-        public async Task<IActionResult> DeleteConfirmed(string threadId, int? categoryId)
+        public async Task<IActionResult> DeleteConfirmed(string threadId, int method , int? categoryId)
         {
             var thread = await data.Threads.FindAsync(threadId);
 
@@ -154,55 +157,65 @@ namespace _4drafts.Controllers
             data.Threads.Remove(thread);
             await data.SaveChangesAsync();
 
-            var threads = new List<ThreadsBrowseModel>();
-
-            if(categoryId != null)
+            switch (method)
             {
-                threads = this.data.Threads
-                    .Include(t => t.Category)
-                    .Where(t => t.CategoryId == categoryId)
-                    .OrderByDescending(t => t.CreatedOn)
-                    .Select(t => new ThreadsBrowseModel
+                case 1:
                     {
-                        Id = t.Id,
-                        Title = t.Title,
-                        Description = t.Description,
-                        CategoryId = t.CategoryId,
-                        CategoryName = t.Category.Name,
-                        CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
-                        Points = t.Points,
-                        AuthorId = t.AuthorId,
-                        AuthorName = t.Author.UserName,
-                        AuthorAvatarUrl = t.Author.AvatarUrl,
-                        CommentCount = this.data.Comments.Count(c => c.ThreadId == t.Id)
-                    })
-                    .ToList();
-            }
-            else
-            {
-                threads = this.data.Threads
-                    .Include(t => t.Comments)
-                    .Include(t => t.Category)
-                    .OrderByDescending(t => t.Points)
-                    .ThenByDescending(t => t.Comments.Count())
-                    .Select(t => new ThreadsBrowseModel
-                    {
-                        Id = t.Id,
-                        Title = t.Title,
-                        Description = t.Description,
-                        CategoryId = t.CategoryId,
-                        CategoryName = t.Category.Name,
-                        CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
-                        Points = t.Points,
-                        AuthorId = t.AuthorId,
-                        AuthorName = t.Author.UserName,
-                        AuthorAvatarUrl = t.Author.AvatarUrl,
-                        CommentCount = ThreadCommentCount(t.Id, this.data),
-                    })
-                    .ToList();
-            }
+                        var threads = new List<ThreadsBrowseModel>();
 
-            return PartialView("_ThreadsPartial", threads);
+                        if (categoryId != null)
+                        {
+                            threads = this.data.Threads
+                                .Include(t => t.Category)
+                                .Where(t => t.CategoryId == categoryId)
+                                .OrderByDescending(t => t.CreatedOn)
+                                .Select(t => new ThreadsBrowseModel
+                                {
+                                    Id = t.Id,
+                                    Title = t.Title,
+                                    Description = t.Description,
+                                    CategoryId = t.CategoryId,
+                                    CategoryName = t.Category.Name,
+                                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                                    Points = t.Points,
+                                    AuthorId = t.AuthorId,
+                                    AuthorName = t.Author.UserName,
+                                    AuthorAvatarUrl = t.Author.AvatarUrl,
+                                    CommentCount = this.data.Comments.Count(c => c.ThreadId == t.Id)
+                                })
+                                .ToList();
+                        }
+                        else
+                        {
+                            threads = this.data.Threads
+                                .Include(t => t.Comments)
+                                .Include(t => t.Category)
+                                .OrderByDescending(t => t.Points)
+                                .ThenByDescending(t => t.Comments.Count())
+                                .Select(t => new ThreadsBrowseModel
+                                {
+                                    Id = t.Id,
+                                    Title = t.Title,
+                                    Description = t.Description,
+                                    CategoryId = t.CategoryId,
+                                    CategoryName = t.Category.Name,
+                                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                                    Points = t.Points,
+                                    AuthorId = t.AuthorId,
+                                    AuthorName = t.Author.UserName,
+                                    AuthorAvatarUrl = t.Author.AvatarUrl,
+                                    CommentCount = ThreadCommentCount(t.Id, this.data),
+                                })
+                                .ToList();
+                        }
+
+                        return PartialView("_ThreadsPartial", threads);
+                    }
+                    default:
+                    {
+                        return Json(new { method = method, redirectUrl = Url.ActionLink("Browse", "Threads") });
+                    }
+            }
         }
 
         [HttpGet]

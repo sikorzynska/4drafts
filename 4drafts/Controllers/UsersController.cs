@@ -6,11 +6,13 @@ using _4drafts.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using static _4drafts.Services.HtmlHelper;
 
@@ -21,16 +23,114 @@ namespace _4drafts.Controllers
         private readonly ITimeWarper timeWarper;
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
         private readonly IHtmlHelper htmlHelper;
         public UsersController(ITimeWarper timeWarper,
             _4draftsDbContext data,
             UserManager<User> userManager,
+            SignInManager<User> signInManager,
             IHtmlHelper htmlHelper)
         {
             this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
             this.htmlHelper = htmlHelper;
+            this.signInManager = signInManager;
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [NoDirectAccess]
+        public IActionResult Register(string returnUrl = null)
+        {
+            if (this.signInManager.IsSignedIn(this.User)) return RedirectToAction("Index", "Home");
+
+            return View(new UserRegisterFormModel
+            {
+                ReturnUrl = returnUrl,
+            });
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [NoDirectAccess]
+        public async Task<IActionResult> Register(UserRegisterFormModel model)
+        {
+            if (this.signInManager.IsSignedIn(User)) return RedirectToAction("Index", "Home");
+
+            var usernameTaken = this.data.Users.FirstOrDefault(u => u.UserName == model.Username) != null ? true : false;
+
+            var emailTaken = this.data.Users.FirstOrDefault(u => u.Email == model.Email) != null ? true : false;
+
+            if (usernameTaken) this.ModelState.AddModelError(nameof(model.Username), "Username is already taken.");
+
+            if (emailTaken) this.ModelState.AddModelError(nameof(model.Email), "Email address is already taken.");
+
+            if (ModelState.IsValid)
+            {
+                var user = new User
+                {
+                    UserName = model.Username,
+                    Email = model.Email
+                };
+                var result = await userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    var returnUrl = model.ReturnUrl == null ? Url.Content("/") : Url.Content(model.ReturnUrl);
+                    await signInManager.SignInAsync(user, isPersistent: true);
+                    return Json(new { isValid = true, redirectUrl = Url.Content(returnUrl) });
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Register", model) });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [NoDirectAccess]
+        public IActionResult Login(string returnUrl = null)
+        {
+            if (this.signInManager.IsSignedIn(this.User)) return RedirectToAction("Index", "Home");
+
+            return View(new UserLoginFormModel
+            {
+                ReturnUrl = returnUrl,
+            });
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [NoDirectAccess]
+        public async Task<IActionResult> Login(UserLoginFormModel model)
+        {
+            if (this.signInManager.IsSignedIn(User)) return RedirectToAction("Index", "Home");
+
+            var appliedError = false;
+
+            const string invalidCredentials = "Whoops! Invalid credentials.";
+
+            var existingUser = await this.userManager.FindByEmailAsync(model.Email);
+
+            if (existingUser == null)
+            {
+                ModelState.AddModelError(string.Empty, invalidCredentials);
+                appliedError = true;
+            }
+
+            var passwordIsValid = await this.userManager.CheckPasswordAsync(existingUser, model.Password);
+
+            if (!passwordIsValid && !appliedError) ModelState.AddModelError(string.Empty, invalidCredentials);
+
+            if (!ModelState.IsValid) return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Login", model) });
+
+            var returnUrl = model.ReturnUrl == null ? Url.Content("/") : Url.Content(model.ReturnUrl);
+
+            await this.signInManager.SignInAsync(existingUser, true);
+            return Json(new { isValid = true, redirectUrl = Url.Content(returnUrl) });
         }
 
         [HttpGet]

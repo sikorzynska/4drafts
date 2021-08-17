@@ -32,6 +32,8 @@ namespace _4drafts.Models.Threads
 
         public int? CategoryId { get; set; }
 
+        public int? DeleteMethod { get; set; }
+
         public bool Liked { get; set; }
 
         public List<CommentViewModel> Comments { get; set; }

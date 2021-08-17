@@ -148,11 +148,11 @@ createThreadPost = form => {
     }
 }
 
-function deleteThreadInPopup(threadId, categoryId) {
+function deleteThreadInPopup(threadId, method ,categoryId,) {
     $.ajax({
         type: 'GET',
         url: "/Threads/Delete/",
-        data: { threadId: threadId, categoryId: categoryId },
+        data: { threadId: threadId, method: method, categoryId: categoryId },
         success: function (res) {
             $('#form-modal .modal-body').html(res);
             $('#form-modal').modal('show');
@@ -160,17 +160,24 @@ function deleteThreadInPopup(threadId, categoryId) {
     })
 }
 
-function deleteThreadPost(threadId, categoryId) {
+function deleteThreadPost(threadId, method, categoryId,) {
     try {
         $.ajax({
             type: 'POST',
             url: '/Threads/Delete/',
-            data: { threadId: threadId, categoryId: categoryId },
+            data: { threadId: threadId, method: method, categoryId: categoryId, },
             success: function (res) {
-                $('#threads-section').html(res);
-                $.notify('The thread has been successfully deleted', { globalPosition: 'top center', className: 'success' });
-                $('#form-modal').modal('hide');
-                paging();
+                if (res.method == 2) {
+                    window.location.href = res.redirectUrl;
+                    $('#form-modal').modal('hide');
+                    paging();
+                }
+                else {
+                    $('#threads-section').html(res);
+                    $.notify('The thread has been successfully deleted', { globalPosition: 'top center', className: 'success' });
+                    $('#form-modal').modal('hide');
+                    paging();
+                }
             },
             error: function (err) {
                 console.log(err)
@@ -385,10 +392,10 @@ editAccountPost = form => {
     }
 }
 
-function loginPopup(returnUrl) {
+function authGet(path, returnUrl) {
     $.ajax({
         type: 'GET',
-        url: "/Identity/Account/Login/",
+        url: path,
         data: { returnUrl: returnUrl },
         success: function (res) {
             $('#form-modal .modal-body').html(res);
@@ -400,19 +407,32 @@ function loginPopup(returnUrl) {
     })
 }
 
-function registerPopup(returnUrl) {
-    $.ajax({
-        type: 'GET',
-        url: "/Identity/Account/Register/",
-        data: { returnUrl: returnUrl },
-        success: function (res) {
-            $('#form-modal .modal-body').html(res);
-            $('#form-modal').modal('show');
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    })
+authPost = form => {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (!res.isValid) {
+                    $('#form-modal .modal-body').html(res.html);
+                }
+                else {
+                    window.location.href = res.redirectUrl;
+                    $('#form-modal').modal('hide');
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
 }
 
 function forgotPasswordPopup() {

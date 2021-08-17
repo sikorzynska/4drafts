@@ -484,7 +484,7 @@ namespace _4drafts.Infrastructure
 
         private static DateTime RandomDayFunc()
         {
-            DateTime start = new DateTime(1995, 1, 1);
+            DateTime start = new DateTime(2018, 1, 1);
             Random gen = new Random();
             int range = ((TimeSpan)(DateTime.Today - start)).Days;
             return start.AddDays(gen.Next(range));
