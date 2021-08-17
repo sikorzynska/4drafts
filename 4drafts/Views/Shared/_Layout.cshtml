@@ -1,5 +1,6 @@
 ﻿@{ 
     var user = await this.userManager.GetUserAsync(User);
+    var userId = user == null ? null : user.Id;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -42,10 +43,16 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Browse" title="Browse" class="nav-link text-color-black"><i class="fas fa-th-large"></i> Threads</a>
+                        <a asp-controller="Threads" asp-action="Browse" title="Browse" class="nav-link text-color-black"><i class="fas fa-th-large"></i> Browse</a>
                     </li>
                     @if (user != null)
                     {
+                        <li class="nav-item">
+                            <a asp-controller="Threads" asp-action="Library" title="My threads" class="nav-link text-color-black"><i class="fas fa-list"></i> Library</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Threads" asp-action="Favourites" title="Liked threads" class="nav-link text-color-black"><i class="fas fa-heart"></i> Favourites</a>
+                        </li>
                         <li class="nav-item">
                             <a onclick="createThreadInPopup()" title="Start Thread" class="nav-link text-color-black"><i class="fas fa-plus"></i> Post</a>
                         </li>

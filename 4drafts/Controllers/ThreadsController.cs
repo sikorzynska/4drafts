@@ -120,6 +120,53 @@ namespace _4drafts.Controllers
 
         [HttpGet]
         [Authorize]
+        public async Task<IActionResult> Library()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null) return Redirect("/");
+
+            var threads = this.data.Threads
+                .Include(t => t.Comments)
+                .Include(t => t.Category)
+                .Where(t => t.AuthorId == user.Id)
+                .Select(t => new ThreadsBrowseModel
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    Description = t.Description,
+                    CategoryId = t.CategoryId,
+                    CategoryName = t.Category.Name,
+                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                    Points = t.Points,
+                    AuthorId = t.AuthorId,
+                    AuthorName = t.Author.UserName,
+                    AuthorAvatarUrl = t.Author.AvatarUrl,
+                    CommentCount = ThreadCommentCount(t.Id, this.data),
+                }).ToList();
+
+            return View(threads);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Favourites()
+        {
+            var userId = this.userManager.GetUserId(this.User);
+
+            var user = await this.data.Users
+                .Include(u => u.UserThreads)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null) return Redirect("/");
+
+            var threads = LikedThreads(user, this.data, this.timeWarper);
+
+            return View(threads);
+        }
+
+        [HttpGet]
+        [Authorize]
         [NoDirectAccess]
         public async Task<IActionResult> Delete(string threadId, int? method,  int? categoryId)
         {
@@ -392,7 +439,37 @@ namespace _4drafts.Controllers
                   .ToList();
         private static bool IsLiked(string commentId, string userId, _4draftsDbContext data)
                 => data.UserComments.Any(uc => uc.UserId == userId && uc.CommentId == commentId);
-    }
+
+        private static List<ThreadsBrowseModel> LikedThreads(User user,
+                _4draftsDbContext data,
+                ITimeWarper timeWarper)
+                    {
+                        var result = new List<ThreadsBrowseModel>();
+               
+                        foreach (var ut in user.UserThreads)
+                        {
+                            var t = data.Threads
+                                .Include(t => t.Author)
+                                .FirstOrDefault(t => t.Id == ut.ThreadId);
+               
+                            var thread = new ThreadsBrowseModel
+                            {
+                                Id = t.Id,
+                                Title = t.Title,
+                                Points = t.Points,
+                                AuthorId = t.AuthorId,
+                                AuthorAvatarUrl = t.Author.AvatarUrl,
+                                AuthorName = t.Author.UserName,
+                                CommentCount = ThreadCommentCount(t.Id, data),
+                                CreatedOn = timeWarper.TimeAgo(t.CreatedOn),
+                            };
+               
+                            result.Add(thread);
+                        }
+               
+                        return result;
+                    }
+                }
 }
 
 

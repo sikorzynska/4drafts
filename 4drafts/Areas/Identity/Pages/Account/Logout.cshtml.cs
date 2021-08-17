@@ -20,18 +20,19 @@ namespace _4drafts.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        public async Task<IActionResult> OnGet(string returnUrl = null)
+        public IActionResult OnGet(string returnUrl = null)
         {
-            await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
-            if (returnUrl != null)
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToPage();
-            }
+            return RedirectToAction("Index", "Home");
+            //await _signInManager.SignOutAsync();
+            //_logger.LogInformation("User logged out.");
+            //if (returnUrl != null)
+            //{
+            //    return Redirect(returnUrl);
+            //}
+            //else
+            //{
+            //    return RedirectToPage();
+            //}
         }
     }
 }

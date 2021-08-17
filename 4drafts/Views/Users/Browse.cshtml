@@ -6,11 +6,10 @@
     var avatar = String.IsNullOrWhiteSpace(Model.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : Model.AvatarUrl;
     var ownAccount = userId == Model.Id;
 }
-
 <div class="container">
     <div class="main-body">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center user-heading">
@@ -64,25 +63,11 @@
                     </ul>
                 </div>
             </div>
-            <div class="col">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#links">Links</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#mythreads">Threads (@Model.ThreadCount)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#likedthreads">Liked Threads (@Model.LikedThreads.Count())</a>
-                    </li>
-                </ul>
-                <div class="tab-content card">
-                    <div class="tab-pane fade active show card-body" id="about">
-                        <h3 align="center">About</h3>
-                        <hr style="background-color: black; width: 30%;" />
+            <div class="col card">
+                <div class="card-body row">
+                    <div class="col">
+                        <h4 align="center"><i class="fas fa-user-tie"></i> About</h4>
+                        <hr />
                         <ul class="list-group">
                             <li class="list-group-item"><h5 class="mt-2">First name: <span class="text-muted">&nbsp; @Model.FirstName</span></h5></li>
                             <li class="list-group-item"><h5 class="mt-2">Last name: <span class="text-muted">&nbsp; @Model.LastName</span></h5></li>
@@ -92,91 +77,15 @@
                             <li class="list-group-item"><h5 class="mt-2 d-inline" style="word-break: break-word;">About me: <span class="text-muted">&nbsp; @Model.AboutMe</span></h5></li>
                         </ul>
                     </div>
-                    <div class="tab-pane fade card-body" id="links">
-                        <h3 align="center">Links</h3>
-                        <hr style="background-color: black; width: 30%;" />
+                    <div class="col">
+                        <h4 align="center"><i class="fas fa-link"></i> Links</h4>
+                        <hr />
                         <ul class="list-group">
                             <li class="list-group-item"><h5 class="mt-2"><i class="fas fa-globe fa-lg big-icon"></i> Website: <span class="text-muted">&nbsp; @Model.Website</span></h5></li>
                             <li class="list-group-item"><h5 class="mt-2"><i class="fab fa-discord fa-lg big-icon"></i> Discord: <span class="text-muted">&nbsp; @Model.Discord</span></h5></li>
                             <li class="list-group-item"><h5 class="mt-2"><i class="fab fa-twitter fa-lg big-icon"></i> Twitter: <span class="text-muted">&nbsp; @Model.Twitter</span></h5></li>
                             <li class="list-group-item"><h5 class="mt-2"><i class="fab fa-instagram fa-lg big-icon"></i> Instagram: <span class="text-muted">&nbsp; @Model.Instagram</span></h5></li>
                             <li class="list-group-item"><h5 class="mt-2"><i class="fab fa-facebook fa-lg big-icon"></i> Facebook: <span class="text-muted">&nbsp; @Model.Facebook</span></h5></li>
-                        </ul>
-                    </div>
-                    <div class="tab-pane fade card-body" id="mythreads">
-                        <h3 align="center">Threads</h3>
-                        <hr style="background-color: black; width: 30%;" />
-                        <ul class="list-group">
-                            @{
-                                foreach (var thread in Model.Threads)
-                                {
-                                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                                          <h5 class="text-truncate mw-250 mt-2">
-                                              <a asp-controller="Threads"
-                                                 asp-action="Read"
-                                                 asp-route-threadId="@thread.Id">@thread.Title</a>
-                                          </h5>
-                                          <span class="text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
-                                          <div class="d-inline">
-                                              <span class="mr-2"><i class="fas fa-lg big-icon fa-heart"></i> @thread.Points</span>
-                                              <span><i class="fas fa-lg big-icon fa-comment"></i> @thread.CommentCount</span>
-                                          </div>
-                                          <div class="dropdown mw-min-content ml-4">
-                                              <a class="dropdown-toggle media-img-30 layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-lg big-icon fa-ellipsis-h"></i></a>
-                                              <ul class="dropdown-menu">
-                                                  <li>
-                                                      <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a>
-                                                  </li>
-                                                  @if (ownAccount)
-                                                  {
-                                                      <li role="separator" class="dropdown-divider"></li>
-                                                      <li><a onclick="editThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
-                                                      <li><a onclick="deleteThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
-                                                  }
-                                              </ul>
-                                          </div>
-                                      </li>
-                                }
-                            }
-                        </ul>
-                    </div>
-                    <div class="tab-pane fade card-body" id="likedthreads">
-                        <h3 align="center">Liked threads</h3>
-                        <hr style="background-color: black; width: 30%;" />
-                        <ul class="list-group">
-                            @{
-                                foreach (var thread in Model.LikedThreads)
-                                {
-                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                            <h5 class="text-truncate mw-250 mt-2">
-                                                                <a asp-controller="Threads"
-                                                                   asp-action="Read"
-                                                                   asp-route-threadId="@thread.Id">@thread.Title</a>
-                                                            </h5>
-                                                            <span class="text-muted ml-0 mr-auto">&nbsp;&bull; @thread.CreatedOn</span>
-                                                            <div class="d-inline">
-                                                                <span class="mr-2"><i class="fas fa-lg big-icon fa-heart"></i> @thread.Points</span>
-                                                                <span><i class="fas fa-lg big-icon fa-comment"></i> @thread.CommentCount</span>
-                                                            </div>
-                                                            <div class="dropdown mw-min-content ml-4">
-                                                                <a class="dropdown-toggle media-img-30 layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-lg big-icon fa-ellipsis-h"></i></a>
-                                                                <ul class="dropdown-menu">
-                                                                    <li>
-                                                                        <a asp-controller="Threads" asp-action="Report" asp-route-commentId="@thread.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a>
-                                                                    </li>
-                                                                    @{
-                                                                        if (userId == thread.AuthorId)
-                                                                        {
-                                                                            <li role="separator" class="dropdown-divider"></li>
-                                                                            <li><a onclick="editThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
-                                                                            <li><a onclick="deleteThreadInPopup('@thread.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
-                                                                        }
-                                                                    }
-                                                                </ul>
-                                                            </div>
-                                                        </li>
-                                }
-                            }
                         </ul>
                     </div>
                 </div>

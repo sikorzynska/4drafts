@@ -1,0 +1,16 @@
+﻿@model List<ThreadsBrowseModel>
+@{
+    ViewBag.Title = "Library";
+    var user = await this.userManager.GetUserAsync(User);
+    var userId = user == null ? null : user.Id;
+}
+<div class="container-fluid">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-3 strokeme">@ViewBag.Title</h1>
+        </div>
+    </div>
+    <div class="container-fluid" id="threads-section">
+        <partial name="_ThreadsPartial" model="@Model" />
+    </div>
+</div>

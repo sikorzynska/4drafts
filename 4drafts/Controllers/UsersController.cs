@@ -6,13 +6,10 @@ using _4drafts.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using static _4drafts.Services.HtmlHelper;
 
@@ -20,18 +17,15 @@ namespace _4drafts.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly ITimeWarper timeWarper;
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly IHtmlHelper htmlHelper;
-        public UsersController(ITimeWarper timeWarper,
-            _4draftsDbContext data,
+        public UsersController(_4draftsDbContext data,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IHtmlHelper htmlHelper)
         {
-            this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
             this.htmlHelper = htmlHelper;
@@ -135,6 +129,16 @@ namespace _4drafts.Controllers
 
         [HttpGet]
         [NoDirectAccess]
+        [Authorize]
+        public async Task<IActionResult> Logout(string returnUrl = null)
+        {
+            var ReturnUrl = returnUrl == null ? Url.Content("/") : returnUrl;
+            await signInManager.SignOutAsync();
+            return Redirect(ReturnUrl);
+        }
+
+        [HttpGet]
+        [NoDirectAccess]
         public async Task<IActionResult> Profile(string userId)
         {
             var user = await this.userManager.FindByIdAsync(userId);
@@ -185,22 +189,6 @@ namespace _4drafts.Controllers
                 AboutMe = user.AboutMe,
                 ThreadCount = UserThreadCount(user.Id, this.data),
                 CommentCount = UserCommentCount(user.Id, this.data),
-                Threads = this.data.Threads
-                .Include(t => t.Category)
-                .Where(t => t.AuthorId == user.Id)
-                .OrderByDescending(t => t.CreatedOn)
-                .Select(t => new ThreadsBrowseModel
-                {
-                    Id = t.Id,
-                    Title = t.Title,
-                    Description = t.Description,
-                    Points = t.Points,
-                    CommentCount = ThreadCommentCount(t.Id, this.data),
-                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
-                    CategoryId = t.CategoryId,
-                    CategoryName = t.Category.Name,
-                }).ToList(),
-                LikedThreads = LikedThreads(user, this.data, this.timeWarper),
             };
 
             return View(res);
@@ -278,35 +266,5 @@ namespace _4drafts.Controllers
 
         private static int ThreadCommentCount(string threadId,_4draftsDbContext data)
                 => data.Comments.Count(c => c.ThreadId == threadId);
-
-        private static List<ThreadsBrowseModel> LikedThreads(User user, 
-            _4draftsDbContext data, 
-            ITimeWarper timeWarper)
-        {
-            var result = new List<ThreadsBrowseModel>();
-
-            foreach (var ut in user.UserThreads)
-            {
-                var t = data.Threads
-                    .Include(t => t.Category)
-                    .FirstOrDefault(t => t.Id == ut.ThreadId);
-
-                var thread = new ThreadsBrowseModel
-                {
-                    Id = t.Id,
-                    Title = t.Title,
-                    Points = t.Points,
-                    AuthorId = t.AuthorId,
-                    CommentCount = ThreadCommentCount(t.Id, data),
-                    CreatedOn = timeWarper.TimeAgo(t.CreatedOn),
-                    CategoryId = t.CategoryId,
-                    CategoryName = t.Category.Name,
-                };
-
-                result.Add(thread);
-            }
-
-            return result;
-        }
     }
 }
