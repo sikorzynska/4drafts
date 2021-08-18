@@ -168,15 +168,14 @@ function deleteThreadPost(threadId, method, categoryId,) {
             data: { threadId: threadId, method: method, categoryId: categoryId, },
             success: function (res) {
                 if (res.method == 2) {
-                    window.location.href = res.redirectUrl;
+                    $.notify('The thread has been successfully deleted', { globalPosition: 'top center', className: 'success' });
+                    $('#read-container').html(res.html);
                     $('#form-modal').modal('hide');
-                    paging();
                 }
                 else {
-                    $('#threads-section').html(res);
+                    document.getElementById(threadId).remove()
                     $.notify('The thread has been successfully deleted', { globalPosition: 'top center', className: 'success' });
                     $('#form-modal').modal('hide');
-                    paging();
                 }
             },
             error: function (err) {

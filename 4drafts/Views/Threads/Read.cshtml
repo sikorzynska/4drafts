@@ -3,16 +3,16 @@
     ViewBag.Title = Model.Title;
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
-    var avatarUrl = user == null ? "https://i.imgur.com/Q67mO1m.png" : user.AvatarUrl;
+    var avatarUrl = Model.AuthorAvatarUrl == null ? "https://i.imgur.com/Q67mO1m.png" : Model.AuthorAvatarUrl;
 }
 
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4" id="read-container">
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
                 <div class="card-header bg-secondary">
                     <div class="media flex-wrap w-100 align-items-center media-img-40">
-                        <img src="@Model.AuthorAvatarUrl" class="d-block ui-w-40 rounded-circle border">
+                        <img src="@avatarUrl" class="d-block ui-w-40 rounded-circle border">
                         <div class="media-body ml-3 mw-120p">
                             <a onclick="viewProfile('@Model.AuthorId')">@Model.AuthorName</a>
                             <div class="text-muted small">@Model.CreatedOn</div>

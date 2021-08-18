@@ -79,7 +79,7 @@ namespace _4drafts.Controllers
                     Id = c.Id,
                     Content = c.Content,
                     Points = c.Points,
-                    Liked = IsLiked(c.Id, userId, this.data),
+                    Liked = CommentIsLiked(c.Id, userId, this.data),
                     CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
                     AuthorId = c.AuthorId,
                     AuthorName = c.Author.UserName,
@@ -208,59 +208,11 @@ namespace _4drafts.Controllers
             {
                 case 1:
                     {
-                        var threads = new List<ThreadsBrowseModel>();
-
-                        if (categoryId != null)
-                        {
-                            threads = this.data.Threads
-                                .Include(t => t.Category)
-                                .Where(t => t.CategoryId == categoryId)
-                                .OrderByDescending(t => t.CreatedOn)
-                                .Select(t => new ThreadsBrowseModel
-                                {
-                                    Id = t.Id,
-                                    Title = t.Title,
-                                    Description = t.Description,
-                                    CategoryId = t.CategoryId,
-                                    CategoryName = t.Category.Name,
-                                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
-                                    Points = t.Points,
-                                    AuthorId = t.AuthorId,
-                                    AuthorName = t.Author.UserName,
-                                    AuthorAvatarUrl = t.Author.AvatarUrl,
-                                    CommentCount = this.data.Comments.Count(c => c.ThreadId == t.Id)
-                                })
-                                .ToList();
-                        }
-                        else
-                        {
-                            threads = this.data.Threads
-                                .Include(t => t.Comments)
-                                .Include(t => t.Category)
-                                .OrderByDescending(t => t.Points)
-                                .ThenByDescending(t => t.Comments.Count())
-                                .Select(t => new ThreadsBrowseModel
-                                {
-                                    Id = t.Id,
-                                    Title = t.Title,
-                                    Description = t.Description,
-                                    CategoryId = t.CategoryId,
-                                    CategoryName = t.Category.Name,
-                                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
-                                    Points = t.Points,
-                                    AuthorId = t.AuthorId,
-                                    AuthorName = t.Author.UserName,
-                                    AuthorAvatarUrl = t.Author.AvatarUrl,
-                                    CommentCount = ThreadCommentCount(t.Id, this.data),
-                                })
-                                .ToList();
-                        }
-
-                        return PartialView("_ThreadsPartial", threads);
+                        return Json(new { method = method });
                     }
                     default:
                     {
-                        return Json(new { method = method, redirectUrl = Url.ActionLink("Browse", "Threads") });
+                        return Json(new { method = method, html = this.htmlHelper.RenderRazorViewToString(this, "DeletedSuccessfully") });
                     }
             }
         }
@@ -437,7 +389,7 @@ namespace _4drafts.Controllers
                       Name = c.Name
                   })
                   .ToList();
-        private static bool IsLiked(string commentId, string userId, _4draftsDbContext data)
+        private static bool CommentIsLiked(string commentId, string userId, _4draftsDbContext data)
                 => data.UserComments.Any(uc => uc.UserId == userId && uc.CommentId == commentId);
 
         private static List<ThreadsBrowseModel> LikedThreads(User user,

@@ -222,11 +222,9 @@ namespace _4drafts.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(UserViewModel model)
         {
-            if (!String.IsNullOrWhiteSpace(model.Gender))
-            {
-                if (model.Gender != "Male" && model.Gender != "Female")
-                this.ModelState.AddModelError(nameof(model.Gender), "Invalid gender selection");
-            }
+
+            if (model.Gender != "Male" && model.Gender != "Female" && model.Gender != string.Empty)
+            this.ModelState.AddModelError(nameof(model.Gender), "Invalid gender selection");
 
             if (!ModelState.IsValid)
             {

@@ -32,7 +32,7 @@
                                 avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
                                 if (userId == thread.AuthorId)
                                 {
-                                    <tr class="table-info">
+                                    <tr class="table-info" id="@thread.Id">
                                         <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
                                         <td class="text-truncate border"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
                                         <td class="text-truncate border">@thread.CreatedOn</td>
@@ -68,7 +68,7 @@
                                                         }
                                                         else
                                                         {
-                                    <tr class="table-secondary">
+                                    <tr class="table-secondary" id="@thread.Id">
                                         <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
                                         <td class="text-truncate border"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
                                         <td class="text-truncate border">@thread.CreatedOn</td>
@@ -121,7 +121,7 @@
                                 avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
                                 if (userId == thread.AuthorId)
                                 {
-                                    <tr class="table-info">
+                                    <tr class="table-info" id="@thread.Id">
                                         <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
                                         <td class="text-truncate border">@thread.CreatedOn</td>
                                         <td class="border">@thread.Points</td>
@@ -151,7 +151,7 @@
                                    }
                                    else
                                    {
-                                    <tr class="table-secondary">
+                                    <tr class="table-secondary" id="@thread.Id">
                                         <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
                                         <td class="text-truncate border">@thread.CreatedOn</td>
                                         <td class="border">@thread.Points</td>

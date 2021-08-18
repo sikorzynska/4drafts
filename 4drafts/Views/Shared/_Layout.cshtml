@@ -22,7 +22,7 @@
                 </a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item text-color-black dropdown">
-                        <a class="text-color-black nav-link dropdown-toggle" title="Browse" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-archive"></i> Categories</a>
+                        <a class="text-color-black nav-link dropdown-toggle" title="Browse categories" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-archive"></i> Categories</a>
                         <div class="dropdown-menu">
                             <a asp-controller="Categories" asp-action="All" class="dropdown-item">All</a>
                             <div class="dropdown-divider"></div>
@@ -43,7 +43,7 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Browse" title="Browse" class="nav-link text-color-black"><i class="fas fa-th-large"></i> Browse</a>
+                        <a asp-controller="Threads" asp-action="Browse" title="Browse threads" class="nav-link text-color-black"><i class="fas fa-th-large"></i> Browse</a>
                     </li>
                     @if (user != null)
                     {

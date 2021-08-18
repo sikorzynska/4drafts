@@ -23,6 +23,7 @@ namespace _4drafts.Infrastructure
             SeedCategories(data);
             SeedUsers(data);
             SeedThreads(data);
+            //SeedComments(data);
 
             return app;
         }
@@ -479,6 +480,299 @@ namespace _4drafts.Infrastructure
             };
 
             data.Threads.AddRange(threads);
+            data.SaveChanges();
+        }
+
+        private static void SeedComments(_4draftsDbContext data)
+        {
+            if (data.Comments.Any(c => c.Id == "20bf1ac5-1a97-4854-a9ec-467f06a82fb9")) return;
+
+            Random rnd = new Random();
+            var comments = new List<Comment>
+            {
+                new Comment
+                {
+                    Id = "20bf1ac5-1a97-4854-a9ec-467f06a82fb9",
+                    Content = "Amazing, I absolutely love it",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
+                    ThreadId = "f3cd7787-ead6-4eae-899c-e5952e4934c1"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "Great, wish there was more",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "eb6d0403-1b52-454a-a3bc-bc8aa534c4a1",
+                    ThreadId = "b2f87ea3-676e-4e8c-9878-908a24ee4354"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "Very interesting",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
+                    ThreadId = "57cf58c3-44a5-4a32-a83a-49b36d8bf7c6"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "that one was goooooooooooood",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
+                    ThreadId = "f1767a58-5c40-4a1d-b256-bb96fa60d9ea"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "love the twist at the end",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
+                    ThreadId = "57cf58c3-44a5-4a32-a83a-49b36d8bf7c6"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "is there a part 2 by any chance ?????",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
+                    ThreadId = "e78055f5-d6da-4ab4-a05d-000a3c5c5281"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "kinda drags out at the end tbh, but interesting nevertheless",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
+                    ThreadId = "aa5067eb-6029-48f3-968a-6ab92d66b953"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "I didn't get it",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "f76ba675-da23-45ae-b351-7854af84d238",
+                    ThreadId = "651c10e9-6439-479e-8fad-c5784ecff65b"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "the main character is so boring",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "f76ba675-da23-45ae-b351-7854af84d238",
+                    ThreadId = "937e8c3d-5474-4e32-b019-cbe628bba891"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "what is it about white people trying to hunt ghosts",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "f76ba675-da23-45ae-b351-7854af84d238",
+                    ThreadId = "0760686a-6598-43e6-9ed7-87f340c78d7c"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "I didn't get it",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    ThreadId = "fe016357-389e-4d3f-b335-1e3a9f17ffb3"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "the main character is so boring",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    ThreadId = "fe8b0fc3-174f-4270-8e77-de2c00e6c47c"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "what is it about white people trying to hunt ghosts",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    ThreadId = "ffa37ac4-575a-4b06-b4b9-23365c62d15c"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "Everyone was busy, so I went to the movie alone.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "742466ec-5456-4f41-8b02-5ca6c710fa76",
+                    ThreadId = "f3cd7787-ead6-4eae-899c-e5952e4934c1"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "The gloves protect my feet from excess work.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "742466ec-5456-4f41-8b02-5ca6c710fa76",
+                    ThreadId = "f1767a58-5c40-4a1d-b256-bb96fa60d9ea"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "There are no heroes in a punk rock band.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "742466ec-5456-4f41-8b02-5ca6c710fa76",
+                    ThreadId = "e98d96ea-7c4a-4228-8373-f9f6bb3a8880"
+                },
+                 new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "The book is in front of the table.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    ThreadId = "e8d2f57f-2832-421f-aac0-207ea9b5e3e5"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "We're careful about orange ping pong balls because people might think they're fruit.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    ThreadId = "e98d96ea-7c4a-4228-8373-f9f6bb3a8880"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "Eating eggs on Thursday for choir practice was recommended.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    ThreadId = "e8d2f57f-2832-421f-aac0-207ea9b5e3e5"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "Jerry liked to look at paintings while eating garlic ice cream.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
+                    ThreadId = "e78055f5-d6da-4ab4-a05d-000a3c5c5281"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "I thought red would have felt warmer in summer but I didn't think about the equator.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
+                    ThreadId = "e6409d32-32ff-4186-9c3f-d63523794eae"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "Last Friday I saw a spotted striped blue worm shake hands with a legless lizard.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
+                    ThreadId = "df049477-da1e-4a0c-a779-729db036e4d9"
+                },
+                 new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "She did her best to help him.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
+                    ThreadId = "b2f87ea3-676e-4e8c-9878-908a24ee4354"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "He had reached the point where he was paranoid about being paranoid.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
+                    ThreadId = "b0194a3c-711b-4aff-93f1-8ecaaef7d389"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "She hadn't had her cup of coffee, and that made things all the worse.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
+                    ThreadId = "aa5067eb-6029-48f3-968a-6ab92d66b953"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "Toddlers feeding raccoons surprised even the seasoned park ranger.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
+                    ThreadId = "e78055f5-d6da-4ab4-a05d-000a3c5c5281"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "The Guinea fowl flies through the air with all the grace of a turtle.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
+                    ThreadId = "e6409d32-32ff-4186-9c3f-d63523794eae"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "It was the first time he had ever seen someone cook dinner on an elephant.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
+                    ThreadId = "df049477-da1e-4a0c-a779-729db036e4d9"
+                },
+                 new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "Thigh-high in the water, the fisherman’s hope for dinner soon turned to despair.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
+                    ThreadId = "b2f87ea3-676e-4e8c-9878-908a24ee4354"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "The irony of the situation wasn't lost on anyone in the room.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
+                    ThreadId = "b0194a3c-711b-4aff-93f1-8ecaaef7d389"
+                },
+                new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = "A dead duck doesn't fly backward.",
+                    CreatedOn = RandomDayFunc(),
+                    Points = rnd.Next(100),
+                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
+                    ThreadId = "aa5067eb-6029-48f3-968a-6ab92d66b953"
+                },
+
+            };
+
+            data.Comments.AddRange(comments);
             data.SaveChanges();
         }
 
