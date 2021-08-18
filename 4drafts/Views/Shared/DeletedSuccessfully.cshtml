@@ -1,6 +1,16 @@
-﻿<div class="col text-center mt-5">
-    <i class="text-success far fa-9x fa-check-circle"></i>
-    <h1>Success</h1>
-    <h4>The thread has been deleted successfully</h4>
-    <a asp-controller="Threads" asp-action="Browse" class="mt-2 btn btn-lg btn-outline-primary" type="button"><i class="fas fa-th-large"></i> Browse</a>
+﻿@{ 
+    ViewBag.Title = "Success";
+    Layout = null;
+}
+<div class="container-fluid d-flex flex-column" style="height: 100%; ">
+    <div class="text-center">
+        <div class="form-header">
+            <i class="text-success far fa-9x fa-check-circle mb-4"></i>
+            <h1>Success</h1>
+            <h4>The thread has been successfully deleted</h4>
+        </div>
+        <div class="form-footer">
+            <a asp-controller="Threads" asp-action="Browse" class="mt-4 mb-1 btn btn-outline-primary" type="button"><i class="fas fa-th-large"></i> Browse</a>
+        </div>
+    </div>
 </div>

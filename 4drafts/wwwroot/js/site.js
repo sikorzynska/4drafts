@@ -134,6 +134,7 @@ createThreadPost = form => {
                     $('#staticBackdrop .modal-body').html(res.html);
                 }
                 else {
+                    $('#staticBackdrop').modal('hide');
                     window.location.href = res.redirectToUrl;
                 }
             },
@@ -168,9 +169,10 @@ function deleteThreadPost(threadId, method, categoryId,) {
             data: { threadId: threadId, method: method, categoryId: categoryId, },
             success: function (res) {
                 if (res.method == 2) {
-                    $.notify('The thread has been successfully deleted', { globalPosition: 'top center', className: 'success' });
-                    $('#read-container').html(res.html);
+                    $('#read-container').html("");
                     $('#form-modal').modal('hide');
+                    $('#staticBackdrop').modal('show');
+                    $('#staticBackdrop .modal-body').html(res.html);
                 }
                 else {
                     document.getElementById(threadId).remove()
