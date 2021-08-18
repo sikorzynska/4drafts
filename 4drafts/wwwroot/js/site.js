@@ -27,21 +27,6 @@ $(function () {
 var text_max = 500;
 $('#count_message').html('0 / ' + text_max);
 
-function showComments() {
-    var showCommentsButton = document.getElementById('comments-button');
-    var commentSection = document.getElementById('comment-section');
-
-    if (commentSection.classList.contains('d-none')) {
-        commentSection.classList.remove('d-none');
-        showCommentsButton.value = 'hide comments'
-        showCommentsButton.innerText = 'hide comments'
-    } else {
-        commentSection.classList.add('d-none');
-        showCommentsButton.value = 'show comments'
-        showCommentsButton.innerText = 'show comments'
-    }
-}
-
 function countCharacters() {
     var text_length = $('#comment-content').val().length;
     var text_remaining = text_max - text_length;
@@ -80,14 +65,14 @@ function checkIfEmpty() {
 
 function hideButtons() {
     var commentButtons = document.getElementById('comment-buttons');
-    var counter = document.getElementById('counter');
+    var counter = document.getElementById('counter-append');
     commentButtons.classList.add('d-none');
     counter.classList.add('d-none');
 }
 
 function showButtons() {
     var commentButtons = document.getElementById('comment-buttons');
-    var counter = document.getElementById('counter');
+    var counter = document.getElementById('counter-append');
     commentButtons.classList.remove('d-none');
     counter.classList.remove('d-none');
 }
@@ -161,24 +146,17 @@ function deleteThreadInPopup(threadId, method ,categoryId,) {
     })
 }
 
-function deleteThreadPost(threadId, method, categoryId,) {
+function deleteThreadPost(threadId) {
     try {
         $.ajax({
             type: 'POST',
             url: '/Threads/Delete/',
-            data: { threadId: threadId, method: method, categoryId: categoryId, },
+            data: { threadId: threadId },
             success: function (res) {
-                if (res.method == 2) {
-                    $('#read-container').html("");
-                    $('#form-modal').modal('hide');
-                    $('#staticBackdrop').modal('show');
-                    $('#staticBackdrop .modal-body').html(res.html);
-                }
-                else {
-                    document.getElementById(threadId).remove()
-                    $.notify('The thread has been successfully deleted', { globalPosition: 'top center', className: 'success' });
-                    $('#form-modal').modal('hide');
-                }
+                $('#read-container').html("");
+                $('#form-modal').modal('hide');
+                $('#staticBackdrop').modal('show');
+                $('#staticBackdrop .modal-body').html(res.html);
             },
             error: function (err) {
                 console.log(err)

@@ -168,7 +168,7 @@ namespace _4drafts.Controllers
         [HttpGet]
         [Authorize]
         [NoDirectAccess]
-        public async Task<IActionResult> Delete(string threadId, int? method,  int? categoryId)
+        public async Task<IActionResult> Delete(string threadId)
         {
             var thread = await data.Threads.FindAsync(threadId);
             var user = await this.userManager.GetUserAsync(User);
@@ -183,19 +183,15 @@ namespace _4drafts.Controllers
                 return Unauthorized();
             }
 
-            var deleteMethod = method == null ? 1 : method;
-
             return View(new ThreadViewModel
             {
                 Id = thread.Id,
-                CategoryId = categoryId,
-                DeleteMethod = deleteMethod,
             });
         }
 
         [HttpPost, ActionName("Delete")]
         [Authorize]
-        public async Task<IActionResult> DeleteConfirmed(string threadId, int method , int? categoryId)
+        public async Task<IActionResult> DeleteConfirmed(string threadId)
         {
             var thread = await data.Threads.FindAsync(threadId);
 
@@ -204,17 +200,7 @@ namespace _4drafts.Controllers
             data.Threads.Remove(thread);
             await data.SaveChangesAsync();
 
-            switch (method)
-            {
-                case 1:
-                    {
-                        return Json(new { method = method });
-                    }
-                    default:
-                    {
-                        return Json(new { method = method, html = this.htmlHelper.RenderRazorViewToString(this, "DeletedSuccessfully") });
-                    }
-            }
+            return Json(new { html = this.htmlHelper.RenderRazorViewToString(this, "DeletedSuccessfully") });
         }
 
         [HttpGet]
@@ -404,6 +390,7 @@ namespace _4drafts.Controllers
                         {
                             var t = data.Threads
                                 .Include(t => t.Author)
+                                .Include(t => t.Category)
                                 .FirstOrDefault(t => t.Id == ut.ThreadId);
                
                             var thread = new ThreadsBrowseModel
@@ -412,6 +399,8 @@ namespace _4drafts.Controllers
                                 Title = t.Title,
                                 Points = t.Points,
                                 AuthorId = t.AuthorId,
+                                CategoryId = t.CategoryId,
+                                CategoryName = t.Category.Name,
                                 AuthorAvatarUrl = t.Author.AvatarUrl,
                                 AuthorName = t.Author.UserName,
                                 CommentCount = ThreadCommentCount(t.Id, data),

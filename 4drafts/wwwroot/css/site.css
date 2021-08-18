@@ -53,8 +53,15 @@ html {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
-.border {
-    border: 2px solid #00ffff;
+.border-notop {
+    border-left: 1px solid #222;
+    border-right: 1px solid #222;
+    border-bottom: 1px solid #222;
+}
+.border-nobottom {
+    border-left: 1px solid #222;
+    border-right: 1px solid #222;
+    border-top: 1px solid #222;
 }
 
 button.accept-policy {
