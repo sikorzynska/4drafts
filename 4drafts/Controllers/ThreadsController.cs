@@ -228,6 +228,7 @@ namespace _4drafts.Controllers
             {
                 Categories = GetCategories(this.data),
                 CategoryName = this.data.Categories.FirstOrDefault(c => c.Id == catId).Name,
+                CategoryDescription = this.data.Categories.FirstOrDefault(c => c.Id == catId).Description,
                 CategoryId = catId
             });
         }
@@ -245,6 +246,7 @@ namespace _4drafts.Controllers
             {
                 model.Categories = GetCategories(this.data);
                 model.CategoryName = model.Categories.FirstOrDefault(c => c.Id == model.CategoryId).Name;
+                model.CategoryDescription = this.data.Categories.FirstOrDefault(c => c.Id == model.CategoryId).Description;
 
                 return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Create", model) });
             }

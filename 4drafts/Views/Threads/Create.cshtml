@@ -10,7 +10,7 @@
     <form asp-controller="Threads" asp-action="Create" asp-route-categoryId="@catId" method="post" onsubmit="return createThreadPost(this);">
         <div class="container-fluid col-12 mt-2">
             <div class="form-header" align="center">
-                <div class="dropdown-divider"></div>
+                <hr />
                 <h2 class="heading-margin">@ViewBag.Title</h2>
                 @{
                     if (String.IsNullOrWhiteSpace(Model.CategoryName))
@@ -20,10 +20,12 @@
                     else
                     {
                         <p class="text-muted">Start a thread in the <strong>@Model.CategoryName</strong> category</p>
+                        <hr />
+                        <p class="text-left">@Model.CategoryDescription</p>
                     }
                 }
-                <div class="dropdown-divider"></div>
             </div>
+            <hr />
             <div class="form-body">
                 <div class="form-group">
                     <label asp-for="CategoryId" class="form-label mt-4"></label>
