@@ -13,6 +13,8 @@ namespace _4drafts.Models.Drafts
 
         public string Content { get; set; }
 
+        public string CreatedOn { get; set; }
+
         public string AuthorId { get; set; }
     }
 }

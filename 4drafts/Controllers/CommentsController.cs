@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using static _4drafts.Services.HtmlHelper;
+using _4drafts.Models.Shared;
 
 namespace _4drafts.Controllers
 {
@@ -168,43 +169,34 @@ namespace _4drafts.Controllers
         [HttpGet]
         [Authorize]
         [NoDirectAccess]
-        public async Task<IActionResult> Delete(string commentId)
+        public async Task<IActionResult> Delete(string Id)
         {
-            var comment = await this.data.Comments.FindAsync(commentId);
+            var comment = await this.data.Comments.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (comment == null)
-            {
-                return NotFound();
-            }
+            if (comment == null) return Json(new { isValid = false, msg = "Whoops! Looks like no such comment exists..." });
 
-            if (user.Id != comment.AuthorId)
-            {
-                return Unauthorized();
-            }
+            if (user == null || user.Id != comment.AuthorId) return Json(new { isValid = false, msg = "Whoops! Looks like you're not authorized to do this..." });
 
-            return View(new EditCommentViewModel
-            {
-                Id = comment.Id,
-                Content = comment.Content,
-            });
+            return Json(new { isValid = true, html = this.htmlHelper.RenderRazorViewToString(this, "DeleteEntity", new GlobalViewModel { Id = comment.Id, Name = "comment", Path = "/Comments/Delete/" }) });
         }
 
         [HttpPost]
         [Authorize]
         [ActionName("Delete")]
-        public async Task<IActionResult> ConfirmDelete(string commentId)
+        public async Task<IActionResult> ConfirmDelete(string Id)
         {
-            var comment = await this.data.Comments.FindAsync(commentId);
+            var comment = await this.data.Comments.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (comment == null) return NotFound();
+            if (comment == null) return Json(new { isValid = false, 
+                msg = "Whoops! Looks like no such comment exists..." });
 
-            if (user.Id != comment.AuthorId || user == null) return NotFound();
+            if (user == null || user.Id != comment.AuthorId || user == null) return Json(new { isValid = false, 
+                msg = "Whoops! Looks like you're not authorized to do this..." });
 
             var thread = await this.data.Threads.FindAsync(comment.ThreadId);
 
-            //Remove database entity & save changes
             this.data.Comments.Remove(comment);
             await this.data.SaveChangesAsync();
 
@@ -227,7 +219,11 @@ namespace _4drafts.Controllers
                 })
                 .ToList();
 
-            return Json(new { html = htmlHelper.RenderRazorViewToString(this, "_CommentsPartial", new ThreadViewModel { Id = thread.Id, Comments = comments }) });
+            return Json(new { isValid = true, 
+                msg = "The comment has been successfully deleted",
+                html = this.htmlHelper.RenderRazorViewToString(this, "_CommentsPartial", 
+                new ThreadViewModel { Id = thread.Id, Comments = comments }), 
+                entity = "comment" });
         }
 
         [HttpPost]

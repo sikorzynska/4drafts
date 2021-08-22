@@ -3,6 +3,7 @@ using _4drafts.Data.Models;
 using _4drafts.Models.Categories;
 using _4drafts.Models.Comments;
 using _4drafts.Models.Drafts;
+using _4drafts.Models.Shared;
 using _4drafts.Models.Threads;
 using _4drafts.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -169,39 +170,35 @@ namespace _4drafts.Controllers
         [HttpGet]
         [Authorize]
         [NoDirectAccess]
-        public async Task<IActionResult> Delete(string threadId)
+        public async Task<IActionResult> Delete(string Id)
         {
-            var thread = await data.Threads.FindAsync(threadId);
+            var thread = await data.Threads.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (thread == null)
-            {
-                return NotFound();
-            }
+            if (thread == null) return Json(new { isValid = false, msg = "Whoops! Looks like no such thread exists..." });
 
-            if(user.Id != thread.AuthorId)
-            {
-                return Unauthorized();
-            }
+            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = "Whoops! Looks like you're not authorized to do this..." });
 
-            return View(new ThreadViewModel
-            {
-                Id = thread.Id,
-            });
+            return Json(new { isValid = true, html = this.htmlHelper.RenderRazorViewToString(this, "DeleteEntity", new GlobalViewModel { Id = thread.Id, Name = "thread", Path = "/Threads/Delete/" }) });
         }
 
         [HttpPost, ActionName("Delete")]
         [Authorize]
-        public async Task<IActionResult> DeleteConfirmed(string threadId)
+        public async Task<IActionResult> DeleteConfirmed(string Id)
         {
-            var thread = await data.Threads.FindAsync(threadId);
+            var thread = await data.Threads.FindAsync(Id);
+            var user = await this.userManager.GetUserAsync(this.User);
 
-            var comments = this.data.Comments.Where(c => c.ThreadId == threadId);
+            if (thread == null) return Json(new { isValid = false, msg = "Whoops! Looks like no such thread exists..." });
+
+            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = "Whoops! Looks like you're not authorized to do this..." });
+
+            var comments = this.data.Comments.Where(c => c.ThreadId == Id);
             data.RemoveRange(comments);
             data.Threads.Remove(thread);
             await data.SaveChangesAsync();
 
-            return Json(new { html = this.htmlHelper.RenderRazorViewToString(this, "DeletedSuccessfully") });
+            return Json(new { isValid = true, html = this.htmlHelper.RenderRazorViewToString(this, "DeletedSuccessfully"), entity = "thread" });
         }
 
         [HttpGet]

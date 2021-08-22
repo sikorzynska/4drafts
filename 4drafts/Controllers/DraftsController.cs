@@ -1,10 +1,13 @@
 ﻿using _4drafts.Data;
 using _4drafts.Data.Models;
 using _4drafts.Models.Drafts;
+using _4drafts.Models.Shared;
+using _4drafts.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,12 +17,18 @@ namespace _4drafts.Controllers
     {
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
+        private readonly ITimeWarper timeWarper;
+        private readonly IHtmlHelper htmlHelper;
 
         public DraftsController(_4draftsDbContext data,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            ITimeWarper timeWarper,
+            IHtmlHelper htmlHelper)
         {
             this.data = data;
             this.userManager = userManager;
+            this.timeWarper = timeWarper;
+            this.htmlHelper = htmlHelper;
         }
 
         [Authorize]
@@ -30,7 +39,11 @@ namespace _4drafts.Controllers
 
             if (user == null) return Unauthorized();
 
-            if(title == null) return Json(new { isValid = false, msg = "Whoops! Drafts require a title..." });
+            var draftCount = this.data.Drafts.Count(d => d.AuthorId == user.Id);
+
+            if (title == null) return Json(new { isValid = false, msg = "Whoops! Drafts require a title..." });
+
+            if(draftCount >= 10) return Json(new { isValid = false, msg = "Whoops! You can only have 10 drafts at a time..." });
 
             if (draftId == null)
             {
@@ -39,6 +52,7 @@ namespace _4drafts.Controllers
                     Title = title,
                     Description = description,
                     Content = content,
+                    CreatedOn = DateTime.UtcNow.ToLocalTime(),
                     AuthorId = user.Id,
                 };
 
@@ -56,6 +70,7 @@ namespace _4drafts.Controllers
                 draft.Title = title;
                 draft.Description = description;
                 draft.Content = content;
+                draft.CreatedOn = DateTime.UtcNow.ToLocalTime();
                 draft.AuthorId = user.Id;
 
                 await this.data.SaveChangesAsync();
@@ -79,11 +94,47 @@ namespace _4drafts.Controllers
                     Title = d.Title,
                     Description = d.Description,
                     Content = d.Content,
+                    CreatedOn = this.timeWarper.TimeAgo(d.CreatedOn),
                     AuthorId = d.AuthorId,
                 })
                 .ToList();
 
             return View(drafts);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Delete(string Id)
+        {
+            var draft = await this.data.Drafts.FirstOrDefaultAsync(d => d.Id == Id);
+
+            if (draft == null) return Json(new { isValid = false, msg = "Whoops! Looks like no such draft exists..." });
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null || user.Id != draft.AuthorId) return Json(new { isValid = false, msg = "Whoops! Looks like you're not authorized to do this..." });
+
+            return Json(new { isValid = true, html = this.htmlHelper.RenderRazorViewToString(this, "DeleteEntity", new GlobalViewModel { Id = draft.Id, Name = "draft", Path = "/Drafts/Delete/" }) });
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(string Id)
+        {
+            var draft = await this.data.Drafts.FirstOrDefaultAsync(d => d.Id == Id);
+
+            if (draft == null) return Json(new { isValid = false, msg = "Whoops! Looks like no such draft exists..." });
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null || user.Id != draft.AuthorId) return Json(new { isValid = false, msg = "Whoops! Looks like you're not authorized to do this..." });
+
+            this.data.Drafts.Remove(draft);
+            await this.data.SaveChangesAsync();
+
+            var draftCount = this.data.Drafts.Count(d => d.AuthorId == draft.AuthorId);
+            return Json(new { isValid = true, msg = "The draft has been successfully deleted", entity = "draft", count = draftCount });
         }
     }
 }

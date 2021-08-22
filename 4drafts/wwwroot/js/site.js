@@ -130,39 +130,54 @@ createThreadPost = form => {
     })
 }
 
-function deleteThreadInPopup(threadId, method ,categoryId) {
+function deletePopup(entityId, path) {
     $.ajax({
         type: 'GET',
-        url: "/Threads/Delete/",
-        data: { threadId: threadId, method: method, categoryId: categoryId },
+        url: path,
+        data: { Id: entityId },
         success: function (res) {
-            $('#form-modal .modal-body').html(res);
-            $('#form-modal').modal('show');
+            if (res.isValid) {
+                $('#form-modal .modal-body').html(res.html);
+                $('#form-modal').modal('show');
+            }
+            else {
+                $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
+                $('#form-modal').modal('hide');
+            }
         }
     })
 }
 
-function deleteThreadPost(threadId) {
-    try {
-        $.ajax({
-            type: 'POST',
-            url: '/Threads/Delete/',
-            data: { threadId: threadId },
-            success: function (res) {
-                $('#read-container').html("");
-                $('#form-modal').modal('hide');
-                $('#staticBackdrop').modal('show');
-                $('#staticBackdrop .modal-body').html(res.html);
-            },
-            error: function (err) {
-                console.log(err)
+function deletePost(entityId, path) {
+    $.ajax({
+        type: 'POST',
+        url: path,
+        data: { Id: entityId },
+        success: function (res) {
+            if (res.isValid) {
+                if (res.entity == 'draft') {
+                    document.getElementById(entityId).remove();
+                    $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+                    $('#draft-count').html('[' + res.count + ' / 10]');
+                    $('#form-modal').modal('hide');
+                }
+                else if (res.entity == 'thread') {
+                    $('#read-container').html("");
+                    $('#form-modal').modal('hide');
+                    $('#staticBackdrop').modal('show');
+                    $('#staticBackdrop .modal-body').html(res.html);
+                }
+                else if (res.entity == 'comment') {
+                    $('#comment-section').html(res.html);
+                    $('#form-modal').modal('hide');
+                    $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+                }
             }
-        })
-        //to prevent default form submit event
-        return false;
-    } catch (ex) {
-        console.log(ex)
-    }
+            else {
+                $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
+            }
+        }
+    })
 }
 
 function editThreadInPopup(threadId) {
@@ -239,44 +254,6 @@ editCommentPost = form => {
                     $('#comment-section').html(res.html);
                     $.notify('The comment has been successfully editted', { globalPosition: 'top left', className: 'success' });
                 }
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        })
-        //to prevent default form submit event
-        return false;
-    } catch (ex) {
-        console.log(ex)
-    }
-}
-
-function deleteCommentInPopup(commentId) {
-    $.ajax({
-        type: 'GET',
-        url: "/Comments/Delete/",
-        data: { commentId: commentId },
-        success: function (res) {
-            $('#form-modal .modal-body').html(res);
-            $('#form-modal').modal('show');
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    })
-}
-
-function deleteCommentPost(commentId) {
-    try {
-        $.ajax({
-            type: 'POST',
-            url: '/Comments/Delete/',
-            data: { commentId: commentId },
-            success: function (res) {
-                $('#comment-section').html(res.html);
-                $('#form-modal').modal('hide');
-                $.notify('The comment has been successfully deleted', { globalPosition: 'top left', className: 'success' });
-
             },
             error: function (err) {
                 console.log(err)

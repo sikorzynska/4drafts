@@ -1,13 +1,11 @@
 ﻿using _4drafts.Data;
 using _4drafts.Data.Models;
-using _4drafts.Models.Threads;
 using _4drafts.Models.Users;
 using _4drafts.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;

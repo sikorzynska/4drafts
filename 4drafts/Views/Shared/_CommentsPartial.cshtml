@@ -100,7 +100,7 @@
                             @if (userId == comment.AuthorId)
                             {
                                 <a onclick="editCommentInPopup('@comment.Id')" class="d-inline ml-2"><i class="fas fa-pencil-alt"></i></a>
-                                <a onclick="deleteCommentInPopup('@comment.Id')" class="d-inline ml-2"><i class="fas fa-trash-alt"></i></a>
+                                <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="d-inline ml-2"><i class="fas fa-trash-alt"></i></a>
                             }
                         }
                     </div>

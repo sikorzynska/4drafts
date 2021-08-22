@@ -38,7 +38,7 @@
                         @if (userId == Model.AuthorId)
                         {
                             <div class="zoom"><a class="btn btn-link" onclick="editThreadInPopup('@Model.Id')"><i class="fas fa-lg big-icon fa-pencil-alt"></i></a></div>
-                            <div class="zoom"><a class="btn btn-link" onclick="deleteThreadInPopup('@Model.Id')"><i class="fas fa-lg big-icon fa-trash-alt"></i></a></div>
+                            <div class="zoom"><a class="btn btn-link" onclick="deletePopup('@Model.Id', '/Threads/Delete/')"><i class="fas fa-lg big-icon fa-trash-alt"></i></a></div>
                         }
                         <div class="zoom"><a class="btn btn-link" asp-controller="Threads" asp-action="Report" asp-route-threadId="@Model.Id"><i class="fas fa-lg big-icon fa-flag"></i></a></div>
                         <div class="zoom"><a class="btn btn-link" onclick="changeArrow()"><i id="fold-arrow" class="fas fa-lg big-icon fa-arrow-down"></i></a></div>

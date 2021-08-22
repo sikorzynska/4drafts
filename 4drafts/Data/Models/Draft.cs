@@ -19,6 +19,8 @@ namespace _4drafts.Data.Models
 
         public string Content { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
         [Required]
         public string AuthorId { get; set; }
 
