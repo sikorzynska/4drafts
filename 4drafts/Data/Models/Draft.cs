@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using static _4drafts.Data.DataConstants;
 
 namespace _4drafts.Data.Models
 {
@@ -6,10 +8,13 @@ namespace _4drafts.Data.Models
     {
         [Key]
         [Required]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
+        [Required]
+        [MaxLength(ThreadTitleMaxLength)]
         public string Title { get; set; }
 
+        [MaxLength(ThreadDescriptionMaxLength)]
         public string Description { get; set; }
 
         public string Content { get; set; }

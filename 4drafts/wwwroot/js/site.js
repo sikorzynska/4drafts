@@ -1,6 +1,5 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
-
 // Write your JavaScript code.
 
 $(document).ready(function () {
@@ -29,7 +28,6 @@ $('#count_message').html('0 / ' + text_max);
 
 function countCharacters() {
     var text_length = $('#comment-content').val().length;
-    var text_remaining = text_max - text_length;
 
     $('#count_message').html(text_length + ' / ' + text_max);
 };
@@ -94,47 +92,45 @@ function refreshComments(Id, Content) {
     });
 }
 
-function createThreadInPopup(categoryId) {
-    $.ajax({
-        type: 'GET',
-        url: "/Threads/Create/",
-        data: { categoryId: categoryId},
+function createThreadInPopup(title, description, content) {
+    try {
+        $.ajax({
+            type: 'GET',
+            url: "/Threads/Create/",
+            data: { title: title, description: description, content: content },
         success: function (res) {
-            $('#staticBackdrop .modal-body').html(res);
-            $('#staticBackdrop').modal('show');
+                $('#staticBackdrop .modal-body').html(res);
+                $('#staticBackdrop').modal('show');
+            },
+        error: function (err) {
+                console.log(err);
+            }
+        })
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+createThreadPost = form => {
+    $.ajax({
+        type: 'POST',
+        url: form.action,
+        data: new FormData(form),
+        contentType: false,
+        processData: false,
+        success: function (res) {
+            if (!res.isValid) {
+                $('#staticBackdrop .modal-body').html(res.html);
+            }
+            else {
+                $('#staticBackdrop').modal('hide');
+                window.location.href = res.redirectToUrl;
+            }
         }
     })
 }
 
-createThreadPost = form => {
-    try {
-        $.ajax({
-            type: 'POST',
-            url: form.action,
-            data: new FormData(form),
-            contentType: false,
-            processData: false,
-            success: function (res) {
-                if (!res.isValid) {
-                    $('#staticBackdrop .modal-body').html(res.html);
-                }
-                else {
-                    $('#staticBackdrop').modal('hide');
-                    window.location.href = res.redirectToUrl;
-                }
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        })
-        //to prevent default form submit event
-        return false;
-    } catch (ex) {
-        console.log(ex)
-    }
-}
-
-function deleteThreadInPopup(threadId, method ,categoryId,) {
+function deleteThreadInPopup(threadId, method ,categoryId) {
     $.ajax({
         type: 'GET',
         url: "/Threads/Delete/",
@@ -241,7 +237,7 @@ editCommentPost = form => {
                 else {
                     $('#staticBackdrop').modal('hide');
                     $('#comment-section').html(res.html);
-                    $.notify('The comment has been successfully editted', { globalPosition: 'top center', className: 'success' });
+                    $.notify('The comment has been successfully editted', { globalPosition: 'top left', className: 'success' });
                 }
             },
             error: function (err) {
@@ -279,7 +275,7 @@ function deleteCommentPost(commentId) {
             success: function (res) {
                 $('#comment-section').html(res.html);
                 $('#form-modal').modal('hide');
-                $.notify('The comment has been successfully deleted', { globalPosition: 'top center', className: 'success' });
+                $.notify('The comment has been successfully deleted', { globalPosition: 'top left', className: 'success' });
 
             },
             error: function (err) {
@@ -426,6 +422,42 @@ function forgotPasswordPopup() {
             console.log(err);
         }
     })
+}
+
+function getFormData() {
+    var formData = new FormData(document.getElementById('form-data'));
+    return formData;
+}
+
+function getValue(id) {
+    var content = document.getElementById(id);
+    var result = $(content).val();
+    return result;
+}
+
+function saveDraft(title, description, content, draftId) {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: '/Drafts/Save/',
+            data: { title: title, description: description, content: content, draftId: draftId },
+            success: function (res) {
+                if (!res.isValid) {
+                    $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
+                }
+                else {
+                    $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
 }
 
 function cancelModal() {

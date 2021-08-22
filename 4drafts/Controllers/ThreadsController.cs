@@ -2,6 +2,7 @@
 using _4drafts.Data.Models;
 using _4drafts.Models.Categories;
 using _4drafts.Models.Comments;
+using _4drafts.Models.Drafts;
 using _4drafts.Models.Threads;
 using _4drafts.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -206,16 +207,23 @@ namespace _4drafts.Controllers
         [HttpGet]
         [Authorize]
         [NoDirectAccess]
-        public IActionResult Create(int categoryId)
+        public async Task<IActionResult> Create(string title = null, string description = null, string content = null)
         {
-            var catId = categoryId == 0 ? 1 : categoryId;
-
+            var user = await this.userManager.GetUserAsync(this.User);
             return View(new CreateThreadFormModel
             {
+                Title = title,
+                Description = description,
+                Content = content,
                 Categories = GetCategories(this.data),
-                CategoryName = this.data.Categories.FirstOrDefault(c => c.Id == catId).Name,
-                CategoryDescription = this.data.Categories.FirstOrDefault(c => c.Id == catId).Description,
-                CategoryId = catId
+                Drafts = this.data.Drafts
+                .Where(d => d.AuthorId == user.Id)
+                .Select(d => new DraftViewModel
+                {
+                    Id = d.Id,
+                    Title = d.Title
+                })
+                .ToList(),
             });
         }
 
@@ -223,6 +231,8 @@ namespace _4drafts.Controllers
         [Authorize]
         public async Task<IActionResult> Create(CreateThreadFormModel model)
         {
+            var user = await this.userManager.GetUserAsync(this.User);
+
             if (!this.data.Categories.Any(c => c.Id == model.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist.");
@@ -231,8 +241,14 @@ namespace _4drafts.Controllers
             if (!ModelState.IsValid)
             {
                 model.Categories = GetCategories(this.data);
-                model.CategoryName = model.Categories.FirstOrDefault(c => c.Id == model.CategoryId).Name;
-                model.CategoryDescription = this.data.Categories.FirstOrDefault(c => c.Id == model.CategoryId).Description;
+                model.Drafts = this.data.Drafts
+                .Where(d => d.AuthorId == user.Id)
+                .Select(d => new DraftViewModel
+                {
+                    Id = d.Id,
+                    Title = d.Title
+                })
+                .ToList();
 
                 return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Create", model) });
             }
@@ -243,7 +259,7 @@ namespace _4drafts.Controllers
                 Description = model.Description, 
                 Content = model.Content,
                 CreatedOn = DateTime.UtcNow.ToLocalTime(),
-                AuthorId = this.userManager.GetUserId(this.User),
+                AuthorId = user.Id,
                 CategoryId = model.CategoryId,
             };
 

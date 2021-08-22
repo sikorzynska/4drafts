@@ -2,6 +2,7 @@
 @{
     var user = await this.userManager.GetUserAsync(User);
     var avatar = "";
+    var userId = user == null ? null : user.Id;
     if (user != null) avatar = String.IsNullOrWhiteSpace(user.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : user.AvatarUrl;
     else avatar = "https://image.flaticon.com/icons/png/512/64/64572.png";
 }
@@ -65,69 +66,46 @@
         {
             var authorAvatar = "";
             authorAvatar = String.IsNullOrWhiteSpace(comment.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : comment.AuthorAvatarUrl;
-                <div class="card mt-1">
-                    <div class="commented-section mt-2">
-                        <div class="card-header">
-                            <div class="media flex-wrap w-100 align-items-center media-img-40">
-                                <img src="@authorAvatar" class="rounded-circle border">
-                                <div class="media-body ml-3">
-                                    <a onclick="viewProfile('@Model.AuthorId')">@comment.AuthorName</a>
-                                    <div class="text-muted small">@comment.CreatedOn</div>
-                                </div>
-                                <div class="text-muted small ml-3">
-                                    <div>Member since <strong>@comment.AuthorRegisteredOn</strong></div>
-                                    <div><strong>@comment.AuthorCommentCount</strong> comments</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body mh-50">
-                            <span class="content-text">@comment.Content</span>
-                        </div>
-                        <div class="reply-section card-footer d-flex flex-wrap justify-content-start">
-                            <div class="d-flex flex-row align-items-center voting-icons">
-                                @{
-                                    if (user != null)
-                                    {
-                                        if (comment.Liked)
-                                        {
-                                            <a onclick="likeComment('@comment.Id')" class="btn btn-primary btn-sm"><i class="fas fa-heart"></i></a>
-                                        }
-                                        else
-                                        {
-                                            <a onclick="likeComment('@comment.Id')" class="btn btn-info btn-sm"><i class="far fa-heart"></i></a>
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-info btn-sm disabled"><i class="far fa-heart"></i></a>
-                                    }
-                                }
-                                <span class="ml-1 mr-1">@comment.Points <span class="text-muted">likes</span></span>
-                            </div>
-                            @if (user != null)
+            <div class="commented-section mt-3">
+                <div class="d-flex flex-row align-items-center commented-user media-img-30">
+                    <img class="rounded-circle border" src="@authorAvatar">
+                    <h5 class="ml-1 mt-2 mr-2"><a onclick="viewProfile('@comment.AuthorId')">@comment.AuthorName</a></h5><span class="dot mb-1"></span><span class="text-muted mb-1 ml-2">@comment.CreatedOn</span>
+                </div>
+                <div class="comment-text-sm"><span>@comment.Content</span></div>
+                <div class="reply-section">
+                    <div class="d-flex flex-row align-items-center voting-icons">
+                        @{
+                            if (user != null)
                             {
-                                <div class="dropdown mw-min-content align-end">
-                                    <a class="dropdown-toggle media-img-30 btn btn-secondary layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i> Options</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a asp-controller="Comments" asp-action="Report" asp-route-commentId="@comment.Id"><span class="dropdown-link-text"><i class="fas fa-flag"></i> Report</span></a></li>
-                                        @{
-                                            if (user != null)
-                                            {
-                                                if (user.Id == comment.AuthorId)
-                                                {
-                                                    <li role="separator" class="dropdown-divider"></li>
-                                                    <li><a onclick="editCommentInPopup('@comment.Id')"><span class="dropdown-link-text"><i class="fas fa-pencil-alt"></i> Edit</span></a></li>
-                                                    <li><a onclick="deleteCommentInPopup('@comment.Id')"><span class="dropdown-link-text"><i class="fas fa-trash-alt"></i> Delete</span></a></li>
-                                                }
-                                            }
-                                        }
-                                    </ul>
-                                </div>
+                                if (comment.Liked)
+                                {
+                                    <a onclick="likeComment('@comment.Id')"><i class="fas fa-heart"></i></a>
+                                }
+                                else
+                                {
+                                    <a onclick="likeComment('@comment.Id')"><i class="far fa-heart"></i></a>
+                                }
+
                             }
-                        </div>
+                            else
+                            {
+                                <a><i class="far fa-heart"></i></a>
+                            }
+                        }
+                        <span class="ml-2">@comment.Points</span><span class="dot mb-1 ml-2"></span>
+                        <h6 class="ml-2 mt-1">Reply</h6>
+                        @if (userId != null)
+                        {
+                            <a class="d-inline ml-2"><i class="fas fa-flag"></i></a>
+                            @if (userId == comment.AuthorId)
+                            {
+                                <a onclick="editCommentInPopup('@comment.Id')" class="d-inline ml-2"><i class="fas fa-pencil-alt"></i></a>
+                                <a onclick="deleteCommentInPopup('@comment.Id')" class="d-inline ml-2"><i class="fas fa-trash-alt"></i></a>
+                            }
+                        }
                     </div>
                 </div>
-            }
+            </div>
+        }
     }
 </div>

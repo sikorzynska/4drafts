@@ -1,4 +1,5 @@
 ﻿using _4drafts.Models.Categories;
+using _4drafts.Models.Drafts;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using static _4drafts.Data.DataConstants;
@@ -13,6 +14,7 @@ namespace _4drafts.Models.Threads
         public string CategoryDescription { get; set; }
 
         public IEnumerable<CategoriesBrowseModel> Categories { get; set; }
+        public IEnumerable<DraftViewModel> Drafts { get; set; }
 
         [Required]
         [StringLength(ThreadTitleMaxLength,

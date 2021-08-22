@@ -1,35 +1,22 @@
 ﻿@model CreateThreadFormModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Start Thread";
     Layout = null;
-    var catId = Model.CategoryId;
 }
 
 <body>
-    <form asp-controller="Threads" asp-action="Create" asp-route-categoryId="@catId" method="post" onsubmit="return createThreadPost(this);">
+    <form id="form-data" asp-controller="Threads" asp-action="Create" method="post" onsubmit="return createThreadPost(this);">
         <div class="container-fluid col-12 mt-2">
-            <div class="form-header" align="center">
+            <div class="form-header fancy" align="center">
                 <hr />
                 <h2 class="heading-margin">@ViewBag.Title</h2>
-                @{
-                    if (String.IsNullOrWhiteSpace(Model.CategoryName))
-                    {
-                        <p class="text-muted">Select a category</p>
-                    }
-                    else
-                    {
-                        <p class="text-muted">Start a thread in the <strong>@Model.CategoryName</strong> category</p>
-                        <hr />
-                        <p class="text-left">@Model.CategoryDescription</p>
-                    }
-                }
+                <hr />
             </div>
-            <hr />
             <div class="form-body">
                 <div class="form-group">
                     <label asp-for="CategoryId" class="form-label mt-4"></label>
-                    <select asp-for="CategoryId" class="form-control" placeholder="Genre" id="category-selection" onchange="createThreadInPopup(this.options[this.selectedIndex].id)">
+                    <select asp-for="CategoryId" class="form-control" placeholder="Genre" id="category-selection">
                         @foreach (var category in Model.Categories)
                         {
                             <option id="@category.Id" value="@category.Id">@category.Name</option>
@@ -37,27 +24,39 @@
                     </select>
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>
                 </div>
-
                 <div class="form-group">
                     <label asp-for="Title"></label>
-                    <input asp-for="Title" class="form-control" placeholder="The title of your story..." id="title-input">
+                    <input asp-for="Title" class="form-control" placeholder="The title of your story..." id="title-content">
                     <span asp-validation-for="Title" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Description">Description (optional)</label>
-                    <textarea asp-for="Description" class="form-control" placeholder="Quick description of what the story is about..." id="description-input"></textarea>
+                    <textarea asp-for="Description" class="form-control" placeholder="Quick description of what the story is about..." id="description-content"></textarea>
                     <span asp-validation-for="Description" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Content"></label>
-                    <textarea asp-for="Content" rows="4" class="form-control" placeholder="The story itself..." id="description-input"></textarea>
+                    <textarea asp-for="Content" rows="4" class="form-control" placeholder="The story itself..." id="content-content"></textarea>
                     <span asp-validation-for="Content" class="small text-danger"></span>
                 </div>
             </div>
 
             <div class="form-footer" align="center">
                 <button class="btn btn-outline-primary" type="submit"><i class="fas fa-plus-square"></i> Post</button>
-                <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Cancel</button>
+                <div class="dropdown d-inline">
+                    <a class="btn btn-outline-info dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-save"></i> Save as draft
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a onclick="saveDraft(getValue('title-content'), getValue('description-content'), getValue('content-content'))" class="dropdown-item"><i class="fas fa-plus-circle"></i> New</a>
+                        <div class="dropdown-divider"></div>
+                        @foreach (var draft in Model.Drafts)
+                        {
+                            <a class="dropdown-item" onclick="saveDraft(getValue('title-content'), getValue('description-content'), getValue('content-content'), '@draft.Id')">@draft.Title</a>
+                        }
+                    </div>
+                </div>
+                <button class="btn btn-outline-danger" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Cancel</button>
             </div>
         </div>
     </form>

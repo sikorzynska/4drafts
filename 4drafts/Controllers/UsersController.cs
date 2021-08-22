@@ -35,9 +35,11 @@ namespace _4drafts.Controllers
         [HttpGet]
         [AllowAnonymous]
         [NoDirectAccess]
-        public IActionResult Register(string returnUrl = null)
+        public async Task<IActionResult> Register(string returnUrl = null)
         {
-            if (this.signInManager.IsSignedIn(this.User)) return RedirectToAction("Index", "Home");
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+
+            if (currentUser != null) return RedirectToAction("Index", "Home");
 
             return View(new UserRegisterFormModel
             {
@@ -50,7 +52,9 @@ namespace _4drafts.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> Register(UserRegisterFormModel model)
         {
-            if (this.signInManager.IsSignedIn(User)) return RedirectToAction("Index", "Home");
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+
+            if (currentUser != null) return RedirectToAction("Index", "Home");
 
             var usernameTaken = this.data.Users.FirstOrDefault(u => u.UserName == model.Username) != null ? true : false;
 
@@ -86,9 +90,11 @@ namespace _4drafts.Controllers
         [HttpGet]
         [AllowAnonymous]
         [NoDirectAccess]
-        public IActionResult Login(string returnUrl = null)
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
-            if (this.signInManager.IsSignedIn(this.User)) return RedirectToAction("Index", "Home");
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+
+            if (currentUser != null) return RedirectToAction("Index", "Home");
 
             return View(new UserLoginFormModel
             {
@@ -101,7 +107,9 @@ namespace _4drafts.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> Login(UserLoginFormModel model)
         {
-            if (this.signInManager.IsSignedIn(User)) return RedirectToAction("Index", "Home");
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+
+            if (currentUser != null) return RedirectToAction("Index", "Home");
 
             var appliedError = false;
 
