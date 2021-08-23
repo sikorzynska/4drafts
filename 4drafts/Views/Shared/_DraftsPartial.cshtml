@@ -1,0 +1,31 @@
+﻿@model List<DraftViewModel>
+
+
+<span id="draft-count">[@Model.Count / 10] </span>
+<table class="table table-hover border table-fixed">
+    <thead class="bg-color-blue">
+        <tr>
+            <th class="text-truncate border" scope="col">Title</th>
+            <th class="text-truncate border" scope="col">Description</th>
+            <th class="text-truncate border" scope="col">When</th>
+            <th class="text-truncate border text-center" scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var draft in Model)
+            {
+                var desc = String.IsNullOrEmpty(draft.Description) ? "---" : draft.Description;
+                <tr id="@draft.Id" class="table-info">
+                    <th class="text-truncate border" scope="row"><a>@draft.Title</a></th>
+                    <td class="text-truncate border">@desc</td>
+                    <td class="text-truncate border">@draft.CreatedOn</td>
+                    <td class="text-truncate border text-center">
+                        <a onclick="deletePopup('@draft.Id', '/Drafts/Delete/')" class="btn btn-link"><i class="fas fa-trash-alt"></i> [delete]</a>
+                        <a onclick="editPopup('@draft.Id', '/Drafts/Edit/')" class="btn btn-link"><i class="fas fa-pencil-alt"></i> [edit]</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

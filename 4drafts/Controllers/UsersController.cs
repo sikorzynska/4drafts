@@ -1,7 +1,6 @@
 ﻿using _4drafts.Data;
 using _4drafts.Data.Models;
 using _4drafts.Models.Users;
-using _4drafts.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using static _4drafts.Services.HtmlHelper;
+using static _4drafts.Services.ControllerExtensions;
+using static _4drafts.Data.DataConstants;
 
 namespace _4drafts.Controllers
 {
@@ -18,15 +18,12 @@ namespace _4drafts.Controllers
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-        private readonly IHtmlHelper htmlHelper;
         public UsersController(_4draftsDbContext data,
             UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            IHtmlHelper htmlHelper)
+            SignInManager<User> signInManager)
         {
             this.data = data;
             this.userManager = userManager;
-            this.htmlHelper = htmlHelper;
             this.signInManager = signInManager;
         }
 
@@ -58,9 +55,9 @@ namespace _4drafts.Controllers
 
             var emailTaken = this.data.Users.FirstOrDefault(u => u.Email == model.Email) != null ? true : false;
 
-            if (usernameTaken) this.ModelState.AddModelError(nameof(model.Username), "Username is already taken.");
+            if (usernameTaken) this.ModelState.AddModelError(nameof(model.Username), UsernameTaken);
 
-            if (emailTaken) this.ModelState.AddModelError(nameof(model.Email), "Email address is already taken.");
+            if (emailTaken) this.ModelState.AddModelError(nameof(model.Email), EmailTaken);
 
             if (ModelState.IsValid)
             {
@@ -82,7 +79,7 @@ namespace _4drafts.Controllers
                 }
             }
 
-            return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Register", model) });
+            return Json(new { isValid = false, html = RenderRazorViewToString(this, "Register", model) });
         }
 
         [HttpGet]
@@ -111,21 +108,19 @@ namespace _4drafts.Controllers
 
             var appliedError = false;
 
-            const string invalidCredentials = "Whoops! Invalid credentials.";
-
             var existingUser = await this.userManager.FindByEmailAsync(model.Email);
 
             if (existingUser == null)
             {
-                ModelState.AddModelError(string.Empty, invalidCredentials);
+                ModelState.AddModelError(string.Empty, InvalidCredentials);
                 appliedError = true;
             }
 
             var passwordIsValid = await this.userManager.CheckPasswordAsync(existingUser, model.Password);
 
-            if (!passwordIsValid && !appliedError) ModelState.AddModelError(string.Empty, invalidCredentials);
+            if (!passwordIsValid && !appliedError) ModelState.AddModelError(string.Empty, InvalidCredentials);
 
-            if (!ModelState.IsValid) return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Login", model) });
+            if (!ModelState.IsValid) return Json(new { isValid = false, html = RenderRazorViewToString(this, "Login", model) });
 
             var returnUrl = model.ReturnUrl == null ? Url.Content("/") : Url.Content(model.ReturnUrl);
 
@@ -229,13 +224,10 @@ namespace _4drafts.Controllers
         public async Task<IActionResult> Edit(UserViewModel model)
         {
 
-            if (model.Gender != "Male" && model.Gender != "Female" && model.Gender != string.Empty)
-            this.ModelState.AddModelError(nameof(model.Gender), "Invalid gender selection");
+            if (model.Gender != "Male" && model.Gender != "Female" && model.Gender != string.Empty && model.Gender != null)
+            this.ModelState.AddModelError(nameof(model.Gender), InvalidGender);
 
-            if (!ModelState.IsValid)
-            {
-                return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Edit", model) });
-            }
+            if (!ModelState.IsValid) return Json(new { isValid = false, html = RenderRazorViewToString(this, "Edit", model) });
 
             var userId = this.userManager.GetUserId(this.User);
 

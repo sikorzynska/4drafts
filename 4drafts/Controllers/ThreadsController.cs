@@ -16,7 +16,8 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using static _4drafts.Services.HtmlHelper;
+using static _4drafts.Services.ControllerExtensions;
+using static _4drafts.Data.DataConstants;
 
 namespace _4drafts.Controllers
 {
@@ -25,16 +26,13 @@ namespace _4drafts.Controllers
         private readonly ITimeWarper timeWarper;
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
-        private readonly IHtmlHelper htmlHelper;
         public ThreadsController(ITimeWarper timeWarper,
             _4draftsDbContext data,
-            UserManager<User> userManager,
-            IHtmlHelper htmlHelper)
+            UserManager<User> userManager)
         {
             this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
-            this.htmlHelper = htmlHelper;
         }
 
         [HttpGet]
@@ -175,30 +173,31 @@ namespace _4drafts.Controllers
             var thread = await data.Threads.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (thread == null) return Json(new { isValid = false, msg = "Whoops! Looks like no such thread exists..." });
+            if (thread == null) return Json(new { isValid = false, msg = InexistentThread });
 
-            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = "Whoops! Looks like you're not authorized to do this..." });
+            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
 
-            return Json(new { isValid = true, html = this.htmlHelper.RenderRazorViewToString(this, "DeleteEntity", new GlobalViewModel { Id = thread.Id, Name = "thread", Path = "/Threads/Delete/" }) });
+            return Json(new { isValid = true, html = RenderRazorViewToString(this, "DeleteEntity", new GlobalViewModel { Id = thread.Id, Name = "thread", Path = "/Threads/Delete/" }) });
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [Authorize]
+        [ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(string Id)
         {
             var thread = await data.Threads.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (thread == null) return Json(new { isValid = false, msg = "Whoops! Looks like no such thread exists..." });
+            if (thread == null) return Json(new { isValid = false, msg = InexistentThread });
 
-            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = "Whoops! Looks like you're not authorized to do this..." });
+            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
 
             var comments = this.data.Comments.Where(c => c.ThreadId == Id);
             data.RemoveRange(comments);
             data.Threads.Remove(thread);
             await data.SaveChangesAsync();
 
-            return Json(new { isValid = true, html = this.htmlHelper.RenderRazorViewToString(this, "DeletedSuccessfully"), entity = "thread" });
+            return Json(new { isValid = true, html = RenderRazorViewToString(this, "DeletedSuccessfully"), entity = "thread" });
         }
 
         [HttpGet]
@@ -232,64 +231,60 @@ namespace _4drafts.Controllers
 
             if (!this.data.Categories.Any(c => c.Id == model.CategoryId))
             {
-                this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist.");
+                this.ModelState.AddModelError(nameof(model.CategoryId), InexistentCategory);
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                model.Categories = GetCategories(this.data);
-                model.Drafts = this.data.Drafts
-                .Where(d => d.AuthorId == user.Id)
-                .Select(d => new DraftViewModel
+                var thread = new Thread
                 {
-                    Id = d.Id,
-                    Title = d.Title
-                })
-                .ToList();
+                    Title = model.Title,
+                    Description = model.Description,
+                    Content = model.Content,
+                    CreatedOn = DateTime.UtcNow.ToLocalTime(),
+                    AuthorId = user.Id,
+                    CategoryId = model.CategoryId,
+                };
 
-                return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Create", model) });
+                await this.data.Threads.AddAsync(thread);
+                await this.data.SaveChangesAsync();
+
+                return Json(new { isValid = true, redirectUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
             }
 
-            var thread = new Thread
+            model.Categories = GetCategories(this.data);
+            model.Drafts = this.data.Drafts
+            .Where(d => d.AuthorId == user.Id)
+            .Select(d => new DraftViewModel
             {
-                Title = model.Title,
-                Description = model.Description, 
-                Content = model.Content,
-                CreatedOn = DateTime.UtcNow.ToLocalTime(),
-                AuthorId = user.Id,
-                CategoryId = model.CategoryId,
-            };
+                Id = d.Id,
+                Title = d.Title
+            })
+            .ToList();
 
-            await this.data.Threads.AddAsync(thread);
-            await this.data.SaveChangesAsync();
-
-            return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
+            return Json(new { isValid = false, html = RenderRazorViewToString(this, "Create", model) });
         }
 
         [HttpGet]
         [Authorize]
         [NoDirectAccess]
-        public async Task<IActionResult> Edit(string threadId)
+        public async Task<IActionResult> Edit(string Id)
         {
-            var thread = await this.data.Threads.FindAsync(threadId);
+            var thread = await this.data.Threads.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (thread == null)
-            {
-                return NotFound();
-            }
+            if (thread == null) return Json(new { isValid = false, msg = InexistentThread });
 
-            if (user.Id != thread.AuthorId)
-            {
-                return Unauthorized();
-            }
+            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
 
-            return View(new EditThreadViewModel
-            {
-                Id = thread.Id,
-                Title = thread.Title,
-                Description = thread.Description,
-                Content = thread.Content,
+            return Json(new { isValid = true, 
+                html = RenderRazorViewToString(this, "Edit", new EditThreadViewModel 
+                { 
+                    Id = thread.Id, 
+                    Title = thread.Title, 
+                    Description = thread.Description, 
+                    Content = thread.Content 
+                }) 
             });
         }
 
@@ -298,22 +293,8 @@ namespace _4drafts.Controllers
         public async Task<IActionResult> Edit(EditThreadViewModel model)
         {
             var thread = await this.data.Threads.FindAsync(model.Id);
-            var user = await this.userManager.GetUserAsync(User);
 
-            if (thread == null)
-            {
-                return NotFound();
-            }
-
-            if (user.Id != thread.AuthorId)
-            {
-                return Unauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Edit", model) });
-            }
+            if (!ModelState.IsValid) return Json(new { isValid = false, html = RenderRazorViewToString(this, "Edit", model) });
 
             thread.Title = model.Title;
             thread.Description = model.Description;
@@ -321,7 +302,12 @@ namespace _4drafts.Controllers
 
             this.data.SaveChanges();
 
-            return Json(new { isValid = true, redirectToUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
+            return Json(new { isValid = true,
+                entity = "thread",
+                title = model.Title,
+                content = model.Content,
+                msg = SuccessfullyUpdatedThread
+            });
         }
 
         [HttpPost]

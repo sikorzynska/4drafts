@@ -12,8 +12,9 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
-using static _4drafts.Services.HtmlHelper;
+using static _4drafts.Services.ControllerExtensions;
 using _4drafts.Models.Shared;
+using static _4drafts.Data.DataConstants;
 
 namespace _4drafts.Controllers
 {
@@ -22,17 +23,14 @@ namespace _4drafts.Controllers
         private readonly ITimeWarper timeWarper;
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
-        private readonly IHtmlHelper htmlHelper;
 
         public CommentsController(ITimeWarper timeWarper,
             _4draftsDbContext data,
-            UserManager<User> userManager,
-            IHtmlHelper htmlHelper)
+            UserManager<User> userManager)
         {
             this.timeWarper = timeWarper;
             this.data = data;
             this.userManager = userManager;
-            this.htmlHelper = htmlHelper;
         }
 
         [HttpPost]
@@ -50,12 +48,12 @@ namespace _4drafts.Controllers
 
             if (string.IsNullOrWhiteSpace(Content))
             {
-                this.ModelState.AddModelError(nameof(Content), "Comments cannot be empty...");
+                this.ModelState.AddModelError(nameof(Content), EmptyComment);
             }
 
             if(characterCount > 500)
             {
-                this.ModelState.AddModelError(nameof(Content), "Comments cannot be longer than 500 characters...");
+                this.ModelState.AddModelError(nameof(Content), MaxLengthComment);
             }
 
             if (!ModelState.IsValid) return BadRequest();
@@ -100,25 +98,24 @@ namespace _4drafts.Controllers
         [HttpGet]
         [Authorize]
         [NoDirectAccess]
-        public async Task<IActionResult> Edit(string commentId)
+        public async Task<IActionResult> Edit(string Id)
         {
-            var comment = await this.data.Comments.FindAsync(commentId);
+            var comment = await this.data.Comments.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (comment == null)
-            {
-                return NotFound();
-            }
+            if (comment == null) return Json(new { isValid = false, msg = InexistentComment });
 
-            if (user.Id != comment.AuthorId)
-            {
-                return Unauthorized();
-            }
+            if (user == null || user.Id != comment.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
 
-            return View(new EditCommentViewModel
+            return Json(new
             {
-                Id = comment.Id,
-                Content = comment.Content,
+                isValid = true,
+                html = RenderRazorViewToString(this, "Edit", 
+                new EditCommentViewModel 
+                { 
+                    Id = comment.Id, 
+                    Content = comment.Content 
+                })
             });
         }
 
@@ -129,23 +126,16 @@ namespace _4drafts.Controllers
             var comment = await this.data.Comments.FindAsync(model.Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (comment == null) return NotFound();
-
-            if (user.Id != comment.AuthorId || user == null) return Unauthorized();
-
             if (!ModelState.IsValid)
             {
-                return Json(new { isValid = false, html = htmlHelper.RenderRazorViewToString(this, "Edit", model) });
+                return Json(new { isValid = false, html = RenderRazorViewToString(this, "Edit", model) });
             }
 
-            var thread = await this.data.Threads.FindAsync(comment.ThreadId);
-
-            //Update database entity & save changes
             comment.Content = model.Content;
             this.data.SaveChanges();
 
             var comments = this.data.Comments
-                .Where(c => c.ThreadId == thread.Id)
+                .Where(c => c.ThreadId == comment.ThreadId)
                 .OrderByDescending(c => c.CreatedOn)
                 .Select(c => new CommentViewModel
                 {
@@ -163,7 +153,13 @@ namespace _4drafts.Controllers
                 })
                 .ToList();
 
-            return Json(new { isValid = true, html = htmlHelper.RenderRazorViewToString(this, "_CommentsPartial", new ThreadViewModel { Id = thread.Id, Comments = comments }) });
+            return Json(new
+            {
+                isValid = true,
+                msg = SuccessfullyUpdatedComment,
+                entity = "comment",
+                html = RenderRazorViewToString(this, "_CommentsPartial", new ThreadViewModel { Id = comment.ThreadId, Comments = comments })
+            });
         }
 
         [HttpGet]
@@ -174,11 +170,11 @@ namespace _4drafts.Controllers
             var comment = await this.data.Comments.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (comment == null) return Json(new { isValid = false, msg = "Whoops! Looks like no such comment exists..." });
+            if (comment == null) return Json(new { isValid = false, msg = InexistentComment });
 
-            if (user == null || user.Id != comment.AuthorId) return Json(new { isValid = false, msg = "Whoops! Looks like you're not authorized to do this..." });
+            if (user == null || user.Id != comment.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
 
-            return Json(new { isValid = true, html = this.htmlHelper.RenderRazorViewToString(this, "DeleteEntity", new GlobalViewModel { Id = comment.Id, Name = "comment", Path = "/Comments/Delete/" }) });
+            return Json(new { isValid = true, html = RenderRazorViewToString(this, "DeleteEntity", new GlobalViewModel { Id = comment.Id, Name = "comment", Path = "/Comments/Delete/" }) });
         }
 
         [HttpPost]
@@ -190,10 +186,10 @@ namespace _4drafts.Controllers
             var user = await this.userManager.GetUserAsync(User);
 
             if (comment == null) return Json(new { isValid = false, 
-                msg = "Whoops! Looks like no such comment exists..." });
+                msg = InexistentComment });
 
             if (user == null || user.Id != comment.AuthorId || user == null) return Json(new { isValid = false, 
-                msg = "Whoops! Looks like you're not authorized to do this..." });
+                msg = UnauthorizedAction });
 
             var thread = await this.data.Threads.FindAsync(comment.ThreadId);
 
@@ -220,8 +216,8 @@ namespace _4drafts.Controllers
                 .ToList();
 
             return Json(new { isValid = true, 
-                msg = "The comment has been successfully deleted",
-                html = this.htmlHelper.RenderRazorViewToString(this, "_CommentsPartial", 
+                msg = SuccessfullyDeletedComment,
+                html = RenderRazorViewToString(this, "_CommentsPartial", 
                 new ThreadViewModel { Id = thread.Id, Comments = comments }), 
                 entity = "comment" });
         }

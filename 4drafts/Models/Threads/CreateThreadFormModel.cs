@@ -13,9 +13,6 @@ namespace _4drafts.Models.Threads
         public string CategoryName { get; set; }
         public string CategoryDescription { get; set; }
 
-        public IEnumerable<CategoriesBrowseModel> Categories { get; set; }
-        public IEnumerable<DraftViewModel> Drafts { get; set; }
-
         [Required]
         [StringLength(ThreadTitleMaxLength,
             MinimumLength = ThreadTitleMinLength,
@@ -30,5 +27,8 @@ namespace _4drafts.Models.Threads
         [Required]
         [MinLength(20, ErrorMessage = "The content field must have a minimum length of 20.")]
         public string Content { get; set; }
+
+        public IEnumerable<CategoriesBrowseModel> Categories { get; set; }
+        public IEnumerable<DraftViewModel> Drafts { get; set; }
     }
 }

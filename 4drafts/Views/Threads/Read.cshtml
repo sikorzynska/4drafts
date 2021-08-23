@@ -25,10 +25,10 @@
                 </div>
                 <div class="card-body border mh-600" id="content-body">
                     <div class="flex-wrap text-center">
-                        <h3>@Model.Title</h3>
+                        <h3 id="thread-title">@Model.Title</h3>
                     </div>
                     <hr />
-                    <span class="content-text">@Model.Content</span>
+                    <span id="thread-content" class="content-text">@Model.Content</span>
                 </div>
                 <div class="card-footer border-notop d-flex flex-wrap justify-content-start align-items-start px-0 pt-0 pb-3">
                     <div class="px-4 pt-3" id="thread-likes-section">
@@ -37,7 +37,7 @@
                     <div class="btn-group mt-auto mb-auto pt-3 px-2 align-end" role="group" aria-label="Basic example">
                         @if (userId == Model.AuthorId)
                         {
-                            <div class="zoom"><a class="btn btn-link" onclick="editThreadInPopup('@Model.Id')"><i class="fas fa-lg big-icon fa-pencil-alt"></i></a></div>
+                            <div class="zoom"><a class="btn btn-link" onclick="editPopup('@Model.Id', '/Threads/Edit/')"><i class="fas fa-lg big-icon fa-pencil-alt"></i></a></div>
                             <div class="zoom"><a class="btn btn-link" onclick="deletePopup('@Model.Id', '/Threads/Delete/')"><i class="fas fa-lg big-icon fa-trash-alt"></i></a></div>
                         }
                         <div class="zoom"><a class="btn btn-link" asp-controller="Threads" asp-action="Report" asp-route-threadId="@Model.Id"><i class="fas fa-lg big-icon fa-flag"></i></a></div>

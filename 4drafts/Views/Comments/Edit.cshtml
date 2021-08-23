@@ -5,7 +5,7 @@
     Layout = null;
 }
 
-<form asp-controller="Comments" asp-action="Edit" asp-route-threadId="@Model.Id" onsubmit="return editCommentPost(this);">
+<form asp-controller="Comments" asp-action="Edit" onsubmit="return editPost(this);">
     <div class="container-fluid mw-350">
         <div class="form-header fancy" align="center">
             <hr />

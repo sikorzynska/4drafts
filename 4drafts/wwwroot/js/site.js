@@ -75,12 +75,6 @@ function showButtons() {
     counter.classList.remove('d-none');
 }
 
-function getCommentValue() {
-    var content = document.getElementById('comment-content');
-    var result = $(content).val();
-    return result;
-}
-
 function refreshComments(Id, Content) {
     $.ajax({
         url: "/Comments/Create/",
@@ -111,7 +105,12 @@ function createThreadInPopup(title, description, content) {
     }
 }
 
-createThreadPost = form => {
+function refer(id) {
+    var form = document.getElementById(id);
+    createPost(form);
+}
+
+function createPost(form) {
     $.ajax({
         type: 'POST',
         url: form.action,
@@ -119,13 +118,40 @@ createThreadPost = form => {
         contentType: false,
         processData: false,
         success: function (res) {
-            if (!res.isValid) {
-                $('#staticBackdrop .modal-body').html(res.html);
+            if (res.isValid) {
+                $('#staticBackdrop').modal('hide');
+                window.location.href = res.redirectUrl;
             }
             else {
-                $('#staticBackdrop').modal('hide');
-                window.location.href = res.redirectToUrl;
+                console.log('here');
+                $('#staticBackdrop .modal-body').html(res.html);
             }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+}
+
+createThreadPost = form => {
+    $.ajax({
+        type: 'POST',
+        url: '/Threads/Create/',
+        data: new FormData(form),
+        contentType: false,
+        processData: false,
+        success: function (res) {
+            if (res.isValid) {
+                $('#staticBackdrop').modal('hide');
+                window.location.href = res.redirectUrl;
+            }
+            else {
+                console.log('here');
+                $('#staticBackdrop .modal-body').html(res.html);
+            }
+        },
+        error: function (err) {
+            console.log(err);
         }
     })
 }
@@ -180,64 +206,25 @@ function deletePost(entityId, path) {
     })
 }
 
-function editThreadInPopup(threadId) {
+function editPopup(entityId, path) {
     $.ajax({
         type: 'GET',
-        url: "/Threads/Edit/",
-        data: { threadId: threadId },
+        url: path,
+        data: { Id: entityId },
         success: function (res) {
-            $('#staticBackdrop .modal-body').html(res);
-            $('#staticBackdrop').modal('show');
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    })
-}
-
-editThreadPost = form => {
-    try {
-        $.ajax({
-            type: 'POST',
-            url: form.action,
-            data: new FormData(form),
-            contentType: false,
-            processData: false,
-            success: function (res) {
-                if (!res.isValid) {
-                    $('#staticBackdrop .modal-body').html(res.html);
-                }
-                else {
-                    window.location.href = res.redirectToUrl;
-                }
-            },
-            error: function (err) {
-                console.log(err)
+            if (res.isValid) {
+                $('#staticBackdrop .modal-body').html(res.html);
+                $('#staticBackdrop').modal('show');
             }
-        })
-        //to prevent default form submit event
-        return false;
-    } catch (ex) {
-        console.log(ex)
-    }
-}
-
-function editCommentInPopup(commentId) {
-    $.ajax({
-        type: 'GET',
-        url: "/Comments/Edit/",
-        data: { commentId: commentId },
-        success: function (res) {
-            $('#staticBackdrop .modal-body').html(res);
-            $('#staticBackdrop').modal('show');
-        },
-        error: function (err) {
-            console.log(err);
+            else {
+                $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
+                $('#staticBackdrop').modal('hide');
+            }
         }
     })
 }
 
-editCommentPost = form => {
+editPost = form => {
     try {
         $.ajax({
             type: 'POST',
@@ -246,13 +233,26 @@ editCommentPost = form => {
             contentType: false,
             processData: false,
             success: function (res) {
-                if (!res.isValid) {
-                    $('#staticBackdrop .modal-body').html(res.html);
+                if (res.isValid) {
+                    if (res.entity == 'draft') {
+                        $('#drafts-container').html(res.html);
+                        $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+                        $('#staticBackdrop').modal('hide');
+                    }
+                    else if (res.entity == 'thread') {
+                        $('#thread-title').text(res.title);
+                        $('#thread-content').text(res.content);
+                        $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+                        $('#staticBackdrop').modal('hide');
+                    }
+                    else if (res.entity == 'comment') {
+                        $('#comment-section').html(res.html);
+                        $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+                        $('#staticBackdrop').modal('hide');
+                    }
                 }
                 else {
-                    $('#staticBackdrop').modal('hide');
-                    $('#comment-section').html(res.html);
-                    $.notify('The comment has been successfully editted', { globalPosition: 'top left', className: 'success' });
+                    $('#staticBackdrop .modal-body').html(res.html);
                 }
             },
             error: function (err) {
@@ -399,11 +399,6 @@ function forgotPasswordPopup() {
             console.log(err);
         }
     })
-}
-
-function getFormData() {
-    var formData = new FormData(document.getElementById('form-data'));
-    return formData;
 }
 
 function getValue(id) {

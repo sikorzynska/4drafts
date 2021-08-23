@@ -9,9 +9,9 @@ using System.IO;
 
 namespace _4drafts.Services
 {
-    public class HtmlHelper : IHtmlHelper
+    public static class ControllerExtensions
     {
-        public string RenderRazorViewToString(Controller controller, string viewName, object model = null)
+        public static string RenderRazorViewToString(Controller controller, string viewName, object model = null)
         {
             controller.ViewData.Model = model;
             using (var sw = new StringWriter())

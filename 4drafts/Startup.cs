@@ -41,7 +41,6 @@ namespace _4drafts
 
             services.AddControllersWithViews();
             services.AddTransient<ITimeWarper, TimeWarper>();
-            services.AddTransient<IHtmlHelper, HtmlHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

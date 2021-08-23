@@ -48,7 +48,7 @@
                 }
             }
             <div class="mt-2 text-right d-none" id="comment-buttons">
-                <button class="btn btn-primary" type="button" disabled id="comment-button" onclick="refreshComments('@Model.Id', getCommentValue())">
+                <button class="btn btn-primary" type="button" disabled id="comment-button" onclick="refreshComments('@Model.Id', getValue('comment-content'))">
                     Comment
                 </button>
                 <button class="btn btn-danger ml-1" type="button" id="cancel" onclick="hideButtons()">
@@ -99,7 +99,7 @@
                             <a class="d-inline ml-2"><i class="fas fa-flag"></i></a>
                             @if (userId == comment.AuthorId)
                             {
-                                <a onclick="editCommentInPopup('@comment.Id')" class="d-inline ml-2"><i class="fas fa-pencil-alt"></i></a>
+                                <a onclick="editPopup('@comment.Id', '/Comments/Edit/')" class="d-inline ml-2"><i class="fas fa-pencil-alt"></i></a>
                                 <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="d-inline ml-2"><i class="fas fa-trash-alt"></i></a>
                             }
                         }

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using _4drafts.Data.Models;
 using static _4drafts.Data.DataConstants;
-using static _4drafts.Services.HtmlHelper;
+using static _4drafts.Services.ControllerExtensions;
 
 namespace _4drafts.Areas.Identity.Pages.Account
 {
