@@ -48,12 +48,12 @@ namespace _4drafts.Controllers
 
             if (string.IsNullOrWhiteSpace(Content))
             {
-                this.ModelState.AddModelError(nameof(Content), EmptyComment);
+                this.ModelState.AddModelError(nameof(Content), Comments.Empty);
             }
 
             if(characterCount > 500)
             {
-                this.ModelState.AddModelError(nameof(Content), MaxLengthComment);
+                this.ModelState.AddModelError(nameof(Content), Comments.ReachedMax);
             }
 
             if (!ModelState.IsValid) return BadRequest();
@@ -103,9 +103,9 @@ namespace _4drafts.Controllers
             var comment = await this.data.Comments.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (comment == null) return Json(new { isValid = false, msg = InexistentComment });
+            if (comment == null) return Json(new { isValid = false, msg = Comments.Inexistent });
 
-            if (user == null || user.Id != comment.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
+            if (user == null || user.Id != comment.AuthorId) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
             return Json(new
             {
@@ -156,7 +156,7 @@ namespace _4drafts.Controllers
             return Json(new
             {
                 isValid = true,
-                msg = SuccessfullyUpdatedComment,
+                msg = Comments.Updated,
                 entity = "comment",
                 html = RenderRazorViewToString(this, "_CommentsPartial", new ThreadViewModel { Id = comment.ThreadId, Comments = comments })
             });
@@ -170,9 +170,9 @@ namespace _4drafts.Controllers
             var comment = await this.data.Comments.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (comment == null) return Json(new { isValid = false, msg = InexistentComment });
+            if (comment == null) return Json(new { isValid = false, msg = Comments.Inexistent });
 
-            if (user == null || user.Id != comment.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
+            if (user == null || user.Id != comment.AuthorId) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
             return Json(new { isValid = true, html = RenderRazorViewToString(this, "DeleteEntity", new GlobalViewModel { Id = comment.Id, Name = "comment", Path = "/Comments/Delete/" }) });
         }
@@ -186,10 +186,10 @@ namespace _4drafts.Controllers
             var user = await this.userManager.GetUserAsync(User);
 
             if (comment == null) return Json(new { isValid = false, 
-                msg = InexistentComment });
+                msg = Comments.Inexistent });
 
             if (user == null || user.Id != comment.AuthorId || user == null) return Json(new { isValid = false, 
-                msg = UnauthorizedAction });
+                msg = Global.UnauthorizedAction });
 
             var thread = await this.data.Threads.FindAsync(comment.ThreadId);
 
@@ -216,7 +216,7 @@ namespace _4drafts.Controllers
                 .ToList();
 
             return Json(new { isValid = true, 
-                msg = SuccessfullyDeletedComment,
+                msg = Comments.Updated,
                 html = RenderRazorViewToString(this, "_CommentsPartial", 
                 new ThreadViewModel { Id = thread.Id, Comments = comments }), 
                 entity = "comment" });

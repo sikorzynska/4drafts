@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using static _4drafts.Data.DataConstants;
+﻿using _4drafts.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace _4drafts.Models.Threads
 {
@@ -9,18 +9,16 @@ namespace _4drafts.Models.Threads
         public string Id { get; set; }
 
         [Required]
-        [StringLength(ThreadTitleMaxLength,
-            MinimumLength = ThreadTitleMinLength,
-            ErrorMessage = "The title field must have a minimum length of {2}.")]
+        [StringLength(DataConstants.Threads.TitleMaxLength,
+            MinimumLength = DataConstants.Threads.TitleMinLength,
+            ErrorMessage = DataConstants.Threads.TitleMinLengthMsg)]
         public string Title { get; set; }
 
-        [StringLength(ThreadDescriptionMaxLength,
-            MinimumLength = ThreadDescriptionMinLength,
-            ErrorMessage = "The description field must have a minimum length of {2}.")]
+        [MaxLength(DataConstants.Threads.DescriptionMaxLength)]
         public string Description { get; set; }
 
         [Required]
-        [MinLength(20, ErrorMessage = "The content field must have a minimum length of 20.")]
+        [MinLength(DataConstants.Threads.ContentMinLength, ErrorMessage = DataConstants.Threads.ContentMinLengthMsg)]
         public string Content { get; set; }
     }
 }

@@ -12,13 +12,13 @@ namespace _4drafts.Data.Models
         public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
-        [MaxLength(ThreadTitleMaxLength)]
+        [MaxLength(Threads.TitleMaxLength)]
         public string Title { get; set; }
 
         [Required]
         public string Content { get; set; }
 
-        [MaxLength(ThreadDescriptionMaxLength)]
+        [MaxLength(Threads.DescriptionMaxLength)]
         public string Description { get; set; }
 
         public DateTime CreatedOn { get; init; }

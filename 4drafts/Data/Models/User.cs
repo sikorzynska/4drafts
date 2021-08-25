@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static _4drafts.Data.DataConstants;
 
 namespace _4drafts.Data.Models
 {
@@ -11,19 +12,19 @@ namespace _4drafts.Data.Models
 
         public string AvatarUrl { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(Users.UsernameMaxLength)]
         public string FirstName { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(Users.UsernameMaxLength)]
         public string LastName { get; set; }
 
-        [Range(1, 100)]
+        [Range(Users.AgeMin, Users.AgeMax)]
         public int? Age { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(Users.UsernameMaxLength)]
         public string Occupation { get; set; }
 
-        [MaxLength(6)]
+        [MaxLength(Users.GenderMaxLength)]
         public string Gender { get; set; }
 
         public string Website { get; set; }
@@ -36,7 +37,7 @@ namespace _4drafts.Data.Models
 
         public string Facebook { get; set; }
 
-        [MaxLength(500)]
+        [MaxLength(Users.AboutMeMaxLength)]
         public string AboutMe { get; set; }
 
         public int Points { get; set; }

@@ -2,50 +2,70 @@
 {
     public class DataConstants
     {
-        public const int IdMaxLength = 40;
+        public class Global
+        {
+            public const string UnauthorizedAction = "Whoops! Looks like you're not authorized to do this...";
+        }
 
-        public const int UsernameMaxLength = 20;
-        public const int UsernameMinLength = 3;
-        public const int PasswordMinLength = 6;
-        public const string UserEmailRegularExpression = @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
-        public const string ImageUrlRegex = @"(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)";
+        public class Users
+        {
+            public const string EmailRegularExpression = @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
+            public const string ImageUrlRegex = @"(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)";
+            public const string InvalidGender = "Invalid gender selection";
+            public const string InvalidCredentials = "Whoops! Invalid credentials.";
+            public const string UsernameTaken = "Username is already taken.";
+            public const string EmailTaken = "Email address is already taken.";
+            public const string UsernameLengthMsg = "The username must be between 3 and 20 characters long.";
+            public const string PasswordLengthMsg = "The password must be between 6 and 20 characters long.";
+            public const string PasswordConfirmMsg = "The password and confirmation password do not match.";
+            public const string InvalidImageUrl = "Invalid image URL";
+            public const int UsernameMaxLength = 20;
+            public const int UsernameMinLength = 3;
+            public const int AboutMeMaxLength = 500;
+            public const int GenderMaxLength = 6;
+            public const int AgeMin = 1;
+            public const int AgeMax = 100;
+            public const int PasswordMinLength = 6;
+            public const int PasswordMaxLength = 20;
+        }
 
-        public const int ThreadTitleMinLength = 3;
-        public const int ThreadTitleMaxLength = 80;
-        public const int ThreadDescriptionMinLength = 10;
-        public const int ThreadDescriptionMaxLength = 500;
+        public class Categories
+        {
+            public const string Inexistent = "Invalid category selection.";
+        }
 
-        public const int CommentMaxLength = 1000;
+        public class Threads
+        {
+            public const int TitleMinLength = 3;
+            public const int TitleMaxLength = 80;
+            public const int DescriptionMinLength = 10;
+            public const int DescriptionMaxLength = 500;
+            public const int ContentMinLength = 20;
+            public const string Inexistent = "Whoops! Looks like no such thread exists...";
+            public const string Updated = "The thread has been successfully updated.";
+            public const string ContentMinLengthMsg = "The content field must have a minimum length of 20.";
+            public const string TitleMinLengthMsg = "The title field must have a minimum length of 20.";
+        }
 
-        //Global
-        public const string UnauthorizedAction = "Whoops! Looks like you're not authorized to do this...";
+        public class Comments
+        {
+            public const int MaxLength = 1000;
+            public const string Inexistent = "Whoops! Looks like no such comment exists...";
+            public const string Updated = "The comment has been successfully updated.";
+            public const string Deleted = "The comment has been successfully deleted.";
+            public const string Empty = "Comments cannot be empty...";
+            public const string ReachedMax = "Comments cannot be longer than 500 characters...";
+        }
 
-        //User
-        public const string InvalidGender = "Invalid gender selection";
-        public const string InvalidCredentials = "Whoops! Invalid credentials.";
-        public const string UsernameTaken = "Username is already taken.";
-        public const string EmailTaken = "Email address is already taken.";
+        public class Drafts
+        {
+            public const string Deleted = "The draft has been successfully deleted.";
+            public const string Saved = "The draft has been successfully saved.";
+            public const string Updated = "The draft has been successfully updated.";
+            public const string MissingTitle = "Whoops! Drafts require a title...";
+            public const string ReachedLimit = "Whoops! You can only have 10 drafts at a time...";
+            public const string Inexistent = "Whoops! Looks like no such draft exists...";
+        }
 
-        //Category
-        public const string InexistentCategory = "Invalid category selection.";
-
-        //Threads
-        public const string InexistentThread = "Whoops! Looks like no such thread exists...";
-        public const string SuccessfullyUpdatedThread = "The thread has been successfully updated.";
-
-        //Comment
-        public const string InexistentComment = "Whoops! Looks like no such comment exists...";
-        public const string SuccessfullyUpdatedComment = "The comment has been successfully updated.";
-        public const string SuccessfullyDeletedComment = "The comment has been successfully deleted.";
-        public const string EmptyComment = "Comments cannot be empty...";
-        public const string MaxLengthComment = "Comments cannot be longer than 500 characters...";
-
-        //Draft
-        public const string SuccessfullyDeletedDraft = "The draft has been successfully deleted.";
-        public const string DraftSaved = "Whoops! You can only have 10 drafts at a time...";
-        public const string SuccessfullyUpdatedDraft = "The draft has been successfully updated.";
-        public const string MissingDraftTitle = "Whoops! Drafts require a title...";
-        public const string ReachedDraftLimit = "Whoops! You can only have 10 drafts at a time...";
-        public const string InexistentDraft = "Whoops! Looks like no such draft exists...";
     }
 }

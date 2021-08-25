@@ -11,10 +11,10 @@ namespace _4drafts.Data.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        [MaxLength(ThreadTitleMaxLength)]
+        [MaxLength(Threads.TitleMaxLength)]
         public string Title { get; set; }
 
-        [MaxLength(ThreadDescriptionMaxLength)]
+        [MaxLength(Threads.DescriptionMaxLength)]
         public string Description { get; set; }
 
         public string Content { get; set; }

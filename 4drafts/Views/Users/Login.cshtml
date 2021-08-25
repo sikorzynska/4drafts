@@ -30,14 +30,14 @@
                 </div>
             </div>
             <div class="form-group d-none">
-                <input asp-for="ReturnUrl" placeholder="Your email here..." class="form-control" />
+                <input asp-for="ReturnUrl" class="form-control" />
             </div>
             <div class="form-group mt-2">
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
             <div class="form-group">
                 <span class="text-muted">Don't have an account?</span>
-                <a onclick="authGet('@Url.Content("/Users/Register/")' ,'@Context.Request.GetDisplayUrl()')">Sign Up</a>
+                <a onclick="authGet('@Url.Content("/Users/Register/")' ,'@Model.ReturnUrl')">Sign Up</a>
             </div>
         </div>
     </form>

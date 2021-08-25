@@ -44,8 +44,8 @@ namespace _4drafts.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [StringLength(UsernameMaxLength,
-            MinimumLength = UsernameMinLength,
+            [StringLength(Users.UsernameMaxLength,
+            MinimumLength = Users.UsernameMinLength,
             ErrorMessage = "The username must be between 3 and 20 symbols long.")]
             public string Username { get; set; }
 

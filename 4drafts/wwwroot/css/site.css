@@ -30,16 +30,9 @@ html {
   }
 }
 
-.bg {
-    /* The image used */
-    background-image: url(https://i.imgur.com/0YC3OUR.png);
-    /* Full height */
-    height: 100%;
-    width: 100%;
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+.bg-ocean {
+    background: rgb(143,234,255);
+    background: radial-gradient(circle, rgba(143,234,255,1) 0%, rgba(14,198,251,1) 49%, rgba(173,228,255,1) 100%);
 }
 
 .border-top {

@@ -40,9 +40,9 @@ namespace _4drafts.Controllers
 
             var draftCount = this.data.Drafts.Count(d => d.AuthorId == user.Id);
 
-            if (title == null) return Json(new { isValid = false, msg = MissingDraftTitle });
+            if (title == null) return Json(new { isValid = false, msg = Drafts.MissingTitle });
 
-            if(draftCount >= 10) return Json(new { isValid = false, msg = ReachedDraftLimit });
+            if(draftCount >= 10) return Json(new { isValid = false, msg = Drafts.ReachedLimit });
 
             if (draftId == null)
             {
@@ -58,13 +58,13 @@ namespace _4drafts.Controllers
                 this.data.Drafts.Add(draft);
                 await this.data.SaveChangesAsync();
 
-                return Json(new { isValid = true, msg = DraftSaved });
+                return Json(new { isValid = true, msg = Drafts.Saved });
             }
             else
             {
                 var draft = await this.data.Drafts.FirstOrDefaultAsync(d => d.Id == draftId);
 
-                if(draft == null) return Json(new { isValid = false, msg = InexistentDraft });
+                if(draft == null) return Json(new { isValid = false, msg = Drafts.Inexistent });
 
                 draft.Title = title;
                 draft.Description = description;
@@ -74,7 +74,7 @@ namespace _4drafts.Controllers
 
                 await this.data.SaveChangesAsync();
 
-                return Json(new { isValid = true , msg = SuccessfullyUpdatedDraft });
+                return Json(new { isValid = true , msg = Drafts.Updated });
             }
         }
 
@@ -108,11 +108,11 @@ namespace _4drafts.Controllers
         {
             var draft = await this.data.Drafts.FirstOrDefaultAsync(d => d.Id == Id);
 
-            if (draft == null) return Json(new { isValid = false, msg = InexistentDraft });
+            if (draft == null) return Json(new { isValid = false, msg = Drafts.Inexistent });
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (user == null || user.Id != draft.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
+            if (user == null || user.Id != draft.AuthorId) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
             return Json(new { isValid = true, html = RenderRazorViewToString(this, "DeleteEntity", new GlobalViewModel { Id = draft.Id, Name = "draft", Path = "/Drafts/Delete/" }) });
         }
@@ -125,17 +125,17 @@ namespace _4drafts.Controllers
         {
             var draft = await this.data.Drafts.FirstOrDefaultAsync(d => d.Id == Id);
 
-            if (draft == null) return Json(new { isValid = false, msg = InexistentDraft });
+            if (draft == null) return Json(new { isValid = false, msg = Drafts.Inexistent });
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (user == null || user.Id != draft.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
+            if (user == null || user.Id != draft.AuthorId) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
             this.data.Drafts.Remove(draft);
             await this.data.SaveChangesAsync();
 
             var draftCount = this.data.Drafts.Count(d => d.AuthorId == draft.AuthorId);
-            return Json(new { isValid = true, msg = SuccessfullyDeletedDraft, entity = "draft", count = draftCount });
+            return Json(new { isValid = true, msg = Drafts.Deleted, entity = "draft", count = draftCount });
         }
 
         [NoDirectAccess]
@@ -145,11 +145,11 @@ namespace _4drafts.Controllers
         {
             var draft = await this.data.Drafts.FirstOrDefaultAsync(d => d.Id == Id);
 
-            if (draft == null) return Json(new { isValid = false, msg = InexistentDraft });
+            if (draft == null) return Json(new { isValid = false, msg = Drafts.Inexistent });
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (user == null || user.Id != draft.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
+            if (user == null || user.Id != draft.AuthorId) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
             return Json(new { 
                 isValid = true,
@@ -165,11 +165,11 @@ namespace _4drafts.Controllers
         {
             var draft = await this.data.Drafts.FirstOrDefaultAsync(d => d.Id == model.Id);
 
-            if (draft == null) return Json(new { isValid = false, msg = InexistentDraft });
+            if (draft == null) return Json(new { isValid = false, msg = Drafts.Inexistent });
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (user == null || user.Id != draft.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
+            if (user == null || user.Id != draft.AuthorId) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
             if (!ModelState.IsValid)
             {
@@ -196,7 +196,7 @@ namespace _4drafts.Controllers
                 }).ToList();
 
             return Json(new { isValid = true, 
-                msg = SuccessfullyUpdatedDraft, 
+                msg = Drafts.Updated, 
                 entity = "draft",
                 html = RenderRazorViewToString(this, "_DraftsPartial", drafts)
             });

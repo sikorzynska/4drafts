@@ -272,7 +272,8 @@ function likeThread(threadId) {
         url: "/Threads/Like/",
         data: { threadId: threadId },
         success: function (res) {
-            $('#thread-likes-section').html(res);
+            $('#thread-likes-section').html(res.html);
+            $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
         }
     })
 }

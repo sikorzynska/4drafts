@@ -1,8 +1,8 @@
-﻿using _4drafts.Models.Comments;
+﻿using _4drafts.Data;
+using _4drafts.Models.Comments;
 using _4drafts.Models.Threads;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using static _4drafts.Data.DataConstants;
 
 namespace _4drafts.Models.Users
 {
@@ -14,19 +14,19 @@ namespace _4drafts.Models.Users
 
         [Display(Name = "Avatar URL")]
         [Url]
-        [RegularExpression(ImageUrlRegex,
-         ErrorMessage = "Invalid image URL")]
+        [RegularExpression(DataConstants.Users.ImageUrlRegex,
+         ErrorMessage = DataConstants.Users.InvalidImageUrl)]
         public string AvatarUrl { get; set; }
 
         [Display(Name = "First name")]
-        [MaxLength(20)]
+        [MaxLength(DataConstants.Users.UsernameMaxLength)]
         public string FirstName { get; set; }
 
         [Display(Name = "Last name")]
-        [MaxLength(20)]
+        [MaxLength(DataConstants.Users.UsernameMaxLength)]
         public string LastName { get; set; }
 
-        [Range(1, 100)]
+        [Range(DataConstants.Users.AgeMin, DataConstants.Users.AgeMax)]
         public int? Age { get; set; }
 
         [EmailAddress]
@@ -34,10 +34,10 @@ namespace _4drafts.Models.Users
 
         public string RegisteredOn { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(DataConstants.Users.UsernameMaxLength)]
         public string Occupation { get; set; }
 
-        [MaxLength(6)]
+        [MaxLength(DataConstants.Users.GenderMaxLength)]
         public string Gender { get; set; }
         [Url]
         public string Website { get; set; }
@@ -51,7 +51,7 @@ namespace _4drafts.Models.Users
         public string Instagram { get; set; }
 
         [Display(Name = "About me")]
-        [MaxLength(500)]
+        [MaxLength(DataConstants.Users.AboutMeMaxLength)]
         public string AboutMe { get; set; }
         public int ThreadCount { get; set; }
         public int CommentCount { get; set; }

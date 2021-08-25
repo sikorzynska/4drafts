@@ -55,9 +55,9 @@ namespace _4drafts.Controllers
 
             var emailTaken = this.data.Users.FirstOrDefault(u => u.Email == model.Email) != null ? true : false;
 
-            if (usernameTaken) this.ModelState.AddModelError(nameof(model.Username), UsernameTaken);
+            if (usernameTaken) this.ModelState.AddModelError(nameof(model.Username), Users.UsernameTaken);
 
-            if (emailTaken) this.ModelState.AddModelError(nameof(model.Email), EmailTaken);
+            if (emailTaken) this.ModelState.AddModelError(nameof(model.Email), Users.EmailTaken);
 
             if (ModelState.IsValid)
             {
@@ -112,13 +112,13 @@ namespace _4drafts.Controllers
 
             if (existingUser == null)
             {
-                ModelState.AddModelError(string.Empty, InvalidCredentials);
+                ModelState.AddModelError(string.Empty, Users.InvalidCredentials);
                 appliedError = true;
             }
 
             var passwordIsValid = await this.userManager.CheckPasswordAsync(existingUser, model.Password);
 
-            if (!passwordIsValid && !appliedError) ModelState.AddModelError(string.Empty, InvalidCredentials);
+            if (!passwordIsValid && !appliedError) ModelState.AddModelError(string.Empty, Users.InvalidCredentials);
 
             if (!ModelState.IsValid) return Json(new { isValid = false, html = RenderRazorViewToString(this, "Login", model) });
 
@@ -225,7 +225,7 @@ namespace _4drafts.Controllers
         {
 
             if (model.Gender != "Male" && model.Gender != "Female" && model.Gender != string.Empty && model.Gender != null)
-            this.ModelState.AddModelError(nameof(model.Gender), InvalidGender);
+            this.ModelState.AddModelError(nameof(model.Gender), Users.InvalidGender);
 
             if (!ModelState.IsValid) return Json(new { isValid = false, html = RenderRazorViewToString(this, "Edit", model) });
 

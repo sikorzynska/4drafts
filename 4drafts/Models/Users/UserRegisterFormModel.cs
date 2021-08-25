@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using static _4drafts.Data.DataConstants;
+﻿using _4drafts.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace _4drafts.Models.Users
 {
     public class UserRegisterFormModel
     {
         [Required]
-        [StringLength(UsernameMaxLength,
-        MinimumLength = UsernameMinLength,
-        ErrorMessage = "The username must be between 3 and 20 characters long.")]
+        [StringLength(DataConstants.Users.UsernameMaxLength,
+        MinimumLength = DataConstants.Users.UsernameMinLength,
+        ErrorMessage = DataConstants.Users.UsernameLengthMsg)]
         public string Username { get; set; }
 
         [Required]
@@ -17,14 +17,16 @@ namespace _4drafts.Models.Users
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(DataConstants.Users.PasswordMaxLength,
+            MinimumLength = DataConstants.Users.PasswordMinLength,
+            ErrorMessage = DataConstants.Users.PasswordLengthMsg)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = DataConstants.Users.PasswordConfirmMsg)]
         public string ConfirmPassword { get; set; }
 
         public string ReturnUrl { get; set; }

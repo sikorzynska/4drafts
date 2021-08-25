@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using static _4drafts.Data.DataConstants;
+﻿using _4drafts.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace _4drafts.Models.Drafts
 {
@@ -8,10 +8,10 @@ namespace _4drafts.Models.Drafts
         public string Id { get; set; }
 
         [Required]
-        [MaxLength(ThreadTitleMaxLength)]
+        [MaxLength(DataConstants.Threads.TitleMaxLength)]
         public string Title { get; set; }
 
-        [MaxLength(ThreadDescriptionMaxLength)]
+        [MaxLength(DataConstants.Threads.DescriptionMaxLength)]
         public string Description { get; set; }
 
         public string Content { get; set; }

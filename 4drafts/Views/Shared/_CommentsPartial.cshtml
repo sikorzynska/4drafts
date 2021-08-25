@@ -79,17 +79,17 @@
                             {
                                 if (comment.Liked)
                                 {
-                                    <a onclick="likeComment('@comment.Id')"><i class="fas fa-heart"></i></a>
+                                    <a class="text-danger" onclick="likeComment('@comment.Id')"><i class="fas fa-heart"></i></a>
                                 }
                                 else
                                 {
-                                    <a onclick="likeComment('@comment.Id')"><i class="far fa-heart"></i></a>
+                                    <a class="text-danger" onclick="likeComment('@comment.Id')"><i class="far fa-heart"></i></a>
                                 }
 
                             }
                             else
                             {
-                                <a><i class="far fa-heart"></i></a>
+                                <a class="text-secondary disabled"><i class="far fa-heart"></i></a>
                             }
                         }
                         <span class="ml-2">@comment.Points</span><span class="dot mb-1 ml-2"></span>

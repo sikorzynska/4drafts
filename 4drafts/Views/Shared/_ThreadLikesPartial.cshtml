@@ -8,16 +8,16 @@
     {
         if (Model.Liked)
         {
-            <a onclick="likeThread('@Model.Id')" class="btn btn-primary btn-sm"><i class="fas fa-heart"></i></a>
+            <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="fas fa-2x big-icon fa-heart"></i></a>
         }
         else
         {
-            <a onclick="likeThread('@Model.Id')" class="btn btn-info btn-sm"><i class="far fa-heart"></i></a>
+            <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="far fa-2x big-icon fa-heart"></i></a>
         }
     }
     else
     {
-        <a class="btn btn-info btn-sm disabled"><i class="far fa-heart"></i></a>
+        <a class="text-secondary disabled"><i class="far fa-2x big-icon fa-heart"></i></a>
     }
 }
 <span class="ml-1 mr-1">@Model.Points <span class="text-muted">likes</span></span>

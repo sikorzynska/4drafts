@@ -12,7 +12,7 @@ namespace _4drafts.Data.Models
         public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
-        [MaxLength(CommentMaxLength)]
+        [MaxLength(Comments.MaxLength)]
         public string Content { get; set; }
 
         public DateTime CreatedOn { get; init; }

@@ -173,9 +173,9 @@ namespace _4drafts.Controllers
             var thread = await data.Threads.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (thread == null) return Json(new { isValid = false, msg = InexistentThread });
+            if (thread == null) return Json(new { isValid = false, msg = Threads.Inexistent });
 
-            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
+            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
             return Json(new { isValid = true, html = RenderRazorViewToString(this, "DeleteEntity", new GlobalViewModel { Id = thread.Id, Name = "thread", Path = "/Threads/Delete/" }) });
         }
@@ -188,9 +188,9 @@ namespace _4drafts.Controllers
             var thread = await data.Threads.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (thread == null) return Json(new { isValid = false, msg = InexistentThread });
+            if (thread == null) return Json(new { isValid = false, msg = Threads.Inexistent });
 
-            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
+            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
             var comments = this.data.Comments.Where(c => c.ThreadId == Id);
             data.RemoveRange(comments);
@@ -231,7 +231,7 @@ namespace _4drafts.Controllers
 
             if (!this.data.Categories.Any(c => c.Id == model.CategoryId))
             {
-                this.ModelState.AddModelError(nameof(model.CategoryId), InexistentCategory);
+                this.ModelState.AddModelError(nameof(model.CategoryId), Categories.Inexistent);
             }
 
             if (ModelState.IsValid)
@@ -273,9 +273,9 @@ namespace _4drafts.Controllers
             var thread = await this.data.Threads.FindAsync(Id);
             var user = await this.userManager.GetUserAsync(User);
 
-            if (thread == null) return Json(new { isValid = false, msg = InexistentThread });
+            if (thread == null) return Json(new { isValid = false, msg = Threads.Inexistent });
 
-            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = UnauthorizedAction });
+            if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
             return Json(new { isValid = true, 
                 html = RenderRazorViewToString(this, "Edit", new EditThreadViewModel 
@@ -306,7 +306,7 @@ namespace _4drafts.Controllers
                 entity = "thread",
                 title = model.Title,
                 content = model.Content,
-                msg = SuccessfullyUpdatedThread
+                msg = Threads.Updated
             });
         }
 
@@ -327,12 +327,14 @@ namespace _4drafts.Controllers
                 .FirstOrDefaultAsync(ut => ut.UserId == userId && ut.ThreadId == threadId);
 
             var liked = false;
+            var msg = "";
 
             if (ut != null)
             {
                 this.data.UserThreads.Remove(ut);
                 thread.Points--;
                 liked = false;
+                msg = "The thread has been successfully removed from favourites.";
             }
             else
             {
@@ -343,17 +345,27 @@ namespace _4drafts.Controllers
                 });
                 thread.Points++;
                 liked = true;
+                msg = "The thread has been successfully added to favourites.";
             }
             await this.data.SaveChangesAsync();
 
             var points = this.data.Threads.FirstOrDefault(t => t.Id == threadId).Points;
 
-            return PartialView("_ThreadLikesPartial", new ThreadViewModel
+            var tvm = new ThreadViewModel
             {
                 Id = threadId,
                 Points = points,
                 Liked = liked,
-            });
+            };
+
+            return Json(new { msg = msg, html = RenderRazorViewToString(this, "_ThreadLikesPartial", tvm) });
+
+            //return PartialView("_ThreadLikesPartial", new ThreadViewModel
+            //{
+            //    Id = threadId,
+            //    Points = points,
+            //    Liked = liked,
+            //});
         }
 
         //Functions
