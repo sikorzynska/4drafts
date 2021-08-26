@@ -22,7 +22,7 @@
                 </a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item text-color-black dropdown">
-                        <a class="text-color-black nav-link dropdown-toggle" title="browse categories" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-archive"></i> Categories</a>
+                        <a class="nav-link dropdown-toggle layout-anchor btn-link-wh" title="browse categories" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-archive"></i><span> Categories</span></a>
                         <div class="dropdown-menu">
                             <a asp-controller="Categories" asp-action="All" class="dropdown-item">All</a>
                             <div class="dropdown-divider"></div>
@@ -43,21 +43,21 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Browse" title="browse threads" class="nav-link text-color-black layout-anchor"><i class="fas fa-th-large"></i> Browse</a>
+                        <a asp-controller="Threads" asp-action="Browse" title="browse threads" class="nav-link btn-link-wh layout-anchor"><i class="fas fa-th-large"></i><span> Browse</span></a>
                     </li>
                     @if (user != null)
                     {
                         <li class="nav-item">
-                            <a asp-controller="Threads" asp-action="Library" title="my threads" class="nav-link text-color-black layout-anchor"><i class="fas fa-list"></i> Library</a>
+                            <a asp-controller="Threads" asp-action="Library" title="my threads" class="nav-link btn-link-wh layout-anchor"><i class="fas fa-list"></i><span> Library</span></a>
                         </li>
                         <li class="nav-item">
-                            <a asp-controller="Threads" asp-action="Favourites" title="liked threads" class="nav-link text-color-black layout-anchor"><i class="fas fa-heart"></i> Favourites</a>
+                            <a asp-controller="Threads" asp-action="Favourites" title="liked threads" class="nav-link btn-link-wh layout-anchor"><i class="fas fa-heart"></i><span> Favourites</span></a>
                         </li>
                         <li class="nav-item">
-                            <a asp-controller="Drafts" asp-action="All" title="my drafts" class="nav-link text-color-black layout-anchor"><i class="fab fa-firstdraft"></i> Drafts</a>
+                            <a asp-controller="Drafts" asp-action="All" title="my drafts" class="nav-link btn-link-wh layout-anchor"><i class="fab fa-firstdraft"></i><span> Drafts</span></a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a title="start thread" class="nav-link dropdown-toggle text-color-black layout-anchor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i> Post</a>
+                            <a title="start thread" class="nav-link dropdown-toggle btn-link-wh layout-anchor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i><span> Post</span></a>
                             <div class="dropdown-menu">
                                 @await Component.InvokeAsync("UserDrafts")
                             </div>

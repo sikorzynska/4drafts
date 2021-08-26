@@ -248,13 +248,9 @@ body {
     transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
-@media only screen and (max-width:750px) {
+@media only screen and (max-width:995px) {
 
     .layout-anchor span {
-        display: none;
-    }
-
-    .nav-item {
         display: none;
     }
 
@@ -444,23 +440,14 @@ hide-empty:empty {
     font-size: 120%;
 }
 
-.btn-link-blue {
+.btn-link-wh {
     font-weight: 400;
-    color: blue;
+    color: black !important;
     text-decoration: none;
 }
 
-    .btn-link-blue:hover {
-        color: black;
-    }
-
-    .btn-link-blue:focus, .btn-link.focus {
-        text-decoration: underline;
-    }
-
-    .btn-link-blue:disabled, .btn-link.disabled {
-        color: #999;
-        pointer-events: none;
+    .btn-link-wh:hover {
+        color: white !important;
     }
 
 
@@ -478,6 +465,11 @@ hide-empty:empty {
 }
 .commented-section:hover .comment-options {
     display: inline;
+}
+
+.jumbotron {
+    background: url(../images/jumbitron.jpg) no-repeat center center !important;
+    background-size: cover !important;
 }
 
          

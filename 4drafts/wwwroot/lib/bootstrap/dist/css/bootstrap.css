@@ -5299,8 +5299,6 @@ a.badge-dark:focus, a.badge-dark.focus {
     margin-bottom: 2rem;
     border-radius: 0.3rem;
     text-align: center;
-    background: url(https://cutewallpaper.org/21/bootstrap-jumbotron-background-image/Bootstrap-Jumbotron-examples-tutorial-Basic-advanced-.jpg) no-repeat center center;
-    background-size: cover;
 }
 
 @media (min-width: 576px) {

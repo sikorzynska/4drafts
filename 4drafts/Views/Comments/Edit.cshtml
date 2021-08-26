@@ -17,7 +17,7 @@
                 <input asp-for="Id" class="form-control" id="title-input" hidden>
             </div>
             <div class="form-group">
-                <textarea asp-for="Content" rows="4" class="form-control" id="description-input">></textarea>
+                <textarea asp-for="Content" maxlength="500" rows="4" class="form-control" id="description-input">></textarea>
                 <span asp-validation-for="Content" class="small text-danger"></span>
             </div>
         </div>

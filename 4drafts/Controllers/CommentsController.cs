@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using static _4drafts.Services.ControllerExtensions;
 using _4drafts.Models.Shared;
 using static _4drafts.Data.DataConstants;
+using System.Collections.Generic;
 
 namespace _4drafts.Controllers
 {
@@ -276,6 +277,90 @@ namespace _4drafts.Controllers
             return PartialView("_CommentsPartial", new ThreadViewModel
             {
                 Id = comment.ThreadId,
+                Comments = comments,
+            });
+        }
+
+        [HttpGet]
+        [NoDirectAccess]
+        public IActionResult Sort(string threadId, string type)
+        {
+            var comments = new List<CommentViewModel>();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            switch (type)
+            {
+                case "oldest":
+                    {
+                        comments = this.data.Comments
+                        .Where(c => c.ThreadId == threadId)
+                        .OrderBy(c => c.CreatedOn)
+                        .Select(c => new CommentViewModel
+                        {
+                            Id = c.Id,
+                            Content = c.Content,
+                            Points = c.Points,
+                            Liked = IsLiked(c.Id, userId, this.data),
+                            CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
+                            AuthorId = c.AuthorId,
+                            AuthorName = c.Author.UserName,
+                            AuthorAvatarUrl = c.Author.AvatarUrl,
+                            AuthorRegisteredOn = c.Author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
+                            AuthorCommentCount = UserCommentCount(c.AuthorId, this.data),
+                            ThreadId = c.ThreadId
+                        })
+                        .ToList();
+                        break;
+                    }
+                case "top":
+                    {
+                        comments = this.data.Comments
+                        .Where(c => c.ThreadId == threadId)
+                        .OrderByDescending(c => c.Points)
+                        .Select(c => new CommentViewModel
+                        {
+                            Id = c.Id,
+                            Content = c.Content,
+                            Points = c.Points,
+                            Liked = IsLiked(c.Id, userId, this.data),
+                            CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
+                            AuthorId = c.AuthorId,
+                            AuthorName = c.Author.UserName,
+                            AuthorAvatarUrl = c.Author.AvatarUrl,
+                            AuthorRegisteredOn = c.Author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
+                            AuthorCommentCount = UserCommentCount(c.AuthorId, this.data),
+                            ThreadId = c.ThreadId
+                        })
+                        .ToList();
+                        break;
+                    }
+                default:
+                    {
+                        comments = this.data.Comments
+                        .Where(c => c.ThreadId == threadId)
+                        .OrderByDescending(c => c.CreatedOn)
+                        .Select(c => new CommentViewModel
+                        {
+                            Id = c.Id,
+                            Content = c.Content,
+                            Points = c.Points,
+                            Liked = IsLiked(c.Id, userId, this.data),
+                            CreatedOn = timeWarper.TimeAgo(c.CreatedOn),
+                            AuthorId = c.AuthorId,
+                            AuthorName = c.Author.UserName,
+                            AuthorAvatarUrl = c.Author.AvatarUrl,
+                            AuthorRegisteredOn = c.Author.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
+                            AuthorCommentCount = UserCommentCount(c.AuthorId, this.data),
+                            ThreadId = c.ThreadId
+                        })
+                        .ToList();
+                        break;
+                    }
+            }
+
+            return PartialView("_CommentsPartial", new ThreadViewModel
+            {
+                Id = threadId,
                 Comments = comments,
             });
         }
