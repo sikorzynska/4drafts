@@ -437,3 +437,41 @@ function cancelModal() {
     $('#form-modal').modal('hide');
     $('#staticBackdrop').modal('hide');
 }
+
+//$(function () {
+//    $(".heart").on("click", function () {
+//        $(this).toggleClass("is-active");
+//    });
+//});
+
+function like(threadId) {
+    $.ajax({
+        type: 'Post',
+        url: "/Threads/Like/",
+        data: { threadId: threadId },
+        success: function (res) {
+            $('#thread-likes-section').html(res.html);
+            $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+            if (res.liked) {
+                $(".heart").toggleClass("is-active");
+            }
+        }
+    })
+}
+
+function liked(threadId) {
+    $.ajax({
+        type: 'Post',
+        url: "/Threads/IsLiked/",
+        data: { threadId: threadId },
+        success: function (res) {
+            if (res.liked) {
+                $(".heart").toggleClass("is-active");
+                console.log('here');
+            }
+            else {
+                console.log('there');
+            }
+        }
+    })
+}

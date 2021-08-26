@@ -5,7 +5,7 @@
 }
 
 <body>
-    <form autocomplete="off" asp-controller="Users" asp-action="Login" id="account" method="post" onsubmit="return authPost(this);">
+    <form autocomplete="off" asp-controller="Authentication" asp-action="Login" id="account" method="post" onsubmit="return authPost(this);">
         <div class="container-fluid text-center col-8">
             <h1>@ViewData["Title"]</h1>
             <h4>Sign in to share your stories</h4>
@@ -37,7 +37,7 @@
             </div>
             <div class="form-group">
                 <span class="text-muted">Don't have an account?</span>
-                <a onclick="authGet('@Url.Content("/Users/Register/")' ,'@Model.ReturnUrl')">Sign Up</a>
+                <a onclick="authGet('@Url.Content("/Authentication/Register/")' ,'@Model.ReturnUrl')">Sign Up</a>
             </div>
         </div>
     </form>

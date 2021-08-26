@@ -358,14 +358,29 @@ namespace _4drafts.Controllers
                 Liked = liked,
             };
 
-            return Json(new { msg = msg, html = RenderRazorViewToString(this, "_ThreadLikesPartial", tvm) });
+            return Json(new { liked = liked, msg = msg, html = RenderRazorViewToString(this, "_ThreadLikesPartial", tvm) });
+        }
 
-            //return PartialView("_ThreadLikesPartial", new ThreadViewModel
-            //{
-            //    Id = threadId,
-            //    Points = points,
-            //    Liked = liked,
-            //});
+        [HttpPost]
+        [NoDirectAccess]
+        [Authorize]
+        public async Task<IActionResult> IsLiked(string threadId)
+        {
+            var thread = await this.data.Threads.FindAsync(threadId);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await this.data.Users
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var ut = await this.data.UserThreads
+                .FirstOrDefaultAsync(ut => ut.UserId == userId && ut.ThreadId == threadId);
+
+            var liked = false;
+            if(ut != null)
+            {
+                liked = true;
+            }
+
+            return Json(new { liked = liked });
         }
 
         //Functions

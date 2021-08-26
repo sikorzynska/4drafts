@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static _4drafts.Services.ControllerExtensions;
 using static _4drafts.Data.DataConstants;
+using _4drafts.Models.Authentication;
 
 namespace _4drafts.Controllers
 {

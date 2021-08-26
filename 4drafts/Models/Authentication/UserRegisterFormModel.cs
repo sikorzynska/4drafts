@@ -1,7 +1,7 @@
 ﻿using _4drafts.Data;
 using System.ComponentModel.DataAnnotations;
 
-namespace _4drafts.Models.Users
+namespace _4drafts.Models.Authentication
 {
     public class UserRegisterFormModel
     {

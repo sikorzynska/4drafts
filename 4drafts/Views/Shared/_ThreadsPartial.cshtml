@@ -12,7 +12,7 @@
         @{
             if (includeCategory)
             {
-                <thead class="bg-color-blue">
+                <thead class="bg-tablehead">
                     <tr>
                         <th class="text-truncate border" scope="col">Title</th>
                         <th class="text-truncate border" scope="col">Category</th>
@@ -35,8 +35,8 @@
                                         <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
                                         <td class="text-truncate border"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
                                         <td class="text-truncate border">@thread.CreatedOn</td>
-                                        <td class="border">@thread.Points</td>
-                                        <td class="border">@thread.CommentCount</td>
+                                        <td class="border text-center">@thread.Points</td>
+                                        <td class="border text-center">@thread.CommentCount</td>
                                         <td class="text-truncate border">
                                             <div class="d-inline media-img-30">
                                                 <a onclick="viewProfile('@thread.AuthorId')">
@@ -53,8 +53,8 @@
                                         <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
                                         <td class="text-truncate border"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
                                         <td class="text-truncate border">@thread.CreatedOn</td>
-                                        <td class="border">@thread.Points</td>
-                                        <td class="border">@thread.CommentCount</td>
+                                        <td class="border text-center">@thread.Points</td>
+                                        <td class="border text-center">@thread.CommentCount</td>
                                         <td class="text-truncate border"><div class="d-inline media-img-30"><a class="text-truncate" onclick="viewProfile('@thread.AuthorId')"><img class="rounded-circle border" src="@thread.AuthorAvatarUrl" /> @thread.AuthorName</a></div></td>
                                     </tr>
                                 }
@@ -65,7 +65,7 @@
                }
                else
                {
-                <thead class="bg-color-blue">
+                <thead class="bg-tablehead">
                     <tr>
                         <th class="text-truncate border" scope="col">Title</th>
                         <th class="text-truncate border" scope="col">Posted</th>
@@ -86,8 +86,8 @@
                                     <tr class="table-info" id="@thread.Id">
                                         <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
                                         <td class="text-truncate border">@thread.CreatedOn</td>
-                                        <td class="border">@thread.Points</td>
-                                        <td class="border">@thread.CommentCount</td>
+                                        <td class="border text-center">@thread.Points</td>
+                                        <td class="border text-center">@thread.CommentCount</td>
                                         <td class="text-truncate border">
                                             <div class="d-inline media-img-30">
                                                 <a onclick="viewProfile('@thread.AuthorId')">
@@ -103,8 +103,8 @@
                                     <tr class="table-secondary" id="@thread.Id">
                                         <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
                                         <td class="text-truncate border">@thread.CreatedOn</td>
-                                        <td class="border">@thread.Points</td>
-                                        <td class="border">@thread.CommentCount</td>
+                                        <td class="border text-center">@thread.Points</td>
+                                        <td class="border text-center">@thread.CommentCount</td>
                                         <td class="text-truncate border">
                                             <div class="d-inline media-img-30">
                                                 <a onclick="viewProfile('@thread.AuthorId')">

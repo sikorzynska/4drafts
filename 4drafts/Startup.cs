@@ -39,8 +39,10 @@ namespace _4drafts
                 })
                 .AddEntityFrameworkStores<_4draftsDbContext>();
 
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddTransient<ITimeWarper, TimeWarper>();
+            services.AddTransient<IAuthenticator, Authenticator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,11 +8,11 @@
     {
         if (Model.Liked)
         {
-            <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="fas fa-2x big-icon fa-heart"></i></a>
+            <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="fas fa-lg big-icon fa-heart"></i></a>
         }
         else
         {
-            <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="far fa-2x big-icon fa-heart"></i></a>
+            <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="far fa-lg big-icon fa-heart"></i></a>
         }
     }
     else
@@ -20,4 +20,4 @@
         <a class="text-secondary disabled"><i class="far fa-2x big-icon fa-heart"></i></a>
     }
 }
-<span class="ml-1 mr-1">@Model.Points <span class="text-muted">likes</span></span>
+<span class="badge-pill badge-info ml-1 mr-1">@Model.Points likes</span>

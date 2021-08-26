@@ -165,12 +165,6 @@ body {
     display: block !important
 }
 
-a {
-    color: black;
-    text-decoration: none !important;
-    background-color: transparent
-}
-
 .media img {
     width: 40px;
     height: auto
@@ -186,9 +180,9 @@ a {
     height: 30px;
 }
 
-.bg-color-blue {
-    background: rgb(109,100,255) !important;
-    background: linear-gradient(90deg, rgba(109,100,255,1) 0%, rgba(56,222,220,1) 47%, rgba(0,212,255,1) 100%) !important;
+.bg-tablehead {
+    background-color: #00DBDE;
+    background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
 }
 
 .text-color-black {
@@ -298,8 +292,8 @@ a {
 }
 
 .dot {
-    height: 7px;
-    width: 7px;
+    height: 5px;
+    width: 5px;
     margin-top: 3px;
     background-color: #bbb;
     border-radius: 50%;
@@ -316,6 +310,7 @@ a {
 
 .content-text {
     white-space: pre-wrap;
+    font-size: 120%;
 }
 
 .mw-100 {
@@ -442,5 +437,54 @@ hide-empty:empty {
     background: rgb(148,94,255) !important;
     background: radial-gradient(circle, rgba(148,94,255,1) 0%, rgba(56,222,220,1) 53%, rgba(255,255,255,1) 100%) !important;
 }
+
+.comment-text {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 120%;
+}
+
+.btn-link-blue {
+    font-weight: 400;
+    color: blue;
+    text-decoration: none;
+}
+
+    .btn-link-blue:hover {
+        color: black;
+    }
+
+    .btn-link-blue:focus, .btn-link.focus {
+        text-decoration: underline;
+    }
+
+    .btn-link-blue:disabled, .btn-link.disabled {
+        color: #999;
+        pointer-events: none;
+    }
+
+
+.commented-text {
+    padding: 10px;
+}
+
+.comment-options {
+    display: none;
+}
+
+.commented-section:hover {
+    background-color: #f9ffff;
+    background-image: linear-gradient(90deg, #f9ffff 0%, #b1faff 50%, #f9ffff 100%);
+}
+.commented-section:hover .comment-options {
+    display: inline;
+}
+
+         
+         
+         
+         
+         
+         
 
 
