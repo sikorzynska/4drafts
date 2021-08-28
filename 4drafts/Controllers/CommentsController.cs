@@ -36,32 +36,24 @@ namespace _4drafts.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(string threadId, string Content)
+        public async Task<IActionResult> Create(string threadId, string content)
         {
             var thread = await this.data.Threads.FindAsync(threadId);
             var user = await this.userManager.GetUserAsync(User);
 
-            var characterCount = string.IsNullOrWhiteSpace(Content) ? 0 : Content.Length;
+            var characterCount = string.IsNullOrWhiteSpace(content) ? 0 : content.Length;
 
-            if (user == null) return Unauthorized();
+            if (user == null) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
-            if (string.IsNullOrWhiteSpace(threadId) || thread == null) return BadRequest();
+            if (string.IsNullOrWhiteSpace(threadId) || thread == null) return Json(new { isValid = false, msg = Threads.Inexistent });
 
-            if (string.IsNullOrWhiteSpace(Content))
-            {
-                this.ModelState.AddModelError(nameof(Content), Comments.Empty);
-            }
+            if (string.IsNullOrWhiteSpace(content)) return Json(new { isValid = false, msg = Comments.Empty });
 
-            if(characterCount > 500)
-            {
-                this.ModelState.AddModelError(nameof(Content), Comments.ReachedMax);
-            }
-
-            if (!ModelState.IsValid) return BadRequest();
+            if (characterCount > 500) return Json(new { isValid = false, msg = Comments.ReachedMax });
 
             var comment = new Comment
             {
-                Content = Content,
+                Content = content,
                 CreatedOn = DateTime.UtcNow.ToLocalTime(),
                 AuthorId = user.Id,
                 ThreadId = threadId
@@ -89,11 +81,11 @@ namespace _4drafts.Controllers
                 })
                 .ToList();
 
-            return PartialView("_CommentsPartial", new ThreadViewModel
+            return Json(new { isValid = true, html = RenderRazorViewToString(this, "_CommentsPartial", new ThreadViewModel
             {
                 Id = threadId,
                 Comments = comments
-            });
+            }) });
         }
 
         [HttpGet]
@@ -126,6 +118,12 @@ namespace _4drafts.Controllers
         {
             var comment = await this.data.Comments.FindAsync(model.Id);
             var user = await this.userManager.GetUserAsync(User);
+
+            var characterCount = string.IsNullOrWhiteSpace(model.Content) ? 0 : model.Content.Length;
+
+            if (string.IsNullOrWhiteSpace(model.Content)) this.ModelState.AddModelError(nameof(Content), Comments.Empty);
+
+            if (characterCount > 500) this.ModelState.AddModelError(nameof(Content), Comments.ReachedMax);
 
             if (!ModelState.IsValid)
             {
@@ -217,7 +215,7 @@ namespace _4drafts.Controllers
                 .ToList();
 
             return Json(new { isValid = true, 
-                msg = Comments.Updated,
+                msg = Comments.Deleted,
                 html = RenderRazorViewToString(this, "_CommentsPartial", 
                 new ThreadViewModel { Id = thread.Id, Comments = comments }), 
                 entity = "comment" });

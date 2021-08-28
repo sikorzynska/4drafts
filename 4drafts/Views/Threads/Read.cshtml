@@ -30,11 +30,11 @@
                     <hr />
                     <span id="thread-content" class="content-text">@Model.Content</span>
                 </div>
-                <div class="card-footer border-notop d-flex flex-wrap justify-content-start align-items-start px-0 pt-0 pb-3">
-                    <div class="px-4 pt-4" id="thread-likes-section">
+                <div class="card-footer border-notop justify-content-center align-items-center d-flex flex-wrap px-0 pt-0 pb-3">
+                    <div class="ml-3 mr-auto mt-3" id="thread-likes-section">
                         <partial name="_ThreadLikesPartial" model="@Model" />
                     </div>
-                    <div class="btn-group mt-auto mb-auto pt-3 px-2 align-end" role="group" aria-label="Basic example">
+                    <div class="btn-group align-end mr-3 ml-auto mt-3" role="group" aria-label="Basic example">
                         @if (userId == Model.AuthorId)
                         {
                             <div class="zoom"><a class="btn btn-link" onclick="editPopup('@Model.Id', '/Threads/Edit/')"><i class="fas fa-lg big-icon fa-pencil-alt"></i></a></div>
@@ -43,14 +43,13 @@
                         <div class="zoom"><a class="btn btn-link" asp-controller="Threads" asp-action="Report" asp-route-threadId="@Model.Id"><i class="fas fa-lg big-icon fa-flag"></i></a></div>
                         <div class="zoom"><a class="btn btn-link" onclick="changeArrow()"><i id="fold-arrow" class="fas fa-lg big-icon fa-arrow-down"></i></a></div>
                     </div>
+                    <hr class="row w-100 bg-black" />
+                    <div class="row w-100">
+                        <div class="col" id="comment-section">
+                            <partial name="_CommentsPartial" model="@Model" />
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="container-fluid card border" id="comment-section">
-                <partial name="_CommentsPartial" model="@Model" />
             </div>
         </div>
     </div>

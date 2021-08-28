@@ -6,7 +6,7 @@
     if (user != null) avatar = String.IsNullOrWhiteSpace(user.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : user.AvatarUrl;
     else avatar = "https://image.flaticon.com/icons/png/512/64/64572.png";
 }
-<div class="bg-white p-2 px-4">
+<div class="p-2 px-4">
     <span class="badge badge-dark">@Model.Comments.Count()</span>&nbsp;<span>Comments</span>
     <div class="dropdown d-inline ml-3">
         <a class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-filter"></i><span> [sort]</span></a>
@@ -29,14 +29,14 @@
                                   class="form-control ml-1 shadow-none"
                                   placeholder="Add a public comment..."
                                   id="comment-content"
-                                  onchange="checkIfEmpty(), countCharacters()"
-                                  onkeypress="checkIfEmpty(), countCharacters()"
-                                  oninput="checkIfEmpty(), countCharacters()"
-                                  onkeyup="countCharacters()"
-                                  onpaste="checkIfEmpty(), countCharacters()"
+                                  onchange="checkIfEmpty(), countCharacters('comment_count', 'comment-content')"
+                                  onkeypress="checkIfEmpty(), countCharacters('comment_count', 'comment-content')"
+                                  oninput="checkIfEmpty(), countCharacters('comment_count', 'comment-content')"
+                                  onkeyup="countCharacters('comment_count', 'comment-content')"
+                                  onpaste="checkIfEmpty(), countCharacters('comment_count', 'comment-content')"
                                   onclick="showButtons()"></textarea>
                         <div class="input-group-append d-none" id="counter-append">
-                            <span class="input-group-text" id="count_message">0 / 500</span>
+                            <span class="input-group-text" id="comment_count">0 / 500</span>
                         </div>
                     </div>
                 }
@@ -54,12 +54,12 @@
                 }
             }
             <div class="mt-2 text-right d-none" id="comment-buttons">
-                <button class="btn btn-primary" type="button" disabled id="comment-button" onclick="refreshComments('@Model.Id', getValue('comment-content'))">
+                <a class="btn btn-primary disabled" id="comment-button" onclick="comment('@Model.Id', getValue('comment-content'))">
                     Comment
-                </button>
-                <button class="btn btn-danger ml-1" type="button" id="cancel" onclick="hideButtons()">
+                </a>
+                <a class="btn btn-danger ml-1" id="cancel" onclick="hideButtons()">
                     Cancel
-                </button>
+                </a>
             </div>
         </div>
     </div>

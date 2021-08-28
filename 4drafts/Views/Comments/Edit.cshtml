@@ -17,7 +17,13 @@
                 <input asp-for="Id" class="form-control" id="title-input" hidden>
             </div>
             <div class="form-group">
-                <textarea asp-for="Content" maxlength="500" rows="4" class="form-control" id="description-input">></textarea>
+                <span class="float-right badge badge-secondary mb-1" id="edit_comment_count">@Model.Content.Length / 500</span>
+                <textarea asp-for="Content" maxlength="500" rows="4" class="form-control" id="edit_comment-content"
+                onchange="countCharacters('edit_comment_count', 'edit_comment-content')"
+                onkeypress="countCharacters('edit_comment_count', 'edit_comment-content')"
+                oninput="countCharacters('edit_comment_count', 'edit_comment-content')"
+                onkeyup="countCharacters('edit_comment_count', 'edit_comment-content')"
+                onpaste="countCharacters('edit_comment_count', 'edit_comment-content')"></textarea>
                 <span asp-validation-for="Content" class="small text-danger"></span>
             </div>
         </div>

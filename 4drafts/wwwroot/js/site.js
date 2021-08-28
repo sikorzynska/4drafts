@@ -23,13 +23,16 @@ $(function () {
     });
 });
 
-var text_max = 500;
-$('#count_message').html('0 / ' + text_max);
+var comment_max = 500;
+$('#comment_count').html('0 / ' + comment_max);
 
-function countCharacters() {
-    var text_length = $('#comment-content').val().length;
 
-    $('#count_message').html(text_length + ' / ' + text_max);
+
+function countCharacters(counterId, valueId) {
+    var text_length = $(document.getElementById(valueId)).val().length;
+
+    var counter = document.getElementById(counterId);
+    $(counter).html(text_length + ' / ' + comment_max);
 };
 
 function changeArrow() {
@@ -55,9 +58,9 @@ function checkIfEmpty() {
     var commentContent = document.getElementById('comment-content');
 
     if (!commentContent.value.length == 0 && /\S/.test(commentContent.value)) {
-        $(commentButton).attr('disabled', false);
+        commentButton.classList.remove('disabled');
     } else {
-        $(commentButton).attr('disabled', true);
+        commentButton.classList.add('disabled');
     }
 };
 
@@ -75,13 +78,18 @@ function showButtons() {
     counter.classList.remove('d-none');
 }
 
-function refreshComments(Id, Content) {
+function comment(Id, content) {
     $.ajax({
         url: "/Comments/Create/",
         type: "post",
-        data: { threadId: Id, Content: Content },
-        success: function (result) {
-            $('#comment-section').html(result);
+        data: { threadId: Id, content: content },
+        success: function (res) {
+            if (!res.isValid) {
+                $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
+            }
+            else {
+                $('#comment-section').html(res.html);
+            }
         }
     });
 }
