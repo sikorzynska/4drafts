@@ -1,5 +1,5 @@
 ﻿using _4drafts.Data;
-using _4drafts.Models.Categories;
+using _4drafts.Models.Genres;
 using _4drafts.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _4drafts.Controllers
 {
-    public class CategoriesController : Controller
+    public class GenresController : Controller
     {
         private readonly ITimeWarper timeWarper;
         private readonly _4draftsDbContext data;
-        public CategoriesController(ITimeWarper timeWarper,
+        public GenresController(ITimeWarper timeWarper,
             _4draftsDbContext data)
         {
             this.timeWarper = timeWarper;
@@ -21,13 +21,13 @@ namespace _4drafts.Controllers
 
         public IActionResult All()
         {
-            var categories = this.data.Categories
-                .Select(c => new CategoriesBrowseModel
+            var categories = this.data.Genres
+                .Select(c => new GenresBrowseModel
                 {
                     Id = c.Id,
                     Name = c.Name,
                     Description = c.Description,
-                    ThreadCount = this.data.Threads.Count(t => t.CategoryId == c.Id),
+                    ThreadCount = this.data.Threads.Count(t => t.GenreId == c.Id),
                     LastEntry = GetLastThreadInCategory(c.Id, this.data, this.timeWarper)
                 })
                 .OrderByDescending(c => c.ThreadCount)
@@ -38,21 +38,23 @@ namespace _4drafts.Controllers
 
         public IActionResult Browse(int categoryId)
         {
-            if (!this.data.Categories.Any(c => c.Id == categoryId)) return NotFound();
+            if (!this.data.Genres.Any(c => c.Id == categoryId)) return NotFound();
 
-            var name = this.data.Categories.FirstOrDefault(c => c.Id == categoryId).Name;
-            var desc = this.data.Categories.FirstOrDefault(c => c.Id == categoryId).Description;
+            var name = this.data.Genres.FirstOrDefault(c => c.Id == categoryId).Name;
+            var desc = this.data.Genres.FirstOrDefault(c => c.Id == categoryId).Description;
 
             var threads = this.data.Threads
-                .Include(t => t.Category)
-                .Where(t => t.CategoryId == categoryId)
-                .OrderByDescending(t => t.CreatedOn)
+                .Include(t => t.Genre)
+                .Where(t => t.GenreId == categoryId)
+                .OrderByDescending(t => t.Points)
                 .Select(t => new ThreadsBrowseModel
                 {
                     Id = t.Id,
                     Title = t.Title,
                     Description = t.Description,
-                    CategoryId = t.CategoryId,
+                    GenreId = t.GenreId,
+                    GenreName = t.Genre.Name,
+                    GenreSimplified = t.Genre.SimplifiedName,
                     CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                     Points = t.Points,
                     AuthorId = t.AuthorId,
@@ -62,7 +64,7 @@ namespace _4drafts.Controllers
                 })
                 .ToList();
 
-            return View(new CategoryBrowseModel 
+            return View(new GenreBrowseModel 
             { 
                 Id = categoryId,
                 Name = name,
@@ -78,7 +80,7 @@ namespace _4drafts.Controllers
         {
             var thread = data.Threads
                 .Include(t => t.Author)
-                .Where(t => t.CategoryId == categoryId)
+                .Where(t => t.GenreId == categoryId)
                 .OrderByDescending(t => t.CreatedOn)
                 .FirstOrDefault();
 

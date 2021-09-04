@@ -9,7 +9,7 @@
 <div class="p-2 px-4">
     <span class="badge badge-dark">@Model.Comments.Count()</span>&nbsp;<span>Comments</span>
     <div class="dropdown d-inline ml-3">
-        <a class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-filter"></i><span> [sort]</span></a>
+        <a class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-sort"></i><span> [sort]</span></a>
         <ul class="dropdown-menu">
             <li class="dropdown-link-text d-block"><a onclick="sort('@Model.Id', 'top')" class="btn-link" href="#"><i class="fas fa-sort-amount-up"></i><span> [top]</span> </a></li>
             <li class="dropdown-link-text d-block"><a onclick="sort('@Model.Id', 'oldest')" class="btn-link" href="#"><i class="fas fa-sort-numeric-up-alt"></i><span> [oldest]</span> </a></li>

@@ -1,6 +1,6 @@
-﻿@model List<CategoriesBrowseModel>
+﻿@model List<GenresBrowseModel>
 @{
-    ViewBag.Title = "Categories";
+    ViewBag.Title = "Genres";
 }
 <div class="container-fluid mt-5 mb-4">
     <div class="row">
@@ -18,32 +18,32 @@
                     </div>
                 </div>
                 @{
-                    foreach (var category in Model)
+                    foreach (var genre in Model)
                     {
                         <div class="card-body py-3">
                             <div class="row no-gutters align-items-center">
                                 <div class="col">
-                                    <a asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@category.Id" class="text-big font-weight-semibold" data-abc="true">
-                                        @category.Name
+                                    <a asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@genre.Id" class="text-big font-weight-semibold" data-abc="true">
+                                        @genre.Name
                                     </a>
                                 </div>
                                 <div class="tooltip mr-350 hide-sm zoom">
-                                    <a onclick="categoryInfo(@category.Id)"><i class="info-circle fas fa-info-circle"></i></a>
-                                    <span class="tooltiptext">@category.Description</span>
+                                    <a onclick="categoryInfo(@genre.Id)"><i class="info-circle fas fa-info-circle"></i></a>
+                                    <span class="tooltiptext">@genre.Description</span>
                                 </div>
                                 <div class="d-none d-md-block col-6">
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col-3 ml-2">@category.ThreadCount</div>
-                                        @{ if (category.LastEntry != null)
+                                        <div class="col-3 ml-2">@genre.ThreadCount</div>
+                                        @{ if (genre.LastEntry != null)
                                             {
                                                 var avatar = "";
-                                                if (!String.IsNullOrWhiteSpace(category.LastEntry.AuthorAvatarUrl)) avatar = category.LastEntry.AuthorAvatarUrl;
+                                                if (!String.IsNullOrWhiteSpace(genre.LastEntry.AuthorAvatarUrl)) avatar = genre.LastEntry.AuthorAvatarUrl;
                                                 else avatar = "https://image.flaticon.com/icons/png/512/64/64572.png";
                                                 <div class="media col-6 ml-5 align-items-center media-img-40">
                                                     <img src="@avatar" class="d-block ui-w-30 rounded-circle border">
                                                     <div class="media-body flex-truncate ml-2">
-                                                        <a asp-controller="Threads" asp-action="Read" asp-route-threadId="@category.LastEntry.Id" class="d-block text-truncate">@category.LastEntry.Title</a>
-                                                        <div class="text-muted small text-truncate">@category.LastEntry.CreatedOn &nbsp;·&nbsp; <a onclick="viewProfile('@category.LastEntry.AuthorId')" class="text-muted">@category.LastEntry.AuthorName</a></div>
+                                                        <a asp-controller="Threads" asp-action="Read" asp-route-threadId="@genre.LastEntry.Id" class="d-block text-truncate">@genre.LastEntry.Title</a>
+                                                        <div class="text-muted small text-truncate">@genre.LastEntry.CreatedOn &nbsp;·&nbsp; <a onclick="viewProfile('@genre.LastEntry.AuthorId')" class="text-muted">@genre.LastEntry.AuthorName</a></div>
                                                     </div>
                                                 </div>
                                             }

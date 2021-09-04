@@ -1,8 +1,8 @@
 ﻿using _4drafts.Models.Threads;
 
-namespace _4drafts.Models.Categories
+namespace _4drafts.Models.Genres
 {
-    public class CategoriesBrowseModel
+    public class GenresBrowseModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

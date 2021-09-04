@@ -1,6 +1,6 @@
 ﻿using _4drafts.Data;
-using _4drafts.Models.Categories;
 using _4drafts.Models.Drafts;
+using _4drafts.Models.Genres;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,10 +8,10 @@ namespace _4drafts.Models.Threads
 {
     public class CreateThreadFormModel
     {
-        [Display(Name = "Category")]
-        public int CategoryId { get; init; }
-        public string CategoryName { get; set; }
-        public string CategoryDescription { get; set; }
+        [Display(Name = "Genre")]
+        public int GenreId { get; init; }
+        public string GenreName { get; set; }
+        public string GenreDescription { get; set; }
 
         [Required]
         [StringLength(DataConstants.Threads.TitleMaxLength,
@@ -26,7 +26,7 @@ namespace _4drafts.Models.Threads
         [MinLength(DataConstants.Threads.ContentMinLength, ErrorMessage = DataConstants.Threads.ContentMinLengthMsg)]
         public string Content { get; set; }
 
-        public IEnumerable<CategoriesBrowseModel> Categories { get; set; }
+        public IEnumerable<GenresBrowseModel> Genres { get; set; }
         public IEnumerable<DraftViewModel> Drafts { get; set; }
     }
 }

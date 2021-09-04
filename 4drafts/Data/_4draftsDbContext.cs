@@ -12,7 +12,7 @@ namespace _4drafts.Data
         }
 
         public DbSet<Thread> Threads { get; init; }
-        public DbSet<Category> Categories { get; init; }
+        public DbSet<Genre> Genres { get; init; }
         public DbSet<Comment> Comments { get; init; }
         public DbSet<Draft> Drafts { get; init; }
         public DbSet<UserThread> UserThreads { get; init; }
@@ -29,9 +29,9 @@ namespace _4drafts.Data
 
             builder
                 .Entity<Thread>()
-                .HasOne(t => t.Category)
+                .HasOne(t => t.Genre)
                 .WithMany(t => t.Threads)
-                .HasForeignKey(t => t.CategoryId)
+                .HasForeignKey(t => t.GenreId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder

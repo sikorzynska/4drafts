@@ -43,7 +43,7 @@
                         <div class="carousel-item">
                             <img src="~/images/carousel.png" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block text-center">
-                                <h5>@Model[i].Title (@Model[i].CategoryName)</h5>
+                                <h5>@Model[i].Title (@Model[i].GenreName)</h5>
                                 <p class="text-break">@Model[i].Description</p>
                                 <a asp-controller="Threads" asp-action="Read" asp-route-threadId="@Model[i].Id" class="btn btn-secondary"><i class="fab fa-readme"></i> Read</a>
                             </div>
@@ -54,7 +54,7 @@
                         <div class="carousel-item active">
                             <img src="~/images/carousel.png" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
-                                <h5>@Model[i].Title (@Model[i].CategoryName)</h5>
+                                <h5>@Model[i].Title (@Model[i].GenreName)</h5>
                                 <p class="text-break">@Model[i].Description</p>
                                 <a asp-controller="Threads" asp-action="Read" asp-route-threadId="@Model[i].Id" class="btn btn-secondary"><i class="fab fa-readme"></i> Read</a>
                             </div>

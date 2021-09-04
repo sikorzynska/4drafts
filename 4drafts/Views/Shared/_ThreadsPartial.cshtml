@@ -3,122 +3,57 @@
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
     var avatar = "";
-    var includeCategory = false;
-    if (Model.Any()) includeCategory = Model.FirstOrDefault().CategoryName != null;
-
 }
 
-    <table id="threadTable" class="table table-hover border table-fixed">
-        @{
-            if (includeCategory)
-            {
-                <thead class="bg-tablehead">
-                    <tr>
-                        <th class="text-truncate border" scope="col">Title</th>
-                        <th class="text-truncate border" scope="col">Category</th>
-                        <th class="text-truncate border" scope="col">Posted</th>
-                        <th class="text-truncate border" scope="col">Likes</th>
-                        <th class="text-truncate border" scope="col">Replies</th>
-                        <th class="text-truncate border" scope="col">Author</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        if (Model.Any())
+<table id="threadTable" class="table table-hover border table-fixed">
+        <thead class="bg-tablehead">
+            <tr>
+                <th class="text-truncate border" style="width: 50px;" scope="col">Genre</th>
+                <th class="text-truncate border" scope="col">Title</th>
+                <th class="text-truncate border" scope="col">Posted</th>
+                <th class="text-truncate border" scope="col">Likes</th>
+                <th class="text-truncate border" scope="col">Replies</th>
+                <th class="text-truncate border" scope="col">Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Any())
+                {
+                    foreach (var thread in Model)
+                    {
+                        avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
+                        if (userId == thread.AuthorId)
                         {
-                            foreach (var thread in Model)
-                            {
-                                avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
-                                if (userId == thread.AuthorId)
-                                {
-                                    <tr class="table-info" id="@thread.Id">
-                                        <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
-                                        <td class="text-truncate border"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
-                                        <td class="text-truncate border">@thread.CreatedOn</td>
-                                        <td class="border text-center">@thread.Points</td>
-                                        <td class="border text-center">@thread.CommentCount</td>
-                                        <td class="text-truncate border">
-                                            <div class="d-inline media-img-30">
-                                                <a onclick="viewProfile('@thread.AuthorId')">
-                                                    <img class="rounded-circle border" src="@avatar" />
-                                                    @thread.AuthorName
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                                        }
-                                                        else
-                                                        {
-                                    <tr class="table-secondary" id="@thread.Id">
-                                        <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
-                                        <td class="text-truncate border"><a class="text-truncate" asp-controller="Categories" asp-action="Browse" asp-route-categoryId="@thread.CategoryId">@thread.CategoryName</a></td>
-                                        <td class="text-truncate border">@thread.CreatedOn</td>
-                                        <td class="border text-center">@thread.Points</td>
-                                        <td class="border text-center">@thread.CommentCount</td>
-                                        <td class="text-truncate border"><div class="d-inline media-img-30"><a class="text-truncate" onclick="viewProfile('@thread.AuthorId')"><img class="rounded-circle border" src="@thread.AuthorAvatarUrl" /> @thread.AuthorName</a></div></td>
-                                    </tr>
-                                }
-                            }
+                        <tr class="table-info" id="@thread.Id">
+                            <td class="text-truncate border"><a class="text-truncate" asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@thread.GenreId">@thread.GenreSimplified</a></td>
+                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                            <td class="text-truncate border">@thread.CreatedOn</td>
+                            <td class="border text-center">@thread.Points</td>
+                            <td class="border text-center">@thread.CommentCount</td>
+                            <td class="text-truncate border">
+                                <div class="d-inline media-img-30">
+                                    <a onclick="viewProfile('@thread.AuthorId')">
+                                        <img class="rounded-circle border" src="@avatar" />
+                                        @thread.AuthorName
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                        else
+                        {
+                         <tr class="table-secondary" id="@thread.Id">
+                             <td class="text-truncate border" style="background-color: lightblue;"><a class="text-truncate" asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@thread.GenreId">@thread.GenreSimplified</a></td>
+                             <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                             <td class="text-truncate border">@thread.CreatedOn</td>
+                             <td class="border text-center">@thread.Points</td>
+                             <td class="border text-center">@thread.CommentCount</td>
+                             <td class="text-truncate border"><div class="d-inline media-img-30"><a class="text-truncate" onclick="viewProfile('@thread.AuthorId')"><img class="rounded-circle border" src="@avatar" /> @thread.AuthorName</a></div></td>
+                         </tr>
                         }
                     }
-                </tbody>
-               }
-               else
-               {
-                <thead class="bg-tablehead">
-                    <tr>
-                        <th class="text-truncate border" scope="col">Title</th>
-                        <th class="text-truncate border" scope="col">Posted</th>
-                        <th class="text-truncate border" scope="col">Likes</th>
-                        <th class="text-truncate border" scope="col">Replies</th>
-                        <th class="text-truncate border" scope="col">Author</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        if (Model.Any())
-                        {
-                            foreach (var thread in Model)
-                            {
-                                avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
-                                if (userId == thread.AuthorId)
-                                {
-                                    <tr class="table-info" id="@thread.Id">
-                                        <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
-                                        <td class="text-truncate border">@thread.CreatedOn</td>
-                                        <td class="border text-center">@thread.Points</td>
-                                        <td class="border text-center">@thread.CommentCount</td>
-                                        <td class="text-truncate border">
-                                            <div class="d-inline media-img-30">
-                                                <a onclick="viewProfile('@thread.AuthorId')">
-                                                    <img class="rounded-circle border" src="@avatar" />
-                                                    @thread.AuthorName
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                   }
-                                   else
-                                   {
-                                    <tr class="table-secondary" id="@thread.Id">
-                                        <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
-                                        <td class="text-truncate border">@thread.CreatedOn</td>
-                                        <td class="border text-center">@thread.Points</td>
-                                        <td class="border text-center">@thread.CommentCount</td>
-                                        <td class="text-truncate border">
-                                            <div class="d-inline media-img-30">
-                                                <a onclick="viewProfile('@thread.AuthorId')">
-                                                    <img class="rounded-circle border" src="@thread.AuthorAvatarUrl" />
-                                                    @thread.AuthorName
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                                                }
-                                                            }
-                                                        }
-                    }
-                </tbody>
-                                                            }
-                                                        }
-    </table>
+                }
+            }
+        </tbody>
+</table>

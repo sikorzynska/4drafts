@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace _4drafts.Data.Models
 {
-    public class Category
+    public class Genre
     {
         [Key]
         [Required]
@@ -11,6 +11,9 @@ namespace _4drafts.Data.Models
 
         [Required]
         public string Name { get; init; }
+
+        [Required]
+        public string SimplifiedName { get; init; }
 
         [Required]
         public string Description { get; init; }

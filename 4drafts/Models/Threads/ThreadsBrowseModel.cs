@@ -19,9 +19,10 @@
 
             public string AuthorAvatarUrl { get; set; }
 
-            public int CategoryId { get; set; }
+            public int GenreId { get; set; }
 
-            public string CategoryName { get; set; }
+            public string GenreName { get; set; }
+            public string GenreSimplified { get; set; }
 
             public int CommentCount { get; set; }
     }

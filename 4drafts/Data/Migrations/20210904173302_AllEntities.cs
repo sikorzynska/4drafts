@@ -28,15 +28,17 @@ namespace _4drafts.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RegisteredOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AvatarUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Age = table.Column<int>(type: "int", nullable: true),
+                    Occupation = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Gender = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true),
                     Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Github = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Discord = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Twitter = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Instagram = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Facebook = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AboutMe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AboutMe = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Points = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -59,18 +61,19 @@ namespace _4drafts.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Genres",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SimplifiedName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_Genres", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -180,18 +183,39 @@ namespace _4drafts.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Drafts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Drafts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Drafts_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Threads",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Views = table.Column<int>(type: "int", nullable: false),
                     Points = table.Column<int>(type: "int", nullable: false),
                     AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    GenreId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -203,9 +227,9 @@ namespace _4drafts.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Threads_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        name: "FK_Threads_Genres_GenreId",
+                        column: x => x.GenreId,
+                        principalTable: "Genres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -336,14 +360,19 @@ namespace _4drafts.Data.Migrations
                 column: "ThreadId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Drafts_AuthorId",
+                table: "Drafts",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Threads_AuthorId",
                 table: "Threads",
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Threads_CategoryId",
+                name: "IX_Threads_GenreId",
                 table: "Threads",
-                column: "CategoryId");
+                column: "GenreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserComments_CommentId",
@@ -374,6 +403,9 @@ namespace _4drafts.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Drafts");
+
+            migrationBuilder.DropTable(
                 name: "UserComments");
 
             migrationBuilder.DropTable(
@@ -392,7 +424,7 @@ namespace _4drafts.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Genres");
         }
     }
 }

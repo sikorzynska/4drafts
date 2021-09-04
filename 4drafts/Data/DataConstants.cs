@@ -29,9 +29,9 @@
             public const int PasswordMaxLength = 20;
         }
 
-        public class Categories
+        public class Genres
         {
-            public const string Inexistent = "Invalid category selection.";
+            public const string Inexistent = "Invalid genre selection.";
         }
 
         public class Threads

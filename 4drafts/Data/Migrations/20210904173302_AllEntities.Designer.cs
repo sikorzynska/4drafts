@@ -4,14 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using _4drafts.Data;
 
 namespace _4drafts.Data.Migrations
 {
     [DbContext(typeof(_4draftsDbContext))]
-    [Migration("20210813123147_Age")]
-    partial class Age
+    [Migration("20210904173302_AllEntities")]
+    partial class AllEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,29 +154,6 @@ namespace _4drafts.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("_4drafts.Data.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("_4drafts.Data.Models.Comment", b =>
                 {
                     b.Property<string>("Id")
@@ -212,6 +187,64 @@ namespace _4drafts.Data.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("_4drafts.Data.Models.Draft", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Drafts");
+                });
+
+            modelBuilder.Entity("_4drafts.Data.Models.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SimplifiedName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genres");
+                });
+
             modelBuilder.Entity("_4drafts.Data.Models.Thread", b =>
                 {
                     b.Property<string>("Id")
@@ -221,17 +254,19 @@ namespace _4drafts.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Points")
                         .HasColumnType("int");
@@ -241,14 +276,11 @@ namespace _4drafts.Data.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
-                    b.Property<int>("Views")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("GenreId");
 
                     b.ToTable("Threads");
                 });
@@ -465,6 +497,17 @@ namespace _4drafts.Data.Migrations
                     b.Navigation("Thread");
                 });
 
+            modelBuilder.Entity("_4drafts.Data.Models.Draft", b =>
+                {
+                    b.HasOne("_4drafts.Data.Models.User", "Author")
+                        .WithMany("Drafts")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
             modelBuilder.Entity("_4drafts.Data.Models.Thread", b =>
                 {
                     b.HasOne("_4drafts.Data.Models.User", "Author")
@@ -473,15 +516,15 @@ namespace _4drafts.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("_4drafts.Data.Models.Category", "Category")
+                    b.HasOne("_4drafts.Data.Models.Genre", "Genre")
                         .WithMany("Threads")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Author");
 
-                    b.Navigation("Category");
+                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("_4drafts.Data.Models.UserComment", b =>
@@ -522,14 +565,14 @@ namespace _4drafts.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("_4drafts.Data.Models.Category", b =>
-                {
-                    b.Navigation("Threads");
-                });
-
             modelBuilder.Entity("_4drafts.Data.Models.Comment", b =>
                 {
                     b.Navigation("UserComments");
+                });
+
+            modelBuilder.Entity("_4drafts.Data.Models.Genre", b =>
+                {
+                    b.Navigation("Threads");
                 });
 
             modelBuilder.Entity("_4drafts.Data.Models.Thread", b =>
@@ -542,6 +585,8 @@ namespace _4drafts.Data.Migrations
             modelBuilder.Entity("_4drafts.Data.Models.User", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Drafts");
 
                     b.Navigation("Threads");
 

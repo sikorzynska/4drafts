@@ -3,8 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using _4drafts.Data;
 
 namespace _4drafts.Data.Migrations
 {
@@ -154,29 +152,6 @@ namespace _4drafts.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("_4drafts.Data.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("_4drafts.Data.Models.Comment", b =>
                 {
                     b.Property<string>("Id")
@@ -241,6 +216,33 @@ namespace _4drafts.Data.Migrations
                     b.ToTable("Drafts");
                 });
 
+            modelBuilder.Entity("_4drafts.Data.Models.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SimplifiedName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genres");
+                });
+
             modelBuilder.Entity("_4drafts.Data.Models.Thread", b =>
                 {
                     b.Property<string>("Id")
@@ -249,9 +251,6 @@ namespace _4drafts.Data.Migrations
                     b.Property<string>("AuthorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -263,6 +262,9 @@ namespace _4drafts.Data.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Points")
                         .HasColumnType("int");
@@ -276,7 +278,7 @@ namespace _4drafts.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("GenreId");
 
                     b.ToTable("Threads");
                 });
@@ -512,15 +514,15 @@ namespace _4drafts.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("_4drafts.Data.Models.Category", "Category")
+                    b.HasOne("_4drafts.Data.Models.Genre", "Genre")
                         .WithMany("Threads")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Author");
 
-                    b.Navigation("Category");
+                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("_4drafts.Data.Models.UserComment", b =>
@@ -561,14 +563,14 @@ namespace _4drafts.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("_4drafts.Data.Models.Category", b =>
-                {
-                    b.Navigation("Threads");
-                });
-
             modelBuilder.Entity("_4drafts.Data.Models.Comment", b =>
                 {
                     b.Navigation("UserComments");
+                });
+
+            modelBuilder.Entity("_4drafts.Data.Models.Genre", b =>
+                {
+                    b.Navigation("Threads");
                 });
 
             modelBuilder.Entity("_4drafts.Data.Models.Thread", b =>
