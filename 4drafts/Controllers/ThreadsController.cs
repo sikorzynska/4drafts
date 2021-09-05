@@ -95,7 +95,7 @@ namespace _4drafts.Controllers
         }
 
         [HttpGet]
-        public IActionResult Browse()
+        public IActionResult Browse(int pageNumber = 1)
         {
             var threads = this.data.Threads
                 .Include(t => t.Comments)
@@ -116,7 +116,35 @@ namespace _4drafts.Controllers
                     CommentCount = ThreadCommentCount(t.Id, this.data),
                 }).ToList();
 
-            return View(threads);
+            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, pageNumber, 10));
+        }
+
+        [HttpGet]
+        [NoDirectAccess]
+        public IActionResult Paging(int pageNumber = 1)
+        {
+            var threads = this.data.Threads
+                .Include(t => t.Comments)
+                .Include(t => t.Genre)
+                .Select(t => new ThreadsBrowseModel
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    Description = t.Description,
+                    GenreId = t.GenreId,
+                    GenreName = t.Genre.Name,
+                    GenreSimplified = t.Genre.SimplifiedName,
+                    CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                    Points = t.Points,
+                    AuthorId = t.AuthorId,
+                    AuthorName = t.Author.UserName,
+                    AuthorAvatarUrl = t.Author.AvatarUrl,
+                    CommentCount = ThreadCommentCount(t.Id, this.data),
+                }).ToList();
+
+            var model = PaginatedList<ThreadsBrowseModel>.Create(threads, pageNumber, 10);
+
+            return PartialView("_ThreadsPartial", model);
         }
 
         [HttpGet]

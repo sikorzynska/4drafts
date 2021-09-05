@@ -476,6 +476,11 @@ hide-empty:empty {
     background-color: black;
 }
 
+.blue-stripes {
+    background-image: linear-gradient(135deg, #b2f5ff 25%, #8cecff 25%, #8cecff 50%, #b2f5ff 50%, #b2f5ff 75%, #8cecff 75%, #8cecff 100%);
+    background-size: 42.43px 42.43px;
+}
+
          
          
          

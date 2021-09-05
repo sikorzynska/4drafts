@@ -2,16 +2,16 @@
 // for details on configuring this project to bundle and minify static web assets.
 // Write your JavaScript code.
 
-$(document).ready(function () {
-    paging();
-});
+//$(document).ready(function () {
+//    paging();
+//});
 
-function paging() {
-    $('#threadTable').DataTable({
-        "scrollCollapse": true,
-        "paging": true
-    });
-}
+//function paging() {
+//    $('#threadTable').DataTable({
+//        "scrollCollapse": true,
+//        "paging": true
+//    });
+//}
 
 $(function () {
     $("#loaderbody").addClass('hide');
@@ -92,6 +92,17 @@ function comment(Id, content) {
             }
         }
     });
+}
+
+function threadPaging(path, pageNumber) {
+    $.ajax({
+        url: path,
+        type: "get",
+        data: { pageNumber: pageNumber },
+        success: function (res) {
+            $('#threads-section').html(res);
+        }
+    })
 }
 
 function createThreadInPopup(title, description, content) {

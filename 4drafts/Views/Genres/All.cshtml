@@ -2,69 +2,36 @@
 @{
     ViewBag.Title = "Genres";
 }
-<div class="container-fluid mt-5 mb-4">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card border mb-3">
-                <div class="card-header pr-0 pl-0">
-                    <div class="row no-gutters align-items-center w-100">
-                        <div class="col font-weight-bold pl-3">[Genre]</div>
-                        <div class="d-none d-md-block col-6">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-3 font-weight-bold">[Threads]</div>
-                                <div class="col-6 ml-5 font-weight-bold">[Last entry]</div>
-                            </div>
-                        </div>
+<div class="col">
+    @{
+        for (int i = 0; i < 13; i+=2)
+        {
+            <div class="row justify-content-center">
+                <div class="card border mr-1 mt-1" style="width: 48%;">
+                    <div class="card-header fancy">
+                        <h5 class="card-title mt-auto mb-auto">@Model[i].Name [@(Model[i].SimplifiedName)]</h5>
+                        <div class="ml-auto mr-0"><span><i class="fas fa-bars"></i> Threads: @Model[i].ThreadCount</span></div>
+                    </div>
+                    <div class="card-body blue-stripes">
+                        <p class="card-text">@Model[i].Description</p>
+                    </div>
+                    <div class="card-footer fancy">
+                            <a asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@Model[i].Id" class="btn btn-secondary"><i class="fas fa-eye"></i> Browse</a>
                     </div>
                 </div>
-                @{
-                    foreach (var genre in Model)
-                    {
-                        <div class="card-body py-3">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col">
-                                    <a asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@genre.Id" class="text-big font-weight-semibold" data-abc="true">
-                                        @genre.Name
-                                    </a>
-                                </div>
-                                <div class="tooltip mr-350 hide-sm zoom">
-                                    <a onclick="categoryInfo(@genre.Id)"><i class="info-circle fas fa-info-circle"></i></a>
-                                    <span class="tooltiptext">@genre.Description</span>
-                                </div>
-                                <div class="d-none d-md-block col-6">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col-3 ml-2">@genre.ThreadCount</div>
-                                        @{ if (genre.LastEntry != null)
-                                            {
-                                                var avatar = "";
-                                                if (!String.IsNullOrWhiteSpace(genre.LastEntry.AuthorAvatarUrl)) avatar = genre.LastEntry.AuthorAvatarUrl;
-                                                else avatar = "https://image.flaticon.com/icons/png/512/64/64572.png";
-                                                <div class="media col-6 ml-5 align-items-center media-img-40">
-                                                    <img src="@avatar" class="d-block ui-w-30 rounded-circle border">
-                                                    <div class="media-body flex-truncate ml-2">
-                                                        <a asp-controller="Threads" asp-action="Read" asp-route-threadId="@genre.LastEntry.Id" class="d-block text-truncate">@genre.LastEntry.Title</a>
-                                                        <div class="text-muted small text-truncate">@genre.LastEntry.CreatedOn &nbsp;·&nbsp; <a onclick="viewProfile('@genre.LastEntry.AuthorId')" class="text-muted">@genre.LastEntry.AuthorName</a></div>
-                                                    </div>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="media col-6 ml-5 align-items-center">
-                                                    <img src="https://image.flaticon.com/icons/png/512/42/42901.png" class="d-block ui-w-30 rounded-circle" />
-                                                    <div class="media-body flex-truncate ml-2">
-                                                        Such empty...
-                                                    </div>
-                                                </div>
-                                            }
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                     <hr class="m-0">
-                    }
-                }
+                <div class="card border mt-1" style="width: 48%;">
+                    <div class="card-header fancy">
+                        <h5 class="card-title mb-auto mt-auto">@Model[i + 1].Name [@(Model[i + 1].SimplifiedName)]</h5>
+                        <div class="ml-auto mr-0"><span><i class="fas fa-bars"></i> Threads: @Model[i + 1].ThreadCount</span></div>
+                    </div>
+                    <div class="card-body blue-stripes">
+                        <p class="card-text">@Model[i + 1].Description</p>
+                    </div>
+                    <div class="card-footer fancy">
+                        <a asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@Model[i + 1].Id" class="btn btn-secondary"><i class="fas fa-eye"></i> Browse</a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        }
+    }
 </div>

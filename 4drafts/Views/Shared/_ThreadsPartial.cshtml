@@ -1,4 +1,4 @@
-﻿@model List<ThreadsBrowseModel>
+﻿@model PaginatedList<ThreadsBrowseModel>
 @{
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
@@ -8,7 +8,7 @@
 <table id="threadTable" class="table table-hover border table-fixed">
         <thead class="bg-tablehead">
             <tr>
-                <th class="text-truncate border" style="width: 50px;" scope="col">Genre</th>
+                <th class="text-truncate border" style="width: 70px;" scope="col">Genre</th>
                 <th class="text-truncate border" scope="col">Title</th>
                 <th class="text-truncate border" scope="col">Posted</th>
                 <th class="text-truncate border" scope="col">Likes</th>
@@ -57,3 +57,31 @@
             }
         </tbody>
 </table>
+
+@{ 
+    var prevDisabled = !Model.PreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.NextPage ? "disabled" : "";
+}
+<div class="container w-100">
+    <div class="text-center">
+        <a onclick="threadPaging('/Threads/Paging/', 1)"
+           class="btn btn-secondary @prevDisabled">
+            <i class="fas fa-angle-double-left"></i>
+        </a>
+        <a onclick="threadPaging('/Threads/Paging/', '@(Model.PageIndex - 1)')"
+           class="btn btn-secondary @prevDisabled">
+            <i class="fas fa-angle-left"></i>
+        </a>
+
+        <a class="btn btn-secondary disabled">@Model.PageIndex / @Model.TotalPages </a>
+
+        <a onclick="threadPaging('/Threads/Paging/', '@(Model.PageIndex + 1)')"
+           class="btn btn-secondary @nextDisabled">
+            <i class="fas fa-angle-right"></i>
+        </a>
+        <a onclick="threadPaging('/Threads/Paging/', '@(Model.TotalPages)')"
+           class="btn btn-secondary @nextDisabled">
+            <i class="fas fa-angle-double-right"></i>
+        </a>
+    </div>
+</div>

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using _4drafts.Models.Threads;
 using Microsoft.EntityFrameworkCore;
+using _4drafts.Models.Shared;
 
 namespace _4drafts.Controllers
 {
@@ -21,22 +22,22 @@ namespace _4drafts.Controllers
 
         public IActionResult All()
         {
-            var categories = this.data.Genres
+            var genres = this.data.Genres
                 .Select(c => new GenresBrowseModel
                 {
                     Id = c.Id,
                     Name = c.Name,
+                    SimplifiedName = c.SimplifiedName,
                     Description = c.Description,
                     ThreadCount = this.data.Threads.Count(t => t.GenreId == c.Id),
                     LastEntry = GetLastThreadInCategory(c.Id, this.data, this.timeWarper)
                 })
-                .OrderByDescending(c => c.ThreadCount)
                 .ToList();
 
-            return View(categories);
+            return View(genres);
         }
 
-        public IActionResult Browse(int categoryId)
+        public IActionResult Browse(int categoryId, int pageNumber = 1)
         {
             if (!this.data.Genres.Any(c => c.Id == categoryId)) return NotFound();
 
@@ -64,12 +65,14 @@ namespace _4drafts.Controllers
                 })
                 .ToList();
 
+            var threadsModel = PaginatedList<ThreadsBrowseModel>.Create(threads, pageNumber, 10);
+
             return View(new GenreBrowseModel 
             { 
                 Id = categoryId,
                 Name = name,
                 Description = desc,
-                Threads = threads,
+                Threads = threadsModel,
             });
         }
 
