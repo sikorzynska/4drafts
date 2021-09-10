@@ -8,7 +8,7 @@
 <table id="threadTable" class="table table-hover border table-fixed">
         <thead class="bg-tablehead">
             <tr>
-                <th class="text-truncate border" style="width: 70px;" scope="col">Genre</th>
+                <th class="text-truncate border" scope="col">Genre</th>
                 <th class="text-truncate border" scope="col">Title</th>
                 <th class="text-truncate border" scope="col">Posted</th>
                 <th class="text-truncate border" scope="col">Likes</th>
@@ -26,14 +26,19 @@
                         if (userId == thread.AuthorId)
                         {
                         <tr class="table-info" id="@thread.Id">
-                            <td class="text-truncate border"><a class="text-truncate" asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@thread.GenreId">@thread.GenreSimplified</a></td>
-                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
+                            <td class="border">
+                                @foreach (var genreName in thread.GenresSimplified)
+                                {
+                                   <span><a class="btn-link">@genreName</a></span>
+                                }
+                            </td>
+                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content btn-link"><strong>@thread.Title</strong></a></th>
                             <td class="text-truncate border">@thread.CreatedOn</td>
                             <td class="border text-center">@thread.Points</td>
                             <td class="border text-center">@thread.CommentCount</td>
                             <td class="text-truncate border">
                                 <div class="d-inline media-img-30">
-                                    <a onclick="viewProfile('@thread.AuthorId')">
+                                    <a onclick="viewProfile('@thread.AuthorId')" class="btn-link">
                                         <img class="rounded-circle border" src="@avatar" />
                                         @thread.AuthorName
                                     </a>
@@ -44,7 +49,6 @@
                         else
                         {
                          <tr class="table-secondary" id="@thread.Id">
-                             <td class="text-truncate border" style="background-color: lightblue;"><a class="text-truncate" asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@thread.GenreId">@thread.GenreSimplified</a></td>
                              <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
                              <td class="text-truncate border">@thread.CreatedOn</td>
                              <td class="border text-center">@thread.Points</td>

@@ -1,4 +1,6 @@
-﻿namespace _4drafts.Models.Threads
+﻿using System.Collections.Generic;
+
+namespace _4drafts.Models.Threads
 {
     public class ThreadsBrowseModel
     {
@@ -19,10 +21,10 @@
 
             public string AuthorAvatarUrl { get; set; }
 
-            public int GenreId { get; set; }
+            public IEnumerable<int> GenreIds { get; set; }
 
-            public string GenreName { get; set; }
-            public string GenreSimplified { get; set; }
+            public IEnumerable<string> GenreNames { get; set; }
+            public IEnumerable<string> GenresSimplified { get; set; }
 
             public int CommentCount { get; set; }
     }

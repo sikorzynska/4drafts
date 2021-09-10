@@ -42,26 +42,28 @@
             public const int DescriptionMaxLength = 500;
             public const int ContentMinLength = 20;
             public const string Inexistent = "Whoops! Looks like no such thread exists...";
-            public const string Updated = "The thread has been successfully updated.";
+            public const string Updated = "The thread has been updated.";
             public const string ContentMinLengthMsg = "The content field must have a minimum length of 20.";
             public const string TitleMinLengthMsg = "The title field must have a minimum length of 20.";
+            public const string Disliked = "The thread has been removed from favourites.";
+            public const string Liked = "The thread has been added from favourites.";
         }
 
         public class Comments
         {
             public const int MaxLength = 1000;
             public const string Inexistent = "Whoops! Looks like no such comment exists...";
-            public const string Updated = "The comment has been successfully updated.";
-            public const string Deleted = "The comment has been successfully deleted.";
+            public const string Updated = "The comment has been updated.";
+            public const string Deleted = "The comment has been deleted.";
             public const string Empty = "Comments cannot be empty...";
             public const string ReachedMax = "Comments cannot be longer than 500 characters...";
         }
 
         public class Drafts
         {
-            public const string Deleted = "The draft has been successfully deleted.";
-            public const string Saved = "The draft has been successfully saved.";
-            public const string Updated = "The draft has been successfully updated.";
+            public const string Deleted = "The draft has been deleted.";
+            public const string Saved = "The draft has been saved.";
+            public const string Updated = "The draft has been updated.";
             public const string MissingTitle = "Whoops! Drafts require a title...";
             public const string ReachedLimit = "Whoops! You can only have 10 drafts at a time...";
             public const string Inexistent = "Whoops! Looks like no such draft exists...";

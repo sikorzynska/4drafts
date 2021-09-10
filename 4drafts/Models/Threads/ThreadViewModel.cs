@@ -30,7 +30,7 @@ namespace _4drafts.Models.Threads
 
         public int Points { get; set; }
 
-        public int? GenreId { get; set; }
+        public IEnumerable<int> GenreIds { get; set; }
 
         public bool Liked { get; set; }
 

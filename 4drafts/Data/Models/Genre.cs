@@ -20,6 +20,6 @@ namespace _4drafts.Data.Models
 
         public string ImageUrl { get; set; }
 
-        public ICollection<Thread> Threads { get; init; } = new List<Thread>();
+        public ICollection<GenreThread> GenreThreads { get; init; } = new List<GenreThread>();
     }
 }

@@ -8,27 +8,25 @@
         {
             <div class="row justify-content-center">
                 <div class="card border mr-1 mt-1" style="width: 48%;">
-                    <div class="card-header fancy">
-                        <h5 class="card-title mt-auto mb-auto">@Model[i].Name [@(Model[i].SimplifiedName)]</h5>
-                        <div class="ml-auto mr-0"><span><i class="fas fa-bars"></i> Threads: @Model[i].ThreadCount</span></div>
-                    </div>
+                        <div class="card-header gray-stripes">
+                            <a class="btn-link ml-auto mr-auto" asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@Model[i].Id"><h5 class="card-title mb-auto mt-auto"><i class="fas fa-location-arrow"></i> @Model[i].Name [@(Model[i].SimplifiedName)]</h5></a>
+                        </div>
                     <div class="card-body blue-stripes">
                         <p class="card-text">@Model[i].Description</p>
                     </div>
-                    <div class="card-footer fancy">
-                            <a asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@Model[i].Id" class="btn btn-secondary"><i class="fas fa-eye"></i> Browse</a>
+                    <div class="card-footer gray-stripes">
+                        <span><i class="fas fa-bars"></i> Threads: @Model[i].ThreadCount</span>
                     </div>
                 </div>
                 <div class="card border mt-1" style="width: 48%;">
-                    <div class="card-header fancy">
-                        <h5 class="card-title mb-auto mt-auto">@Model[i + 1].Name [@(Model[i + 1].SimplifiedName)]</h5>
-                        <div class="ml-auto mr-0"><span><i class="fas fa-bars"></i> Threads: @Model[i + 1].ThreadCount</span></div>
+                    <div class="card-header gray-stripes text-center">
+                        <a class="btn-link ml-auto mr-auto" asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@Model[i + 1].Id"><h5 class="card-title mb-auto mt-auto"><i class="fas fa-location-arrow"></i> @Model[i + 1].Name [@(Model[i + 1].SimplifiedName)]</h5></a>
                     </div>
                     <div class="card-body blue-stripes">
                         <p class="card-text">@Model[i + 1].Description</p>
                     </div>
-                    <div class="card-footer fancy">
-                        <a asp-controller="Genres" asp-action="Browse" asp-route-categoryId="@Model[i + 1].Id" class="btn btn-secondary"><i class="fas fa-eye"></i> Browse</a>
+                    <div class="card-footer gray-stripes">
+                        <span><i class="fas fa-bars"></i> Threads: @Model[i + 1].ThreadCount</span>
                     </div>
                 </div>
             </div>

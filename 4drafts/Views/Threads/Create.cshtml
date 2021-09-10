@@ -14,14 +14,14 @@
         </div>
         <div class="form-body">
             <div class="form-group">
-                <label asp-for="GenreId" class="form-label mt-4"></label>
-                <select asp-for="GenreId" class="form-control" placeholder="Genre" id="category-selection">
+                <label asp-for="GenreIds" class="form-label"></label><br />
+                <select asp-for="GenreIds" class="selectpicker form-control" multiple data-max-options="4">
                     @foreach (var genre in Model.Genres)
                     {
-                        <option id="@genre.Id" value="@genre.Id">@genre.Name</option>
+                        <option value="@genre.Id">@genre.Name</option>
                     }
                 </select>
-                <span asp-validation-for="GenreId" class="small text-danger"></span>
+                <span asp-validation-for="GenreIds" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Title"></label>

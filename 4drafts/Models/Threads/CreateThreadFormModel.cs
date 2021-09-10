@@ -8,10 +8,10 @@ namespace _4drafts.Models.Threads
 {
     public class CreateThreadFormModel
     {
+
         [Display(Name = "Genre")]
-        public int GenreId { get; init; }
-        public string GenreName { get; set; }
-        public string GenreDescription { get; set; }
+        public ICollection<int> GenreIds { get; init; }
+        public ICollection<string> GenreNames { get; set; }
 
         [Required]
         [StringLength(DataConstants.Threads.TitleMaxLength,

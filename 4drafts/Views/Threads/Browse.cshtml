@@ -15,13 +15,12 @@
                 Id = t.Id,
                 Title = t.Title,
                 Description = t.Description,
-                GenreName = t.GenreName,
+                GenreNames = t.GenreNames,
             });
         }
     }
 }
 <div class="container-fluid">
-    <partial name="_CarouselPartial" model="@bestThreads" />
     <div class="container-fluid" id="threads-section">
         <partial name="_ThreadsPartial" model="@Model" />
     </div>

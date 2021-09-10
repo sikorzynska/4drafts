@@ -30,10 +30,7 @@ namespace _4drafts.Data.Models
 
         public User Author { get; set; }
 
-        [Required]
-        public int GenreId { get; set; }
-
-        public Genre Genre { get; set; }
+        public ICollection<GenreThread> GenreThreads { get; set; } = new List<GenreThread>();
 
         public ICollection<Comment> Comments { get; init; } = new List<Comment>();
         public ICollection<UserThread> UserThreads { get; set; } = new List<UserThread>();

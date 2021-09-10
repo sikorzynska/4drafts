@@ -17,6 +17,7 @@ namespace _4drafts.Data
         public DbSet<Draft> Drafts { get; init; }
         public DbSet<UserThread> UserThreads { get; init; }
         public DbSet<UserComment> UserComments { get; init; }
+        public DbSet<GenreThread> GenreThreads { get; init; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -25,13 +26,6 @@ namespace _4drafts.Data
                 .HasOne(t => t.Author)
                 .WithMany(t => t.Threads)
                 .HasForeignKey(t => t.AuthorId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .Entity<Thread>()
-                .HasOne(t => t.Genre)
-                .WithMany(t => t.Threads)
-                .HasForeignKey(t => t.GenreId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
@@ -80,6 +74,19 @@ namespace _4drafts.Data
                 .HasOne(uc => uc.Comment)
                 .WithMany(c => c.UserComments)
                 .HasForeignKey(uc => uc.CommentId);
+
+            builder.Entity<GenreThread>()
+                .HasKey(gt => new { gt.GenreId, gt.ThreadId });
+
+            builder.Entity<GenreThread>()
+                .HasOne(gt => gt.Genre)
+                .WithMany(g => g.GenreThreads)
+                .HasForeignKey(gt => gt.GenreId);
+
+            builder.Entity<GenreThread>()
+                .HasOne(gt => gt.Thread)
+                .WithMany(t => t.GenreThreads)
+                .HasForeignKey(gt => gt.ThreadId);
 
             base.OnModelCreating(builder);
         }

@@ -3,7 +3,7 @@
 // Write your JavaScript code.
 
 //$(document).ready(function () {
-//    paging();
+//   $('select').selectpicker();
 //});
 
 //function paging() {
@@ -85,6 +85,7 @@ function comment(Id, content) {
         data: { threadId: Id, content: content },
         success: function (res) {
             if (!res.isValid) {
+                $('.notifyjs-corner').empty();
                 $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
             }
             else {
@@ -114,6 +115,7 @@ function createThreadInPopup(title, description, content) {
         success: function (res) {
                 $('#staticBackdrop .modal-body').html(res);
                 $('#staticBackdrop').modal('show');
+                $('.selectpicker').selectpicker();
             },
         error: function (err) {
                 console.log(err);
@@ -144,29 +146,7 @@ function createPost(form) {
             else {
                 console.log('here');
                 $('#staticBackdrop .modal-body').html(res.html);
-            }
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    })
-}
-
-createThreadPost = form => {
-    $.ajax({
-        type: 'POST',
-        url: '/Threads/Create/',
-        data: new FormData(form),
-        contentType: false,
-        processData: false,
-        success: function (res) {
-            if (res.isValid) {
-                $('#staticBackdrop').modal('hide');
-                window.location.href = res.redirectUrl;
-            }
-            else {
-                console.log('here');
-                $('#staticBackdrop .modal-body').html(res.html);
+                $('.selectpicker').selectpicker();
             }
         },
         error: function (err) {
@@ -186,6 +166,7 @@ function deletePopup(entityId, path) {
                 $('#form-modal').modal('show');
             }
             else {
+                $('.notifyjs-corner').empty();
                 $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
                 $('#form-modal').modal('hide');
             }
@@ -202,6 +183,7 @@ function deletePost(entityId, path) {
             if (res.isValid) {
                 if (res.entity == 'draft') {
                     document.getElementById(entityId).remove();
+                    $('.notifyjs-corner').empty();
                     $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
                     $('#draft-count').html('[' + res.count + ' / 10]');
                     $('#form-modal').modal('hide');
@@ -215,10 +197,12 @@ function deletePost(entityId, path) {
                 else if (res.entity == 'comment') {
                     $('#comment-section').html(res.html);
                     $('#form-modal').modal('hide');
+                    $('.notifyjs-corner').empty();
                     $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
                 }
             }
             else {
+                $('.notifyjs-corner').empty();
                 $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
             }
         }
@@ -255,17 +239,20 @@ editPost = form => {
                 if (res.isValid) {
                     if (res.entity == 'draft') {
                         $('#drafts-container').html(res.html);
+                        $('.notifyjs-corner').empty();
                         $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
                         $('#staticBackdrop').modal('hide');
                     }
                     else if (res.entity == 'thread') {
                         $('#thread-title').text(res.title);
                         $('#thread-content').text(res.content);
+                        $('.notifyjs-corner').empty();
                         $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
                         $('#staticBackdrop').modal('hide');
                     }
                     else if (res.entity == 'comment') {
                         $('#comment-section').html(res.html);
+                        $('.notifyjs-corner').empty();
                         $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
                         $('#staticBackdrop').modal('hide');
                     }
@@ -292,6 +279,7 @@ function likeThread(threadId) {
         data: { threadId: threadId },
         success: function (res) {
             $('#thread-likes-section').html(res.html);
+            $('.notifyjs-corner').empty();
             $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
         }
     })
@@ -435,9 +423,11 @@ function saveDraft(title, description, content, draftId) {
             data: { title: title, description: description, content: content, draftId: draftId },
             success: function (res) {
                 if (!res.isValid) {
+                    $('.notifyjs-corner').empty();
                     $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
                 }
                 else {
+                    $('.notifyjs-corner').empty();
                     $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
                 }
             },
