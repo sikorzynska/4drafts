@@ -32,6 +32,7 @@
         public class Genres
         {
             public const string Inexistent = "Invalid genre selection.";
+            public const string TooMany = "You can choose a maximum of 3 genres.";
         }
 
         public class Threads

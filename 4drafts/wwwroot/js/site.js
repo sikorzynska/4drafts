@@ -3,7 +3,8 @@
 // Write your JavaScript code.
 
 //$(document).ready(function () {
-//   $('select').selectpicker();
+//    $('#filter').attr('asp-route-genre', getSelectedValue('genre-select'));
+//    $('#filter').attr('asp-route-sort', getSelectedValue('sort-select'));
 //});
 
 //function paging() {
@@ -413,6 +414,16 @@ function getValue(id) {
     var content = document.getElementById(id);
     var result = $(content).val();
     return result;
+}
+
+function getSelectedValue(id) {
+    var elem = document.getElementById(id);
+    var selected = $(elem).children("option:selected").val();
+    return selected;
+}
+
+function addFilterRoutes() {
+    $('#filter').attr('href', '/Threads/Browse?genre=' + getSelectedValue('genre-select') + '&sort=' + getSelectedValue('sort-select'));
 }
 
 function saveDraft(title, description, content, draftId) {

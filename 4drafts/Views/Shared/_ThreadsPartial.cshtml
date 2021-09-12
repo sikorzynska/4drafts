@@ -5,6 +5,46 @@
     var avatar = "";
 }
 
+<div class="row ml-1">
+    <div class="form-group mr-1">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fas fa-folder-open"></i>
+                </div>
+            </div>
+            <select onchange="addFilterRoutes()" id="genre-select" class="selectpicker form-control" title="Genre">
+                <option value="0" data-icon="fas fa-times">Default</option>
+                @foreach (var genre in Model.Genres)
+                {
+                    <option value="@genre.Id">@genre.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group mr-1">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fas fa-sort"></i>
+                </div>
+            </div>
+            <select onchange="addFilterRoutes()" id="sort-select" class="selectpicker form-control" title="Sort">
+                <option value="default" data-icon="fas fa-times">Default</option>
+                <option value="popular" data-icon="fas fa-rocket">Popular</option>
+                <option value="controversial" data-icon="fas fa-fire">Controversial</option>
+                <option value="liked" data-icon="fas fa-heart">Likes (Desc.)</option>
+                <option value="disliked" data-icon="far fa-heart">Likes (Asc.)</option>
+                <option value="newest" data-icon="fas fa-clock">Date (Newest)</option>
+                <option value="oldest" data-icon="far fa-clock">Date (Oldest)</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <a id="filter" class="btn btn-primary form-control"><i class="fas fa-filter"></i> Filter</a>
+    </div>
+</div>
+
 <table id="threadTable" class="table table-hover border table-fixed">
         <thead class="bg-tablehead">
             <tr>
@@ -25,14 +65,14 @@
                         avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
                         if (userId == thread.AuthorId)
                         {
-                        <tr class="table-info" id="@thread.Id">
+                        <tr class="table-light" id="@thread.Id">
                             <td class="border">
                                 @foreach (var genreName in thread.GenresSimplified)
                                 {
-                                   <span><a class="btn-link">@genreName</a></span>
+                                   <span class="badge badge-info"><a class="btn-link">[@genreName]</a></span>
                                 }
                             </td>
-                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content btn-link"><strong>@thread.Title</strong></a></th>
+                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
                             <td class="text-truncate border">@thread.CreatedOn</td>
                             <td class="border text-center">@thread.Points</td>
                             <td class="border text-center">@thread.CommentCount</td>
@@ -48,13 +88,25 @@
                         }
                         else
                         {
-                         <tr class="table-secondary" id="@thread.Id">
-                             <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate mw-min-content">@thread.Title</a></th>
-                             <td class="text-truncate border">@thread.CreatedOn</td>
-                             <td class="border text-center">@thread.Points</td>
-                             <td class="border text-center">@thread.CommentCount</td>
-                             <td class="text-truncate border"><div class="d-inline media-img-30"><a class="text-truncate" onclick="viewProfile('@thread.AuthorId')"><img class="rounded-circle border" src="@avatar" /> @thread.AuthorName</a></div></td>
-                         </tr>
+        <tr class="table-secondary" id="@thread.Id">
+            <td class="border">
+                @foreach (var genreName in thread.GenresSimplified)
+                {
+                    <span class="badge badge-info"><a class="btn-link">[@genreName]</a></span>
+                }
+            </td>
+            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
+            <td class="text-truncate border">@thread.CreatedOn</td>
+            <td class="border text-center">@thread.Points</td>
+            <td class="border text-center">@thread.CommentCount</td>
+            <td class="text-truncate border"><div class="d-inline media-img-30">
+                <a class="btn-link" onclick="viewProfile('@thread.AuthorId')">
+                <img class="rounded-circle border" src="@avatar" /> 
+                @thread.AuthorName
+                    </a>
+                  </div>
+            </td>
+        </tr>
                         }
                     }
                 }
@@ -68,22 +120,22 @@
 }
 <div class="container w-100">
     <div class="text-center">
-        <a onclick="threadPaging('/Threads/Paging/', 1)"
+        <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="1"
            class="btn btn-secondary @prevDisabled">
             <i class="fas fa-angle-double-left"></i>
         </a>
-        <a onclick="threadPaging('/Threads/Paging/', '@(Model.PageIndex - 1)')"
+        <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="@(Model.PageIndex - 1)"
            class="btn btn-secondary @prevDisabled">
             <i class="fas fa-angle-left"></i>
         </a>
 
         <a class="btn btn-secondary disabled">@Model.PageIndex / @Model.TotalPages </a>
 
-        <a onclick="threadPaging('/Threads/Paging/', '@(Model.PageIndex + 1)')"
+        <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="@(Model.PageIndex + 1)"
            class="btn btn-secondary @nextDisabled">
             <i class="fas fa-angle-right"></i>
         </a>
-        <a onclick="threadPaging('/Threads/Paging/', '@(Model.TotalPages)')"
+        <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="@Model.TotalPages"
            class="btn btn-secondary @nextDisabled">
             <i class="fas fa-angle-double-right"></i>
         </a>

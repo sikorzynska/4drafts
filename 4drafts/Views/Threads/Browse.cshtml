@@ -1,6 +1,6 @@
 ﻿@model List<ThreadsBrowseModel>
 @{
-    ViewBag.Title = "Popular";
+    ViewBag.Title = "Threads";
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
     var bestThreads = new List<ThreadsBrowseModel>();
@@ -21,7 +21,12 @@
     }
 }
 <div class="container-fluid">
-    <div class="container-fluid" id="threads-section">
+    <div class="jumbotron jumbotron-fluid bg-ocean-circles">
+        <div class="container">
+            <h1 class="display-3 strokeme">@ViewBag.Title</h1>
+        </div>
+    </div>
+    <div id="threads-section">
         <partial name="_ThreadsPartial" model="@Model" />
     </div>
 </div>

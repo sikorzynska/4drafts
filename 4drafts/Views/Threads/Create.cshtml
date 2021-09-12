@@ -15,7 +15,7 @@
         <div class="form-body">
             <div class="form-group">
                 <label asp-for="GenreIds" class="form-label"></label><br />
-                <select asp-for="GenreIds" class="selectpicker form-control" multiple data-max-options="4">
+                <select asp-for="GenreIds" class="selectpicker form-control" multiple data-max-options="3">
                     @foreach (var genre in Model.Genres)
                     {
                         <option value="@genre.Id">@genre.Name</option>
