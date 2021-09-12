@@ -3,7 +3,8 @@
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
     var avatar = "";
-}
+    var sorted = Model.SortType != null;
+    }
 
 <div class="row ml-1">
     <div class="form-group mr-1">
@@ -17,8 +18,17 @@
                 <option value="0" data-icon="fas fa-times">Default</option>
                 @foreach (var genre in Model.Genres)
                 {
-                    <option value="@genre.Id">@genre.Name</option>
+                    if (genre.Id == Model.Genre)
+                    {
+                        <option value="@genre.Id" selected>@genre.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@genre.Id">@genre.Name</option>
+                    }
                 }
+
+
             </select>
         </div>
     </div>
@@ -30,13 +40,85 @@
                 </div>
             </div>
             <select onchange="addFilterRoutes()" id="sort-select" class="selectpicker form-control" title="Sort">
-                <option value="default" data-icon="fas fa-times">Default</option>
-                <option value="popular" data-icon="fas fa-rocket">Popular</option>
-                <option value="controversial" data-icon="fas fa-fire">Controversial</option>
-                <option value="liked" data-icon="fas fa-heart">Likes (Desc.)</option>
-                <option value="disliked" data-icon="far fa-heart">Likes (Asc.)</option>
-                <option value="newest" data-icon="fas fa-clock">Date (Newest)</option>
-                <option value="oldest" data-icon="far fa-clock">Date (Oldest)</option>
+                @{
+                    if (sorted)
+                    {
+                        <option data-icon="fas fa-times" )>Default</option>
+                        if (Model.SortType == "popular")
+                        {
+                            <option value="popular" data-icon="fas fa-rocket" selected>Popular</option>
+                            <option value="controversial" data-icon="fas fa-fire">Controversial</option>
+                            <option value="liked" data-icon="fas fa-heart">Likes (Desc.)</option>
+                            <option value="disliked" data-icon="far fa-heart">Likes (Asc.)</option>
+                            <option value="newest" data-icon="fas fa-clock">Date (Newest)</option>
+                            <option value="oldest" data-icon="far fa-clock">Date (Oldest)</option>
+                        }
+                        else if (Model.SortType == "controversial")
+                        {
+                            <option value="popular" data-icon="fas fa-rocket">Popular</option>
+                            <option value="controversial" data-icon="fas fa-fire" selected>Controversial</option>
+                            <option value="liked" data-icon="fas fa-heart">Likes (Desc.)</option>
+                            <option value="disliked" data-icon="far fa-heart">Likes (Asc.)</option>
+                            <option value="newest" data-icon="fas fa-clock">Date (Newest)</option>
+                            <option value="oldest" data-icon="far fa-clock">Date (Oldest)</option>
+                        }
+                        else if (Model.SortType == "liked")
+                        {
+                            <option value="popular" data-icon="fas fa-rocket">Popular</option>
+                            <option value="controversial" data-icon="fas fa-fire">Controversial</option>
+                            <option value="liked" data-icon="fas fa-heart" selected>Likes (Desc.)</option>
+                            <option value="disliked" data-icon="far fa-heart">Likes (Asc.)</option>
+                            <option value="newest" data-icon="fas fa-clock">Date (Newest)</option>
+                            <option value="oldest" data-icon="far fa-clock">Date (Oldest)</option>
+                        }
+                        else if (Model.SortType == "disliked")
+                        {
+                            <option value="popular" data-icon="fas fa-rocket">Popular</option>
+                            <option value="controversial" data-icon="fas fa-fire">Controversial</option>
+                            <option value="liked" data-icon="fas fa-heart">Likes (Desc.)</option>
+                            <option value="disliked" data-icon="far fa-heart" selected>Likes (Asc.)</option>
+                            <option value="newest" data-icon="fas fa-clock">Date (Newest)</option>
+                            <option value="oldest" data-icon="far fa-clock">Date (Oldest)</option>
+                        }
+                        else if (Model.SortType == "newest")
+                        {
+                            <option value="popular" data-icon="fas fa-rocket">Popular</option>
+                            <option value="controversial" data-icon="fas fa-fire">Controversial</option>
+                            <option value="liked" data-icon="fas fa-heart">Likes (Desc.)</option>
+                            <option value="disliked" data-icon="far fa-heart">Likes (Asc.)</option>
+                            <option value="newest" data-icon="fas fa-clock" selected>Date (Newest)</option>
+                            <option value="oldest" data-icon="far fa-clock">Date (Oldest)</option>
+                        }
+                        else if (Model.SortType == "oldest")
+                        {
+                            <option value="popular" data-icon="fas fa-rocket">Popular</option>
+                            <option value="controversial" data-icon="fas fa-fire">Controversial</option>
+                            <option value="liked" data-icon="fas fa-heart">Likes (Desc.)</option>
+                            <option value="disliked" data-icon="far fa-heart">Likes (Asc.)</option>
+                            <option value="newest" data-icon="fas fa-clock">Date (Newest)</option>
+                            <option value="oldest" data-icon="far fa-clock" selected>Date (Oldest)</option>
+                        }
+                        else
+                        {
+                            <option value="popular" data-icon="fas fa-rocket">Popular</option>
+                            <option value="controversial" data-icon="fas fa-fire">Controversial</option>
+                            <option value="liked" data-icon="fas fa-heart">Likes (Desc.)</option>
+                            <option value="disliked" data-icon="far fa-heart">Likes (Asc.)</option>
+                            <option value="newest" data-icon="fas fa-clock">Date (Newest)</option>
+                            <option value="oldest" data-icon="far fa-clock">Date (Oldest)</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="default" data-icon="fas fa-times" )>Default</option>
+                        <option value="popular" data-icon="fas fa-rocket">Popular</option>
+                        <option value="controversial" data-icon="fas fa-fire">Controversial</option>
+                        <option value="liked" data-icon="fas fa-heart">Likes (Desc.)</option>
+                        <option value="disliked" data-icon="far fa-heart">Likes (Asc.)</option>
+                        <option value="newest" data-icon="fas fa-clock">Date (Newest)</option>
+                        <option value="oldest" data-icon="far fa-clock">Date (Oldest)</option>
+                    }
+                }
             </select>
         </div>
     </div>
@@ -129,8 +211,21 @@
             <i class="fas fa-angle-left"></i>
         </a>
 
-        <a class="btn btn-secondary disabled">@Model.PageIndex / @Model.TotalPages </a>
-
+        @{
+            for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                if (i == Model.PageIndex)
+                {
+                    <a class="btn btn-secondary disabled">@i</a>
+                }
+                else
+                {
+                    <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="@i" class="btn btn-secondary">
+                        @i
+                    </a>
+                }
+            }
+        }
         <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="@(Model.PageIndex + 1)"
            class="btn btn-secondary @nextDisabled">
             <i class="fas fa-angle-right"></i>
