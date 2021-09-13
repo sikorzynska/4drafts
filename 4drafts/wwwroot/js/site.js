@@ -3,8 +3,10 @@
 // Write your JavaScript code.
 
 //$(document).ready(function () {
-//    $('#filter').attr('asp-route-genre', getSelectedValue('genre-select'));
-//    $('#filter').attr('asp-route-sort', getSelectedValue('sort-select'));
+//    $(".pointthis").on("load", function () {
+//        console.log('hello');
+//        appendSelect('g', 'b');
+//    });
 //});
 
 //function paging() {
@@ -423,8 +425,21 @@ function getSelectedValue(id) {
 }
 
 function addFilterRoutes() {
-    $('#filter').attr('href', '/Threads/Browse?genre=' + getSelectedValue('genre-select') + '&sort=' + getSelectedValue('sort-select'));
+    var filterBtn = document.getElementById('filter');
+    $(filterBtn).attr('href', '/Threads/Browse?genre=' + getSelectedValue('genre-select') + '&sort=' + getSelectedValue('sort-select'));
+    filterBtn.classList.remove('disabled');
 }
+
+$(".pointthis").ready(function () {
+    var genre = $('#genre-value').val() + 'genre';
+    var sort = $('#sort-value').val();
+
+    var genreOption = document.getElementById(genre);
+    var sortOption = document.getElementById(sort);
+
+    $(genreOption).attr('selected', "");
+    $(sortOption).attr('selected', "");
+});
 
 function saveDraft(title, description, content, draftId) {
     try {
