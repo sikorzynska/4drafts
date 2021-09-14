@@ -75,7 +75,7 @@
                     <div class="commented-section mt-3">
                         <div class="d-flex flex-row align-items-center commented-user media-img-30">
                             <img class="rounded-circle border" src="@authorAvatar">
-                            <h5 class="mr-2 mt-2 ml-1 d-inline"><a class="btn-link" onclick="viewProfile('@comment.AuthorId')">@comment.AuthorName</a></h5>
+                            <h5 class="mr-2 mt-2 ml-1 d-inline"><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, null, null, null, '@comment.AuthorName')">@comment.AuthorName</a></h5>
                             <span class="dot"></span><span class="text-muted ml-2">@comment.CreatedOn</span>
                             <div class="comment-options ml-auto mr-0">
                                 @if (userId != null)
@@ -84,7 +84,7 @@
                                     <a class="btn-link d-inline ml-2"><i class="fas fa-flag"></i> [flag]</a>
                                     @if (userId == comment.AuthorId)
                                     {
-                                        <a onclick="editPopup('@comment.Id', '/Comments/Edit/')" class="btn-link d-inline ml-2"><i class="fas fa-pencil-alt"></i> [edit]</a>
+                                        <a onclick="popUp('/Comments/Edit/','comment-edit', null, null, null, null, '@comment.Id')" class="btn-link d-inline ml-2"><i class="fas fa-pencil-alt"></i> [edit]</a>
                                         <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link d-inline ml-2"><i class="fas fa-trash"></i> [delete]</a>
                                     }
                                 }

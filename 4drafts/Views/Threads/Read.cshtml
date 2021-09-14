@@ -14,7 +14,7 @@
                     <div class="media flex-wrap w-100 align-items-center media-img-40">
                         <img src="@avatarUrl" class="d-block ui-w-40 rounded-circle border">
                         <div class="media-body ml-3 mw-120p">
-                            <a class="btn-link" onclick="peekProfile('@Model.AuthorName')">@Model.AuthorName</a>
+                            <a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, null, null, null, '@Model.AuthorName')">@Model.AuthorName</a>
                             <div class="text-muted small">@Model.CreatedOn</div>
                         </div>
                         <div class="text-muted small mr-1 ml-auto">
@@ -37,7 +37,7 @@
                     <div class="btn-group align-end mr-3 ml-auto mt-3" role="group" aria-label="Basic example">
                         @if (userId == Model.AuthorId)
                         {
-                            <div class="zoom"><a class="btn btn-link" onclick="editPopup('@Model.Id', '/Threads/Edit/')"><i class="fas fa-lg big-icon fa-pencil-alt"></i></a></div>
+                            <div class="zoom"><a class="btn btn-link" onclick="popUp('/Threads/Edit/', 'thread-edit', null, null, null, null, '@Model.Id')"><i class="fas fa-lg big-icon fa-pencil-alt"></i></a></div>
                             <div class="zoom"><a class="btn btn-link" onclick="deletePopup('@Model.Id', '/Threads/Delete/')"><i class="fas fa-lg big-icon fa-trash-alt"></i></a></div>
                         }
                         <div class="zoom"><a class="btn btn-link" asp-controller="Threads" asp-action="Report" asp-route-threadId="@Model.Id"><i class="fas fa-lg big-icon fa-flag"></i></a></div>

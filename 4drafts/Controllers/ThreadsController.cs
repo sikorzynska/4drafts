@@ -637,7 +637,7 @@ namespace _4drafts.Controllers
                 await this.data.Threads.AddAsync(thread);
                 await this.data.SaveChangesAsync();
 
-                return Json(new { isValid = true, redirectUrl = Url.ActionLink("Read", "Threads", new { threadId = thread.Id }) });
+                return Json(new { isValid = true, redirectUrl = Url.ActionLink("Read", "Threads", new { t = thread.Id }) });
             }
 
             model.Genres = GetGenres(this.data);
@@ -686,7 +686,7 @@ namespace _4drafts.Controllers
 
             thread.Title = model.Title;
             thread.Description = model.Description;
-            thread.Description = model.Content;
+            thread.Content = model.Content;
 
             this.data.SaveChanges();
 

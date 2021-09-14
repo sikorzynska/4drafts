@@ -5,11 +5,13 @@
 }
 
 
-<div class="container-fluid" id="drafts-container">
+<div class="container-fluid">
     <div class="jumbotron jumbotron-fluid bg-ocean-circles">
         <div class="container">
             <h1 class="display-3 strokeme">@ViewBag.Title</h1>
         </div>
     </div>
-    <partial name="_DraftsPartial" model="@Model" />
+    <div id="drafts-container">
+        <partial name="_DraftsPartial" model="@Model" />
+    </div>
 </div>

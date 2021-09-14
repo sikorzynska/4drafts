@@ -98,37 +98,6 @@ function comment(Id, content) {
     });
 }
 
-function threadPaging(path, pageNumber) {
-    $.ajax({
-        url: path,
-        type: "get",
-        data: { pageNumber: pageNumber },
-        success: function (res) {
-            $('#threads-section').html(res);
-        }
-    })
-}
-
-function createThreadInPopup(title, description, content) {
-    try {
-        $.ajax({
-            type: 'GET',
-            url: "/Threads/Create/",
-            data: { title: title, description: description, content: content },
-        success: function (res) {
-                $('#staticBackdrop .modal-body').html(res);
-                $('#staticBackdrop').modal('show');
-                $('.selectpicker').selectpicker();
-            },
-        error: function (err) {
-                console.log(err);
-            }
-        })
-    } catch (e) {
-        console.log(e);
-    }
-}
-
 function refer(id) {
     var form = document.getElementById(id);
 
@@ -141,25 +110,165 @@ function refer(id) {
             managePost(form);
             break;
         }
-        default: {
+        case 'login-formdata': {
+            authPost(form);
+            break;
+        }
+        case 'register-formdata': {
+            authPost(form);
+            break;
+        }
+        case 'thread-edit-formdata': {
             editPost(form);
+            break;
+        }
+        case 'comment-edit-formdata': {
+            editPost(form);
+            break;
+        }
+        case 'draft-edit-formdata': {
+            editPost(form);
+            break;
+        }
+        default: {
+            console.log('default')
             break;
         }
     }
 }
 
-function popUp(path) {
-    $.ajax({
-        type: 'GET',
-        url: path,
-        success: function (res) {
-            $('#staticBackdrop').modal('show');
-            $('#staticBackdrop .modal-body').html(res);
-        },
-        error: function (err) {
-            console.log(err);
+function popUp(path, type = null, returnUrl = null, title = null, description = null, content = null, entity = null) {
+    switch (type) {
+        case 'auth': {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                data: { returnUrl: returnUrl },
+                success: function (res) {
+                    $('#form-modal .modal-body').html(res);
+                    $('#form-modal').modal('show');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+            break;
         }
-    })
+        case 'thread-new': {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                success: function (res) {
+                    $('#staticBackdrop .modal-body').html(res);
+                    $('#staticBackdrop').modal('show');
+                    $('.selectpicker').selectpicker();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+            break;
+        }
+        case 'thread-draft': {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                data: { title: title, description: description, content: content },
+                success: function (res) {
+                    $('#staticBackdrop .modal-body').html(res);
+                    $('#staticBackdrop').modal('show');
+                    $('.selectpicker').selectpicker();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+            break;
+        }
+        case 'draft-edit': {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                data: { Id: entity },
+                success: function (res) {
+                    if (res.isValid) {
+                        $('#staticBackdrop .modal-body').html(res.html);
+                        $('#staticBackdrop').modal('show');
+                    }
+                    else {
+                        $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
+                        $('#staticBackdrop').modal('hide');
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+            break;
+        }
+        case 'peek-profile': {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                data: { u: entity },
+                success: function (res) {
+                    $('#form-modal .modal-body').html(res);
+                    $('#form-modal').modal('show');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+        case 'thread-edit': {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                data: { Id: entity },
+                success: function (res) {
+                    if (res.isValid) {
+                        $('#staticBackdrop .modal-body').html(res.html);
+                        $('#staticBackdrop').modal('show');
+                    }
+                    else {
+                        $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
+                        $('#staticBackdrop').modal('hide');
+                    }
+                }
+            })
+        }
+        case 'comment-edit': {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                data: { Id: entity },
+                success: function (res) {
+                    if (res.isValid) {
+                        $('#staticBackdrop .modal-body').html(res.html);
+                        $('#staticBackdrop').modal('show');
+                    }
+                    else {
+                        $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
+                        $('#staticBackdrop').modal('hide');
+                    }
+                }
+            })
+        }
+        default: {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                success: function (res) {
+                    $('#staticBackdrop .modal-body').html(res);
+                    $('#staticBackdrop').modal('show');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+            break;
+        }
+    }
 }
 
 function createPost(form) {
@@ -262,24 +371,6 @@ function deletePost(entityId, path) {
     })
 }
 
-function editPopup(entityId, path) {
-    $.ajax({
-        type: 'GET',
-        url: path,
-        data: { Id: entityId },
-        success: function (res) {
-            if (res.isValid) {
-                $('#staticBackdrop .modal-body').html(res.html);
-                $('#staticBackdrop').modal('show');
-            }
-            else {
-                $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
-                $('#staticBackdrop').modal('hide');
-            }
-        }
-    })
-}
-
 editPost = form => {
     try {
         $.ajax({
@@ -345,36 +436,6 @@ function likeComment(commentId) {
         data: { commentId: commentId },
         success: function (res) {
             $('#comment-section').html(res);
-        }
-    })
-}
-
-function peekProfile(u) {
-    $.ajax({
-        type: 'GET',
-        url: "/Users/Peek/",
-        data: { u: u },
-        success: function (res) {
-            $('#form-modal .modal-body').html(res);
-            $('#form-modal').modal('show');
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    })
-}
-
-function authGet(path, returnUrl) {
-    $.ajax({
-        type: 'GET',
-        url: path,
-        data: { returnUrl: returnUrl },
-        success: function (res) {
-            $('#form-modal .modal-body').html(res);
-            $('#form-modal').modal('show');
-        },
-        error: function (err) {
-            console.log(err);
         }
     })
 }

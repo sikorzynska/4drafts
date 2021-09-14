@@ -17,7 +17,7 @@
     }
     else
     {
-        <a onclick="authGet('@Url.Content("/Authentication/Login/")' ,'@Context.Request.GetDisplayUrl()')" class="text-secondary"><i class="far fa-lg big-icon fa-heart"></i></a>
+        <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="text-secondary"><i class="far fa-lg big-icon fa-heart"></i></a>
     }
 }
 <span class="badge-pill badge-info ml-1 mr-1">@Model.Points likes</span>

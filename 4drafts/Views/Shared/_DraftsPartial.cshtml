@@ -17,11 +17,11 @@
             {
                 var desc = String.IsNullOrEmpty(draft.Description) ? "---" : draft.Description;
                 <tr id="@draft.Id" class="table-light">
-                    <th class="text-truncate border" scope="row"><a class="btn-link" onclick="createThreadInPopup('@draft.Title', '@draft.Description', '@draft.Content')">@draft.Title</a></th>
+                    <th class="text-truncate border" scope="row"><a class="btn-link" onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Title', '@draft.Description', '@draft.Content', '@draft.Id')">@draft.Title</a></th>
                     <td class="text-truncate border">@desc</td>
                     <td class="text-truncate border">@draft.CreatedOn</td>
                     <td class="text-truncate border text-center">
-                        <a onclick="editPopup('@draft.Id', '/Drafts/Edit/')" class="btn-link"><i class="fas fa-pencil-alt"></i> [edit]</a>
+                        <a onclick="popUp('/Drafts/Edit/', 'draft-edit', null, null, null, null, '@draft.Id')" class="btn-link"><i class="fas fa-pencil-alt"></i> [edit]</a>
                         <a onclick="deletePopup('@draft.Id', '/Drafts/Delete/')" class="btn-link ml-2"><i class="fas fa-trash-alt"></i> [delete]</a>
                     </td>
                 </tr>

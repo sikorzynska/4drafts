@@ -1,10 +1,10 @@
 ﻿@model List<DraftViewModel>
 
 @{
-    <a onclick="createThreadInPopup()" class="dropdown-item"><i class="fas fa-plus-circle"></i> New</a>
+    <a onclick="popUp('/Threads/Create/', 'thread-new')" class="dropdown-item"><i class="fas fa-plus-circle"></i> New</a>
     <div class="dropdown-divider"></div>
     foreach (var draft in Model)
     {
-        <a onclick="createThreadInPopup('@draft.Title', '@draft.Description', '@draft.Content')" class="dropdown-item">@draft.Title</a>
+        <a onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Title', '@draft.Description', '@draft.Content')" class="dropdown-item">@draft.Title</a>
     }
 }
