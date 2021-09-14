@@ -1,0 +1,37 @@
+﻿@model UserViewModel
+
+@{
+    ViewBag.Title = "Peek";
+    var user = await this.userManager.GetUserAsync(User);
+    Layout = null;
+    var avatar = "";
+    avatar = String.IsNullOrWhiteSpace(Model.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : Model.AvatarUrl;
+}
+
+<div class="container-fluid mb-1">
+    <div class="col" align="center">
+        <div class="profile-info col">
+                <div class="user-heading round mb-1">
+                    <img src="@avatar">
+                    <h1>@Model.Username</h1>
+                    <span><i class="fas fa-envelope"></i> @Model.Email</span><br />
+                    <span>Member since @Model.RegisteredOn</span><br />
+                    <span class="badge bg-info">new user </span>
+                </div>
+                <div class="card-body text-left">
+                    <ul class="list-group">
+                        <li class="list-group-item"><div><i class="fas fa-star big-icon"></i> Points: <span class="text-muted">&nbsp; 118</span></div></li>
+                        <li class="list-group-item"><div><i class="fas fa-medal big-icon"></i> Awards: <span class="text-muted">&nbsp; 6</span></div></li>
+                        <li class="list-group-item"><div><i class="fas fa-box big-icon"></i> Total threads: <span class="text-muted">&nbsp; @Model.ThreadCount</span></div></li>
+                        <li class="list-group-item"><div><i class="fas fa-box-open big-icon"></i> Active threads: <span class="text-muted">&nbsp; @Model.ThreadCount</span></div></li>
+                        <li class="list-group-item"><div><i class="fas fa-comments big-icon"></i> Total comments: <span class="text-muted">&nbsp; @Model.CommentCount</span></div></li>
+                        <li class="list-group-item"><div><i class="fas fa-comment big-icon"></i> Active comments: <span class="text-muted">&nbsp; @Model.CommentCount</span></div></li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+</div>
+<div align="center">
+    <a asp-controller="Users" asp-action="Profile" asp-route-u="@Model.Username" class="btn btn-outline-primary"><i class="fas fa-eye"></i> Profile</a>
+    <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Close</button>
+</div>

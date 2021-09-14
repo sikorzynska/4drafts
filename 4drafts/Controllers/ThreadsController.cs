@@ -36,13 +36,13 @@ namespace _4drafts.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Read(string threadId)
+        public async Task<IActionResult> Read(string t)
         {
             var thread = this.data.Threads
-                .Include(t => t.Author)
-                .Include(t => t.GenreThreads)
+                .Include(x => x.Author)
+                .Include(x => x.GenreThreads)
                 .Include("Comments.Author")
-                .FirstOrDefault(t => t.Id == threadId);
+                .FirstOrDefault(x => x.Id == t);
 
             if (thread == null) return NotFound();
 
@@ -53,7 +53,7 @@ namespace _4drafts.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var liked = this.data
-                .UserThreads.Any(ut => ut.UserId == userId && ut.ThreadId == threadId);
+                .UserThreads.Any(ut => ut.UserId == userId && ut.ThreadId == t);
 
             var threadCount = UserThreadCount(thread.AuthorId, this.data);
 

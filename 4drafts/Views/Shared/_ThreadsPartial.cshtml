@@ -77,13 +77,13 @@
                                     <span class="badge badge-info"><a class="btn-link">[@genreName]</a></span>
                                 }
                             </td>
-                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
+                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
                             <td class="text-truncate border">@thread.CreatedOn</td>
                             <td class="border text-center">@thread.Points</td>
                             <td class="border text-center">@thread.CommentCount</td>
                             <td class="text-truncate border">
                                 <div class="d-inline media-img-30">
-                                    <a onclick="viewProfile('@thread.AuthorId')" class="btn-link">
+                                    <a onclick="peekProfile('@thread.AuthorName')" class="btn-link">
                                         <img class="rounded-circle border" src="@avatar" />
                                         @thread.AuthorName
                                     </a>
@@ -100,13 +100,13 @@
                                     <span class="badge badge-info"><a class="btn-link">[@genreName]</a></span>
                                 }
                             </td>
-                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-threadId="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
+                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
                             <td class="text-truncate border">@thread.CreatedOn</td>
                             <td class="border text-center">@thread.Points</td>
                             <td class="border text-center">@thread.CommentCount</td>
                             <td class="text-truncate border">
                                 <div class="d-inline media-img-30">
-                                    <a class="btn-link" onclick="viewProfile('@thread.AuthorId')">
+                                    <a class="btn-link" onclick="peekProfile('@thread.AuthorName')">
                                         <img class="rounded-circle border" src="@avatar" />
                                         @thread.AuthorName
                                     </a>

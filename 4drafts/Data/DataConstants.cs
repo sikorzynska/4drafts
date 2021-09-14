@@ -27,6 +27,7 @@
             public const int AgeMax = 100;
             public const int PasswordMinLength = 6;
             public const int PasswordMaxLength = 20;
+            public const string ProfileUpdated = "Profile has been updated.";
         }
 
         public class Genres

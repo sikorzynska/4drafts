@@ -5,37 +5,39 @@
     Layout = null;
 }
 
-    <form asp-controller="Threads" asp-action="Edit" method="post" onsubmit="return editPost(this);">
-        <div class="container-fluid col-12">
-            <div class="form-header fancy" align="center">
-                <hr />
-                <h2 class="heading-margin">@ViewBag.Title</h2>
-                <hr />
+<div class="container">
+    <div class="main-body">
+        <form id="thread-edit-formdata" asp-controller="Threads" asp-action="Edit">
+            <div class="row justify-content-center">
+                <div class="col card-body form-body">
+                    <h2 align="center"><i class="fas fa-edit"></i> Edit</h2>
+                    <hr />
+                    <div class="form-group d-none">
+                        <input asp-for="Id" class="form-control" hidden>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input asp-for="Title" class="form-control" placeholder="The title of your story..." id="title-content">
+                        <span asp-validation-for="Title" class="small text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description">Description (optional)</label>
+                        <textarea asp-for="Description" rows="4" class="form-control" placeholder="Quick description of what the story is about..." id="description-content"></textarea>
+                        <span asp-validation-for="Description" class="small text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Content"></label>
+                        <textarea asp-for="Content" rows="6" class="form-control" placeholder="The story itself..." id="content-content"></textarea>
+                        <span asp-validation-for="Content" class="small text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <div class="text-secondary" align="center">
+                        <a onclick="refer('thread-edit-formdata')" class="btn btn-outline-primary"><i class="fas fa-save"></i> Save Changes</a>
+                        <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Cancel</button>
+                    </div>
+                </div>
             </div>
-            <div class="form-body">
-                <div class="form-group d-none">
-                    <input asp-for="Id" class="form-control" hidden>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Title"></label>
-                    <input asp-for="Title" class="form-control">
-                    <span asp-validation-for="Title" class="small text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description"></label>
-                    <textarea asp-for="Description" class="form-control"></textarea>
-                    <span asp-validation-for="Description" class="small text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Content"></label>
-                    <textarea asp-for="Content" rows="4" class="form-control"></textarea>
-                    <span asp-validation-for="Content" class="small text-danger"></span>
-                </div>
-            </div>
-
-            <div class="form-footer" align="center">
-                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-save"></i> Save Changes</button>
-                <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Cancel</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
+</div>

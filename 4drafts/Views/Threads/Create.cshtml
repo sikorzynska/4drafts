@@ -5,59 +5,62 @@
     Layout = null;
 }
 
-<form id="form-data" asp-controller="Threads" asp-action="Create">
-    <div class="container-fluid col-12">
-        <div class="form-header fancy" align="center">
-            <hr />
-            <h2 class="heading-margin">@ViewBag.Title</h2>
-            <hr />
-        </div>
-        <div class="form-body">
-            <div class="form-group">
-                <label asp-for="GenreIds" class="form-label"></label><br />
-                <select asp-for="GenreIds" class="selectpicker form-control" multiple data-max-options="3">
-                    @foreach (var genre in Model.Genres)
-                    {
-                        <option value="@genre.Id">@genre.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="GenreIds" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Title"></label>
-                <input asp-for="Title" class="form-control" placeholder="The title of your story..." id="title-content">
-                <span asp-validation-for="Title" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description">Description (optional)</label>
-                <textarea asp-for="Description" class="form-control" placeholder="Quick description of what the story is about..." id="description-content"></textarea>
-                <span asp-validation-for="Description" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Content"></label>
-                <textarea asp-for="Content" rows="4" class="form-control" placeholder="The story itself..." id="content-content"></textarea>
-                <span asp-validation-for="Content" class="small text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-footer" align="center">
-            <a class="btn btn-outline-primary" onclick="refer('form-data')"><i class="fas fa-plus-square"></i> Post</a>
-            <div class="dropdown d-inline">
-                <a class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-save"></i> Save as draft
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a onclick="saveDraft(getValue('title-content'), getValue('description-content'), getValue('content-content'))" class="dropdown-item"><i class="fas fa-plus-circle"></i> New</a>
-                    <div class="dropdown-divider"></div>
-                    @foreach (var draft in Model.Drafts)
-                    {
-                        <a class="dropdown-item" onclick="saveDraft(getValue('title-content'), getValue('description-content'), getValue('content-content'), '@draft.Id')">@draft.Title</a>
-                    }
+<div class="container">
+    <div class="main-body">
+        <form id="thread-create-formdata" asp-controller="Threads" asp-action="Create">
+            <div class="row justify-content-center">
+                <div class="col card-body form-body">
+                    <h2 align="center"><i class="fas fa-file-alt"></i> Create</h2>
+                    <hr />
+                    <div class="form-group">
+                        <label asp-for="GenreIds" class="form-label"></label><br />
+                        <select asp-for="GenreIds" class="selectpicker form-control" multiple data-max-options="3">
+                            @foreach (var genre in Model.Genres)
+                            {
+                                <option value="@genre.Id">@genre.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="GenreIds" class="small text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input asp-for="Title" class="form-control" placeholder="The title of your story..." id="title-content">
+                        <span asp-validation-for="Title" class="small text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description">Description (optional)</label>
+                        <textarea asp-for="Description" rows="4" class="form-control" placeholder="Quick description of what the story is about..." id="description-content"></textarea>
+                        <span asp-validation-for="Description" class="small text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Content"></label>
+                        <textarea asp-for="Content" rows="6" class="form-control" placeholder="The story itself..." id="content-content"></textarea>
+                        <span asp-validation-for="Content" class="small text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <div class="text-secondary" align="center">
+                        <a class="btn btn-outline-primary" onclick="refer('thread-create-formdata')"><i class="fas fa-plus-square"></i> Post</a>
+                        <div class="dropdown d-inline">
+                            <a class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-save"></i> Save as draft
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a onclick="saveDraft(getValue('title-content'), getValue('description-content'), getValue('content-content'))" class="dropdown-item"><i class="fas fa-plus-circle"></i> New</a>
+                                <div class="dropdown-divider"></div>
+                                @foreach (var draft in Model.Drafts)
+                                {
+                                    <a class="dropdown-item" onclick="saveDraft(getValue('title-content'), getValue('description-content'), getValue('content-content'), '@draft.Id')">@draft.Title</a>
+                                }
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Cancel</button>
+                    </div>
                 </div>
             </div>
-            <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Cancel</button>
-        </div>
+        </form>
     </div>
-</form>
+</div>
+
 
 

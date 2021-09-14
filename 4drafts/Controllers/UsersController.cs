@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using static _4drafts.Services.ControllerExtensions;
 using static _4drafts.Data.DataConstants;
-using _4drafts.Models.Authentication;
 
 namespace _4drafts.Controllers
 {
@@ -27,9 +26,9 @@ namespace _4drafts.Controllers
 
         [HttpGet]
         [NoDirectAccess]
-        public async Task<IActionResult> Profile(string userId)
+        public async Task<IActionResult> Peek(string u)
         {
-            var user = await this.userManager.FindByIdAsync(userId);
+            var user = await this.userManager.FindByNameAsync(u);
 
             if (user == null) return Redirect("/");
 
@@ -40,8 +39,8 @@ namespace _4drafts.Controllers
                 AvatarUrl = user.AvatarUrl,
                 Email = user.Email,
                 RegisteredOn = user.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
-                ThreadCount = UserThreadCount(userId, this.data),
-                CommentCount = UserCommentCount(userId, this.data),
+                ThreadCount = UserThreadCount(user.Id, this.data),
+                CommentCount = UserCommentCount(user.Id, this.data),
 
             };
 
@@ -50,6 +49,7 @@ namespace _4drafts.Controllers
 
         [HttpGet]
         [Authorize]
+        [NoDirectAccess]
         public async Task<IActionResult> Manage()
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -88,7 +88,7 @@ namespace _4drafts.Controllers
             if (model.Gender != "Male" && model.Gender != "Female" && model.Gender != string.Empty && model.Gender != null)
                 this.ModelState.AddModelError(nameof(model.Gender), Users.InvalidGender);
 
-            if (!ModelState.IsValid) return Json(new { isValid = false, html = RenderRazorViewToString(this, "Edit", model) });
+            if (!ModelState.IsValid) return Json(new { isValid = false, html = RenderRazorViewToString(this, "Manage", model) });
 
             var userId = this.userManager.GetUserId(this.User);
 
@@ -110,15 +110,37 @@ namespace _4drafts.Controllers
 
             await this.data.SaveChangesAsync();
 
-            return Redirect("/Users/Manage/");
+            var res = new UserViewModel
+            {
+                Id = user.Id,
+                Username = user.UserName,
+                AvatarUrl = user.AvatarUrl,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                RegisteredOn = user.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
+                Gender = user.Gender,
+                Age = user.Age,
+                Occupation = user.Occupation,
+                Website = user.Website,
+                Discord = user.Discord,
+                Twitter = user.Twitter,
+                Facebook = user.Facebook,
+                Instagram = user.Instagram,
+                AboutMe = user.AboutMe,
+                ThreadCount = UserThreadCount(user.Id, this.data),
+                CommentCount = UserCommentCount(user.Id, this.data),
+            };
+
+            return Json(new { isValid = true, msg = Users.ProfileUpdated, html = RenderRazorViewToString(this, "Manage", res) });
         }
 
         [HttpGet]
-        public async Task<IActionResult> Browse(string userId)
+        public async Task<IActionResult> Profile(string u)
         {
             var user = await this.data.Users
-                .Include(u => u.UserThreads)
-                .FirstOrDefaultAsync(u => u.Id == userId);
+                .Include(x => x.UserThreads)
+                .FirstOrDefaultAsync(x => x.UserName == u);
 
             if (user == null) return NotFound();
 

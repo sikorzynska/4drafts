@@ -131,7 +131,35 @@ function createThreadInPopup(title, description, content) {
 
 function refer(id) {
     var form = document.getElementById(id);
-    createPost(form);
+
+    switch (id) {
+        case 'thread-create-formdata': {
+            createPost(form);
+            break;
+        }
+        case 'profile-manage-formdata': {
+            managePost(form);
+            break;
+        }
+        default: {
+            editPost(form);
+            break;
+        }
+    }
+}
+
+function popUp(path) {
+    $.ajax({
+        type: 'GET',
+        url: path,
+        success: function (res) {
+            $('#staticBackdrop').modal('show');
+            $('#staticBackdrop .modal-body').html(res);
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
 }
 
 function createPost(form) {
@@ -150,6 +178,28 @@ function createPost(form) {
                 console.log('here');
                 $('#staticBackdrop .modal-body').html(res.html);
                 $('.selectpicker').selectpicker();
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+}
+
+function managePost(form) {
+    $.ajax({
+        type: 'POST',
+        url: form.action,
+        data: new FormData(form),
+        contentType: false,
+        processData: false,
+        success: function (res) {
+            if (res.isValid) {
+                $('.notifyjs-corner').empty();
+                $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+            }
+            else {
+                $('#staticBackdrop .modal-body').html(res.html);
             }
         },
         error: function (err) {
@@ -299,11 +349,11 @@ function likeComment(commentId) {
     })
 }
 
-function viewProfile(userId) {
+function peekProfile(u) {
     $.ajax({
-        type: 'get',
-        url: "/Users/Profile/",
-        data: { userId: userId },
+        type: 'GET',
+        url: "/Users/Peek/",
+        data: { u: u },
         success: function (res) {
             $('#form-modal .modal-body').html(res);
             $('#form-modal').modal('show');

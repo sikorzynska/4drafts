@@ -39,6 +39,7 @@ namespace _4drafts
                 })
                 .AddEntityFrameworkStores<_4draftsDbContext>();
 
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddTransient<ITimeWarper, TimeWarper>();

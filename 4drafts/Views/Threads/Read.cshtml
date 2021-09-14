@@ -14,7 +14,7 @@
                     <div class="media flex-wrap w-100 align-items-center media-img-40">
                         <img src="@avatarUrl" class="d-block ui-w-40 rounded-circle border">
                         <div class="media-body ml-3 mw-120p">
-                            <a onclick="viewProfile('@Model.AuthorId')">@Model.AuthorName</a>
+                            <a class="btn-link" onclick="peekProfile('@Model.AuthorName')">@Model.AuthorName</a>
                             <div class="text-muted small">@Model.CreatedOn</div>
                         </div>
                         <div class="text-muted small mr-1 ml-auto">

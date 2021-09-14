@@ -7,8 +7,8 @@
         <tr>
             <th class="text-truncate border" scope="col">Title</th>
             <th class="text-truncate border" scope="col">Description</th>
-            <th class="text-truncate border" scope="col">When</th>
-            <th class="text-truncate border text-center" scope="col">Options</th>
+            <th class="text-truncate border" scope="col">Created</th>
+            <th class="text-truncate border text-center" scope="col" style="width: 165px;">Options</th>
         </tr>
     </thead>
     <tbody>
@@ -16,13 +16,13 @@
             foreach (var draft in Model)
             {
                 var desc = String.IsNullOrEmpty(draft.Description) ? "---" : draft.Description;
-                <tr id="@draft.Id" class="table-info">
-                    <th class="text-truncate border" scope="row"><a>@draft.Title</a></th>
+                <tr id="@draft.Id" class="table-light">
+                    <th class="text-truncate border" scope="row"><a class="btn-link" onclick="createThreadInPopup('@draft.Title', '@draft.Description', '@draft.Content')">@draft.Title</a></th>
                     <td class="text-truncate border">@desc</td>
                     <td class="text-truncate border">@draft.CreatedOn</td>
                     <td class="text-truncate border text-center">
-                        <a onclick="editPopup('@draft.Id', '/Drafts/Edit/')" class="btn btn-link"><i class="fas fa-pencil-alt"></i> [edit]</a>
-                        <a onclick="deletePopup('@draft.Id', '/Drafts/Delete/')" class="btn btn-link"><i class="fas fa-trash-alt"></i> [delete]</a>
+                        <a onclick="editPopup('@draft.Id', '/Drafts/Edit/')" class="btn-link"><i class="fas fa-pencil-alt"></i> [edit]</a>
+                        <a onclick="deletePopup('@draft.Id', '/Drafts/Delete/')" class="btn-link ml-2"><i class="fas fa-trash-alt"></i> [delete]</a>
                     </td>
                 </tr>
             }

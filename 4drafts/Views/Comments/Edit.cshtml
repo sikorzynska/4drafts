@@ -3,33 +3,37 @@
 @{
     ViewBag.Title = "Edit";
     Layout = null;
+    var commentLength = Model.Content != null ? Model.Content.Length : 0;
 }
 
-<form asp-controller="Comments" asp-action="Edit" onsubmit="return editPost(this);">
-    <div class="container-fluid mw-350">
-        <div class="form-header fancy" align="center">
-            <hr />
-            <h2 class="heading-margin">@ViewBag.Title</h2>
-            <hr />
-        </div>
-        <div class="form-body ">
-            <div class="form-group d-none">
-                <input asp-for="Id" class="form-control" id="title-input" hidden>
+<div class="container">
+    <div class="main-body">
+        <form id="comment-edit-formdata" asp-controller="Comments" asp-action="Edit">
+            <div class="row justify-content-center">
+                <div class="col card-body form-body">
+                    <h2 align="center"><i class="fas fa-edit"></i> Edit</h2>
+                    <hr />
+                    <div class="form-group d-none">
+                        <input asp-for="Id" class="form-control" id="title-input" hidden>
+                    </div>
+                    <div class="form-group">
+                        <span class="float-right badge badge-secondary mb-1" id="edit_comment_count">@commentLength / 500</span>
+                        <textarea asp-for="Content" maxlength="500" rows="4" class="form-control" id="edit_comment-content"
+                                  onchange="countCharacters('edit_comment_count', 'edit_comment-content')"
+                                  onkeypress="countCharacters('edit_comment_count', 'edit_comment-content')"
+                                  oninput="countCharacters('edit_comment_count', 'edit_comment-content')"
+                                  onkeyup="countCharacters('edit_comment_count', 'edit_comment-content')"
+                                  onpaste="countCharacters('edit_comment_count', 'edit_comment-content')"></textarea>
+                        <span asp-validation-for="Content" class="small text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <div class="text-secondary" align="center">
+                        <a onclick="refer('comment-edit-formdata')" class="btn btn-outline-primary"><i class="fas fa-save"></i> Save Changes</a>
+                        <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Cancel</button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <span class="float-right badge badge-secondary mb-1" id="edit_comment_count">@Model.Content.Length / 500</span>
-                <textarea asp-for="Content" maxlength="500" rows="4" class="form-control" id="edit_comment-content"
-                onchange="countCharacters('edit_comment_count', 'edit_comment-content')"
-                onkeypress="countCharacters('edit_comment_count', 'edit_comment-content')"
-                oninput="countCharacters('edit_comment_count', 'edit_comment-content')"
-                onkeyup="countCharacters('edit_comment_count', 'edit_comment-content')"
-                onpaste="countCharacters('edit_comment_count', 'edit_comment-content')"></textarea>
-                <span asp-validation-for="Content" class="small text-danger"></span>
-            </div>
-        </div>
-        <div class="form-footer" align="center">
-            <button class="btn btn-outline-primary" type="submit"><i class="fas fa-save"></i> Save Changes</button>
-            <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-window-close"></i> Cancel</button>
-        </div>
+        </form>
     </div>
-</form>
+</div>
