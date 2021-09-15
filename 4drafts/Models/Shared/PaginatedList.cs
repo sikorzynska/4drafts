@@ -14,14 +14,25 @@ namespace _4drafts.Models.Shared
 
         public int Genre { get; set; }
         public string SortType { get; set; }
+        public bool Own { get; set; }
+        public bool Liked { get; set; }
 
-        public PaginatedList(List<T> items, int count, int pageIndex, int pageSize, IEnumerable<GenresBrowseModel> genres, int genre = 0, string sort = null)
+        public PaginatedList(List<T> items, 
+            int count, int pageIndex, 
+            int pageSize, 
+            IEnumerable<GenresBrowseModel> genres, 
+            int genre = 0, 
+            string sort = null, 
+            bool own = false, 
+            bool liked = false)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             Genres = genres;
             Genre = genre;
             SortType = sort;
+            Own = own;
+            Liked = liked;
             this.AddRange(items);
         }
 
@@ -41,11 +52,18 @@ namespace _4drafts.Models.Shared
             }
         }
 
-        public static PaginatedList<T> Create(List<T> source, int pageIndex, int pageSize, IEnumerable<GenresBrowseModel> genres, int genre = 0, string sort = null)
+        public static PaginatedList<T> Create(List<T> source, 
+            int pageIndex, 
+            int pageSize, 
+            IEnumerable<GenresBrowseModel> genres, 
+            int genre = 0, 
+            string sort = null,
+            bool own = false,
+            bool liked = false)
         {
             var count = source.Count();
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            return new PaginatedList<T>(items, count, pageIndex, pageSize, genres, genre, sort);
+            return new PaginatedList<T>(items, count, pageIndex, pageSize, genres, genre, sort, own, liked);
         }
     }
 }

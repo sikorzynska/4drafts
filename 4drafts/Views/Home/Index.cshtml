@@ -15,5 +15,6 @@
             make some witty comments, go and create an account and start participating !
         </div>
     </div>
-    <a asp-controller="Threads" asp-action="Browse" title="browse threads" type="button" class="btn btn-outline-dark mt-4"><i class="fas fa-list"></i> Threads</a>
+    <a class="btn btn-outline-primary mt-2" asp-controller="Threads" asp-action="Browse" title="browse threads"><i class="fas fa-list"></i> Threads</a>
+    <a class="btn btn-outline-primary mt-2" asp-controller="Threads" asp-action="Browse" asp-route-genre="4" asp-route-sort="best" asp-route-own="true" asp-route-liked="true" title="browse threads"><i class="fas fa-list"></i> test</a>
 </div>

@@ -87,6 +87,7 @@ namespace _4drafts.Controllers
 
             var drafts = this.data.Drafts
                 .Where(d => d.AuthorId == user.Id)
+                .OrderByDescending(d => d.CreatedOn)
                 .Select(d => new DraftViewModel
                 {
                     Id = d.Id,

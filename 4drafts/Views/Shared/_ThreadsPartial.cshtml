@@ -8,6 +8,8 @@
 <div class="row ml-1">
     <input class="d-none" id="genre-value" value="@Model.Genre" />
     <input class="d-none" id="sort-value" value="@Model.SortType" />
+    <input class="d-none" id="own-value" value="@Model.Own" />
+    <input class="d-none" id="liked-value" value="@Model.Liked" />
     <div class="form-group mr-1">
         <div class="input-group">
             <div class="input-group-prepend">
@@ -26,7 +28,7 @@
             </select>
         </div>
     </div>
-    <div class="form-group mr-1">
+    <div class="form-group">
         <div class="input-group">
             <div class="input-group-prepend">
                 <div class="input-group-text">
@@ -35,17 +37,52 @@
             </div>
             <select onchange="addFilterRoutes()" id="sort-select" class="selectpicker form-control" title="Sort">
                 <option data-icon="fas fa-times" )>Default</option>
-                <option id="popular" value="popular" data-icon="fas fa-rocket">Popular</option>
+                <option id="best" value="best" data-icon="fas fa-rocket">Best</option>
+                <option id="new" value="new" data-icon="fas fa-clock">New</option>
                 <option id="controversial" value="controversial" data-icon="fas fa-fire">Controversial</option>
-                <option id="liked" value="liked" data-icon="fas fa-heart">Likes (Desc.)</option>
-                <option id="disliked" value="disliked" data-icon="far fa-heart">Likes (Asc.)</option>
-                <option id="newest" value="newest" data-icon="fas fa-clock">Date (Newest)</option>
-                <option id="oldest" value="oldest" data-icon="far fa-clock">Date (Oldest)</option>
             </select>
         </div>
     </div>
-    <div class="form-group">
-        <a id="filter" class="btn btn-primary form-control disabled"><i class="fas fa-filter"></i> Filter</a>
+    <div class="form-group ml-1">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            @{
+                if (userId == null)
+                {
+                    <input class="opt-checkbox" id="mine-checkbox" type="checkbox" data-toggle="toggle" data-on="Mine" data-off="Mine" disabled>
+                }
+                else
+                {
+                    <input class="opt-checkbox" id="mine-checkbox" type="checkbox" data-toggle="toggle" data-on="Mine" data-off="Mine">
+                }
+            }
+        </div>
+    </div>
+    <div class="form-group ml-1">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            @{
+                if (userId == null)
+                {
+                    <input class="opt-checkbox" id="liked-checkbox" type="checkbox" data-toggle="toggle" data-on="Favourites" data-off="Favourites" disabled>
+                }
+                else
+                {
+                    <input class="opt-checkbox" id="liked-checkbox" type="checkbox" data-toggle="toggle" data-on="Favourites" data-off="Favourites">
+                }
+            }
+        </div>
+    </div>
+    <div class="form-group ml-1">
+        <a id="filter" class="btn btn-primary form-control"><i class="fas fa-filter"></i> Filter</a>
     </div>
     <img src="~/images/pointthis.png" alt="pointthis" class="pointthis" id="pointthis" />
 </div>
@@ -126,11 +163,17 @@
 }
 <div class="container w-100">
     <div class="text-center">
-        <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="1"
+        <a asp-controller="Threads" asp-action="Browse"
+           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" 
+           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked" 
+           asp-route-page="1"
            class="btn btn-secondary @prevDisabled">
             <i class="fas fa-angle-double-left"></i>
         </a>
-        <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="@(Model.PageIndex - 1)"
+        <a asp-controller="Threads" asp-action="Browse" 
+           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" 
+           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked" 
+           asp-route-page="@(Model.PageIndex - 1)"
            class="btn btn-secondary @prevDisabled">
             <i class="fas fa-angle-left"></i>
         </a>
@@ -144,17 +187,26 @@
                 }
                 else
                 {
-                    <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="@i" class="btn btn-secondary">
+                    <a asp-controller="Threads" asp-action="Browse" 
+                       asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" 
+                       asp-route-own="@Model.Own" asp-route-liked="@Model.Liked" 
+                       asp-route-page="@i" class="btn btn-secondary">
                         @i
                     </a>
                 }
             }
         }
-        <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="@(Model.PageIndex + 1)"
+        <a asp-controller="Threads" asp-action="Browse" 
+           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" 
+           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked" 
+           asp-route-page="@(Model.PageIndex + 1)"
            class="btn btn-secondary @nextDisabled">
             <i class="fas fa-angle-right"></i>
         </a>
-        <a asp-controller="Threads" asp-action="Browse" asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" asp-route-page="@Model.TotalPages"
+        <a asp-controller="Threads" asp-action="Browse" 
+           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
+           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked" 
+           asp-route-page="@Model.TotalPages"
            class="btn btn-secondary @nextDisabled">
             <i class="fas fa-angle-double-right"></i>
         </a>

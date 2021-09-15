@@ -147,6 +147,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                 success: function (res) {
                     $('#form-modal .modal-body').html(res);
                     $('#form-modal').modal('show');
+                    $('#form-modal .modal-body').html(res);
                 },
                 error: function (err) {
                     console.log(err);
@@ -161,6 +162,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                 success: function (res) {
                     $('#staticBackdrop .modal-body').html(res);
                     $('#staticBackdrop').modal('show');
+                    $('#staticBackdrop .modal-body').html(res);
                     $('.selectpicker').selectpicker();
                 },
                 error: function (err) {
@@ -177,6 +179,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                 success: function (res) {
                     $('#staticBackdrop .modal-body').html(res);
                     $('#staticBackdrop').modal('show');
+                    $('#staticBackdrop .modal-body').html(res);
                     $('.selectpicker').selectpicker();
                 },
                 error: function (err) {
@@ -194,6 +197,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                     if (res.isValid) {
                         $('#staticBackdrop .modal-body').html(res.html);
                         $('#staticBackdrop').modal('show');
+                        $('#staticBackdrop .modal-body').html(res.html);
                     }
                     else {
                         $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
@@ -214,6 +218,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                 success: function (res) {
                     $('#form-modal .modal-body').html(res);
                     $('#form-modal').modal('show');
+                    $('#form-modal .modal-body').html(res);
                 },
                 error: function (err) {
                     console.log(err);
@@ -229,6 +234,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                     if (res.isValid) {
                         $('#staticBackdrop .modal-body').html(res.html);
                         $('#staticBackdrop').modal('show');
+                        $('#staticBackdrop .modal-body').html(res.html);
                     }
                     else {
                         $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
@@ -246,6 +252,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                     if (res.isValid) {
                         $('#staticBackdrop .modal-body').html(res.html);
                         $('#staticBackdrop').modal('show');
+                        $('#staticBackdrop .modal-body').html(res.html);
                     }
                     else {
                         $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
@@ -480,21 +487,32 @@ function getSelectedValue(id) {
     return selected;
 }
 
+$(function () {
+    $('.opt-checkbox').change(function () {
+        addFilterRoutes();
+    })
+})
+
 function addFilterRoutes() {
     var filterBtn = document.getElementById('filter');
-    $(filterBtn).attr('href', '/Threads/Browse?genre=' + getSelectedValue('genre-select') + '&sort=' + getSelectedValue('sort-select'));
-    filterBtn.classList.remove('disabled');
+    var mine = document.getElementById('mine-checkbox').checked;
+    var liked = document.getElementById('liked-checkbox').checked;
+    $(filterBtn).attr('href', '/threads/browse?genre=' + getSelectedValue('genre-select') + '&sort=' + getSelectedValue('sort-select') + '&own=' + mine + '&liked=' + liked);
 }
 
 $(".pointthis").ready(function () {
     var genre = $('#genre-value').val() + 'genre';
     var sort = $('#sort-value').val();
+    var own = $('#own-value').val() != "" ? 'on' : "off";
+    var liked = $('#liked-value').val() != "" ? 'on' : 'off';
 
     var genreOption = document.getElementById(genre);
     var sortOption = document.getElementById(sort);
 
     $(genreOption).attr('selected', "");
     $(sortOption).attr('selected', "");
+    $('#mine-checkbox').bootstrapToggle(own, true);
+    $('#liked-checkbox').bootstrapToggle(liked, true);
 });
 
 function saveDraft(title, description, content, draftId) {
