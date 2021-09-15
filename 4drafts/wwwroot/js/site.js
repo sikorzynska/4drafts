@@ -147,7 +147,6 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                 success: function (res) {
                     $('#form-modal .modal-body').html(res);
                     $('#form-modal').modal('show');
-                    $('#form-modal .modal-body').html(res);
                 },
                 error: function (err) {
                     console.log(err);
@@ -162,7 +161,6 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                 success: function (res) {
                     $('#staticBackdrop .modal-body').html(res);
                     $('#staticBackdrop').modal('show');
-                    $('#staticBackdrop .modal-body').html(res);
                     $('.selectpicker').selectpicker();
                 },
                 error: function (err) {
@@ -179,7 +177,6 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                 success: function (res) {
                     $('#staticBackdrop .modal-body').html(res);
                     $('#staticBackdrop').modal('show');
-                    $('#staticBackdrop .modal-body').html(res);
                     $('.selectpicker').selectpicker();
                 },
                 error: function (err) {
@@ -197,7 +194,6 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                     if (res.isValid) {
                         $('#staticBackdrop .modal-body').html(res.html);
                         $('#staticBackdrop').modal('show');
-                        $('#staticBackdrop .modal-body').html(res.html);
                     }
                     else {
                         $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
@@ -218,12 +214,12 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                 success: function (res) {
                     $('#form-modal .modal-body').html(res);
                     $('#form-modal').modal('show');
-                    $('#form-modal .modal-body').html(res);
                 },
                 error: function (err) {
                     console.log(err);
                 }
             })
+            break;
         }
         case 'thread-edit': {
             $.ajax({
@@ -234,7 +230,6 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                     if (res.isValid) {
                         $('#staticBackdrop .modal-body').html(res.html);
                         $('#staticBackdrop').modal('show');
-                        $('#staticBackdrop .modal-body').html(res.html);
                     }
                     else {
                         $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
@@ -242,6 +237,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                     }
                 }
             })
+            break;
         }
         case 'comment-edit': {
             $.ajax({
@@ -252,25 +248,11 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                     if (res.isValid) {
                         $('#staticBackdrop .modal-body').html(res.html);
                         $('#staticBackdrop').modal('show');
-                        $('#staticBackdrop .modal-body').html(res.html);
                     }
                     else {
                         $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
                         $('#staticBackdrop').modal('hide');
                     }
-                }
-            })
-        }
-        default: {
-            $.ajax({
-                type: 'GET',
-                url: path,
-                success: function (res) {
-                    $('#staticBackdrop .modal-body').html(res);
-                    $('#staticBackdrop').modal('show');
-                },
-                error: function (err) {
-                    console.log(err);
                 }
             })
             break;

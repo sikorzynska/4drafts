@@ -76,14 +76,15 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 5rem;
 }
 .footer {
+    margin-bottom: 0;
     position: absolute;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
+    line-height: 35px; /* Vertically center the text there */
 }
 
 .layout-logo {
@@ -186,8 +187,11 @@ body {
 }
 
 .bg-tablehead {
-    background: rgb(28,212,255);
-    background: linear-gradient(90deg, rgba(28,212,255,1) 0%, rgba(168,237,255,1) 49%, rgba(28,212,255,1) 100%);
+    background-color: #d5fbff;
+    opacity: 1;
+    background-image: repeating-linear-gradient(45deg, #baf3ff 25%, transparent 25%, transparent 75%, #baf3ff 75%, #baf3ff), repeating-linear-gradient(45deg, #baf3ff 25%, #d5fbff 25%, #d5fbff 75%, #baf3ff 75%, #baf3ff);
+    background-position: 0 0, 8px 8px;
+    background-size: 16px 16px;
 }
 
 .text-color-black {
@@ -274,16 +278,6 @@ body {
 #count_message {
     width: 70px;
     text-align: center;
-}
-
-.bdge {
-    height: 21px;
-    background-color: orange;
-    color: #fff;
-    font-size: 11px;
-    padding: 8px;
-    border-radius: 4px;
-    line-height: 3px
 }
 
 .comments {
@@ -407,10 +401,6 @@ hide-empty:empty {
     width: auto;
     margin: 0.5rem;
     pointer-events: none;
-}
-
-.table-info {
-    color: black !important;
 }
 
 .btn-link {
