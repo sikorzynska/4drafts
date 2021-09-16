@@ -49,6 +49,7 @@
             public const string TitleMinLengthMsg = "The title field must have a minimum length of 20.";
             public const string Disliked = "The thread has been removed from favourites.";
             public const string Liked = "The thread has been added from favourites.";
+            public const string InexistentType = "Invalid thread type selection.";
         }
 
         public class Comments

@@ -24,7 +24,8 @@ namespace _4drafts.Models.Threads
             public IEnumerable<int> GenreIds { get; set; }
 
             public IEnumerable<string> GenreNames { get; set; }
-            public IEnumerable<string> GenresSimplified { get; set; }
+            public List<string> GenresSimplified { get; set; }
+            public List<string> GenreDescriptions { get; set; }
 
             public int CommentCount { get; set; }
     }

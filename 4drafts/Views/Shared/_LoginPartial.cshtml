@@ -14,7 +14,7 @@
             <a class="dropdown-toggle media-img-40 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle border" src="@avatar" alt="Avatar" /> <span class="caret">@user.UserName</span></a>
             <ul class="dropdown-menu">
                 <li><a asp-controller="Users" asp-action="Profile" asp-route-u="@user.UserName" title="Profile"><span class="dropdown-link-text"><i class="fas fa-user-alt"></i> Profile</span></a></li>
-                <li><a onclick="popUp('/Users/Manage/')" title="Manage"><span class="dropdown-link-text"><i class="fas fa-user-cog"></i> Manage</span></a></li>
+                <li><a onclick="popUp('/Users/Manage/', 'account-manage')" title="Manage"><span class="dropdown-link-text"><i class="fas fa-user-cog"></i> Manage</span></a></li>
                 <li role="separator" class="dropdown-divider"></li>
                 <li><a asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@Context.Request.GetDisplayUrl()"><span class="dropdown-link-text"><i class="fas fa-sign-out-alt"></i> Logout</span></a></li>
             </ul>

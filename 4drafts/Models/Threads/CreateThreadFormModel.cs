@@ -8,7 +8,6 @@ namespace _4drafts.Models.Threads
 {
     public class CreateThreadFormModel
     {
-
         [Display(Name = "Genre")]
         public ICollection<int> GenreIds { get; init; }
         public ICollection<string> GenreNames { get; set; }

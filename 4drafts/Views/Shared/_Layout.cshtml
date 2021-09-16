@@ -26,20 +26,31 @@
                     <li class="nav-item">
                         <a asp-controller="Threads" asp-action="Browse" title="browse threads" class="nav-link btn-link-wh layout-anchor"><i class="fas fa-list"></i><span> Threads</span></a>
                     </li>
-                    @if (user != null)
-                    {
-                        <li class="nav-item">
-                            <a asp-controller="Prompts" asp-action="Weekly" title="writing prompts" class="nav-link btn-link-wh layout-anchor"><i class="far fa-comment"></i><span> Prompts</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-controller="Drafts" asp-action="All" title="my drafts" class="nav-link btn-link-wh layout-anchor"><i class="fab fa-firstdraft"></i><span> Drafts</span></a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a title="start thread" class="nav-link dropdown-toggle btn-link-wh layout-anchor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i><span> Post</span></a>
-                            <div class="dropdown-menu">
-                                @await Component.InvokeAsync("UserDrafts")
-                            </div>
-                        </li>
+                    <li class="nav-item">
+                        <a asp-controller="Threads" asp-action="Prompts" title="writing prompts" class="nav-link btn-link-wh layout-anchor"><i class="far fa-comment"></i><span> Prompts</span></a>
+                    </li>
+                    @{
+                        if (user != null)
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Drafts" asp-action="All" title="my drafts" class="nav-link btn-link-wh layout-anchor"><i class="fab fa-firstdraft"></i><span> Drafts</span></a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a title="start thread" class="nav-link dropdown-toggle btn-link-wh layout-anchor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i><span> Post</span></a>
+                                <div class="dropdown-menu">
+                                    @await Component.InvokeAsync("UserDrafts")
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" title="my drafts" class="nav-link btn-link-wh layout-anchor"><i class="fab fa-firstdraft"></i><span> Drafts</span></a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" title="start thread" class="nav-link dropdown-toggle btn-link-wh layout-anchor"><i class="fas fa-plus"></i><span> Post</span></a>
+                            </li>
+                        }
                     }
                 </ul>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"

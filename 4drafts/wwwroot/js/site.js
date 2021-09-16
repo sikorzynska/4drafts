@@ -29,7 +29,7 @@ $(function () {
 var comment_max = 500;
 $('#comment_count').html('0 / ' + comment_max);
 
-
+$("[data-toggle=popover]").popover();
 
 function countCharacters(counterId, valueId) {
     var text_length = $(document.getElementById(valueId)).val().length;
@@ -235,6 +235,9 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                         $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
                         $('#staticBackdrop').modal('hide');
                     }
+                },
+                error: function (err) {
+                    console.log(err);
                 }
             })
             break;
@@ -253,6 +256,23 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                         $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
                         $('#staticBackdrop').modal('hide');
                     }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+            break;
+        }
+        case 'account-manage': {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                success: function (res) {
+                    $('#staticBackdrop .modal-body').html(res);
+                    $('#staticBackdrop').modal('show');
+                },
+                error: function (err) {
+                    console.log(err);
                 }
             })
             break;
