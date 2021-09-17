@@ -24,19 +24,22 @@
                 </a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Browse" title="browse threads" class="nav-link btn-link-wh layout-anchor"><i class="fas fa-list"></i><span> Threads</span></a>
+                        <a asp-controller="Threads" asp-action="Browse" title="threads" class="nav-link btn-link-wh layout-anchor"><i class="far fa-th-list"></i><span> Threads</span></a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Prompts" title="writing prompts" class="nav-link btn-link-wh layout-anchor"><i class="far fa-comment"></i><span> Prompts</span></a>
+                        <a asp-controller="Threads" asp-action="Stories" title="stories" class="nav-link btn-link-wh layout-anchor"><i class="far fa-scroll"></i><span> Stories</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Threads" asp-action="Prompts" title="writing prompts" class="nav-link btn-link-wh layout-anchor"><i class="far fa-lightbulb"></i><span> Prompts</span></a>
                     </li>
                     @{
                         if (user != null)
                         {
                             <li class="nav-item">
-                                <a asp-controller="Drafts" asp-action="All" title="my drafts" class="nav-link btn-link-wh layout-anchor"><i class="fab fa-firstdraft"></i><span> Drafts</span></a>
+                                <a asp-controller="Drafts" asp-action="All" title="my drafts" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-drafting-compass"></i><span> Drafts</span></a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a title="start thread" class="nav-link dropdown-toggle btn-link-wh layout-anchor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i><span> Post</span></a>
+                                <a title="start thread" class="nav-link dropdown-toggle btn-link-wh layout-anchor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fal fa-file-plus"></i><span> Post</span></a>
                                 <div class="dropdown-menu">
                                     @await Component.InvokeAsync("UserDrafts")
                                 </div>
@@ -45,10 +48,10 @@
                         else
                         {
                             <li class="nav-item">
-                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" title="my drafts" class="nav-link btn-link-wh layout-anchor"><i class="fab fa-firstdraft"></i><span> Drafts</span></a>
+                                <a onclick="popUp('/Authentication/Login/', 'auth', '/Drafts/All/')" title="my drafts" class="nav-link btn-link-wh layout-anchor"><i class="far fa-drafting-compass"></i><span> Drafts</span></a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" title="start thread" class="nav-link dropdown-toggle btn-link-wh layout-anchor"><i class="fas fa-plus"></i><span> Post</span></a>
+                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" title="start thread" class="nav-link dropdown-toggle btn-link-wh layout-anchor"><i class="fal fa-file-plus"></i><span> Post</span></a>
                             </li>
                         }
                     }
@@ -102,10 +105,13 @@
 
     <footer class="border-nobottom footer bg-ocean-layout">
         <div class="container text-center">
-            <a class="btn-link"><i class="fas fa-asterisk"></i> [Terms of Service]</a>
-            <a class="btn-link ml-2"><i class="fas fa-user-secret"></i> [Privacy Policy]</a>
-            <a class="btn-link ml-2"><i class="fas fa-dollar-sign"></i> [Support Us]</a>
-            <a class="btn-link ml-2"><i class="fas fa-phone-alt"></i> [Contact Us]</a><br />
+            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-route-interstate"></i><span> [Terms of Service]</span></a>
+            &nbsp;
+            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-blinds"></i><span> [Privacy Policy]</span></a>
+            &nbsp;
+            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-badge-dollar"></i><span> [Support Us]</span></a>
+            &nbsp;
+            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-phone-alt"></i><span> [Contact Us]</span></a><br />
             <span>Copyright © 4drafts&trade; @DateTime.UtcNow.Year. All rights reserved.</span>
         </div>
     </footer>

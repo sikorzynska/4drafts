@@ -42,44 +42,31 @@
             </select>
         </div>
     </div>
-    <div class="form-group ml-1">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    <i class="fas fa-user"></i>
-                </div>
-            </div>
-            @{
-                if (userId == null)
-                {
-                    <input class="opt-checkbox" id="mine-checkbox" type="checkbox" data-toggle="toggle" data-on="Mine" data-off="Mine" disabled>
-                }
-                else
-                {
+    @{
+        if (userId != null)
+        {
+            <div class="form-group ml-1">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
                     <input class="opt-checkbox" id="mine-checkbox" type="checkbox" data-toggle="toggle" data-on="Mine" data-off="Mine">
-                }
-            }
-        </div>
-    </div>
-    <div class="form-group ml-1">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    <i class="fas fa-heart"></i>
                 </div>
             </div>
-            @{
-                if (userId == null)
-                {
-                    <input class="opt-checkbox" id="liked-checkbox" type="checkbox" data-toggle="toggle" data-on="Favourites" data-off="Favourites" disabled>
-                }
-                else
-                {
+            <div class="form-group ml-1">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                    </div>
                     <input class="opt-checkbox" id="liked-checkbox" type="checkbox" data-toggle="toggle" data-on="Favourites" data-off="Favourites">
-                }
-            }
-        </div>
-    </div>
+                </div>
+            </div>
+        }
+    }
     <div class="form-group ml-1">
         <a id="filter" class="btn btn-primary form-control"><i class="fas fa-filter"></i> Filter</a>
     </div>

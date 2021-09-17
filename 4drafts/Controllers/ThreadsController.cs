@@ -341,6 +341,9 @@ namespace _4drafts.Controllers
         public IActionResult Prompts() => View();
 
         [HttpGet]
+        public IActionResult Stories() => View();
+
+        [HttpGet]
         [Authorize]
         [NoDirectAccess]
         public async Task<IActionResult> Delete(string Id)

@@ -21,7 +21,7 @@ namespace _4drafts.Data.Models
         [MaxLength(Threads.DescriptionMaxLength)]
         public string Description { get; set; }
 
-        public DateTime CreatedOn { get; init; }
+        public DateTime CreatedOn { get; init; } 
 
         public int Points { get; set; }
 
