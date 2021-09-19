@@ -6,18 +6,12 @@
 @{
     if (user != null)
     {
-        if (Model.Liked)
-        {
-            <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="fas fa-lg big-icon fa-heart"></i></a>
-        }
-        else
-        {
-            <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="far fa-lg big-icon fa-heart"></i></a>
-        }
+        var liked = Model.Liked == true ? "fas" : "fal";
+        <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="@liked fa-lg big-icon fa-heart"></i></a>
     }
     else
     {
-        <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="text-secondary"><i class="far fa-lg big-icon fa-heart"></i></a>
+        <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="text-info"><i class="far fa-lg big-icon fa-heart"></i></a>
     }
 }
-<span class="badge-pill badge-info ml-1 mr-1">@Model.Points likes</span>
+<span class="badge-pill badge-secondary ml-1 mr-1">@Model.Points likes</span>

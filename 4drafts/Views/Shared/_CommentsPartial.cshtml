@@ -77,41 +77,47 @@
                             <img class="rounded-circle border" src="@authorAvatar">
                             <h5 class="mr-2 mt-2 ml-1 d-inline"><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, null, null, null, '@comment.AuthorName')">@comment.AuthorName</a></h5>
                             <span class="dot"></span><span class="text-muted ml-2">@comment.CreatedOn</span>
-                            <div class="comment-options ml-auto mr-0">
-                                @if (userId != null)
-                                {
-                                    <a class="btn-link ml-2"><i class="fas fa-reply"></i> [reply]</a>
-                                    <a class="btn-link d-inline ml-2"><i class="fas fa-flag"></i> [flag]</a>
+                            <div class="comment-options ml-auto mr-3 dropdown">
+                                <a class="btn-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="far fa-lg fa-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @{
+                                        if (userId != null)
+                                        {
+                                            <a class="btn-link dropdown-item"><i class="fal fa-flag"></i> [REPORT]</a>
+                                        }
+                                        else
+                                        {
+                                            <a onclick = "popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="btn-link dropdown-item"><i class="fal fa-flag"></i> [REPORT]</a>
+                                        }
+                                    }
                                     @if (userId == comment.AuthorId)
                                     {
-                                        <a onclick="popUp('/Comments/Edit/','comment-edit', null, null, null, null, '@comment.Id')" class="btn-link d-inline ml-2"><i class="fas fa-pencil-alt"></i> [edit]</a>
-                                        <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link d-inline ml-2"><i class="fas fa-trash"></i> [delete]</a>
+                                        <a onclick="popUp('/Comments/Edit/','comment-edit', null, null, null, null, '@comment.Id')" class="btn-link dropdown-item"><i class="fal fa-pencil"></i> [EDIT]</a>
+                                        <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link dropdown-item"><i class="fal fa-trash"></i> [DELETE]</a>
                                     }
-                                }
+                                </div>
                             </div>
                         </div>
                         <p class="comment-text mt-1 mb-1">@comment.Content</p>
                         <div class="reply-section ml-1">
                             <div class="d-flex flex-row align-items-center">
                                 @{
+                                    var liked = comment.Liked == true ? "fas" : "fal";
                                     if (user != null)
                                     {
-                                        if (comment.Liked)
-                                        {
-                                            <a class="text-danger" onclick="likeComment('@comment.Id')"><i class="fas fa-heart"></i></a>
-                                        }
-                                        else
-                                        {
-                                            <a class="text-danger" onclick="likeComment('@comment.Id')"><i class="far fa-heart"></i></a>
-                                        }
-
+                                        <a class="text-danger" onclick="likeComment('@comment.Id')"><i class="@liked fa-heart"></i></a>
+                                        <span class="badge-pill badge-secondary ml-2">@comment.Points likes</span>
+                                        <a class="btn-link ml-2"><i class="fal fa-reply"></i> [REPLY]</a>
                                     }
                                     else
                                     {
-                                        <a class="text-secondary disabled"><i class="far fa-heart"></i></a>
+                                        <a class="text-secondary"><i class="far fa-heart"></i></a>
+                                        <span class="badge-pill badge-secondary ml-2">@comment.Points likes</span>
+                                        <a onclick = "popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="btn-link"><i class="fal fa-reply"></i> [REPLY]</a>
                                     }
                                 }
-                                <span class="badge-pill badge-info ml-2">@comment.Points likes</span>
                             </div>
                         </div>
                     </div>

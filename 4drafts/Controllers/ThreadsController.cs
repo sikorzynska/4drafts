@@ -271,7 +271,7 @@ namespace _4drafts.Controllers
                                 Title = t.Title,
                                 Description = t.Description,
                                 GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
-                                GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, ":names"),
+                                GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
                                 GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 Points = t.Points,

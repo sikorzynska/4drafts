@@ -31,17 +31,17 @@
                     <span id="thread-content" class="content-text">@Model.Content</span>
                 </div>
                 <div class="card-footer border-notop justify-content-center align-items-center d-flex flex-wrap px-0 pt-0 pb-3">
-                    <div class="ml-3 mr-auto mt-3" id="thread-likes-section">
+                    <div class="ml-4 mr-auto mt-3" id="thread-likes-section">
                         <partial name="_ThreadLikesPartial" model="@Model" />
                     </div>
                     <div class="btn-group align-end mr-3 ml-auto mt-3" role="group" aria-label="Basic example">
                         @if (userId == Model.AuthorId)
                         {
-                            <div class="zoom"><a class="btn btn-link" onclick="popUp('/Threads/Edit/', 'thread-edit', null, null, null, null, '@Model.Id')"><i class="fas fa-lg big-icon fa-pencil-alt"></i></a></div>
-                            <div class="zoom"><a class="btn btn-link" onclick="deletePopup('@Model.Id', '/Threads/Delete/')"><i class="fas fa-lg big-icon fa-trash-alt"></i></a></div>
+                            <div class="zoom"><a class="btn btn-link" onclick="popUp('/Threads/Edit/', 'thread-edit', null, null, null, null, '@Model.Id')"><i class="fal fa-lg big-icon fa-pencil"></i></a></div>
+                            <div class="zoom"><a class="btn btn-link" onclick="deletePopup('@Model.Id', '/Threads/Delete/')"><i class="fal fa-lg big-icon fa-trash"></i></a></div>
                         }
-                        <div class="zoom"><a class="btn btn-link" asp-controller="Threads" asp-action="Report" asp-route-threadId="@Model.Id"><i class="fas fa-lg big-icon fa-flag"></i></a></div>
-                        <div class="zoom"><a class="btn btn-link" onclick="changeArrow()"><i id="fold-arrow" class="fas fa-lg big-icon fa-arrow-down"></i></a></div>
+                        <div class="zoom"><a class="btn btn-link" asp-controller="Threads" asp-action="Report" asp-route-threadId="@Model.Id"><i class="fal fa-lg big-icon fa-flag"></i></a></div>
+                        <div class="zoom"><a class="btn btn-link" onclick="changeArrow()"><i id="fold-arrow" class="fal fa-lg big-icon fa-arrow-down"></i></a></div>
                     </div>
                     <hr class="row w-100 bg-black" />
                     <div class="row w-100">

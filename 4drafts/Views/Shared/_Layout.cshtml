@@ -24,10 +24,10 @@
                 </a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Browse" title="threads" class="nav-link btn-link-wh layout-anchor"><i class="far fa-th-list"></i><span> Threads</span></a>
+                        <a asp-controller="Threads" asp-action="Browse" title="threads" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-books"></i><span> Threads</span></a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Stories" title="stories" class="nav-link btn-link-wh layout-anchor"><i class="far fa-scroll"></i><span> Stories</span></a>
+                        <a asp-controller="Threads" asp-action="Stories" title="stories" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-book"></i><span> Stories</span></a>
                     </li>
                     <li class="nav-item">
                         <a asp-controller="Threads" asp-action="Prompts" title="writing prompts" class="nav-link btn-link-wh layout-anchor"><i class="far fa-lightbulb"></i><span> Prompts</span></a>
@@ -39,7 +39,7 @@
                                 <a asp-controller="Drafts" asp-action="All" title="my drafts" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-drafting-compass"></i><span> Drafts</span></a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a title="start thread" class="nav-link dropdown-toggle btn-link-wh layout-anchor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fal fa-file-plus"></i><span> Post</span></a>
+                                <a title="start thread" class="nav-link btn-link-wh layout-anchor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fal fa-file-plus"></i><span> Post</span></a>
                                 <div class="dropdown-menu">
                                     @await Component.InvokeAsync("UserDrafts")
                                 </div>

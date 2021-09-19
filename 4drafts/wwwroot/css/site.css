@@ -40,26 +40,43 @@ html {
     background-size: 14.14px 14.14px;
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
+.border-black-top {
+    border-top: 1px solid black !important;
 }
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+.border-black-bottom {
+    border-bottom: 1px solid black !important;
 }
+.border-black-left {
+    border-left: 1px solid black !important;
+}
+.border-black-right {
+    border-right: 1px solid black !important;
+}
+
 
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 .border-notop {
-    border-left: 1px solid #222;
-    border-right: 1px solid #222;
-    border-bottom: 1px solid #222;
+    border-left: 1px solid black !important;
+    border-right: 1px solid black !important;
+    border-bottom: 1px solid black !important;
 }
 .border-nobottom {
-    border-left: 1px solid #222;
-    border-right: 1px solid #222;
-    border-top: 1px solid #222;
+    border-left: 1px solid black !important;
+    border-right: 1px solid black !important;
+    border-top: 1px solid black !important;
+}
+.border-noright {
+    border-left: 1px solid black !important;
+    border-bottom: 1px solid black !important;
+    border-top: 1px solid black !important;
+}
+.border-noleft {
+    border-bottom: 1px solid black !important;
+    border-right: 1px solid black !important;
+    border-top: 1px solid black !important;
 }
 
 button.accept-policy {
