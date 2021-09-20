@@ -108,14 +108,14 @@
                                     if (user != null)
                                     {
                                         <a class="text-danger" onclick="likeComment('@comment.Id')"><i class="@liked fa-heart"></i></a>
-                                        <span class="badge-pill badge-secondary ml-2">@comment.Points likes</span>
+                                        <span class="ml-2">@comment.Points</span>
                                         <a class="btn-link ml-2"><i class="fal fa-reply"></i> [REPLY]</a>
                                     }
                                     else
                                     {
-                                        <a class="text-secondary"><i class="far fa-heart"></i></a>
-                                        <span class="badge-pill badge-secondary ml-2">@comment.Points likes</span>
-                                        <a onclick = "popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="btn-link"><i class="fal fa-reply"></i> [REPLY]</a>
+                                        <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="text-danger"><i class="fal fa-heart"></i></a>
+                                        <span class="badge-pill badge-dark ml-2">@comment.Points</span>
+                                        <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="btn-link"><i class="fal fa-reply"></i> [REPLY]</a>
                                     }
                                 }
                             </div>

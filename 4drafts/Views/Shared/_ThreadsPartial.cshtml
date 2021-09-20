@@ -76,12 +76,12 @@
 <table id="threadTable" class="table table-hover table-fixed">
     <thead class="bg-tablehead">
         <tr>
-            <th class="text-truncate border-black-top border-black-bottom border-black-left border-black-right" scope="col" style="width: 165px;">Genre</th>
-            <th class="text-truncate border-black-top border-black-bottom border-black-right" scope="col">Title</th>
-            <th class="text-truncate border-black-top border-black-bottom border-black-right" scope="col" style="width: 165px;">Posted</th>
-            <th class="text-truncate text-center border-black-top border-black-bottom border-black-right" scope="col" style="width: 75px;">Likes</th>
-            <th class="text-truncate text-center border-black-top border-black-bottom border-black-right" scope="col" style="width: 75px;">Replies</th>
-            <th class="text-truncate border-black-top border-black-bottom border-black-right" scope="col" style="width: 165px;">Author</th>
+            <th class="text-truncate border" scope="col" style="width: 165px;">Genre</th>
+            <th class="text-truncate border" scope="col">Title</th>
+            <th class="text-truncate border" scope="col" style="width: 165px;">Posted</th>
+            <th class="text-truncate text-center border" scope="col" style="width: 75px;">Likes</th>
+            <th class="text-truncate text-center border" scope="col" style="width: 75px;">Replies</th>
+            <th class="text-truncate border" scope="col" style="width: 165px;">Author</th>
         </tr>
     </thead>
     <tbody>
@@ -94,7 +94,7 @@
                     if (userId == thread.AuthorId)
                     {
                         <tr class="table-light" id="@thread.Id">
-                            <td class="border-black-bottom border-black-left border-black-right">
+                            <td class="border">
                                 @{
                                     for (int i = 0; i < thread.GenresSimplified.Count(); i++)
                                     {
@@ -102,11 +102,11 @@
                                     }
                                 }
                             </td>
-                            <th class="border-black-bottom border-black-right"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
-                            <td class="text-truncate border-black-bottom border-black-right">@thread.CreatedOn</td>
-                            <td class=" text-center border-black-bottom border-black-right">@thread.Points</td>
-                            <td class=" text-center border-black-bottom border-black-right">@thread.CommentCount</td>
-                            <td class="text-truncate border-black-bottom border-black-right">
+                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
+                            <td class="text-truncate border">@thread.CreatedOn</td>
+                            <td class=" text-center border">@thread.Points</td>
+                            <td class=" text-center border">@thread.CommentCount</td>
+                            <td class="text-truncate border">
                                 <div class="d-inline media-img-30">
                                     <a onclick="peekProfile('@thread.AuthorName')" class="btn-link">
                                         <img class="rounded-circle border" src="@avatar" />
@@ -119,7 +119,7 @@
                     else
                     {
                         <tr class="table-secondary" id="@thread.Id">
-                            <td class="border-black-bottom border-black-left border-black-right">
+                            <td class="border">
                                 @{
                                     for (int i = 0; i < thread.GenresSimplified.Count(); i++)
                                     {
@@ -127,11 +127,11 @@
                                     }
                                 }
                             </td>
-                            <th class="border-black-bottom border-black-right"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
-                            <td class="text-truncate border-black-bottom border-black-right">@thread.CreatedOn</td>
-                            <td class=" text-center border-black-bottom border-black-right">@thread.Points</td>
-                            <td class=" text-center border-black-bottom border-black-right">@thread.CommentCount</td>
-                            <td class="text-truncate border-black-bottom border-black-right">
+                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
+                            <td class="text-truncate border">@thread.CreatedOn</td>
+                            <td class=" text-center border">@thread.Points</td>
+                            <td class=" text-center border">@thread.CommentCount</td>
+                            <td class="text-truncate border">
                                 <div class="d-inline media-img-30">
                                     <a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, null, null, null, '@thread.AuthorName')">
                                         <img class="rounded-circle border" src="@avatar" />
