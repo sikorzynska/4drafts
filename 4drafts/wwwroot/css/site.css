@@ -417,7 +417,7 @@ hide-empty:empty {
     width: 112px;
     height: 112px;
     border-radius: 50%;
-    border: 3px solid black;
+    border: 1px solid black;
     -webkit-border-radius: 50%;
 }
 
@@ -689,6 +689,48 @@ hide-empty:empty {
         background-color: #de463b;
         color: #ffffff;
     }
+
+
+/*space badge*/
+.author {
+    color: #111;
+    display: block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    padding-bottom: 38px;
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+
+
+    .author:before {
+        border-top: 1px solid #111;
+        content: "";
+        position: absolute;
+        top: 12px;
+        left: 0;
+        width: 100%;
+        z-index: -1;
+    }
+
+
+    .date span,
+    .author span {
+        background: #fdfdfd;
+        padding: 0 10px;
+        text-transform: uppercase;
+    }
+
+
+.line {
+    border-top: 1px solid #111;
+    display: block;
+    margin-top: 60px;
+    padding-top: 50px;
+    position: relative;
+}
+
 
          
          
