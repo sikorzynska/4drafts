@@ -175,6 +175,15 @@ body {
     border-bottom: 1px solid rgba(26, 54, 126, 0.125)
 }
 
+.size-250 {
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.w-15{
+    width: 15%;
+}
+
 .card-body {
     flex: 1 1 auto;
     padding: 1.25rem
@@ -341,6 +350,22 @@ body {
 .mh-50 {
     max-height: 100px;
     overflow: auto;
+}
+
+.w-10 {
+    width: 10%;
+}
+
+.w-20 {
+    width: 20%;
+}
+
+.w-16 {
+    width: 16%;
+}
+
+.w-35 {
+    width: 35%;
 }
 
 .mw-min-content {
@@ -602,9 +627,8 @@ hide-empty:empty {
     .wrapper .icon {
         position: relative;
         background-color: #ffffff;
-        border-radius: 50%;
-        padding: 10px;
-        margin: 5px;
+        border-radius: 7%;
+        margin: 4px;
         width: 35px;
         height: 35px;
         font-size: 18px;
@@ -690,46 +714,12 @@ hide-empty:empty {
         color: #ffffff;
     }
 
-
-/*space badge*/
-.author {
-    color: #111;
-    display: block;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    padding-bottom: 38px;
-    position: relative;
-    text-align: center;
-    z-index: 1;
-}
-
-
-    .author:before {
-        border-top: 1px solid #111;
-        content: "";
-        position: absolute;
-        top: 12px;
-        left: 0;
-        width: 100%;
-        z-index: -1;
+    .wrapper .patreon:hover,
+    .wrapper .patreon:hover .tooltip,
+    .wrapper .patreon:hover .tooltip::before {
+        background-color: rgb(255, 66, 77);
+        color: #ffffff;
     }
-
-
-    .date span,
-    .author span {
-        background: #fdfdfd;
-        padding: 0 10px;
-        text-transform: uppercase;
-    }
-
-
-.line {
-    border-top: 1px solid #111;
-    display: block;
-    margin-top: 60px;
-    padding-top: 50px;
-    position: relative;
-}
 
 
          

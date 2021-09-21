@@ -29,13 +29,15 @@ namespace _4drafts.Data.Models
 
         public string Website { get; set; }
 
-        public string Discord { get; set; }
+        public string Youtube { get; set; }
 
         public string Twitter { get; set; }
 
         public string Instagram { get; set; }
 
         public string Facebook { get; set; }
+
+        public string Patreon { get; set; }
 
         [MaxLength(Users.AboutMeMaxLength)]
         public string AboutMe { get; set; }

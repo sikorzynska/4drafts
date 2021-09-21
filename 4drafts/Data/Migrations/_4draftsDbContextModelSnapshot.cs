@@ -317,9 +317,6 @@ namespace _4drafts.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discord")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -366,6 +363,9 @@ namespace _4drafts.Data.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Patreon")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -392,6 +392,9 @@ namespace _4drafts.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Website")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Youtube")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

@@ -54,11 +54,11 @@
                 }
             }
             <div class="mt-2 text-right d-none" id="comment-buttons">
-                <a class="btn btn-primary disabled" id="comment-button" onclick="comment('@Model.Id', getValue('comment-content'))">
-                    Comment
+                <a class="btn btn-outline-primary disabled mr-2" id="comment-button" onclick="comment('@Model.Id', getValue('comment-content'))">
+                    <i class="fal fa-check"></i> COMMENT
                 </a>
-                <a class="btn btn-danger ml-1" id="cancel" onclick="hideButtons()">
-                    Cancel
+                <a class="btn btn-outline-dark" id="cancel" onclick="hideButtons()">
+                    <i class="fal fa-times"></i> CANCEL
                 </a>
             </div>
         </div>

@@ -69,10 +69,11 @@ namespace _4drafts.Controllers
                 Age = user.Age,
                 Occupation = user.Occupation,
                 Website = user.Website,
-                Discord = user.Discord,
+                Youtube = user.Youtube,
                 Twitter = user.Twitter,
                 Facebook = user.Facebook,
                 Instagram = user.Instagram,
+                Patreon = user.Patreon,
                 AboutMe = user.AboutMe,
                 ThreadCount = UserThreadCount(user.Id, this.data),
                 CommentCount = UserCommentCount(user.Id, this.data),
@@ -103,36 +104,15 @@ namespace _4drafts.Controllers
             user.Occupation = model.Occupation;
             user.AboutMe = model.AboutMe;
             user.Website = model.Website;
-            user.Discord = model.Discord;
+            user.Youtube = model.Youtube;
             user.Facebook = model.Facebook;
             user.Twitter = model.Twitter;
             user.Instagram = model.Instagram;
+            user.Patreon = model.Patreon;
 
             await this.data.SaveChangesAsync();
 
-            var res = new UserViewModel
-            {
-                Id = user.Id,
-                Username = user.UserName,
-                AvatarUrl = user.AvatarUrl,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                RegisteredOn = user.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
-                Gender = user.Gender,
-                Age = user.Age,
-                Occupation = user.Occupation,
-                Website = user.Website,
-                Discord = user.Discord,
-                Twitter = user.Twitter,
-                Facebook = user.Facebook,
-                Instagram = user.Instagram,
-                AboutMe = user.AboutMe,
-                ThreadCount = UserThreadCount(user.Id, this.data),
-                CommentCount = UserCommentCount(user.Id, this.data),
-            };
-
-            return Json(new { isValid = true, msg = Users.ProfileUpdated, html = RenderRazorViewToString(this, "Manage", res) });
+            return Json(new { isValid = true, msg = Users.ProfileUpdated });
         }
 
         [HttpGet]
@@ -157,10 +137,11 @@ namespace _4drafts.Controllers
                 Age = user.Age,
                 Occupation = user.Occupation,
                 Website = user.Website,
-                Discord = user.Discord,
+                Youtube = user.Youtube,
                 Twitter = user.Twitter,
                 Facebook = user.Facebook,
                 Instagram = user.Instagram,
+                Patreon = user.Patreon,
                 AboutMe = user.AboutMe,
                 ThreadCount = UserThreadCount(user.Id, this.data),
                 CommentCount = UserCommentCount(user.Id, this.data),

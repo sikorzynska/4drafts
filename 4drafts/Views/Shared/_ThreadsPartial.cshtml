@@ -72,80 +72,81 @@
     </div>
     <img src="~/images/pointthis.png" alt="point this" class="pointthis" id="pointthis" />
 </div>
-
-<table id="threadTable" class="table table-hover table-fixed">
-    <thead class="bg-tablehead">
-        <tr>
-            <th class="text-truncate border" scope="col" style="width: 165px;">Genre</th>
-            <th class="text-truncate border" scope="col">Title</th>
-            <th class="text-truncate border" scope="col" style="width: 165px;">Posted</th>
-            <th class="text-truncate text-center border" scope="col" style="width: 75px;">Likes</th>
-            <th class="text-truncate text-center border" scope="col" style="width: 75px;">Replies</th>
-            <th class="text-truncate border" scope="col" style="width: 165px;">Author</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            if (Model.Any())
-            {
-                foreach (var thread in Model)
+<div class="table-responsive">
+    <table id="threadTable" class="table table-hover table-fixed">
+        <thead class="bg-tablehead">
+            <tr>
+                <th class="text-truncate border w-16" scope="col">Genre</th>
+                <th class="text-truncate border" scope="col">Title</th>
+                <th class="text-truncate border w-15" scope="col">Posted</th>
+                <th class="text-truncate text-center w-10 border" scope="col">Likes</th>
+                <th class="text-truncate text-center w-10 border" scope="col">Replies</th>
+                <th class="text-truncate border w-15" scope="col">Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Any())
                 {
-                    avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
-                    if (userId == thread.AuthorId)
+                    foreach (var thread in Model)
                     {
-                        <tr class="table-light" id="@thread.Id">
-                            <td class="border">
-                                @{
-                                    for (int i = 0; i < thread.GenresSimplified.Count(); i++)
-                                    {
-                                        <span class="badge badge-info"><a class="btn-link" tabindex="0" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="@thread.GenreDescriptions[i]">[@thread.GenresSimplified[i]]</a></span>
+                        avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
+                        if (userId == thread.AuthorId)
+                        {
+                            <tr class="table-light" id="@thread.Id">
+                                <td class="border">
+                                    @{
+                                        for (int i = 0; i < thread.GenresSimplified.Count(); i++)
+                                        {
+                                            <span class="badge badge-info"><a class="btn-link" tabindex="0" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="@thread.GenreDescriptions[i]">[@thread.GenresSimplified[i]]</a></span>
+                                        }
                                     }
-                                }
-                            </td>
-                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
-                            <td class="text-truncate border">@thread.CreatedOn</td>
-                            <td class=" text-center border">@thread.Points</td>
-                            <td class=" text-center border">@thread.CommentCount</td>
-                            <td class="text-truncate border">
-                                <div class="d-inline media-img-30">
-                                    <a onclick="peekProfile('@thread.AuthorName')" class="btn-link">
-                                        <img class="rounded-circle border" src="@avatar" />
-                                        @thread.AuthorName
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr class="table-secondary" id="@thread.Id">
-                            <td class="border">
-                                @{
-                                    for (int i = 0; i < thread.GenresSimplified.Count(); i++)
-                                    {
-                                        <span class="badge badge-info"><a class="btn-link" tabindex="0" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="@thread.GenreDescriptions[i]">[@thread.GenresSimplified[i]]</a></span>
+                                </td>
+                                <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
+                                <td class="text-truncate border">@thread.CreatedOn</td>
+                                <td class=" text-center border">@thread.Points</td>
+                                <td class=" text-center border">@thread.CommentCount</td>
+                                <td class="text-truncate border">
+                                    <div class="d-inline media-img-30">
+                                        <a onclick="peekProfile('@thread.AuthorName')" class="btn-link">
+                                            <img class="rounded-circle border" src="@avatar" />
+                                            @thread.AuthorName
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="table-secondary" id="@thread.Id">
+                                <td class="border">
+                                    @{
+                                        for (int i = 0; i < thread.GenresSimplified.Count(); i++)
+                                        {
+                                            <span class="badge badge-info"><a class="btn-link" tabindex="0" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="@thread.GenreDescriptions[i]">[@thread.GenresSimplified[i]]</a></span>
+                                        }
                                     }
-                                }
-                            </td>
-                            <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
-                            <td class="text-truncate border">@thread.CreatedOn</td>
-                            <td class=" text-center border">@thread.Points</td>
-                            <td class=" text-center border">@thread.CommentCount</td>
-                            <td class="text-truncate border">
-                                <div class="d-inline media-img-30">
-                                    <a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, null, null, null, '@thread.AuthorName')">
-                                        <img class="rounded-circle border" src="@avatar" />
-                                        @thread.AuthorName
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
+                                <td class="text-truncate border">@thread.CreatedOn</td>
+                                <td class=" text-center border">@thread.Points</td>
+                                <td class=" text-center border">@thread.CommentCount</td>
+                                <td class="text-truncate border">
+                                    <div class="d-inline media-img-30">
+                                        <a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, null, null, null, '@thread.AuthorName')">
+                                            <img class="rounded-circle border" src="@avatar" />
+                                            @thread.AuthorName
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     }
                 }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 @{
     var prevDisabled = !Model.PreviousPage ? "disabled" : "";

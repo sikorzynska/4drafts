@@ -314,6 +314,7 @@ function managePost(form) {
         success: function (res) {
             if (res.isValid) {
                 $('.notifyjs-corner').empty();
+                $('#staticBackdrop').modal('hide');
                 $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
             }
             else {

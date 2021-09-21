@@ -42,13 +42,15 @@ namespace _4drafts.Models.Users
         [Url]
         public string Website { get; set; }
         [Url]
-        public string Discord { get; set; }
+        public string Youtube { get; set; }
         [Url]
         public string Twitter { get; set; }
         [Url]
         public string Facebook { get; set; }
         [Url]
         public string Instagram { get; set; }
+        [Url]
+        public string Patreon { get; set; }
 
         [Display(Name = "About me")]
         [MaxLength(DataConstants.Users.AboutMeMaxLength)]

@@ -1,6 +1,6 @@
 ﻿@model UserViewModel
 @{
-    ViewBag.Title = "Browse Profile";
+    ViewBag.Title = Model.Username;
     var user = await this.userManager.GetUserAsync(this.User);
     var userId = user == null ? null : user.Id;
     var avatar = String.IsNullOrWhiteSpace(Model.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : Model.AvatarUrl;
@@ -19,31 +19,44 @@
                     <div class="tooltip">@Model.Website</div>
                     <span><i class="fal fa-globe"></i></span>
                 </a>
-                <a href="@Model.Facebook" class="icon facebook @Class(Model.Facebook)">
-                    <div class="tooltip">@Model.Facebook</div>
-                    <span><i class="fab fa-facebook-f"></i></span>
-                </a>
-                <a href="@Model.Twitter" class="icon twitter @Class(Model.Twitter)">
-                    <div class="tooltip">@Model.Twitter</div>
-                    <span><i class="fab fa-twitter"></i></span>
-                </a >
                 <a href="@Model.Instagram" class="icon instagram @Class(Model.Instagram)">
                     <div class="tooltip">@Model.Instagram</div>
                     <span><i class="fab fa-instagram"></i></span>
                 </a>
+                <a href="@Model.Twitter" class="icon twitter @Class(Model.Twitter)">
+                    <div class="tooltip">@Model.Twitter</div>
+                    <span><i class="fab fa-twitter"></i></span>
+                </a>
+                <a href="@Model.Facebook" class="icon facebook @Class(Model.Facebook)">
+                    <div class="tooltip">@Model.Facebook</div>
+                    <span><i class="fab fa-facebook-f"></i></span>
+                </a>
+                <a href="@Model.Youtube" class="icon youtube @Class(Model.Youtube)">
+                    <div class="tooltip">@Model.Youtube</div>
+                    <span><i class="fab fa-youtube"></i></span>
+                </a>
+                <a href="@Model.Patreon" class="icon patreon @Class(Model.Patreon)">
+                    <div class="tooltip">@Model.Patreon</div>
+                    <span><i class="fab fa-patreon"></i></span>
+                </a>
             </div>
             <div class="float-left ml-1 text-center">
-                @{
-                    if (ownAccount)
-                    {
-                        <a onclick="popUp('/Users/Manage/', 'account-manage')" class="btn-link" role="button"><i class="fal fa-user-cog"></i> [MANAGE]</a>
-                    }
-                    else
-                    {
-                        <a class="btn-link" role="button"><i class="fal fa-comment-alt-lines"></i> [MESSAGE]</a>
-                        <a class="btn-link ml-2" role="button"><i class="fal fa-ban"></i> [BLOCK]</a>
-                    }
-                }
+                <div class="dropdown">
+                    <a title="start thread" class="btn-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fal fa-cog"></i><span> [OPTIONS]</span></a>
+                    <div class="dropdown-menu">
+                        @{
+                            if (ownAccount)
+                            {
+                                <a onclick="popUp('/Users/Manage/', 'account-manage')" class="btn-link dropdown-item" role="button"><i class="fal fa-user-cog"></i> [MANAGE]</a>
+                            }
+                            else
+                            {
+                                <a class="btn-link dropdown-item" role="button"><i class="fal fa-comment-alt-lines"></i> [MESSAGE]</a>
+                                <a class="btn-link dropdown-item" role="button"><i class="fal fa-ban"></i> [BLOCK]</a>
+                            }
+                        }
+                    </div>
+                </div>
             </div>
             <div class="w-25 mr-auto ml-auto text-center">
                 <h1>@Model.Username</h1>
@@ -56,39 +69,39 @@
                         </th>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row"><i class="fal fa-image"></i> Avatar</th>
-                        <td class="border"><img src="@avatar" width="110"></td>
+                        <th class="border w-15" scope="row"><i class="fal fa-image"></i> Avatar</th>
+                        <td class="border"><img class="mw-250" src="@avatar"></td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row"><i class="fal fa-envelope"></i> Email</th>
+                        <th class="border w-15" scope="row"><i class="fal fa-envelope"></i> Email</th>
                         <td class="border">@Model.Email</td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row">Member since</th>
+                        <th class="border w-15" scope="row">Member since</th>
                         <td class="border">@Model.RegisteredOn</td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row">First name</th>
+                        <th class="border w-15" scope="row">First name</th>
                         <td class="border">@Model.FirstName</td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row">Last name</th>
+                        <th class="border w-15" scope="row">Last name</th>
                         <td class="border">@Model.LastName</td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row">Age</th>
+                        <th class="border w-15" scope="row">Age</th>
                         <td class="border">@Model.Age</td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row">Gender</th>
+                        <th class="border w-15" scope="row">Gender</th>
                         <td class="border">@Model.Gender</td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row">Occupation</th>
+                        <th class="border w-15" scope="row">Occupation</th>
                         <td class="border">@Model.Occupation</td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row">About me</th>
+                        <th class="border w-15" scope="row">About me</th>
                         <td class="border">@Model.AboutMe</td>
                     </tr>
                     <tr>
@@ -97,19 +110,19 @@
                         </th>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row"><i class="fal fa-star"></i> Points</th>
+                        <th class="border w-15" scope="row"><i class="fal fa-star"></i> Points</th>
                         <td class="border">118</td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row"><i class="fal fa-medal"></i> Awards</th>
+                        <th class="border w-15" scope="row"><i class="fal fa-medal"></i> Awards</th>
                         <td class="border">11</td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row"><i class="fal fa-books"></i> Threads</th>
+                        <th class="border w-15" scope="row"><i class="fal fa-books"></i> Threads</th>
                         <td class="border">@Model.ThreadCount</td>
                     </tr>
                     <tr>
-                        <th class="border" style="width: 15%;" scope="row"><i class="fal fa-comments-alt"></i> Comments</th>
+                        <th class="border w-15" scope="row"><i class="fal fa-comments-alt"></i> Comments</th>
                         <td class="border">@Model.CommentCount</td>
                     </tr>
                 </tbody>
