@@ -3,15 +3,18 @@
     var user = await this.userManager.GetUserAsync(User);
 }
 
-@{
-    if (user != null)
-    {
-        var liked = Model.Liked == true ? "fas" : "fal";
-        <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="@liked fa-lg big-icon fa-heart"></i></a>
+<div class="p-2 zoom">
+    @{
+        if (user != null)
+        {
+            var liked = Model.Liked == true ? "fas" : "fal";
+            <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="@liked fa-lg big-icon fa-heart"></i></a>
+        }
+        else
+        {
+            <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="text-info"><i class="far fa-lg big-icon fa-heart"></i></a>
+        }
     }
-    else
-    {
-        <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="text-info"><i class="far fa-lg big-icon fa-heart"></i></a>
-    }
-}
-<span class="ml-1 mb-1">@Model.Points</span>
+    <div class="d-inline"><span>@Model.Points</span></div>
+</div>
+
