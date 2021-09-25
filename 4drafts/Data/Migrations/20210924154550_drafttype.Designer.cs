@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4drafts.Data;
 
 namespace _4drafts.Data.Migrations
 {
     [DbContext(typeof(_4draftsDbContext))]
-    partial class _4draftsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210924154550_drafttype")]
+    partial class drafttype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,12 +207,6 @@ namespace _4drafts.Data.Migrations
                     b.Property<int>("FirstGenre")
                         .HasColumnType("int");
 
-                    b.Property<string>("Prompt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PromptId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SecondGenre")
                         .HasColumnType("int");
 
@@ -294,9 +290,6 @@ namespace _4drafts.Data.Migrations
 
                     b.Property<int>("Points")
                         .HasColumnType("int");
-
-                    b.Property<string>("Prompt")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PromptId")
                         .HasColumnType("nvarchar(max)");

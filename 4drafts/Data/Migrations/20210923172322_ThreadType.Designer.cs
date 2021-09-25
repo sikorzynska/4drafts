@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4drafts.Data;
 
 namespace _4drafts.Data.Migrations
 {
     [DbContext(typeof(_4draftsDbContext))]
-    partial class _4draftsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210923172322_ThreadType")]
+    partial class ThreadType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,24 +204,6 @@ namespace _4drafts.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FirstGenre")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Prompt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PromptId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SecondGenre")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ThirdGenre")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ThreadTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(80)
@@ -228,8 +212,6 @@ namespace _4drafts.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("ThreadTypeId");
 
                     b.ToTable("Drafts");
                 });
@@ -245,6 +227,9 @@ namespace _4drafts.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DraftId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -257,6 +242,8 @@ namespace _4drafts.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DraftId");
 
                     b.ToTable("Genres");
                 });
@@ -295,9 +282,6 @@ namespace _4drafts.Data.Migrations
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
-                    b.Property<string>("Prompt")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PromptId")
                         .HasColumnType("nvarchar(max)");
 
@@ -305,6 +289,7 @@ namespace _4drafts.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
@@ -560,15 +545,14 @@ namespace _4drafts.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("_4drafts.Data.Models.ThreadType", "ThreadType")
-                        .WithMany("Drafts")
-                        .HasForeignKey("ThreadTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Author");
+                });
 
-                    b.Navigation("ThreadType");
+            modelBuilder.Entity("_4drafts.Data.Models.Genre", b =>
+                {
+                    b.HasOne("_4drafts.Data.Models.Draft", null)
+                        .WithMany("Genres")
+                        .HasForeignKey("DraftId");
                 });
 
             modelBuilder.Entity("_4drafts.Data.Models.GenreThread", b =>
@@ -652,6 +636,11 @@ namespace _4drafts.Data.Migrations
                     b.Navigation("UserComments");
                 });
 
+            modelBuilder.Entity("_4drafts.Data.Models.Draft", b =>
+                {
+                    b.Navigation("Genres");
+                });
+
             modelBuilder.Entity("_4drafts.Data.Models.Genre", b =>
                 {
                     b.Navigation("GenreThreads");
@@ -668,8 +657,6 @@ namespace _4drafts.Data.Migrations
 
             modelBuilder.Entity("_4drafts.Data.Models.ThreadType", b =>
                 {
-                    b.Navigation("Drafts");
-
                     b.Navigation("Threads");
                 });
 

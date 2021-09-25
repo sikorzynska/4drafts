@@ -3,22 +3,6 @@
     ViewBag.Title = "Threads";
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
-    var bestThreads = new List<ThreadsBrowseModel>();
-    if (Model.Any())
-    {
-        foreach (var t in Model)
-        {
-            if (bestThreads.Count() >= 3) break;
-
-            bestThreads.Add(new ThreadsBrowseModel
-            {
-                Id = t.Id,
-                Title = t.Title,
-                Description = t.Description,
-                GenreNames = t.GenreNames,
-            });
-        }
-    }
 }
 <div class="container-fluid">
     <div class="jumbotron jumbotron-fluid bg-ocean-circles">

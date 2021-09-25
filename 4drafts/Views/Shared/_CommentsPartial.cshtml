@@ -10,12 +10,12 @@
 <table class="w-100 table-fixed">
     <thead class="invisible">
         <tr>
-            <th class="text-truncate border w-10" scope="col"></th>
+            <th class="text-truncate border w-15" scope="col"></th>
             <th class="text-truncate border" scope="col"></th>
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr id="comment-row" class="d-none">
             <td colspan="2">
                 <div class="pt-2 pb-2">
                     @{
@@ -25,7 +25,7 @@
                                 <textarea type="text" rows="1"
                                           style="resize: none;"
                                           maxlength="500"
-                                          class="form-control ml-1 shadow-none"
+                                          class="form-control ml-1 shadow-none edges"
                                           placeholder="Add a public comment..."
                                           id="comment-content"
                                           onchange="checkIfEmpty(), countCharacters('comment_count', 'comment-content')"
@@ -34,8 +34,8 @@
                                           onkeyup="countCharacters('comment_count', 'comment-content')"
                                           onpaste="checkIfEmpty(), countCharacters('comment_count', 'comment-content')"
                                           onclick="showButtons()"></textarea>
-                                <div class="input-group-append d-none" id="counter-append">
-                                    <span class="input-group-text" id="comment_count">0 / 500</span>
+                                <div class="input-group-append" id="counter-append">
+                                    <span class="input-group-text edges" id="comment_count">0 / 500</span>
                                 </div>
                             </div>
                         }
@@ -45,18 +45,18 @@
                                 <textarea type="text" rows="1"
                                           style="resize: none;"
                                           maxlength="500"
-                                          class="form-control ml-1 shadow-none"
+                                          class="form-control ml-1 shadow-none edges"
                                           placeholder="Sign in to add a public comment..."
                                           disabled="disabled"></textarea>
                             </div>
                         }
                     }
-                    <div class="mt-2 text-right d-none" id="comment-buttons">
-                        <a class="btn btn-outline-primary disabled mr-2" id="comment-button" onclick="comment('@Model.Id', getValue('comment-content'))">
-                            <i class="fal fa-check"></i> COMMENT
+                    <div class="mt-2 text-right" id="comment-buttons">
+                        <a class="btn-link d-none mr-2" id="comment-button" onclick="comment('@Model.Id', getValue('comment-content'))">
+                            <i class="fal fa-check"></i> [COMMENT]
                         </a>
-                        <a class="btn btn-outline-dark" id="cancel" onclick="hideButtons()">
-                            <i class="fal fa-times"></i> CANCEL
+                        <a class="btn-link" id="cancel" onclick="hideCommentRow()">
+                            <i class="fal fa-times"></i> [CANCEL]
                         </a>
                     </div>
                 </div>
@@ -81,8 +81,8 @@
                 if (!Model.Comments.Any())
                 {
                     <tr>
-                        <th colspan="2" class="border bg-tablehead-gray text-center">
-                            <span><i class="fal fa-frown-open"></i> Looks like the comment section is empty...</span>
+                        <th colspan="2" class="border text-center">
+                            <h4 class="p-3 mt-auto mb-auto"><i class="fal fa-frown-open"></i> Looks like the comment section is empty...</h4>
                         </th>
                     </tr>
                 }
@@ -94,21 +94,21 @@
                         authorAvatar = String.IsNullOrWhiteSpace(comment.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : comment.AuthorAvatarUrl;
                         <tr>
                             <td colspan="2">
-                                <strong><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, null, null, null, '@comment.AuthorName')">@comment.AuthorName</a></strong>&nbsp;
+                                <strong><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, null, null, '@comment.AuthorName')">@comment.AuthorName</a></strong>&nbsp;
                                 <span>>>&nbsp;@comment.CreatedOn</span>
                                 <a class="btn-link ml-2 d-inline"><i class="fal fa-reply"></i> [REPLY]</a>
                                 <a class="btn-link ml-2 d-inline"><i class="fal fa-flag"></i> [REPORT]</a>
                                 @if (userId == comment.AuthorId)
                                 {
                                 <div class="float-right d-inline">
-                                    <a onclick="popUp('/Comments/Edit/','comment-edit', null, null, null, null, '@comment.Id')" class="btn-link ml-2"><i class="fal fa-pencil"></i> [EDIT]</a>
+                                    <a onclick="popUp('/Comments/Edit/','comment-edit', null, '@comment.Id')" class="btn-link ml-2"><i class="fal fa-pencil"></i> [EDIT]</a>
                                     <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link ml-2"><i class="fal fa-trash"></i> [DELETE]</a>
                                 </div>
                                 }
                             </td>
                         </tr>
                         <tr>
-                           <td class="border w-10 size-100">
+                           <td align="center" class="border w-10 size-100">
                                <img src="@authorAvatar" class="size-100" />
                            </td>
                            <td class="border p-2 comment-text" style="text-align:left; vertical-align:top;">

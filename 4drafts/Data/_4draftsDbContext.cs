@@ -12,6 +12,7 @@ namespace _4drafts.Data
         }
 
         public DbSet<Thread> Threads { get; init; }
+        public DbSet<ThreadType> ThreadTypes { get; init; }
         public DbSet<Genre> Genres { get; init; }
         public DbSet<Comment> Comments { get; init; }
         public DbSet<Draft> Drafts { get; init; }
@@ -26,6 +27,20 @@ namespace _4drafts.Data
                 .HasOne(t => t.Author)
                 .WithMany(t => t.Threads)
                 .HasForeignKey(t => t.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Thread>()
+                .HasOne(t => t.ThreadType)
+                .WithMany(tt => tt.Threads)
+                .HasForeignKey(t => t.ThreadTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Draft>()
+                .HasOne(d => d.ThreadType)
+                .WithMany(tt => tt.Drafts)
+                .HasForeignKey(d => d.ThreadTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder

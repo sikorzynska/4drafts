@@ -9,9 +9,14 @@ namespace _4drafts.Models.Threads
         [Display(Name = "Thread ID")]
         public string Id { get; init; }
 
+        public int TypeId { get; init; }
+
+        public string Type { get; init; }
+
+        public int Responses { get; init; }
+
         public string Title { get; set; }
 
-        public string Description { get; set; }
         public string Content { get; set; }
 
         public string CreatedOn { get; init; }
@@ -25,8 +30,6 @@ namespace _4drafts.Models.Threads
         public string AuthorRegisteredOn { get; set; }
 
         public int AuthorThreadCount { get; set; }
-
-        public int Views { get; set; }
 
         public int Points { get; set; }
 

@@ -9,23 +9,26 @@ namespace _4drafts.Models.Threads
     public class CreateThreadFormModel
     {
         [Display(Name = "Genre")]
-        public ICollection<int> GenreIds { get; init; }
-        public ICollection<string> GenreNames { get; set; }
+        public List<int> GenreIds { get; set; }
+        public List<string> GenreNames { get; set; }
 
-        [Required]
+        [Display(Name = "Writing Prompt")]
+        public string Prompt { get; set; }
+        public string PromptId { get; set; }
+
+        public string Type { get; set; }
+        public int TypeId { get; set; }
+
         [StringLength(DataConstants.Threads.TitleMaxLength,
             MinimumLength = DataConstants.Threads.TitleMinLength,
-            ErrorMessage = DataConstants.Threads.TitleMinLengthMsg)]
+            ErrorMessage = DataConstants.Threads.TitleLengthMsg)]
         public string Title { get; set; }
-
-        [MaxLength(DataConstants.Threads.DescriptionMaxLength)]
-        public string Description { get; set; }
 
         [Required]
         [MinLength(DataConstants.Threads.ContentMinLength, ErrorMessage = DataConstants.Threads.ContentMinLengthMsg)]
         public string Content { get; set; }
 
-        public IEnumerable<GenresBrowseModel> Genres { get; set; }
-        public IEnumerable<DraftViewModel> Drafts { get; set; }
+        public List<GenresBrowseModel> Genres { get; set; }
+        public List<DraftViewModel> Drafts { get; set; }
     }
 }

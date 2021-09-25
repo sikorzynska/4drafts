@@ -3,6 +3,13 @@
 @{
     ViewBag.Title = "Edit";
     Layout = null;
+    var rules = new List<string>();
+    rules.Add("100 words minimum for stories and prompt inspired stories");
+    rules.Add("Prompts must be between 100 and 300 characters long");
+    rules.Add("Plagiarism will result in a ban");
+    rules.Add("No immature / sexually explicit content");
+    rules.Add("Avoid racism and political debates");
+    rules.Add("Avoid detailed uses of suicide, and mental health stereotypes");
 }
 
 <div class="container">
@@ -10,24 +17,37 @@
         <form id="thread-edit-formdata" asp-controller="Threads" asp-action="Edit">
             <div class="row justify-content-center">
                 <div class="col card-body form-body">
-                    <h2 align="center"><i class="fas fa-edit"></i> Edit</h2>
+                    <h2 align="center"><i class="fal fa-edit"></i> Edit @Model.Type</h2>
                     <hr />
+                    <table class="mb-3 table-fixed w-100" align="center">
+                        <tr>
+                            <td class="border-cut bg-secondary p-2">
+                                <h4 class="text-center">Rules</h4>
+                                <ul>
+                                    @foreach (var rule in rules)
+                                    {
+                                        <li>@rule</li>
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
                     <div class="form-group d-none">
                         <input asp-for="Id" class="form-control" hidden>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Title"></label>
-                        <input asp-for="Title" class="form-control" placeholder="The title of your story..." id="title-content">
-                        <span asp-validation-for="Title" class="small text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Description">Description (optional)</label>
-                        <textarea asp-for="Description" rows="4" class="form-control" placeholder="Quick description of what the story is about..." id="description-content"></textarea>
-                        <span asp-validation-for="Description" class="small text-danger"></span>
-                    </div>
+                    @{
+                        if (Model.TypeId != 3)
+                        {
+                            <div class="form-group">
+                                <label asp-for="Title"></label>
+                                <input asp-for="Title" class="form-control edges" placeholder="The title of your story..." id="title-content">
+                                <span asp-validation-for="Title" class="small text-danger"></span>
+                            </div>
+                        }
+                    }
                     <div class="form-group">
                         <label asp-for="Content"></label>
-                        <textarea asp-for="Content" rows="6" class="form-control" placeholder="The story itself..." id="content-content"></textarea>
+                        <textarea asp-for="Content" rows="6" class="form-control edges" placeholder="The story itself..." id="content-content"></textarea>
                         <span asp-validation-for="Content" class="small text-danger"></span>
                     </div>
                 </div>

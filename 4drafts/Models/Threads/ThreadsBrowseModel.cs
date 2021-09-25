@@ -7,7 +7,7 @@ namespace _4drafts.Models.Threads
             public string Id { get; set; }
 
             public string Title { get; set; }
-            public string Description { get; set; }
+            public string Content { get; set; }
 
             public string CreatedOn { get; set; }
 
@@ -18,6 +18,14 @@ namespace _4drafts.Models.Threads
             public string AuthorId { get; set; }
 
             public string AuthorName { get; set; }
+
+            public string ThreadTypeName { get; set; }
+
+            public string ThreadTypeSimplified { get; set; }
+
+            public int ThreadTypeId { get; set; }
+
+            public int Responses { get; set; }
 
             public string AuthorAvatarUrl { get; set; }
 

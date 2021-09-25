@@ -41,6 +41,7 @@ namespace _4drafts.Controllers
             var thread = this.data.Threads
                 .Include(x => x.Author)
                 .Include(x => x.GenreThreads)
+                .Include(x => x.ThreadType)
                 .Include("Comments.Author")
                 .FirstOrDefault(x => x.Id == t);
 
@@ -61,8 +62,10 @@ namespace _4drafts.Controllers
             {
                 Id = thread.Id,
                 Title = thread.Title,
+                TypeId = thread.ThreadTypeId,
+                Type = thread.ThreadType.Name,
+                Responses = this.data.Threads.Count(x => x.PromptId == thread.Id),
                 Content = thread.Content,
-                Description = thread.Description,
                 CreatedOn = this.timeWarper.TimeAgo(thread.CreatedOn),
                 AuthorId = author.Id,
                 AuthorName = author.UserName,
@@ -121,7 +124,6 @@ namespace _4drafts.Controllers
                             {
                                 Id = t.Id,
                                 Title = t.Title,
-                                Description = t.Description,
                                 GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
                                 GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
                                 GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
@@ -145,7 +147,6 @@ namespace _4drafts.Controllers
                             {
                                 Id = t.Id,
                                 Title = t.Title,
-                                Description = t.Description,
                                 GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
                                 GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
                                 GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
@@ -168,7 +169,6 @@ namespace _4drafts.Controllers
                             {
                                 Id = t.Id,
                                 Title = t.Title,
-                                Description = t.Description,
                                 GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
                                 GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
                                 GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
@@ -190,7 +190,6 @@ namespace _4drafts.Controllers
                             {
                                 Id = t.Id,
                                 Title = t.Title,
-                                Description = t.Description,
                                 GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
                                 GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
                                 GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
@@ -220,7 +219,6 @@ namespace _4drafts.Controllers
                             {
                                 Id = t.Id,
                                 Title = t.Title,
-                                Description = t.Description,
                                 GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
                                 GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
                                 GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
@@ -245,7 +243,6 @@ namespace _4drafts.Controllers
                             {
                                 Id = t.Id,
                                 Title = t.Title,
-                                Description = t.Description,
                                 GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
                                 GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
                                 GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
@@ -269,7 +266,6 @@ namespace _4drafts.Controllers
                             {
                                 Id = t.Id,
                                 Title = t.Title,
-                                Description = t.Description,
                                 GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
                                 GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
                                 GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
@@ -292,7 +288,6 @@ namespace _4drafts.Controllers
                             {
                                 Id = t.Id,
                                 Title = t.Title,
-                                Description = t.Description,
                                 GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
                                 GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
                                 GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
@@ -338,7 +333,158 @@ namespace _4drafts.Controllers
         }
 
         [HttpGet]
-        public IActionResult Prompts() => View();
+        public async Task<IActionResult> Prompts(string sort = "best", bool own = false, bool liked = false, int page = 1)
+        {
+            var threads = new List<ThreadsBrowseModel>();
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (user == null)
+            {
+                own = false;
+                liked = false;
+            }
+
+            switch (sort)
+            {
+                case "controversial":
+                    {
+                        threads = this.data.Threads
+                        .Where(t => t.ThreadTypeId == 3)
+                        .Include(t => t.Comments)
+                        .Include(t => t.GenreThreads)
+                        .Include(t => t.ThreadType)
+                        .OrderByDescending(t => t.Comments.Count)
+                        .Select(t => new ThreadsBrowseModel
+                        {
+                            Id = t.Id,
+                            ThreadTypeId = t.ThreadTypeId,
+                            ThreadTypeSimplified = t.ThreadType.SimplifiedName,
+                            Responses = this.data.Threads.Count(x => x.PromptId == t.Id),
+                            Content = t.Content,
+                            GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
+                            GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
+                            GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
+                            CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                            Points = t.Points,
+                            AuthorId = t.AuthorId,
+                            AuthorName = t.Author.UserName,
+                            AuthorAvatarUrl = t.Author.AvatarUrl,
+                            CommentCount = ThreadCommentCount(t.Id, this.data),
+                        }).ToList();
+                        break;
+                    }
+                case "best":
+                    {
+                        threads = this.data.Threads
+                        .Where(t => t.ThreadTypeId == 3)
+                        .Include(t => t.Comments)
+                        .Include(t => t.GenreThreads)
+                        .Include(t => t.ThreadType)
+                        .OrderByDescending(t => t.Points)
+                        .ThenByDescending(t => t.Comments.Count)
+                        .Select(t => new ThreadsBrowseModel
+                        {
+                            Id = t.Id,
+                            ThreadTypeId = t.ThreadTypeId,
+                            ThreadTypeSimplified = t.ThreadType.SimplifiedName,
+                            Responses = this.data.Threads.Count(x => x.PromptId == t.Id),
+                            Content = t.Content,
+                            GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
+                            GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
+                            GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
+                            CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                            Points = t.Points,
+                            AuthorId = t.AuthorId,
+                            AuthorName = t.Author.UserName,
+                            AuthorAvatarUrl = t.Author.AvatarUrl,
+                            CommentCount = ThreadCommentCount(t.Id, this.data),
+                        }).ToList();
+                        break;
+                    }
+                case "new":
+                    {
+                        threads = this.data.Threads
+                        .Where(t => t.ThreadTypeId == 3)
+                        .Include(t => t.Comments)
+                        .Include(t => t.GenreThreads)
+                        .Include(t => t.ThreadType)
+                        .OrderByDescending(t => t.CreatedOn)
+                        .Select(t => new ThreadsBrowseModel
+                        {
+                            Id = t.Id,
+                            ThreadTypeId = t.ThreadTypeId,
+                            ThreadTypeSimplified = t.ThreadType.SimplifiedName,
+                            Responses = this.data.Threads.Count(x => x.PromptId == t.Id),
+                            Content = t.Content,
+                            GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
+                            GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
+                            GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
+                            CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                            Points = t.Points,
+                            AuthorId = t.AuthorId,
+                            AuthorName = t.Author.UserName,
+                            AuthorAvatarUrl = t.Author.AvatarUrl,
+                            CommentCount = ThreadCommentCount(t.Id, this.data),
+                        }).ToList();
+                        break;
+                    }
+                default:
+                    {
+                        threads = this.data.Threads
+                        .Where(t => t.ThreadTypeId == 3)
+                        .Include(t => t.Comments)
+                        .Include(t => t.GenreThreads)
+                        .Include(t => t.ThreadType)
+                        .Select(t => new ThreadsBrowseModel
+                        {
+                            Id = t.Id,
+                            ThreadTypeId = t.ThreadTypeId,
+                            ThreadTypeSimplified = t.ThreadType.SimplifiedName,
+                            Responses = this.data.Threads.Count(x => x.PromptId == t.Id),
+                            Content = t.Content,
+                            GenreIds = t.GenreThreads.Select(gt => gt.GenreId),
+                            GenresSimplified = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "s:names"),
+                            GenreDescriptions = GetGenreNames(t.GenreThreads.Select(gt => gt.GenreId), this.data, "desc"),
+                            CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                            Points = t.Points,
+                            AuthorId = t.AuthorId,
+                            AuthorName = t.Author.UserName,
+                            AuthorAvatarUrl = t.Author.AvatarUrl,
+                            CommentCount = ThreadCommentCount(t.Id, this.data),
+                        }).ToList();
+                        break;
+                    }
+            }
+
+            if (own || liked)
+            {
+                var userThreads = this.data.UserThreads
+                    .Where(ut => ut.UserId == user.Id)
+                    .Select(ut => ut.ThreadId);
+
+                if (own && !liked)
+                {
+                    threads = threads
+                        .Where(t => t.AuthorId == user.Id)
+                        .ToList();
+                }
+                else if (!own && liked)
+                {
+                    threads = threads
+                        .Where(t => userThreads.Any(id => id == t.Id))
+                        .ToList();
+                }
+                else
+                {
+                    threads = threads
+                        .Where(t => t.AuthorId == user.Id && userThreads.Any(id => id == t.Id))
+                        .ToList();
+                }
+            }
+
+            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, page, 10, GetGenres(this.data), 0, sort, own, liked));
+        }
 
         [HttpGet]
         public IActionResult Stories() => View();
@@ -381,39 +527,104 @@ namespace _4drafts.Controllers
         [HttpGet]
         [Authorize]
         [NoDirectAccess]
-        public async Task<IActionResult> Create(string title = null, string description = null, string content = null)
+        public async Task<IActionResult> Create(string draftId = null, int tt = 1, string promptId = null)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            return View(new CreateThreadFormModel
+
+            var model = new CreateThreadFormModel();
+
+            var genreIds = new int[3];
+
+            if (draftId != null)
             {
-                Title = title,
-                Description = description,
-                Content = content,
-                Genres = GetGenres(this.data),
-                Drafts = this.data.Drafts
-                .Where(d => d.AuthorId == user.Id)
-                .Select(d => new DraftViewModel
+                var draft = this.data.Drafts.FirstOrDefault(d => d.Id == draftId);
+                model = new CreateThreadFormModel
                 {
-                    Id = d.Id,
-                    Title = d.Title
-                })
-                .ToList(),
-            });
+                    Title = draft.Title,
+                    Content = draft.Content,
+                    TypeId = tt,
+                };
+
+                genreIds[0] = draft.FirstGenre != 0 ? draft.FirstGenre : 0;
+                genreIds[1] = draft.SecondGenre != 0 ? draft.SecondGenre : 0;
+                genreIds[2] = draft.ThirdGenre != 0 ? draft.ThirdGenre : 0;
+            }
+
+            switch (tt)
+            {
+                case 1:
+                    {
+                        model.Type = "Story";
+                        model.TypeId = tt;
+                        model.GenreIds = genreIds.ToList();
+                        model.Genres = GetGenres(this.data);
+                        model.Drafts = this.data.Drafts
+                            .Where(d => d.AuthorId == user.Id)
+                            .Select(d => new DraftViewModel
+                            {
+                                Id = d.Id,
+                                Title = d.Title
+                            })
+                            .ToList();
+                        break;
+                    }
+                case 2:
+                    {
+                        model.Type = "Prompt Response";
+                        model.TypeId = tt;
+                        model.GenreIds = genreIds.ToList();
+                        model.Genres = GetGenres(this.data);
+                        model.PromptId = this.data.Threads
+                            .Where(t => t.ThreadTypeId == 3)
+                            .FirstOrDefault(t => t.Id == promptId)
+                            .Id;
+                        model.Prompt = this.data.Threads
+                            .Where(t => t.ThreadTypeId == 3)
+                            .FirstOrDefault(t => t.Id == promptId)
+                            .Content;
+                        model.Drafts = this.data.Drafts
+                            .Where(d => d.AuthorId == user.Id)
+                            .Select(d => new DraftViewModel
+                            {
+                                Id = d.Id,
+                                Title = d.Title
+                            })
+                            .ToList();
+                        break;
+                    }
+                case 3:
+                    {
+                        model.Type = "Writing Prompt";
+                        model.TypeId = tt;
+                        break;
+                    }
+                default:
+                    break;
+            }
+
+            return View(model);
         }
 
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(CreateThreadFormModel model)
         {
-            if (model.GenreIds == null) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.Inexistent);
-            else
+            if(model.TypeId != 3)
             {
-                if (model.GenreIds.Count > 3) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.TooMany);
+                if (model.Title == null) this.ModelState.AddModelError(nameof(model.Title), Threads.TitleRequired);
+                if (model.GenreIds == null) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.Inexistent);
                 else
                 {
-                    if (InexistentGenre(model.GenreIds, this.data)) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.Inexistent);
+                    if (model.GenreIds.Count > 3) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.TooMany);
+                    else
+                    {
+                        if (InexistentGenre(model.GenreIds, this.data)) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.Inexistent);
+                    }
                 }
             }
+
+            if (model.TypeId < 1 && model.TypeId > 3) this.ModelState.AddModelError(nameof(model.Content), Threads.InexistentType);
+            if (model.TypeId == 3 && model.Content.Length > 300) this.ModelState.AddModelError(nameof(model.Content), Threads.PromptContent);
 
             var user = await this.userManager.GetUserAsync(this.User);
 
@@ -421,42 +632,73 @@ namespace _4drafts.Controllers
             {
                 var thread = new Thread
                 {
+                    ThreadTypeId = model.TypeId,
                     Title = model.Title,
-                    Description = model.Description,
                     Content = model.Content,
                     CreatedOn = DateTime.UtcNow.ToLocalTime(),
                     AuthorId = user.Id,
                 };
 
-                var genreThreads = new List<GenreThread>();
-
-                foreach (var genreId in model.GenreIds)
+                if(model.TypeId != 3)
                 {
-                    var gt = new GenreThread
-                    {
-                        GenreId = genreId,
-                        ThreadId = thread.Id,
-                    };
+                    var genreThreads = new List<GenreThread>();
 
-                    genreThreads.Add(gt);
+                    foreach (var genreId in model.GenreIds)
+                    {
+                        var gt = new GenreThread
+                        {
+                            GenreId = genreId,
+                            ThreadId = thread.Id,
+                        };
+
+                        genreThreads.Add(gt);
+                    }
+
+                    await this.data.GenreThreads.AddRangeAsync(genreThreads);
                 }
 
-                await this.data.GenreThreads.AddRangeAsync(genreThreads);
                 await this.data.Threads.AddAsync(thread);
                 await this.data.SaveChangesAsync();
 
                 return Json(new { isValid = true, redirectUrl = Url.ActionLink("Read", "Threads", new { t = thread.Id }) });
             }
 
-            model.Genres = GetGenres(this.data);
-            model.Drafts = this.data.Drafts
-            .Where(d => d.AuthorId == user.Id)
-            .Select(d => new DraftViewModel
+            switch (model.TypeId)
             {
-                Id = d.Id,
-                Title = d.Title
-            })
-            .ToList();
+                case 1:
+                    {
+                        model.Type = "Story";
+                        model.Genres = GetGenres(this.data);
+                        model.Drafts = this.data.Drafts
+                            .Where(d => d.AuthorId == user.Id)
+                            .Select(d => new DraftViewModel
+                            {
+                                Id = d.Id,
+                                Title = d.Title
+                            })
+                            .ToList();
+                        break;
+                    }
+                case 2:
+                    {
+                        model.Type = "Prompt Response";
+                        model.Genres = GetGenres(this.data);
+                        model.Drafts = this.data.Drafts
+                            .Where(d => d.AuthorId == user.Id)
+                            .Select(d => new DraftViewModel
+                            {
+                                Id = d.Id,
+                                Title = d.Title
+                            })
+                            .ToList();
+                        break;
+                    }
+                default:
+                    {
+                        model.Type = "Writing Prompt";
+                        break;
+                    }
+            }
 
             return Json(new { isValid = false, html = RenderRazorViewToString(this, "Create", model) });
         }
@@ -473,14 +715,17 @@ namespace _4drafts.Controllers
 
             if (user == null || user.Id != thread.AuthorId) return Json(new { isValid = false, msg = Global.UnauthorizedAction });
 
+            var type = this.data.ThreadTypes.FirstOrDefault(tt => tt.Id == thread.ThreadTypeId).Name;
+
             return Json(new
             {
                 isValid = true,
                 html = RenderRazorViewToString(this, "Edit", new EditThreadViewModel
                 {
                     Id = thread.Id,
+                    Type = type,
+                    TypeId = thread.ThreadTypeId,
                     Title = thread.Title,
-                    Description = thread.Description,
                     Content = thread.Content
                 })
             });
@@ -492,10 +737,29 @@ namespace _4drafts.Controllers
         {
             var thread = await this.data.Threads.FindAsync(model.Id);
 
+            switch (model.TypeId)
+            {
+                case 3:
+                    {
+                        if (model.Content.Length < 100 || model.Content.Length > 300) 
+                            ModelState.AddModelError(nameof(model.Content), Threads.PromptContent);
+                        break;
+                    }
+                default:
+                    {
+                        if (model.Title == null) ModelState.AddModelError(nameof(model.Title), Threads.TitleRequired);
+                        else
+                        {
+                            if(model.Title.Length < Threads.TitleMinLength || model.Title.Length > Threads.TitleMaxLength)
+                                ModelState.AddModelError(nameof(model.Title), Threads.TitleLengthMsg);
+                        }
+                        break;
+                    }
+            }
+
             if (!ModelState.IsValid) return Json(new { isValid = false, html = RenderRazorViewToString(this, "Edit", model) });
 
             thread.Title = model.Title;
-            thread.Description = model.Description;
             thread.Content = model.Content;
 
             this.data.SaveChanges();
@@ -562,7 +826,6 @@ namespace _4drafts.Controllers
         }
 
         //Functions
-
         private static bool InexistentGenre(ICollection<int> genreIds, _4draftsDbContext data)
         {
             foreach (var genreId in genreIds)
@@ -618,7 +881,7 @@ namespace _4drafts.Controllers
                 _4draftsDbContext data)
                 => data.Comments.Count(c => c.ThreadId == threadId);
 
-        private static IEnumerable<GenresBrowseModel> GetGenres(_4draftsDbContext data)
+        private static List<GenresBrowseModel> GetGenres(_4draftsDbContext data)
                 => data
                   .Genres
                   .Select(c => new GenresBrowseModel

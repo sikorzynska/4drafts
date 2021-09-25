@@ -1,28 +1,31 @@
 ﻿@model List<DraftViewModel>
 
+@{ 
+    var iconClass = "";
+}
 
 <span id="draft-count">[@Model.Count / 10] </span>
 <table class="table table-hover table-fixed">
     <thead class="bg-tablehead">
         <tr>
+            <th class="text-truncate border text-center" style="width: 6%;" scope="col">Type</th>
             <th class="text-truncate border" scope="col">Title</th>
-            <th class="text-truncate border" scope="col">Description</th>
-            <th class="text-truncate border" scope="col">Created</th>
-            <th class="text-truncate text-center border" scope="col" style="width: 165px;">Options</th>
+            <th class="text-truncate border w-15" scope="col">Last Edit</th>
+            <th class="text-truncate text-center border w-10" scope="col">Options</th>
         </tr>
     </thead>
     <tbody>
         @{
             foreach (var draft in Model)
             {
-                var desc = String.IsNullOrEmpty(draft.Description) ? "---" : draft.Description;
+                iconClass = draft.TypeId == 1 ? "fa-scroll" : "fa-lightbulb-on";
                 <tr id="@draft.Id" class="table-light">
-                    <th class="text-truncate border" scope="row"><a class="btn-link" onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Title', '@draft.Description', '@draft.Content', '@draft.Id')">@draft.Title</a></th>
-                    <td class="text-truncate border">@desc</td>
+                    <th class="border text-center v-middle bg-tablehead-gray"><i class="fal fa-lg @iconClass"></i> [@draft.TypeSimplified]</th>
+                    <th class="text-truncate border" scope="row"><a class="btn-link" onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Id', '@draft.TypeId', '@draft.PromptId')">@draft.Title</a></th>
                     <td class="text-truncate border">@draft.CreatedOn</td>
-                    <td class="text-truncate text-center border">
-                        <a onclick="popUp('/Drafts/Edit/', 'draft-edit', null, null, null, null, '@draft.Id')" class="btn-link"><i class="fal fa-pencil"></i> [edit]</a>
-                        <a onclick="deletePopup('@draft.Id', '/Drafts/Delete/')" class="btn-link ml-2"><i class="fal fa-trash"></i> [delete]</a>
+                    <td class="text-truncate text-center border v-middle">
+                        <a onclick="popUp('/Drafts/Edit/', 'draft-edit', null, '@draft.Id', '@draft.TypeId', '@draft.PromptId')" class="btn-link"><i class="fal fa-lg fa-pencil"></i></a>&nbsp;
+                        <a onclick="deletePopup('@draft.Id', '/Drafts/Delete/')" class="btn-link ml-2"><i class="fal fa-lg fa-trash"></i></a>
                     </td>
                 </tr>
             }

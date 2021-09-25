@@ -1,5 +1,10 @@
-﻿@{
+﻿@model PaginatedList<ThreadsBrowseModel>
+@{
     ViewBag.Title = "Writing Prompts";
+    var user = await this.userManager.GetUserAsync(User);
+    var userId = user == null ? null : user.Id;
+    var avatar = "";
+    var act = "prompts";
 }
 
 <div class="container-fluid">
@@ -8,22 +13,142 @@
             <h1 class="display-3 strokeme">@ViewBag.Title</h1>
         </div>
     </div>
-    <div class="card text-center">
-        <div class="card-body border gray-stripes">
-            <div class="sk-cube-grid">
-                <div class="sk-cube sk-cube1"></div>
-                <div class="sk-cube sk-cube2"></div>
-                <div class="sk-cube sk-cube3"></div>
-                <div class="sk-cube sk-cube4"></div>
-                <div class="sk-cube sk-cube5"></div>
-                <div class="sk-cube sk-cube6"></div>
-                <div class="sk-cube sk-cube7"></div>
-                <div class="sk-cube sk-cube8"></div>
-                <div class="sk-cube sk-cube9"></div>
+    <div class="row ml-1">
+        <input class="d-none" id="sort-value" value="@Model.SortType" />
+        <input class="d-none" id="own-value" value="@Model.Own" />
+        <input class="d-none" id="liked-value" value="@Model.Liked" />
+        <input class="d-none" id="act" value="@act" />
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fal fa-sort"></i>
+                    </div>
+                </div>
+                <select onchange="addFilterRoutes('@act')" id="sort-select" class="selectpicker form-control" title="Sort">
+                    <option id="best" value="best" data-icon="fal fa-rocket">Best</option>
+                    <option id="new" value="new" data-icon="fal fa-clock">New</option>
+                    <option id="controversial" value="controversial" data-icon="fal fa-fire">Controversial</option>
+                </select>
             </div>
-            <h2 class="card-title">Coming soon</h2>
-            <p class="card-text">The page is still in development.</p>
-            <a asp-controller="Threads" asp-action="Browse" class="btn-link"><i class="fal fa-external-link"></i> [BROWSE]</a>
         </div>
+        @{
+            if (userId != null)
+            {
+                <div class="form-group ml-1">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fal fa-user"></i>
+                            </div>
+                        </div>
+                        <input class="opt-checkbox" id="mine-checkbox" type="checkbox" data-toggle="toggle" data-on="Mine" data-off="Mine">
+                    </div>
+                </div>
+                <div class="form-group ml-1">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fal fa-heart"></i>
+                            </div>
+                        </div>
+                        <input class="opt-checkbox" id="liked-checkbox" type="checkbox" data-toggle="toggle" data-on="Favourites" data-off="Favourites">
+                    </div>
+                </div>
+            }
+        }
+        <div class="form-group ml-1">
+            <a id="filter" class="btn btn-primary form-control"><i class="fal fa-filter"></i> Filter</a>
+        </div>
+        <img src="~/images/pointthis.png" alt="point this" class="pointthis" id="pointthis" />
+    </div>
+    <table class="table table-hover table-fixed">
+        <thead class="bg-tablehead">
+            <tr>
+                <th scope="col" class="border text-center" style="width: 6%;">Type</th>
+                <th scope="col" class="border">Content</th>
+                <th scope="col" class="border w-10">Created On</th>
+                <th scope="col" class="border text-center w-10">Points</th>
+                <th scope="col" class="border text-center w-10">Comments</th>
+                <th scope="col" class="border text-center w-10">Responses</th>
+            </tr>
+        </thead>
+        <tbody class="bg-secondary">
+            @{
+                if (!Model.Any())
+                {
+                    <tr>
+                        <th colspan="6" class="border text-center">
+                            <h4 class="p-3 mt-auto mb-auto"><i class="fal fa-frown-open"></i> Looks like this section is empty...</h4>
+                        </th>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var prompt in Model)
+                    {
+                        avatar = String.IsNullOrWhiteSpace(prompt.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : prompt.AuthorAvatarUrl;
+                        <tr>
+                            <th class="border text-center bg-tablehead-gray v-middle"><i class="fal fa-lg fa-lightbulb"></i> [@prompt.ThreadTypeSimplified]</th>
+                            <td class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@prompt.Id">@prompt.Content</a></td>
+                            <td class="border">@prompt.CreatedOn</td>
+                            <td class="border text-center v-middle">@prompt.Points</td>
+                            <td class="border text-center v-middle">@prompt.CommentCount</td>
+                            <td class="border text-center v-middle">@prompt.Responses</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    var prevDisabled = !Model.PreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.NextPage ? "disabled" : "";
+}
+<div class="container w-100">
+    <div class="text-center">
+        <a asp-controller="Threads" asp-action="Prompts" asp-route-sort="@Model.SortType"
+           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked"
+           asp-route-page="1"
+           class="btn btn-secondary @prevDisabled">
+            <i class="fas fa-angle-double-left"></i>
+        </a>
+        <a asp-controller="Threads" asp-action="Prompts" asp-route-sort="@Model.SortType"
+           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked"
+           asp-route-page="@(Model.PageIndex - 1)"
+           class="btn btn-secondary @prevDisabled">
+            <i class="fas fa-angle-left"></i>
+        </a>
+
+        @{
+            for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                if (i == Model.PageIndex)
+                {
+                    <a class="btn btn-secondary disabled">@i</a>
+                }
+                else
+                {
+                    <a asp-controller="Threads" asp-action="Prompts" asp-route-sort="@Model.SortType"
+                       asp-route-own="@Model.Own" asp-route-liked="@Model.Liked"
+                       asp-route-page="@i" class="btn btn-secondary">
+                        @i
+                    </a>
+                }
+            }
+        }
+        <a asp-controller="Threads" asp-action="Prompts" asp-route-sort="@Model.SortType"
+           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked"
+           asp-route-page="@(Model.PageIndex + 1)"
+           class="btn btn-secondary @nextDisabled">
+            <i class="fas fa-angle-right"></i>
+        </a>
+        <a asp-controller="Threads" asp-action="Prompts" asp-route-sort="@Model.SortType"
+           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked"
+           asp-route-page="@Model.TotalPages"
+           class="btn btn-secondary @nextDisabled">
+            <i class="fas fa-angle-double-right"></i>
+        </a>
     </div>
 </div>

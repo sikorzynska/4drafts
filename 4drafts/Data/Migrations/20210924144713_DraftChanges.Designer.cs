@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4drafts.Data;
 
 namespace _4drafts.Data.Migrations
 {
     [DbContext(typeof(_4draftsDbContext))]
-    partial class _4draftsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210924144713_DraftChanges")]
+    partial class DraftChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,12 +207,6 @@ namespace _4drafts.Data.Migrations
                     b.Property<int>("FirstGenre")
                         .HasColumnType("int");
 
-                    b.Property<string>("Prompt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PromptId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SecondGenre")
                         .HasColumnType("int");
 
@@ -294,9 +290,6 @@ namespace _4drafts.Data.Migrations
 
                     b.Property<int>("Points")
                         .HasColumnType("int");
-
-                    b.Property<string>("Prompt")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PromptId")
                         .HasColumnType("nvarchar(max)");
@@ -561,9 +554,9 @@ namespace _4drafts.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("_4drafts.Data.Models.ThreadType", "ThreadType")
-                        .WithMany("Drafts")
+                        .WithMany()
                         .HasForeignKey("ThreadTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Author");
@@ -668,8 +661,6 @@ namespace _4drafts.Data.Migrations
 
             modelBuilder.Entity("_4drafts.Data.Models.ThreadType", b =>
                 {
-                    b.Navigation("Drafts");
-
                     b.Navigation("Threads");
                 });
 

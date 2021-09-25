@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using static _4drafts.Services.ControllerExtensions;
 using static _4drafts.Data.DataConstants;
+using System.Collections.Generic;
+using _4drafts.Models.Genres;
 
 namespace _4drafts.Controllers
 {
@@ -32,7 +34,7 @@ namespace _4drafts.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Save(string title, string description, string content, string draftId = null)
+        public async Task<IActionResult> Save(string title, string content, int[] genreIds, string draftId = null, int typeId = 0, string promptId = null)
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
@@ -44,13 +46,23 @@ namespace _4drafts.Controllers
 
             if(draftCount >= 10) return Json(new { isValid = false, msg = Drafts.ReachedLimit });
 
+            if (typeId < 1 && typeId > 3) return Json(new { isValid = false, msg = Threads.InexistentType });
+
             if (draftId == null)
             {
                 var draft = new Draft
                 {
                     Title = title,
-                    Description = description,
                     Content = content,
+                    ThreadTypeId = typeId,
+                    FirstGenre = genreIds.Length > 0 ? genreIds[0] : 0,
+                    SecondGenre = genreIds.Length > 1 ? genreIds[1] : 0,
+                    ThirdGenre = genreIds.Length > 2 ? genreIds[2] : 0,
+                    PromptId = promptId,
+                    Prompt = this.data.Threads
+                            .Where(t => t.ThreadTypeId == 3)
+                            .FirstOrDefault(t => t.Id == promptId)
+                            .Content,
                     CreatedOn = DateTime.UtcNow.ToLocalTime(),
                     AuthorId = user.Id,
                 };
@@ -67,10 +79,11 @@ namespace _4drafts.Controllers
                 if(draft == null) return Json(new { isValid = false, msg = Drafts.Inexistent });
 
                 draft.Title = title;
-                draft.Description = description;
                 draft.Content = content;
+                draft.FirstGenre = genreIds.Length > 0 ? genreIds[0] : 0;
+                draft.SecondGenre = genreIds.Length > 1 ? genreIds[1] : 0;
+                draft.ThirdGenre = genreIds.Length > 2 ? genreIds[2] : 0;
                 draft.CreatedOn = DateTime.UtcNow.ToLocalTime();
-                draft.AuthorId = user.Id;
 
                 await this.data.SaveChangesAsync();
 
@@ -87,12 +100,15 @@ namespace _4drafts.Controllers
 
             var drafts = this.data.Drafts
                 .Where(d => d.AuthorId == user.Id)
+                .Include(d => d.ThreadType)
                 .OrderByDescending(d => d.CreatedOn)
                 .Select(d => new DraftViewModel
                 {
                     Id = d.Id,
                     Title = d.Title,
-                    Description = d.Description,
+                    TypeId = d.ThreadTypeId,
+                    TypeSimplified = d.ThreadType.SimplifiedName,
+                    PromptId = d.PromptId,
                     Content = d.Content,
                     CreatedOn = this.timeWarper.TimeAgo(d.CreatedOn),
                     AuthorId = d.AuthorId,
@@ -156,7 +172,18 @@ namespace _4drafts.Controllers
                 isValid = true,
                 html = RenderRazorViewToString(this, 
                 "Edit", 
-                new DraftViewModel { Id = draft.Id, Title = draft.Title, Description = draft.Description, Content = draft.Content }) });
+                new DraftViewModel 
+                { 
+                    Id = draft.Id, 
+                    Genres = GetGenres(this.data), 
+                    GenreIds = GetGenreIds(draft.Id, this.data), 
+                    Prompt = draft.Prompt,
+                    PromptId = draft.PromptId,
+                    TypeId = draft.ThreadTypeId, 
+                    Title = draft.Title, 
+                    Content = draft.Content 
+                }) 
+            });
         }
 
         [NoDirectAccess]
@@ -174,27 +201,46 @@ namespace _4drafts.Controllers
 
             if (!ModelState.IsValid)
             {
+                model.Genres = GetGenres(this.data);
                 return Json(new { isValid = false,
                     html = RenderRazorViewToString(this, "Edit", model)
                 });
             }
-            
+
             draft.Title = model.Title;
-            draft.Description = model.Description;
+            draft.FirstGenre = 0;
+            draft.SecondGenre = 0;
+            draft.ThirdGenre = 0;
             draft.Content = model.Content;
+
+            if (model.GenreIds != null)
+            {
+                draft.FirstGenre = model.GenreIds.Count() > 0 ? model.GenreIds[0] : 0;
+                draft.SecondGenre = model.GenreIds.Count() > 1 ? model.GenreIds[1] : 0;
+                draft.ThirdGenre = model.GenreIds.Count() > 2 ? model.GenreIds[2] : 0;
+            }
 
             await this.data.SaveChangesAsync();
 
             var drafts = this.data.Drafts
                 .Where(d => d.AuthorId == draft.AuthorId)
+                .OrderByDescending(d => d.CreatedOn)
                 .Select(d => new DraftViewModel
                 {
                     Id = d.Id,
+                    GenreIds = new List<int> 
+                    {
+                        d.FirstGenre,
+                        d.SecondGenre,
+                        d.ThirdGenre,
+                    },
+                    PromptId = d.PromptId,
+                    TypeId = d.ThreadTypeId,
                     Title = d.Title,
-                    Description = d.Description,
                     Content = d.Content,
                     CreatedOn = this.timeWarper.TimeAgo(d.CreatedOn),
-                }).ToList();
+                })
+                .ToList();
 
             return Json(new { isValid = true, 
                 msg = Drafts.Updated, 
@@ -202,5 +248,28 @@ namespace _4drafts.Controllers
                 html = RenderRazorViewToString(this, "_DraftsPartial", drafts)
             });
         }
+
+        private static List<int> GetGenreIds(string draftId, _4draftsDbContext data)
+        {
+            var genreIds = new List<int>();
+
+            var draft = data.Drafts.FirstOrDefault(d => d.Id == draftId);
+
+            if (draft.FirstGenre != 0) genreIds.Add(draft.FirstGenre);
+            if (draft.SecondGenre != 0) genreIds.Add(draft.SecondGenre);
+            if (draft.ThirdGenre != 0) genreIds.Add(draft.ThirdGenre);
+
+            return genreIds;
+        }
+
+        private static List<GenresBrowseModel> GetGenres(_4draftsDbContext data)
+        => data
+          .Genres
+          .Select(c => new GenresBrowseModel
+          {
+              Id = c.Id,
+              Name = c.Name
+          })
+          .ToList();
     }
 }

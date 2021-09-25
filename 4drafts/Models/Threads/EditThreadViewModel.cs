@@ -8,14 +8,14 @@ namespace _4drafts.Models.Threads
         [Display(Name = "Thread ID")]
         public string Id { get; set; }
 
-        [Required]
         [StringLength(DataConstants.Threads.TitleMaxLength,
             MinimumLength = DataConstants.Threads.TitleMinLength,
-            ErrorMessage = DataConstants.Threads.TitleMinLengthMsg)]
+            ErrorMessage = DataConstants.Threads.TitleLengthMsg)]
         public string Title { get; set; }
 
-        [MaxLength(DataConstants.Threads.DescriptionMaxLength)]
-        public string Description { get; set; }
+        public string Type { get; set; }
+
+        public int TypeId { get; set; }
 
         [Required]
         [MinLength(DataConstants.Threads.ContentMinLength, ErrorMessage = DataConstants.Threads.ContentMinLengthMsg)]

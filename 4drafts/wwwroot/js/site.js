@@ -52,6 +52,20 @@ function changeArrow() {
     }
 }
 
+function showComments() {
+    var btnText = document.getElementById('show-comments');
+    var commentSection = document.getElementById('comment-section');
+
+    if (commentSection.classList.contains('d-none')) {
+        commentSection.classList.remove('d-none');
+        btnText.textContent = '[HIDE COMMENTS]';
+    }
+    else {
+        commentSection.classList.add('d-none');
+        btnText.textContent = '[SHOW COMMENTS]';
+    }
+}
+
 function isEmpty(str) {
     return !$.trim(str).length;
 }
@@ -61,24 +75,20 @@ function checkIfEmpty() {
     var commentContent = document.getElementById('comment-content');
 
     if (!commentContent.value.length == 0 && /\S/.test(commentContent.value)) {
-        commentButton.classList.remove('disabled');
+        commentButton.classList.remove('d-none');
     } else {
-        commentButton.classList.add('disabled');
+        commentButton.classList.add('d-none');
     }
 };
 
-function hideButtons() {
-    var commentButtons = document.getElementById('comment-buttons');
-    var counter = document.getElementById('counter-append');
-    commentButtons.classList.add('d-none');
-    counter.classList.add('d-none');
+function showCommentRow() {
+    var commentRow = document.getElementById('comment-row');
+    commentRow.classList.remove('d-none');
 }
 
-function showButtons() {
-    var commentButtons = document.getElementById('comment-buttons');
-    var counter = document.getElementById('counter-append');
-    commentButtons.classList.remove('d-none');
-    counter.classList.remove('d-none');
+function hideCommentRow() {
+    var commentRow = document.getElementById('comment-row');
+    commentRow.classList.add('d-none');
 }
 
 function comment(Id, content) {
@@ -93,6 +103,7 @@ function comment(Id, content) {
             }
             else {
                 $('#comment-section').html(res.html);
+                hideCommentRow();
             }
         }
     });
@@ -137,7 +148,7 @@ function refer(id) {
     }
 }
 
-function popUp(path, type = null, returnUrl = null, title = null, description = null, content = null, entity = null) {
+function popUp(path, type = null, returnUrl = null, entity = null, tt = null, promptId = null) {
     switch (type) {
         case 'auth': {
             $.ajax({
@@ -158,6 +169,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
             $.ajax({
                 type: 'GET',
                 url: path,
+                data: { tt : tt, promptId: promptId },
                 success: function (res) {
                     $('#staticBackdrop .modal-body').html(res);
                     $('#staticBackdrop').modal('show');
@@ -173,7 +185,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
             $.ajax({
                 type: 'GET',
                 url: path,
-                data: { title: title, description: description, content: content },
+                data: { draftId: entity, tt: tt, promptId, promptId },
                 success: function (res) {
                     $('#staticBackdrop .modal-body').html(res);
                     $('#staticBackdrop').modal('show');
@@ -194,6 +206,7 @@ function popUp(path, type = null, returnUrl = null, title = null, description = 
                     if (res.isValid) {
                         $('#staticBackdrop .modal-body').html(res.html);
                         $('#staticBackdrop').modal('show');
+                        $('.selectpicker').selectpicker();
                     }
                     else {
                         $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
@@ -413,6 +426,7 @@ editPost = form => {
                 }
                 else {
                     $('#staticBackdrop .modal-body').html(res.html);
+                    $('.selectpicker').selectpicker();
                 }
             },
             error: function (err) {
@@ -492,15 +506,26 @@ function getSelectedValue(id) {
 
 $(function () {
     $('.opt-checkbox').change(function () {
-        addFilterRoutes();
+        var act = document.getElementById('act');
+        addFilterRoutes($(act).val());
     })
 })
 
-function addFilterRoutes() {
+function addFilterRoutes(act) {
     var filterBtn = document.getElementById('filter');
     var mine = document.getElementById('mine-checkbox').checked;
     var liked = document.getElementById('liked-checkbox').checked;
-    $(filterBtn).attr('href', '/threads/browse?genre=' + getSelectedValue('genre-select') + '&sort=' + getSelectedValue('sort-select') + '&own=' + mine + '&liked=' + liked);
+
+    var path = '';
+    switch (act) {
+        case 'prompts': {
+            path = '/threads/' + act + '?sort=' + getSelectedValue('sort-select') + '&own=' + mine + '&liked=' + liked;
+            break;
+        }
+
+        default:
+    }
+    $(filterBtn).attr('href', path);
 }
 
 $(".pointthis").ready(function () {
@@ -518,12 +543,12 @@ $(".pointthis").ready(function () {
     $('#liked-checkbox').bootstrapToggle(liked, true);
 });
 
-function saveDraft(title, description, content, draftId) {
+function saveDraft(title, content, genreIds, typeId, draftId, promptId) {
     try {
         $.ajax({
             type: 'POST',
             url: '/Drafts/Save/',
-            data: { title: title, description: description, content: content, draftId: draftId },
+            data: { title: title, content: content, genreIds: genreIds, typeId: typeId, draftId: draftId, promptId: promptId },
             success: function (res) {
                 if (!res.isValid) {
                     $('.notifyjs-corner').empty();

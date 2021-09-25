@@ -7,7 +7,7 @@
         <div class="dropdown-divider"></div>
         foreach (var draft in Model)
         {
-            <a onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Title', '@draft.Description', '@draft.Content')" class="dropdown-item"><i class="fal fa-pencil-ruler"></i> @draft.Title</a>
+            <a onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Title', '@draft.Content')" class="dropdown-item"><i class="fal fa-pencil-ruler"></i> @draft.Title</a>
         }
     }
 }

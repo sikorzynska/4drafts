@@ -3,6 +3,33 @@
 @{
     ViewBag.Title = "Create";
     Layout = null;
+
+    var iconClass = "";
+    var rules = new List<string>();
+    rules.Add("Stories must have a minimum length of a 100 characters");
+    rules.Add("Prompts must be between 100 and 300 characters long");
+    rules.Add("Plagiarism will result in a ban");
+    rules.Add("No immature / sexually explicit content");
+    rules.Add("Avoid racism and political debates");
+    rules.Add("Avoid detailed uses of suicide, and mental health stereotypes");
+    switch (Model.TypeId)
+    {
+        case 1:
+            {
+                iconClass = "fa-scroll";
+                break;
+            }
+        case 2:
+            {
+                iconClass = "fa-lightbulb-on";
+                break;
+            }
+        default:
+            {
+                iconClass = "fa-lightbulb";
+                break;
+            }
+    }
 }
 
 <div class="container">
@@ -10,53 +37,109 @@
         <form id="thread-create-formdata" asp-controller="Threads" asp-action="Create">
             <div class="row justify-content-center">
                 <div class="col card-body form-body">
-                    <h2 align="center"><i class="fas fa-file-alt"></i> Create</h2>
+                    <h2 align="center"><i class="fal @iconClass"></i> @Model.Type</h2>
                     <hr />
-                    <div class="form-group">
-                        <label asp-for="GenreIds" class="form-label"></label><br />
-                        <select asp-for="GenreIds" class="selectpicker form-control" multiple data-max-options="3">
-                            @foreach (var genre in Model.Genres)
-                            {
-                                <option value="@genre.Id">@genre.Name</option>
-                            }
-                        </select>
-                        <span asp-validation-for="GenreIds" class="small text-danger"></span>
+                    <div class="form-group d-none">
+                        <input asp-for="TypeId" class="form-control" hidden>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Title"></label>
-                        <input asp-for="Title" class="form-control" placeholder="The title of your story..." id="title-content">
-                        <span asp-validation-for="Title" class="small text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Description">Description (optional)</label>
-                        <textarea asp-for="Description" rows="4" class="form-control" placeholder="Quick description of what the story is about..." id="description-content"></textarea>
-                        <span asp-validation-for="Description" class="small text-danger"></span>
-                    </div>
+                    @{
+                        <table class="mb-3 table-fixed w-100" align="center">
+                            <tr>
+                                <td class="border-cut bg-secondary p-2">
+                                    <h4 class="text-center">Rules</h4>
+                                    <ul>
+                                        @foreach (var rule in rules)
+                                        {
+                                            <li>@rule</li>
+                                        }
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+
+                        if (Model.Prompt != null)
+                        {
+                            <label asp-for="Prompt" class="form-label"></label><br />
+                            <input asp-for="Prompt" class="form-control" hidden>
+                            <table class="mb-3 w-100 table-fixed">
+                                <tr>
+                                    <td class="border-cut bg-secondary p-2">
+                                        <p>@Model.Prompt</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                        if (Model.Genres != null)
+                        {
+                            <div class="form-group">
+                                <label asp-for="GenreIds" class="form-label"></label><br />
+                                <select asp-for="GenreIds" class="selectpicker form-control edges" id="genre-content" multiple data-max-options="3">
+                                    @{
+                                        if (Model.GenreIds != null)
+                                        {
+                                            @foreach (var genre in Model.Genres)
+                                            {
+                                                if (Model.GenreIds.Contains(genre.Id))
+                                                {
+                                                    <option selected value="@genre.Id">@genre.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@genre.Id">@genre.Name</option>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @foreach (var genre in Model.Genres)
+                                            {
+                                                <option value="@genre.Id">@genre.Name</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="GenreIds" class="small text-danger"></span>
+                            </div>
+                        }
+                        if (Model.TypeId != 3)
+                        {
+                            <div class="form-group">
+                                <label asp-for="Title"></label>
+                                <input asp-for="Title" class="form-control edges" placeholder="The title of your story..." id="title-content">
+                                <span asp-validation-for="Title" class="small text-danger"></span>
+                            </div>
+                        }
+                    }
                     <div class="form-group">
                         <label asp-for="Content"></label>
-                        <textarea asp-for="Content" rows="6" class="form-control" placeholder="The story itself..." id="content-content"></textarea>
+                        <textarea asp-for="Content" rows="6" class="form-control edges" placeholder="The story itself..." id="content-content"></textarea>
                         <span asp-validation-for="Content" class="small text-danger"></span>
                     </div>
                 </div>
                 <div class="form-footer">
                     <div class="text-secondary" align="center">
                         <a class="btn btn-outline-primary" onclick="refer('thread-create-formdata')"><i class="fal fa-plus"></i> Post</a>
-                        <div class="dropdown d-inline">
-                            <a class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fal fa-save"></i> Save as draft
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a onclick="saveDraft(getValue('title-content'), getValue('description-content'), getValue('content-content'))" class="dropdown-item"><i class="fal fa-layer-plus"></i> New</a>
-                                @if (Model.Drafts.Any())
-                                {
-                                    <div class="dropdown-divider"></div>
-                                    @foreach (var draft in Model.Drafts)
-                                    {
-                                        <a class="dropdown-item" onclick="saveDraft(getValue('title-content'), getValue('description-content'), getValue('content-content'), '@draft.Id')"><i class="fal fa-pencil-ruler"></i> @draft.Title</a>
-                                    }
-                                }
-                            </div>
-                        </div>
+                        @{
+                            if (Model.TypeId != 3)
+                            {
+                                <div class="dropdown d-inline">
+                                    <a class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fal fa-save"></i> Save as draft
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a onclick="saveDraft(getValue('title-content'), getValue('content-content'), getValue('genre-content'), '@Model.TypeId', null, '@Model.PromptId')" class="dropdown-item"><i class="fal fa-layer-plus"></i> New</a>
+                                        @if (Model.Drafts.Any())
+                                        {
+                                            <div class="dropdown-divider"></div>
+                                            @foreach (var draft in Model.Drafts)
+                                            {
+                                                <a class="dropdown-item" onclick="saveDraft(getValue('title-content'), getValue('content-content'), getValue('genre-content'), '@Model.TypeId', '@draft.Id', '@Model.PromptId')"><i class="fal fa-pencil-ruler"></i> @draft.Title</a>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
                         <a class="btn btn-outline-dark" onclick="cancelModal()"><i class="fal fa-times"></i> Cancel</a>
                     </div>
                 </div>

@@ -40,6 +40,14 @@ html {
     background-size: 14.14px 14.14px;
 }
 
+.border-cut {
+    border: 1px dashed black !important;
+}
+
+.v-middle {
+    vertical-align: middle !important;
+}
+
 .border-black-top {
     border-top: 1px solid black !important;
 }
@@ -342,6 +350,10 @@ body {
     font-size: 120%;
 }
 
+.edges {
+    border-radius: 0px !important;
+}
+
 .mw-100 {
     width: 100px;
     height: auto;
@@ -397,9 +409,9 @@ hide-empty:empty {
     border: 10px solid #f3f3f3; /* Light grey */
     border-top: 10px solid #3498db; /* Blue */
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 0.5s linear infinite;
+    width: 80px;
+    height: 80px;
+    animation: spin 0.4s linear infinite;
     position: fixed;
     top: 30%;
     left: 48%;
@@ -480,8 +492,8 @@ hide-empty:empty {
 }
 
 .size-100 {
-    width: 100px;
-    height: 100px;
+    max-width: 150px;
+    max-height: 150px;
 }
 
 .comment-text {
@@ -725,6 +737,7 @@ hide-empty:empty {
         background-color: rgb(255, 66, 77);
         color: #ffffff;
     }
+
 
 
 

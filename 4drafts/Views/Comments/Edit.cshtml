@@ -11,14 +11,14 @@
         <form id="comment-edit-formdata" asp-controller="Comments" asp-action="Edit">
             <div class="row justify-content-center">
                 <div class="col card-body form-body">
-                    <h2 align="center"><i class="fas fa-edit"></i> Edit</h2>
+                    <h2 align="center"><i class="fal fa-edit"></i> Edit</h2>
                     <hr />
                     <div class="form-group d-none">
                         <input asp-for="Id" class="form-control" id="title-input" hidden>
                     </div>
                     <div class="form-group">
                         <span class="float-right badge badge-secondary mb-1" id="edit_comment_count">@commentLength / 500</span>
-                        <textarea asp-for="Content" maxlength="500" rows="4" class="form-control" id="edit_comment-content"
+                        <textarea asp-for="Content" maxlength="500" rows="4" class="form-control edges" id="edit_comment-content"
                                   onchange="countCharacters('edit_comment_count', 'edit_comment-content')"
                                   onkeypress="countCharacters('edit_comment_count', 'edit_comment-content')"
                                   oninput="countCharacters('edit_comment_count', 'edit_comment-content')"

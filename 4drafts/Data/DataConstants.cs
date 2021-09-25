@@ -42,14 +42,16 @@
             public const int TitleMaxLength = 80;
             public const int DescriptionMinLength = 10;
             public const int DescriptionMaxLength = 500;
-            public const int ContentMinLength = 20;
+            public const int ContentMinLength = 100;
             public const string Inexistent = "Whoops! Looks like no such thread exists...";
             public const string Updated = "The thread has been updated.";
-            public const string ContentMinLengthMsg = "The content field must have a minimum length of 20.";
-            public const string TitleMinLengthMsg = "The title field must have a minimum length of 20.";
+            public const string ContentMinLengthMsg = "The content field must have a minimum length of 100.";
+            public const string PromptContent = "Prompts must be between 100 and 300 characters long.";
+            public const string TitleLengthMsg = "The title field must be between 3 and 80 characters long.";
             public const string Disliked = "The thread has been removed from favourites.";
             public const string Liked = "The thread has been added from favourites.";
-            public const string InexistentType = "Invalid thread type selection.";
+            public const string InexistentType = "Invalid thread type!";
+            public const string TitleRequired = "The title field is required!";
         }
 
         public class Comments

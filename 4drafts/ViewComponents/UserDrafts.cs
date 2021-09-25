@@ -28,7 +28,6 @@ namespace _4drafts.ViewComponents
                 .Select(d => new DraftViewModel
                 {
                     Title = d.Title,
-                    Description = d.Description,
                     Content = d.Content,
                     AuthorId = d.AuthorId
                 })

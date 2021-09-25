@@ -9,13 +9,18 @@ namespace _4drafts.Data.Models
         [Key]
         [Required]
         public string Id { get; set; } = Guid.NewGuid().ToString();
+        public ThreadType ThreadType { get; set; }
+
+        [Required]
+        public int ThreadTypeId { get; set; }
+
+        public string PromptId { get; set; }
+
+        public string Prompt { get; set; }
 
         [Required]
         [MaxLength(Threads.TitleMaxLength)]
         public string Title { get; set; }
-
-        [MaxLength(Threads.DescriptionMaxLength)]
-        public string Description { get; set; }
 
         public string Content { get; set; }
 
@@ -25,5 +30,9 @@ namespace _4drafts.Data.Models
         public string AuthorId { get; set; }
 
         public User Author { get; set; }
+
+        public int FirstGenre { get; set; }
+        public int SecondGenre { get; set; }
+        public int ThirdGenre { get; set; }
     }
 }
