@@ -16,6 +16,10 @@
 //    });
 //}
 
+$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
 $(function () {
     $("#loaderbody").addClass('hide');
 
@@ -522,8 +526,10 @@ function addFilterRoutes(act) {
             path = '/threads/' + act + '?sort=' + getSelectedValue('sort-select') + '&own=' + mine + '&liked=' + liked;
             break;
         }
-
-        default:
+        default: {
+            path = '/threads/' + act + '?genre=' + getSelectedValue('genre-select') + '&sort=' + getSelectedValue('sort-select') + '&own=' + mine + '&liked=' + liked;
+            break;
+        }
     }
     $(filterBtn).attr('href', path);
 }

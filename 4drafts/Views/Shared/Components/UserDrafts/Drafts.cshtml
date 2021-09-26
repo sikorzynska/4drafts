@@ -1,4 +1,7 @@
 ﻿@model List<DraftViewModel>
+@{ 
+    var iconClass = "";
+}
 
 @{
     <a onclick="popUp('/Threads/Create/', 'thread-new')" class="dropdown-item"><i class="fal fa-file-plus"></i> New</a>
@@ -7,7 +10,8 @@
         <div class="dropdown-divider"></div>
         foreach (var draft in Model)
         {
-            <a onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Title', '@draft.Content')" class="dropdown-item"><i class="fal fa-pencil-ruler"></i> @draft.Title</a>
+            iconClass = draft.TypeId == 1 ? "fa-book" : "fa-scroll";
+            <a onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Title', '@draft.Content')" class="dropdown-item"><i class="fal @iconClass"></i> @draft.Title <span class="badge badge-info">@draft.CreatedOn</span></a>
         }
     }
 }

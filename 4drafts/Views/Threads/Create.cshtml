@@ -5,6 +5,7 @@
     Layout = null;
 
     var iconClass = "";
+    var draftIcon = "";
     var rules = new List<string>();
     rules.Add("Stories must have a minimum length of a 100 characters");
     rules.Add("Prompts must be between 100 and 300 characters long");
@@ -133,7 +134,8 @@
                                             <div class="dropdown-divider"></div>
                                             @foreach (var draft in Model.Drafts)
                                             {
-                                                <a class="dropdown-item" onclick="saveDraft(getValue('title-content'), getValue('content-content'), getValue('genre-content'), '@Model.TypeId', '@draft.Id', '@Model.PromptId')"><i class="fal fa-pencil-ruler"></i> @draft.Title</a>
+                                                draftIcon = draft.TypeId == 1 ? "fa-book" : "fa-scroll";
+                                                <a class="dropdown-item" onclick="saveDraft(getValue('title-content'), getValue('content-content'), getValue('genre-content'), '@Model.TypeId', '@draft.Id', '@Model.PromptId')"><i class="fal @draftIcon"></i> @draft.Title <span class="badge badge-info">@draft.CreatedOn</span></a>
                                             }
                                         }
                                     </div>

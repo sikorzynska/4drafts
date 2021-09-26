@@ -1,6 +1,7 @@
 ﻿@model List<DraftViewModel>
 
 @{ 
+    var iconSrc = "";
     var iconClass = "";
 }
 
@@ -18,9 +19,10 @@
         @{
             foreach (var draft in Model)
             {
+                iconSrc = draft.TypeId == 1 ? "https://cdn-icons-png.flaticon.com/512/2972/2972169.png" : "https://cdn-icons-png.flaticon.com/512/4185/4185714.png";
                 iconClass = draft.TypeId == 1 ? "fa-scroll" : "fa-lightbulb-on";
                 <tr id="@draft.Id" class="table-light">
-                    <th class="border text-center v-middle bg-tablehead-gray"><i class="fal fa-lg @iconClass"></i> [@draft.TypeSimplified]</th>
+                    <th class="border text-center v-middle"><img src="@iconSrc" style="width: 30px; height: 30px;" /></th>
                     <th class="text-truncate border" scope="row"><a class="btn-link" onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Id', '@draft.TypeId', '@draft.PromptId')">@draft.Title</a></th>
                     <td class="text-truncate border">@draft.CreatedOn</td>
                     <td class="text-truncate text-center border v-middle">

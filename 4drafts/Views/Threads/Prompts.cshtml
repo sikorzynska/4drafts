@@ -89,8 +89,8 @@
                     {
                         avatar = String.IsNullOrWhiteSpace(prompt.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : prompt.AuthorAvatarUrl;
                         <tr>
-                            <th class="border text-center bg-tablehead-gray v-middle"><i class="fal fa-lg fa-lightbulb"></i> [@prompt.ThreadTypeSimplified]</th>
-                            <td class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@prompt.Id">@prompt.Content</a></td>
+                            <th class="border text-center bg-tablehead-gray v-middle"><img src="https://cdn-icons-png.flaticon.com/512/3176/3176298.png" style="width: 40px; height: 40px;" /></th>
+                            <td class="border"><a class="btn-link" asp-controller="Threads" asp-action="Read" asp-route-t="@prompt.Id">@prompt.Content</a></td>
                             <td class="border">@prompt.CreatedOn</td>
                             <td class="border text-center v-middle">@prompt.Points</td>
                             <td class="border text-center v-middle">@prompt.CommentCount</td>

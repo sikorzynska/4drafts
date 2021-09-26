@@ -25,10 +25,13 @@ namespace _4drafts.ViewComponents
             var user = await this.userManager.GetUserAsync(HttpContext.User);
             var drafts = this.data.Drafts
                 .Where(d => d.AuthorId == user.Id)
+                .OrderByDescending(d => d.CreatedOn)
                 .Select(d => new DraftViewModel
                 {
                     Title = d.Title,
                     Content = d.Content,
+                    TypeId = d.ThreadTypeId,
+                    CreatedOn = d.CreatedOn.ToString("dddd, dd MMMM yyyy"),
                     AuthorId = d.AuthorId
                 })
                 .ToList();

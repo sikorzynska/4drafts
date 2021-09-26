@@ -46,26 +46,54 @@ namespace _4drafts.Controllers
 
             if(draftCount >= 10) return Json(new { isValid = false, msg = Drafts.ReachedLimit });
 
-            if (typeId < 1 && typeId > 3) return Json(new { isValid = false, msg = Threads.InexistentType });
+            if (typeId < 1 && typeId > 2) return Json(new { isValid = false, msg = Global.GeneralError });
+
+            if (typeId == 2 && promptId == null) return Json(new { isValid = false, msg = Global.GeneralError });
 
             if (draftId == null)
             {
-                var draft = new Draft
+                var draft = new Draft();
+
+                switch (typeId)
                 {
-                    Title = title,
-                    Content = content,
-                    ThreadTypeId = typeId,
-                    FirstGenre = genreIds.Length > 0 ? genreIds[0] : 0,
-                    SecondGenre = genreIds.Length > 1 ? genreIds[1] : 0,
-                    ThirdGenre = genreIds.Length > 2 ? genreIds[2] : 0,
-                    PromptId = promptId,
-                    Prompt = this.data.Threads
-                            .Where(t => t.ThreadTypeId == 3)
-                            .FirstOrDefault(t => t.Id == promptId)
-                            .Content,
-                    CreatedOn = DateTime.UtcNow.ToLocalTime(),
-                    AuthorId = user.Id,
-                };
+                    case 1:
+                        {
+                            draft = new Draft
+                            {
+                                Title = title,
+                                Content = content,
+                                ThreadTypeId = typeId,
+                                FirstGenre = genreIds.Length > 0 ? genreIds[0] : 0,
+                                SecondGenre = genreIds.Length > 1 ? genreIds[1] : 0,
+                                ThirdGenre = genreIds.Length > 2 ? genreIds[2] : 0,
+                                CreatedOn = DateTime.UtcNow.ToLocalTime(),
+                                AuthorId = user.Id,
+                            };
+                            break;
+                        }
+                    case 2:
+                        {
+                            draft = new Draft
+                            {
+                                Title = title,
+                                Content = content,
+                                ThreadTypeId = typeId,
+                                FirstGenre = genreIds.Length > 0 ? genreIds[0] : 0,
+                                SecondGenre = genreIds.Length > 1 ? genreIds[1] : 0,
+                                ThirdGenre = genreIds.Length > 2 ? genreIds[2] : 0,
+                                PromptId = promptId,
+                                Prompt = this.data.Threads
+                                        .Where(t => t.ThreadTypeId == 3)
+                                        .FirstOrDefault(t => t.Id == promptId)
+                                        .Content,
+                                CreatedOn = DateTime.UtcNow.ToLocalTime(),
+                                AuthorId = user.Id,
+                            };
+                            break;
+                        }
+                    default:
+                        break;
+                }
 
                 this.data.Drafts.Add(draft);
                 await this.data.SaveChangesAsync();
