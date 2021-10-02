@@ -28,6 +28,7 @@ namespace _4drafts.Models.Threads
             public int Responses { get; set; }
 
             public string AuthorAvatarUrl { get; set; }
+            public string PromptId { get; set; }
 
             public IEnumerable<int> GenreIds { get; set; }
 

@@ -7,8 +7,9 @@
     var iconClass = "";
     var draftIcon = "";
     var rules = new List<string>();
-    rules.Add("Stories must have a minimum length of a 100 characters");
-    rules.Add("Prompts must be between 100 and 300 characters long");
+    rules.Add("Stories must have a minimum of 500 characters.");
+    rules.Add("Poems must have a minimum of 100 characters.");
+    rules.Add("Prompts must be between 50 and 500 characters long.");
     rules.Add("Plagiarism will result in a ban");
     rules.Add("No immature / sexually explicit content");
     rules.Add("Avoid racism and political debates");
@@ -17,17 +18,22 @@
     {
         case 1:
             {
-                iconClass = "fa-scroll";
+                iconClass = "fa-book";
                 break;
             }
         case 2:
             {
-                iconClass = "fa-lightbulb-on";
+                iconClass = "fa-scroll";
                 break;
             }
-        default:
+        case 3:
             {
                 iconClass = "fa-lightbulb";
+                break;
+            }
+        case 4:
+            {
+                iconClass = "fa-lightbulb-on";
                 break;
             }
     }
@@ -42,6 +48,9 @@
                     <hr />
                     <div class="form-group d-none">
                         <input asp-for="TypeId" class="form-control" hidden>
+                    </div>
+                    <div class="form-group d-none">
+                        <input asp-for="PromptId" class="form-control" hidden>
                     </div>
                     @{
                         <table class="mb-3 table-fixed w-100" align="center">
@@ -134,7 +143,26 @@
                                             <div class="dropdown-divider"></div>
                                             @foreach (var draft in Model.Drafts)
                                             {
-                                                draftIcon = draft.TypeId == 1 ? "fa-book" : "fa-scroll";
+                                                switch (draft.TypeId)
+                                                {
+                                                    case 1:
+                                                        {
+                                                            draftIcon = "fa-book";
+                                                            break;
+                                                        }
+                                                    case 2:
+                                                        {
+                                                            draftIcon = "fa-scroll";
+                                                            break;
+                                                        }
+                                                    case 4:
+                                                        {
+                                                            draftIcon = "fa-lightbulb-on";
+                                                            break;
+                                                        }
+                                                    default:
+                                                        break;
+                                                }
                                                 <a class="dropdown-item" onclick="saveDraft(getValue('title-content'), getValue('content-content'), getValue('genre-content'), '@Model.TypeId', '@draft.Id', '@Model.PromptId')"><i class="fal @draftIcon"></i> @draft.Title <span class="badge badge-info">@draft.CreatedOn</span></a>
                                             }
                                         }

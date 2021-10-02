@@ -54,7 +54,7 @@
                                     }
                                     @if (Model.TypeId == 3)
                                     {
-                                        <div class="zoom p-2"><a onclick="popUp('/Threads/Create/', 'thread-new', null, null, 2, '@Model.Id')" class="btn-link"><i class="fal fa-lg big-icon fa-lightbulb-on"></i></a></div>
+                                        <div class="zoom p-2"><a onclick="popUp('/Threads/Create/', 'thread-new', null, null, 4, '@Model.Id')" class="btn-link"><i class="fal fa-lg big-icon fa-lightbulb-on"></i></a></div>
                                     }
                                     <div class="zoom p-2"><a onclick="showCommentRow()" class="btn-link"><i class="fal fa-lg big-icon fa-reply"></i></a></div>
                                     <div class="zoom p-2"><a class="btn-link" asp-controller="Threads" asp-action="Report" asp-route-threadId="@Model.Id"><i class="fal fa-lg big-icon fa-flag"></i></a></div>

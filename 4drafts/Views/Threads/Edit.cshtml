@@ -4,8 +4,9 @@
     ViewBag.Title = "Edit";
     Layout = null;
     var rules = new List<string>();
-    rules.Add("100 words minimum for stories and prompt inspired stories");
-    rules.Add("Prompts must be between 100 and 300 characters long");
+    rules.Add("Stories must have a minimum of 500 characters.");
+    rules.Add("Poems must have a minimum of 100 characters.");
+    rules.Add("Prompts must be between 50 and 500 characters long.");
     rules.Add("Plagiarism will result in a ban");
     rules.Add("No immature / sexually explicit content");
     rules.Add("Avoid racism and political debates");
@@ -34,6 +35,9 @@
                     </table>
                     <div class="form-group d-none">
                         <input asp-for="Id" class="form-control" hidden>
+                    </div>
+                    <div class="form-group d-none">
+                        <input asp-for="TypeId" class="form-control" hidden>
                     </div>
                     @{
                         if (Model.TypeId != 3)

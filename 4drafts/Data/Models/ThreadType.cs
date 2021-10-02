@@ -12,8 +12,6 @@ namespace _4drafts.Data.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
-        public string SimplifiedName { get; set; }
         public ICollection<Thread> Threads { get; set; } = new List<Thread>();
         public ICollection<Draft> Drafts { get; set; } = new List<Draft>();
     }

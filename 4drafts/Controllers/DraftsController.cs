@@ -46,9 +46,9 @@ namespace _4drafts.Controllers
 
             if(draftCount >= 10) return Json(new { isValid = false, msg = Drafts.ReachedLimit });
 
-            if (typeId < 1 && typeId > 2) return Json(new { isValid = false, msg = Global.GeneralError });
+            if (typeId < 1 || typeId > 4) return Json(new { isValid = false, msg = Global.GeneralError });
 
-            if (typeId == 2 && promptId == null) return Json(new { isValid = false, msg = Global.GeneralError });
+            if (typeId == 4 && promptId == null) return Json(new { isValid = false, msg = Global.GeneralError });
 
             if (draftId == null)
             {
@@ -72,6 +72,21 @@ namespace _4drafts.Controllers
                             break;
                         }
                     case 2:
+                        {
+                            draft = new Draft
+                            {
+                                Title = title,
+                                Content = content,
+                                ThreadTypeId = typeId,
+                                FirstGenre = genreIds.Length > 0 ? genreIds[0] : 0,
+                                SecondGenre = genreIds.Length > 1 ? genreIds[1] : 0,
+                                ThirdGenre = genreIds.Length > 2 ? genreIds[2] : 0,
+                                CreatedOn = DateTime.UtcNow.ToLocalTime(),
+                                AuthorId = user.Id,
+                            };
+                            break;
+                        }
+                    case 4:
                         {
                             draft = new Draft
                             {
@@ -135,7 +150,7 @@ namespace _4drafts.Controllers
                     Id = d.Id,
                     Title = d.Title,
                     TypeId = d.ThreadTypeId,
-                    TypeSimplified = d.ThreadType.SimplifiedName,
+                    TypeSimplified = d.ThreadType.Name,
                     PromptId = d.PromptId,
                     Content = d.Content,
                     CreatedOn = this.timeWarper.TimeAgo(d.CreatedOn),
@@ -188,7 +203,9 @@ namespace _4drafts.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string Id)
         {
-            var draft = await this.data.Drafts.FirstOrDefaultAsync(d => d.Id == Id);
+            var draft = await this.data.Drafts
+                .Include(d => d.ThreadType)
+                .FirstOrDefaultAsync(d => d.Id == Id);
 
             if (draft == null) return Json(new { isValid = false, msg = Drafts.Inexistent });
 
@@ -208,6 +225,7 @@ namespace _4drafts.Controllers
                     Prompt = draft.Prompt,
                     PromptId = draft.PromptId,
                     TypeId = draft.ThreadTypeId, 
+                    TypeName = draft.ThreadType.Name, 
                     Title = draft.Title, 
                     Content = draft.Content 
                 }) 

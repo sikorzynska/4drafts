@@ -5,8 +5,9 @@
     Layout = null;
 
     var rules = new List<string>();
-    rules.Add("100 words minimum for stories and prompt inspired stories");
-    rules.Add("Prompts must be between 100 and 300 characters long");
+    rules.Add("Stories must have a minimum of 500 characters.");
+    rules.Add("Poems must have a minimum of 100 characters.");
+    rules.Add("Prompts must be between 50 and 500 characters long.");
     rules.Add("Plagiarism will result in a ban");
     rules.Add("No immature / sexually explicit content");
     rules.Add("Avoid racism and political debates");
@@ -18,7 +19,7 @@
         <form id="draft-edit-formdata" asp-controller="Drafts" asp-action="Edit">
             <div class="row justify-content-center">
                 <div class="col card-body form-body">
-                    <h2 align="center"><i class="fas fa-edit"></i> Edit</h2>
+                    <h2 align="center"><i class="fas fa-edit"></i> Edit @Model.TypeName</h2>
                     <hr />
                     <table class="mb-3 table-fixed w-100" align="center">
                         <tr>
@@ -33,15 +34,6 @@
                             </td>
                         </tr>
                     </table>
-                    <div class="form-group d-none">
-                        <input asp-for="Id" class="form-control" hidden>
-                    </div>
-                    <div class="form-group d-none">
-                        <input asp-for="TypeId" class="form-control" hidden>
-                    </div>
-                    <div class="form-group d-none">
-                        <input asp-for="Prompt" class="form-control" hidden>
-                    </div>
                     @{
                         if (Model.Prompt != null)
                         {
@@ -100,6 +92,18 @@
                         <a onclick="refer('draft-edit-formdata')" class="btn btn-outline-primary"><i class="fal fa-save"></i> Save Changes</a>
                         <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fal fa-times"></i> Cancel</button>
                     </div>
+                </div>
+                <div class="form-group d-none">
+                    <input asp-for="Id" class="form-control" hidden>
+                </div>
+                <div class="form-group d-none">
+                    <input asp-for="TypeId" class="form-control" hidden>
+                </div>
+                <div class="form-group d-none">
+                    <input asp-for="Prompt" class="form-control" hidden>
+                </div>
+                <div class="form-group d-none">
+                    <input asp-for="TypeName" class="form-control" hidden>
                 </div>
             </div>
         </form>

@@ -23,7 +23,7 @@ namespace _4drafts.Infrastructure
             SeedThreadTypes(data);
             SeedGenres(data);
             SeedUsers(data);
-            //SeedThreads(data);
+            SeedThreads(data);
             //SeedComments(data);
 
             return app;
@@ -35,21 +35,14 @@ namespace _4drafts.Infrastructure
 
             data.ThreadTypes.AddRange(new[]
             {
-                new ThreadType { Name = "Story", SimplifiedName = "S." },
-                new ThreadType { Name = "Prompted Story", SimplifiedName = "P.S." },
-                new ThreadType { Name = "Writing Prompt", SimplifiedName = "W.P." },
+                new ThreadType { Name = "Story" },
+                new ThreadType { Name = "Poem" },
+                new ThreadType { Name = "Writing Prompt" },
+                new ThreadType { Name = "Prompt Inspired Story" },
             });
 
             data.SaveChanges();
         }
-
-        //private static void SeedPrompts(_4draftsDbContext data)
-        //{
-        //    data.Threads.AddRange(new[]
-        //    {
-        //        new Thread { Title = "Unappreciated Hero", Content = "Everyone knows you're the most powerful member of the league, so why are you an F-tier hero? Because F-tier is cleanup. The others protect the world from threats. You protect it from the other heroes." }
-        //    })
-        //}
 
         private static void SeedGenres(_4draftsDbContext data)
         {
@@ -201,6 +194,92 @@ namespace _4drafts.Infrastructure
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
                     AvatarUrl = "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/zombie_avatar_monster_dead-512.png",
                 },
+                new User{
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = "Hoodini",
+                    NormalizedUserName = "Hoodini".ToUpper(),
+                    Email = "Hoodini@gmail.com".ToLower(),
+                    NormalizedEmail = "zombie@gmail.com".ToUpper(),
+                    FirstName = "Pendejo",
+                    Youtube = "www.youtube.com",
+                    Twitter = "www.twitter.com",
+                    Instagram = "www.instagram.com",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://i.pinimg.com/originals/66/cd/ee/66cdee36e7c372b7d51212eb802634fb.jpg",
+                },
+                new User{
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = "QskoSeksa69",
+                    NormalizedUserName = "QskoSeksa69".ToUpper(),
+                    Email = "qskoseksa@gmail.com",
+                    NormalizedEmail = "qskoseksa@gmail.com".ToUpper(),
+                    FirstName = "Poopie",
+                    LastName = "Pants",
+                    Youtube = "www.youtube.com",
+                    Twitter = "www.twitter.com",
+                    Instagram = "www.instagram.com",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://i.dailymail.co.uk/i/pix/2015/01/20/24DE2A9B00000578-0-image-a-1_1421752994677.jpg",
+                },
+                new User{
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = "Stoqn_Kolev",
+                    NormalizedUserName = "Stoqn_Kolev".ToUpper(),
+                    Email = "stoikata@gmail.com",
+                    NormalizedEmail = "stoikata@gmail.com".ToUpper(),
+                    FirstName = "Stoqn",
+                    LastName = "Kolev",
+                    Youtube = "www.youtube.com",
+                    Twitter = "www.twitter.com",
+                    Instagram = "www.instagram.com",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://pbs.twimg.com/profile_images/1245854439975550976/IsJ1Baek_400x400.jpg",
+                },
+                new User{
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = "MajorTortoise",
+                    NormalizedUserName = "MajorTortoise".ToUpper(),
+                    Email = "emailatemail@gmail.com",
+                    NormalizedEmail = "emailatemail@gmail.com".ToUpper(),
+                    FirstName = "David",
+                    LastName = "Spade",
+                    Youtube = "www.youtube.com",
+                    Facebook = "www.facebook.com",
+                    Instagram = "www.instagram.com",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://i.pinimg.com/736x/e5/6f/0e/e56f0ef1ed61bf011aab7e11956666e4.jpg",
+                },
+                new User{
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = "derp",
+                    NormalizedUserName = "derp".ToUpper(),
+                    Email = "derp@gmail.com",
+                    NormalizedEmail = "derp@gmail.com".ToUpper(),
+                    Facebook = "www.facebook.com",
+                    Website = "www.website.com",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://assets.thehansindia.com/h-upload/2020/06/10/975863-image-3.jpg",
+                },
+                new User{
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = "Why_Tho",
+                    NormalizedUserName = "Why_Tho".ToUpper(),
+                    Email = "ytho@gmail.com",
+                    NormalizedEmail = "ytho@gmail.com".ToUpper(),
+                    FirstName = "y",
+                    LastName = "thoo",
+                    Youtube = "www.youtube.com",
+                    Twitter = "www.twitter.com",
+                    Instagram = "www.instagram.com",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://en.meming.world/images/en/thumb/e/e2/Crying_Cat_screaming.jpg/300px-Crying_Cat_screaming.jpg",
+                },
             };
 
             data.Users.AddRange(users);
@@ -212,249 +291,456 @@ namespace _4drafts.Infrastructure
             if (data.Threads.Any(t => t.Id == "8725ba9f-490d-460a-b6cf-d19d9c2ecb37")) return;
             Random rnd = new Random();
 
-            var threads = new List<Thread>
+            var prompts = new List<Thread>
+            {
+                new Thread
+                {
+                    Id = "a2c45aa7-8157-4962-b4cf-545a9b551b2a",
+                    ThreadTypeId = 3,
+                    Content = "You enter hell. In your surprise, there is no scorching fire or gnashing of teeth. The demons are tired of torture and thought humans in hell are forsaken by the heavens too. Satan decided to build a society instead. There is one rule, whoever disrupts the order will disappear.",
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "07657c07-daa0-4f55-850e-383677555136",
+                    ThreadTypeId = 3,
+                    Content = "People who achieve great deeds are rewarded with supernatural power beyond the wildest dreams of mortal men, and apparently eating a giant burrito in under half an hour meets the criteria",
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "81dd1f72-ce1e-4f53-af34-d5ccfdb00ae4",
+                    ThreadTypeId = 3,
+                    Content = "You were created to serve the Hero, to be their weapon, you were known as the Sword of Light, but nobody has called you that for a long time, now you're just known as the cursed sword of blightforest. You were made for the hero's endless vitality, not the ones mere mortals possess.",
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "64d85a5f-9ec4-41a4-bafc-618427ec2efb",
+                    ThreadTypeId = 3,
+                    Content = "You wake up one morning to find an email in your inbox inviting you to create an account on UsNet, a social media platform made up entirely of versions of you from alternate timelines in the multiverse.",
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "0ff81232-e041-424e-b2cf-2456df62c832",
+                    ThreadTypeId = 3,
+                    Content = "At the age of 18, everyone gains a Familiar, an animal suddenly enchanted to be intelligent and bonded to them. You wake up on your 18th birthday to find your room covered in hornets, all of them speaking to you as one.",
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "7e281ef6-dd28-4a41-8532-4a79907c714b",
+                    ThreadTypeId = 3,
+                    Content = "You are a superhero, no one knows about your alter ego. Not even your spouse. You return home tired and disappointed one day after failing to capture your archnemises. You enter your bedroom to find your spouse struggling to get out of the costume of your archnemises.",
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "3a85b219-ab58-4b17-84e6-d15052dcb8bb",
+                    ThreadTypeId = 3,
+                    Content = "Aliens have invaded to conquer and enslave humanity, however 'slavery' to them involves only working the equivalent of 12 hours a week while having healthy food, shelter, and means of entertainment taken care of so the human resistance is having trouble with defectors preferring to be slaves.",
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "2543d7ca-cc5c-4c29-a72a-a7771eae3209",
+                    ThreadTypeId = 3,
+                    Content = "Years ago, you were a feared warrior, until a witch cast a spell on you. 'May you never hurt or kill anyone by blade, word or through any other means.' Now, you are the world's greatest healer. You just open your clients and do random stuff. After all, you cannot possibly hurt them!",
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "e1df4d76-be16-4b56-985c-ff687ffc5682",
+                    ThreadTypeId = 3,
+                    Content = "You have just been abducted by a UFO. While you are figuring out what just happened to to you, a frantic alien bursts into the room. 'You have no idea how many rules I'm breaking, but my Human Studies final is tomorrow and I need help.'",
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = "86827847-5ea9-448f-81a4-b2ba43833226",
+                    ThreadTypeId = 3,
+                    Content = "You’re the god of small luck, you make the bus late, make pennies appear. You receive a prayer from a homeless man, “Please, I want to get on my feet. A stable job, a wife, some kids.” Normally, you’d forward his prayer to the god of success. Now, you decide to take on the case yourself.",
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+            };
+
+            foreach (var prompt in prompts)
+            {
+                prompt.AuthorId = data.Users.OrderBy(u => Guid.NewGuid()).FirstOrDefault().Id;
+            }
+
+            data.Threads.AddRange(prompts);
+            data.SaveChanges();
+
+            var stories = new List<Thread>
             {
                 new Thread
                 {
                     Id = "fe016357-389e-4d3f-b335-1e3a9f17ffb3",
+                    ThreadTypeId = 1,
                     Title = "My sister was a sociopath. Then she had surgery.",
                     Content = "There was always something wrong with Annie. For years, it felt like I was the only one who knew.",
-                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(900),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "972026cd-3505-4f04-9ac7-382c6541ba70",
+                    ThreadTypeId = 1,
                     Title = "Incomplete",
                     Content = "It was never about the idea of you, it was you. I never wanted a relationship, I told myself there was no way I'd ever consider marriage again before we met. But between all of the little things, the big things, the things others may never even notice...every single part that makes you who you are...I fell for it all.",
-                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "937e8c3d-5474-4e32-b019-cbe628bba891",
+                    ThreadTypeId = 1,
                     Title = "Days Passing",
                     Content = "Mikayla Murray went missing twelve years ago, on the eve of her 18th birthday. She didn’t have any big plans or anything, but her friends described her as having been in a particularly good mood for what was an otherwise perfectly normal Friday. She’d gone to school, soccer practice, work, and then came home for a night of movies with her kid brother, James. He was more excited for her birthday than she was. Even wanted to stay awake with her until midnight but, of course, had fallen asleep right away. When he woke in the middle of the night, he saw her headlights shining through his window and watched as they rushed down their country road, not knowing that it was the last he’d ever see of her. The poor kid was only five and would be forever tormented over why she’d left him, or why she’d never come back.",
-                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "e78055f5-d6da-4ab4-a05d-000a3c5c5281",
+                    ThreadTypeId = 1,
                     Title = "Annabelle vs. the Monster Under the Bed",
                     Content = "Mommy closed the book she’d been reading and stood up, plopping Annabelle on her feet. Annabelle really wanted to hear the rest of the story, but she yawned before she could complain. Maybe Mommy was right. Annabelle started to skip down the hall to Mommy’s room before she remembered.",
-                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "aa5067eb-6029-48f3-968a-6ab92d66b953",
+                    ThreadTypeId = 1,
                     Title = "Kind Gestures",
                     Content = " saw a homeless man outside of my local coffee shop, and I offered to buy him coffee. He appeared to be in his 60s, with frizzy white hair similar to what a mad scientist might don in an old black and white film. Winter was coming, and the chill air was a constant reminder of that.",
-                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "df049477-da1e-4a0c-a779-729db036e4d9",
+                    ThreadTypeId = 1,
                     Title = "Did You Lock The Door?",
                     Content = "Did you remember to lock the door? Before you answer that, I want you to really think about it. One, or maybe two of you, might have actually checked the locks as soon as you read the title. Maybe some of you habitually lock the door as soon as you get home. Twisting the deadbolt and hooking the chain just come as second nature. Did you notice anything out of place? Anything that could lead you to believe you aren’t alone? Would you even notice? What about the windows?",
-                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "0760686a-6598-43e6-9ed7-87f340c78d7c",
+                    ThreadTypeId = 1,
                     Title = "Passage",
                     Content = "I rubbed my eyes, but the genie was still there when I opened them again. His bulky, dark blue torso originated from a trail of smoke wafting from a broken lamp on the ground.",
-                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "49e9dbca-b7c0-4852-987d-73c265ee0b3f",
+                    ThreadTypeId = 1,
                     Title = "Can you see the moon?",
                     Content = "“When it is time you will see it.” He slowly looked down at her again. Her dress was almost completely red now. He felt them pressing behind his eyes, but he kept them back. There is still time, you can’t give in yet.",
-                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "1894e044-dd59-4000-8865-6804b13c8cd5",
+                    ThreadTypeId = 1,
                     Title = "Battered",
                     Content = "This is absolutely annoying, what a not dream job whatsoever.",
-                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "b0194a3c-711b-4aff-93f1-8ecaaef7d389",
+                    ThreadTypeId = 1,
                     Title = "Christopher Walking",
                     Content = "Using my newfound funding, which I later found to be not limited to man hunting, I bought a rental car, some rope, a good knife, and some other kidnapping essentials.",
-                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "57cf58c3-44a5-4a32-a83a-49b36d8bf7c6",
+                    ThreadTypeId = 1,
                     Title = "Better than Twilight",
                     Content = "Finding the school was an easy look up, as was putting a face to the name. Their website had pictures of all their staff members, and the schedule.",
-                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "e8d2f57f-2832-421f-aac0-207ea9b5e3e5",
+                    ThreadTypeId = 1,
                     Title = "Barrens",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "ffa37ac4-575a-4b06-b4b9-23365c62d15c",
+                    ThreadTypeId = 4,
                     Title = "Kalimdor",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "52de4f3a-7ec4-464f-a6e0-aa77c881cc53",
+                    ThreadTypeId = 4,
                     Title = "Azeroth",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "e6409d32-32ff-4186-9c3f-d63523794eae",
+                    ThreadTypeId = 4,
                     Title = "Harry Styles",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "8725ba9f-490d-460a-b6cf-d19d9c2ecb37",
+                    ThreadTypeId = 4,
                     Title = "Zendaya",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "742466ec-5456-4f41-8b02-5ca6c710fa76",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "8a8e339a-8c68-4bad-9b29-c926b6aca412",
+                    ThreadTypeId = 4,
                     Title = "Title",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "742466ec-5456-4f41-8b02-5ca6c710fa76",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "331900b4-2c7e-4682-b0b8-5c5928eec238",
+                    ThreadTypeId = 4,
                     Title = "Tommy is the boy next door",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "f76ba675-da23-45ae-b351-7854af84d238",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "6aa06fee-025d-4120-aa4e-9b6310273443",
+                    ThreadTypeId = 4,
                     Title = "Title is a title",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "f76ba675-da23-45ae-b351-7854af84d238",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "651c10e9-6439-479e-8fad-c5784ecff65b",
+                    ThreadTypeId = 4,
                     Title = "Puppy on a desk",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "9fd6f1e8-ccf1-4a78-b3f1-c70bdbd2733e",
+                    ThreadTypeId = 4,
                     Title = "Rotoscope",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "e98d96ea-7c4a-4228-8373-f9f6bb3a8880",
+                    ThreadTypeId = 4,
                     Title = "Revision",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "f1767a58-5c40-4a1d-b256-bb96fa60d9ea",
+                    ThreadTypeId = 4,
                     Title = "Television",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "fe8b0fc3-174f-4270-8e77-de2c00e6c47c",
+                    ThreadTypeId = 4,
                     Title = "Copperfield",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "b2f87ea3-676e-4e8c-9878-908a24ee4354",
+                    ThreadTypeId = 4,
                     Title = "Velocity",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
                 new Thread
                 {
                     Id = "f3cd7787-ead6-4eae-899c-e5952e4934c1",
+                    ThreadTypeId = 4,
                     Title = "Opacity",
                     Content = "This is an artificially injected thread for testing purposes.",
-                    AuthorId = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
-                    Points = rnd.Next(200),
+                    Points = rnd.Next(1000),
+                    CreatedOn = RandomDayFunc(),
+                },
+            };
+
+            var poems = new List<Thread>
+            {
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "My sister was a sociopath. Then she had surgery.",
+                    Content = "There was always something wrong with Annie. For years, it felt like I was the only one who knew.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "As well as if a manor of thy friend’s",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "Or of thine own were:",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "Any man’s death diminishes me,",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "Because I am involved in mankind,",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "And therefore never send to know for whom the bell tolls;",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "It tolls for thee.",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                //HERE
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "Whose woods these are I think I know.",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "His house is in the village though;",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "He will not see me stopping here",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "To watch his woods fill up with snow.",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
+                    CreatedOn = RandomDayFunc(),
+                },
+                new Thread
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ThreadTypeId = 2,
+                    Title = "My little horse must think it queer",
+                    Content = "This is an artificially injected thread for testing purposes.",
+                    Points = rnd.Next(900),
                     CreatedOn = RandomDayFunc(),
                 },
             };
 
             var genreThreads = new List<GenreThread>();
 
-            foreach (var thread in threads)
+            foreach (var thread in stories)
             {
                 int num = rnd.Next(1, 4);
+                thread.AuthorId = data.Users.OrderBy(u => Guid.NewGuid()).FirstOrDefault().Id;
+                if (thread.ThreadTypeId == 4) thread.PromptId = data.Threads.Where(t => t.ThreadTypeId == 3).OrderBy(t => Guid.NewGuid()).FirstOrDefault().Id;
                 for (int i = 0; i < num; i++)
                 {
                     int genreId = rnd.Next(1, 15);
@@ -469,7 +755,26 @@ namespace _4drafts.Infrastructure
                 }
             }
 
-            data.Threads.AddRange(threads);
+            foreach (var thread in poems)
+            {
+                int num = rnd.Next(1, 4);
+                thread.AuthorId = data.Users.OrderBy(u => Guid.NewGuid()).FirstOrDefault().Id;
+                for (int i = 0; i < num; i++)
+                {
+                    int genreId = rnd.Next(1, 15);
+                    if (!genreThreads.Any(g => g.GenreId == genreId && g.ThreadId == thread.Id))
+                    {
+                        genreThreads.Add(new GenreThread
+                        {
+                            GenreId = genreId,
+                            ThreadId = thread.Id
+                        });
+                    }
+                }
+            }
+
+            data.Threads.AddRange(stories);
+            data.Threads.AddRange(poems);
             data.GenreThreads.AddRange(genreThreads);
             data.SaveChanges();
         }

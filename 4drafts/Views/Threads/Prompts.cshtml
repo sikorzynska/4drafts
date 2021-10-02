@@ -15,8 +15,6 @@
     </div>
     <div class="row ml-1">
         <input class="d-none" id="sort-value" value="@Model.SortType" />
-        <input class="d-none" id="own-value" value="@Model.Own" />
-        <input class="d-none" id="liked-value" value="@Model.Liked" />
         <input class="d-none" id="act" value="@act" />
         <div class="form-group">
             <div class="input-group">
@@ -32,71 +30,33 @@
                 </select>
             </div>
         </div>
-        @{
-            if (userId != null)
-            {
-                <div class="form-group ml-1">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fal fa-user"></i>
-                            </div>
-                        </div>
-                        <input class="opt-checkbox" id="mine-checkbox" type="checkbox" data-toggle="toggle" data-on="Mine" data-off="Mine">
-                    </div>
-                </div>
-                <div class="form-group ml-1">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fal fa-heart"></i>
-                            </div>
-                        </div>
-                        <input class="opt-checkbox" id="liked-checkbox" type="checkbox" data-toggle="toggle" data-on="Favourites" data-off="Favourites">
-                    </div>
-                </div>
-            }
-        }
         <div class="form-group ml-1">
             <a id="filter" class="btn btn-primary form-control"><i class="fal fa-filter"></i> Filter</a>
         </div>
         <img src="~/images/pointthis.png" alt="point this" class="pointthis" id="pointthis" />
     </div>
-    <table class="table table-hover table-fixed">
-        <thead class="bg-tablehead">
-            <tr>
-                <th scope="col" class="border text-center" style="width: 6%;">Type</th>
-                <th scope="col" class="border">Content</th>
-                <th scope="col" class="border w-10">Created On</th>
-                <th scope="col" class="border text-center w-10">Points</th>
-                <th scope="col" class="border text-center w-10">Comments</th>
-                <th scope="col" class="border text-center w-10">Responses</th>
-            </tr>
-        </thead>
-        <tbody class="bg-secondary">
+    <table class="table table-hover">
+        <tbody class="gray-stripes">
             @{
-                if (!Model.Any())
+                foreach (var thread in Model)
                 {
+                    avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
                     <tr>
-                        <th colspan="6" class="border text-center">
-                            <h4 class="p-3 mt-auto mb-auto"><i class="fal fa-frown-open"></i> Looks like this section is empty...</h4>
-                        </th>
+                        <td class="border">
+                            <span class="text-muted">Posted by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a> <i class="fal fa-arrow-alt-right"></i> <a class="btn-link text-muted">@thread.CreatedOn</a></span>
+                            <div class="mt-2 mb-2">
+                                <span class="badge-pill badge-dark">WRITING PROMPT</span>
+                                <a class="btn-link" asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id">
+                                    @thread.Content
+                                </a>
+                            </div>
+                            <div>
+                                <span class="text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></span>&nbsp;
+                                <span class="text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></span>&nbsp;
+                                <span class="text-muted"><i class="fal fa-reply-all"></i>&nbsp;<span>@thread.Responses Responses</span></span>&nbsp;
+                            </div>
+                        </td>
                     </tr>
-                }
-                else
-                {
-                    foreach (var prompt in Model)
-                    {
-                        avatar = String.IsNullOrWhiteSpace(prompt.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : prompt.AuthorAvatarUrl;
-                        <tr>
-                            <th class="border text-center bg-tablehead-gray v-middle"><img src="https://cdn-icons-png.flaticon.com/512/3176/3176298.png" style="width: 40px; height: 40px;" /></th>
-                            <td class="border"><a class="btn-link" asp-controller="Threads" asp-action="Read" asp-route-t="@prompt.Id">@prompt.Content</a></td>
-                            <td class="border">@prompt.CreatedOn</td>
-                            <td class="border text-center v-middle">@prompt.Points</td>
-                            <td class="border text-center v-middle">@prompt.CommentCount</td>
-                            <td class="border text-center v-middle">@prompt.Responses</td>
-                        </tr>
-                    }
                 }
             }
         </tbody>
@@ -109,13 +69,11 @@
 <div class="container w-100">
     <div class="text-center">
         <a asp-controller="Threads" asp-action="Prompts" asp-route-sort="@Model.SortType"
-           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked"
            asp-route-page="1"
            class="btn btn-secondary @prevDisabled">
             <i class="fas fa-angle-double-left"></i>
         </a>
         <a asp-controller="Threads" asp-action="Prompts" asp-route-sort="@Model.SortType"
-           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked"
            asp-route-page="@(Model.PageIndex - 1)"
            class="btn btn-secondary @prevDisabled">
             <i class="fas fa-angle-left"></i>
@@ -131,7 +89,6 @@
                 else
                 {
                     <a asp-controller="Threads" asp-action="Prompts" asp-route-sort="@Model.SortType"
-                       asp-route-own="@Model.Own" asp-route-liked="@Model.Liked"
                        asp-route-page="@i" class="btn btn-secondary">
                         @i
                     </a>
@@ -139,13 +96,11 @@
             }
         }
         <a asp-controller="Threads" asp-action="Prompts" asp-route-sort="@Model.SortType"
-           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked"
            asp-route-page="@(Model.PageIndex + 1)"
            class="btn btn-secondary @nextDisabled">
             <i class="fas fa-angle-right"></i>
         </a>
         <a asp-controller="Threads" asp-action="Prompts" asp-route-sort="@Model.SortType"
-           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked"
            asp-route-page="@Model.TotalPages"
            class="btn btn-secondary @nextDisabled">
             <i class="fas fa-angle-double-right"></i>

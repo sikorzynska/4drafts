@@ -3,150 +3,191 @@
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
     var avatar = "";
+    var act = "browse";
 }
 
-<div class="row ml-1">
-    <input class="d-none" id="genre-value" value="@Model.Genre" />
-    <input class="d-none" id="sort-value" value="@Model.SortType" />
-    <input class="d-none" id="own-value" value="@Model.Own" />
-    <input class="d-none" id="liked-value" value="@Model.Liked" />
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    <i class="fas fa-sort"></i>
-                </div>
-            </div>
-            <select onchange="addFilterRoutes()" id="sort-select" class="selectpicker form-control" title="Sort">
-                <option id="best" value="best" data-icon="fas fa-rocket">Best</option>
-                <option id="new" value="new" data-icon="fas fa-clock">New</option>
-                <option id="controversial" value="controversial" data-icon="fas fa-fire">Controversial</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group ml-1">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    <i class="fas fa-folder-open"></i>
-                </div>
-            </div>
-            <select onchange="addFilterRoutes()" id="genre-select" class="selectpicker form-control" title="Genre">
-                <option value="0" data-icon="fas fa-times">Default</option>
-                @foreach (var genre in Model.Genres)
-                {
-                    <option id="@(genre.Id)genre" value="@genre.Id">@genre.Name</option>
-                }
-
-
-            </select>
-        </div>
-    </div>
-    @{
-        if (userId != null)
-        {
-            <div class="form-group ml-1">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <i class="fas fa-user"></i>
+<table class="table table-hover">
+    <tbody class="gray-stripes">
+        <tr>
+            <td class="border bg-secondary">
+                <div class="row w-100 mr-auto ml-auto">
+                    <input class="d-none" id="genre-value" value="@Model.Genre" />
+                    <input class="d-none" id="sort-value" value="@Model.SortType" />
+                    <input class="d-none" id="type-value" value="@Model.Type" />
+                    <input class="d-none" id="act" value="@act" />
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text edges">
+                                    <i class="fal fa-sort"></i>
+                                </div>
+                            </div>
+                            <select onchange="addFilterRoutes('@act')" id="sort-select" class="custom-select form-control edges" title="Sort">
+                                <option id="best" value="best" data-icon="fal fa-rocket">Best</option>
+                                <option id="new" value="new" data-icon="fal fa-clock">New</option>
+                                <option id="controversial" value="controversial" data-icon="fal fa-fire">Controversial</option>
+                            </select>
                         </div>
                     </div>
-                    <input class="opt-checkbox" id="mine-checkbox" type="checkbox" data-toggle="toggle" data-on="Mine" data-off="Mine">
-                </div>
-            </div>
-            <div class="form-group ml-1">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <i class="fas fa-heart"></i>
+                    <div class="form-group ml-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text edges">
+                                    <i class="fal fa-clone"></i>
+                                </div>
+                            </div>
+                            <select onchange="addFilterRoutes('@act')" id="type-select" class="custom-select form-control edges" title="Type">
+                                <option value="0">All Types</option>
+                                <option id="1type" value="1">Story</option>
+                                <option id="2type" value="2">Poem</option>
+                                <option id="3type" value="3">Writing Prompt</option>
+                                <option id="4type" value="4">Prompt Inspired</option>
+                            </select>
                         </div>
                     </div>
-                    <input class="opt-checkbox" id="liked-checkbox" type="checkbox" data-toggle="toggle" data-on="Favourites" data-off="Favourites">
+                    <div class="form-group ml-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text edges">
+                                    <i class="fal fa-folder-open"></i>
+                                </div>
+                            </div>
+                            <select onchange="addFilterRoutes('@act')" id="genre-select" class="custom-select form-control edges" title="Genre">
+                                <option value="0" data-icon="fas fa-times">All Genres</option>
+                                @foreach (var genre in Model.Genres)
+                                {
+                                    <option id="@(genre.Id)genre" value="@genre.Id">@genre.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group ml-1">
+                        <a id="filter" class="btn btn-outline-dark"><i class="fal fa-filter"></i></a>
+                    </div>
+                    <img src="~/images/pointthis-dark.png" alt="point this" class="pointthis" id="pointthis" />
                 </div>
-            </div>
-        }
-    }
-    <div class="form-group ml-1">
-        <a id="filter" class="btn btn-primary form-control"><i class="fas fa-filter"></i> Filter</a>
-    </div>
-    <img src="~/images/pointthis.png" alt="point this" class="pointthis" id="pointthis" />
-</div>
-<div class="table-responsive">
-    <table id="threadTable" class="table table-hover table-fixed">
-        <thead class="bg-tablehead">
-            <tr>
-                <th class="text-truncate border w-16" scope="col">Genre</th>
-                <th class="text-truncate border" scope="col">Title</th>
-                <th class="text-truncate border w-15" scope="col">Posted</th>
-                <th class="text-truncate text-center w-10 border" scope="col">Likes</th>
-                <th class="text-truncate text-center w-10 border" scope="col">Replies</th>
-                <th class="text-truncate border w-15" scope="col">Author</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                if (Model.Any())
+            </td>
+        </tr>
+        @{
+            foreach (var thread in Model)
+            {
+                avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
+                switch (thread.ThreadTypeId)
                 {
-                    foreach (var thread in Model)
-                    {
-                        avatar = String.IsNullOrWhiteSpace(thread.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : thread.AuthorAvatarUrl;
-                        if (userId == thread.AuthorId)
+                    case 1:
                         {
-                            <tr class="table-light" id="@thread.Id">
+                            var genres = "";
+                            foreach (var genre in thread.GenreNames)
+                            {
+                                genres += genre + System.Environment.NewLine;
+                            }
+                            <tr>
+                                 <td class="border">
+                                     <span class="text-muted mr-1">Posted by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a> <i class="fal fa-arrow-alt-right"></i> <a class="btn-link text-muted">@thread.CreatedOn</a></span>
+                                     @if (thread.GenreNames != null)
+                                     {
+                                         foreach (var genre in thread.GenreNames)
+                                         {
+                                             <span class="badge badge-secondary border">@genre</span>
+                                         }
+                                     }
+                                     <br />
+                                     <div class="mt-2 mb-2">
+                                         <span class="badge-pill badge-info">STORY</span>
+                                         <a class="btn-link d-inline" asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id">
+                                             @thread.Title
+                                         </a>
+                                     </div>
+                                     <div>
+                                         <span class="text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></span>&nbsp;
+                                         <span class="text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></span>&nbsp;
+                                     </div>
+                                 </td>
+                            </tr>
+                            break;
+                        }
+                    case 2:
+                        {
+                            <tr>
                                 <td class="border">
-                                    @{
-                                        for (int i = 0; i < thread.GenresSimplified.Count(); i++)
+                                    <span class="text-muted mr-1">Posted by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a> <i class="fal fa-arrow-alt-right"></i> <a class="btn-link text-muted">@thread.CreatedOn</a></span>
+                                    @if (thread.GenreNames != null)
+                                    {
+                                        foreach (var genre in thread.GenreNames)
                                         {
-                                            <span class="badge badge-info"><a class="btn-link" tabindex="0" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="@thread.GenreDescriptions[i]">[@thread.GenresSimplified[i]]</a></span>
+                                            <span class="badge badge-secondary border">@genre</span>
                                         }
                                     }
-                                </td>
-                                <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
-                                <td class="text-truncate border">@thread.CreatedOn</td>
-                                <td class=" text-center border">@thread.Points</td>
-                                <td class=" text-center border">@thread.CommentCount</td>
-                                <td class="text-truncate border">
-                                    <div class="d-inline media-img-30">
-                                        <a onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')" class="btn-link">
-                                            <img class="rounded-circle border" src="@avatar" />
-                                            @thread.AuthorName
+                                    <br />
+                                    <div class="mt-2 mb-2">
+                                        <span class="badge-pill badge-info">POEM</span>
+                                        <a class="btn-link d-inline" asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id">
+                                            @thread.Title
                                         </a>
+                                    </div>
+                                    <div>
+                                        <span class="text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></span>&nbsp;
+                                        <span class="text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></span>&nbsp;
                                     </div>
                                 </td>
                             </tr>
+                            break;
                         }
-                        else
+                    case 3:
                         {
-                            <tr class="table-secondary" id="@thread.Id">
+                            <tr>
                                 <td class="border">
-                                    @{
-                                        for (int i = 0; i < thread.GenresSimplified.Count(); i++)
-                                        {
-                                            <span class="badge badge-info"><a class="btn-link" tabindex="0" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="@thread.GenreDescriptions[i]">[@thread.GenresSimplified[i]]</a></span>
-                                        }
-                                    }
-                                </td>
-                                <th class="border"><a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="d-block text-truncate btn-link"><strong>@thread.Title</strong></a></th>
-                                <td class="text-truncate border">@thread.CreatedOn</td>
-                                <td class=" text-center border">@thread.Points</td>
-                                <td class=" text-center border">@thread.CommentCount</td>
-                                <td class="text-truncate border">
-                                    <div class="d-inline media-img-30">
-                                        <a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">
-                                            <img class="rounded-circle border" src="@avatar" />
-                                            @thread.AuthorName
+                                    <span class="text-muted">Posted by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a> <i class="fal fa-arrow-alt-right"></i> <a class="btn-link text-muted">@thread.CreatedOn</a></span>
+                                    <div class="mt-2 mb-2">
+                                        <span class="badge-pill badge-info">WRITING PROMPT</span>
+                                        <a class="btn-link" asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id">
+                                            @thread.Content
                                         </a>
+                                    </div>
+                                    <div>
+                                        <span class="text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></span>&nbsp;
+                                        <span class="text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></span>&nbsp;
+                                        <span class="text-muted"><i class="fal fa-reply-all"></i>&nbsp;<span>@thread.Responses Responses</span></span>&nbsp;
                                     </div>
                                 </td>
                             </tr>
+                            break;
                         }
-                    }
+                    case 4:
+                        {
+                            <tr>
+                                <td class="border">
+                                    <span class="text-muted mr-1">Posted by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a> <i class="fal fa-arrow-alt-right"></i> <a class="btn-link text-muted">@thread.CreatedOn</a></span>
+                                    @if (thread.GenreNames != null)
+                                    {
+                                        foreach (var genre in thread.GenreNames)
+                                        {
+                                            <span class="badge badge-secondary border">@genre</span>
+                                        }
+                                    }
+                                    <br />
+                                    <div class="mt-2 mb-2">
+                                        <span class="badge-pill badge-info">PROMPT INSPIRED</span>
+                                        <a class="btn-link d-inline" asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id">
+                                            @thread.Title
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <span class="text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></span>&nbsp;
+                                        <span class="text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></span>&nbsp;
+                                        <a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.PromptId" class="btn-link text-muted"><i class="fal fa-lightbulb"></i>&nbsp;<span>[PROMPT]</span></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            break;
+                        }
+                    default:
+                        break;
                 }
             }
-        </tbody>
-    </table>
-</div>
+        }
+    </tbody>
+</table>
 
 @{
     var prevDisabled = !Model.PreviousPage ? "disabled" : "";
@@ -154,17 +195,15 @@
 }
 <div class="container w-100">
     <div class="text-center">
-        <a asp-controller="Threads" asp-action="Browse"
-           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" 
-           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked" 
-           asp-route-page="1"
+        <a asp-controller="Threads" asp-action="@act"
+           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
+           asp-route-type="@Model.Type" asp-route-page="1"
            class="btn btn-secondary @prevDisabled">
             <i class="fas fa-angle-double-left"></i>
         </a>
-        <a asp-controller="Threads" asp-action="Browse" 
-           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" 
-           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked" 
-           asp-route-page="@(Model.PageIndex - 1)"
+        <a asp-controller="Threads" asp-action="@act"
+           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
+           asp-route-type="@Model.Type" asp-route-page="@(Model.PageIndex - 1)"
            class="btn btn-secondary @prevDisabled">
             <i class="fas fa-angle-left"></i>
         </a>
@@ -178,26 +217,23 @@
                 }
                 else
                 {
-                    <a asp-controller="Threads" asp-action="Browse" 
-                       asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" 
-                       asp-route-own="@Model.Own" asp-route-liked="@Model.Liked" 
-                       asp-route-page="@i" class="btn btn-secondary">
+                    <a asp-controller="Threads" asp-action="@act"
+                       asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
+                       asp-route-type="@Model.Type" asp-route-page="@i" class="btn btn-secondary">
                         @i
                     </a>
                 }
             }
         }
-        <a asp-controller="Threads" asp-action="Browse" 
-           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType" 
-           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked" 
-           asp-route-page="@(Model.PageIndex + 1)"
+        <a asp-controller="Threads" asp-action="@act"
+           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
+           asp-route-type="@Model.Type" asp-route-page="@(Model.PageIndex + 1)"
            class="btn btn-secondary @nextDisabled">
             <i class="fas fa-angle-right"></i>
         </a>
-        <a asp-controller="Threads" asp-action="Browse" 
+        <a asp-controller="Threads" asp-action="Browse"
            asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
-           asp-route-own="@Model.Own" asp-route-liked="@Model.Liked" 
-           asp-route-page="@Model.TotalPages"
+           asp-route-type="@Model.Type" asp-route-page="@Model.TotalPages"
            class="btn btn-secondary @nextDisabled">
             <i class="fas fa-angle-double-right"></i>
         </a>

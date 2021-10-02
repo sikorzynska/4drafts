@@ -1,10 +1,10 @@
 ﻿@model PaginatedList<ThreadsBrowseModel>
 @{
-    ViewBag.Title = "Stories";
+    ViewBag.Title = "Poems";
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
     var avatar = "";
-    var act = "stories";
+    var act = "poems";
 }
 
 <div class="container-fluid">
@@ -66,32 +66,24 @@
                         genres += genre + System.Environment.NewLine;
                     }
                     <tr>
-                         <td class="border">
-                             <span class="text-muted mr-1">Posted by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a> <i class="fal fa-arrow-alt-right"></i> <a class="btn-link text-muted">@thread.CreatedOn</a></span>
-                             @foreach (var genre in thread.GenreNames)
-                             {
-                                 <span class="badge badge-secondary border">@genre</span>
-                             }
-                             <br />
-                             <div class="mt-2 mb-2">
-                                 @if (thread.ThreadTypeId == 4)
-                                 {
-                                     <span class="badge-pill badge-dark">PROMPT INSPIRED</span>
-                                 }
-                                 <span class="badge-pill badge-dark">STORY</span>
-                                 <a class="btn-link d-inline" asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id">
-                                     @thread.Title
-                                 </a>
-                             </div>
-                             <div>
-                                 <span class="text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></span>&nbsp;
-                                 <span class="text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></span>&nbsp;
-                                 @if (thread.ThreadTypeId == 4)
-                                 {
-                                     <a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.PromptId" class="btn-link text-muted"><i class="fal fa-lightbulb"></i>&nbsp;<span>[PROMPT]</span></a>
-                                 }
-                             </div>
-                         </td>
+                        <td class="border">
+                            <span class="text-muted mr-1">Posted by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a> <i class="fal fa-arrow-alt-right"></i> <a class="btn-link text-muted">@thread.CreatedOn</a></span>
+                            @foreach (var genre in thread.GenreNames)
+                            {
+                                <span class="badge badge-secondary border">@genre</span>
+                            }
+                            <br />
+                            <div class="mt-2 mb-2">
+                                <span class="badge-pill badge-dark">POEM</span>
+                                <a class="btn-link d-inline" asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id">
+                                    @thread.Title
+                                </a>
+                            </div>
+                            <div>
+                                <a class="btn-link text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></a>&nbsp;
+                                <a class="btn-link text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></a>&nbsp;
+                            </div>
+                        </td>
                     </tr>
                 }
             }
@@ -104,13 +96,13 @@
 }
 <div class="container w-100">
     <div class="text-center">
-        <a asp-controller="Threads" asp-action="Stories"
+        <a asp-controller="Threads" asp-action="Responses"
            asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
            asp-route-page="1"
            class="btn btn-secondary @prevDisabled">
             <i class="fas fa-angle-double-left"></i>
         </a>
-        <a asp-controller="Threads" asp-action="Stories"
+        <a asp-controller="Threads" asp-action="Responses"
            asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
            asp-route-page="@(Model.PageIndex - 1)"
            class="btn btn-secondary @prevDisabled">
@@ -126,7 +118,7 @@
                 }
                 else
                 {
-                    <a asp-controller="Threads" asp-action="Stories"
+                    <a asp-controller="Threads" asp-action="Responses"
                        asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
                        asp-route-page="@i" class="btn btn-secondary">
                         @i
@@ -134,13 +126,13 @@
                 }
             }
         }
-        <a asp-controller="Threads" asp-action="Stories"
+        <a asp-controller="Threads" asp-action="Responses"
            asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
            asp-route-page="@(Model.PageIndex + 1)"
            class="btn btn-secondary @nextDisabled">
             <i class="fas fa-angle-right"></i>
         </a>
-        <a asp-controller="Threads" asp-action="Stories"
+        <a asp-controller="Threads" asp-action="Responses"
            asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
            asp-route-page="@Model.TotalPages"
            class="btn btn-secondary @nextDisabled">

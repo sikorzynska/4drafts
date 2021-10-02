@@ -517,8 +517,6 @@ $(function () {
 
 function addFilterRoutes(act) {
     var filterBtn = document.getElementById('filter');
-    var mine = document.getElementById('mine-checkbox').checked;
-    var liked = document.getElementById('liked-checkbox').checked;
 
     var path = '';
     switch (act) {
@@ -527,7 +525,7 @@ function addFilterRoutes(act) {
             break;
         }
         default: {
-            path = '/threads/' + act + '?genre=' + getSelectedValue('genre-select') + '&sort=' + getSelectedValue('sort-select') + '&own=' + mine + '&liked=' + liked;
+            path = '/threads/' + act + '?genre=' + getSelectedValue('genre-select') + '&type=' + getSelectedValue('type-select') + '&sort=' + getSelectedValue('sort-select');
             break;
         }
     }
@@ -537,16 +535,17 @@ function addFilterRoutes(act) {
 $(".pointthis").ready(function () {
     var genre = $('#genre-value').val() + 'genre';
     var sort = $('#sort-value').val();
-    var own = $('#own-value').val() != "" ? 'on' : "off";
-    var liked = $('#liked-value').val() != "" ? 'on' : 'off';
+    var type = $('#type-value').val() + 'type';
 
     var genreOption = document.getElementById(genre);
     var sortOption = document.getElementById(sort);
+    var typeOption = document.getElementById(type);
+
+    console.log(type);
 
     $(genreOption).attr('selected', "");
     $(sortOption).attr('selected', "");
-    $('#mine-checkbox').bootstrapToggle(own, true);
-    $('#liked-checkbox').bootstrapToggle(liked, true);
+    $(typeOption).attr('selected', "");
 });
 
 function saveDraft(title, content, genreIds, typeId, draftId, promptId) {

@@ -94,7 +94,7 @@
                         authorAvatar = String.IsNullOrWhiteSpace(comment.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : comment.AuthorAvatarUrl;
                         <tr>
                             <td colspan="2">
-                                <strong><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, null, null, '@comment.AuthorName')">@comment.AuthorName</a></strong>&nbsp;
+                                <strong><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, '@comment.AuthorName')">@comment.AuthorName</a></strong>&nbsp;
                                 <span>>>&nbsp;@comment.CreatedOn</span>
                                 <a class="btn-link ml-2 d-inline"><i class="fal fa-reply"></i> [REPLY]</a>
                                 <a class="btn-link ml-2 d-inline"><i class="fal fa-flag"></i> [REPORT]</a>

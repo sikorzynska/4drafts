@@ -467,7 +467,7 @@ hide-empty:empty {
 
 .btn-link {
     font-weight: 400;
-    color: black !important;
+    color: black;
     text-decoration: none !important;
 }
 
@@ -750,6 +750,10 @@ hide-empty:empty {
     border: 1px solid black;
 }
 
+.dark-stripes {
+    background-image: linear-gradient(45deg, #bab8b8 25%, #b3b3b3 25%, #b3b3b3 50%, #bab8b8 50%, #bab8b8 75%, #b3b3b3 75%, #b3b3b3 100%);
+    background-size: 14.14px 14.14px;
+}
 
 
 
