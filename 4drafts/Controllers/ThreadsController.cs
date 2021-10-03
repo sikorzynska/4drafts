@@ -65,6 +65,7 @@ namespace _4drafts.Controllers
                 TypeId = thread.ThreadTypeId,
                 Type = thread.ThreadType.Name,
                 Responses = this.data.Threads.Count(x => x.PromptId == thread.Id),
+                PromptId = thread.PromptId,
                 Content = thread.Content,
                 CreatedOn = this.timeWarper.TimeAgo(thread.CreatedOn),
                 AuthorId = author.Id,
@@ -93,6 +94,8 @@ namespace _4drafts.Controllers
                 })
                 .ToList()
             };
+
+            if (threadResult.TypeId == 4) threadResult.Prompt = this.data.Threads.FirstOrDefault(t => t.Id == thread.PromptId).Content;
 
             return View(threadResult);
         }
@@ -589,7 +592,7 @@ namespace _4drafts.Controllers
                 }
             }
 
-            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, page, 10, GetGenres(this.data), genre, sort, type));
+            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, page, 15, GetGenres(this.data), genre, sort, type));
         }
 
         [HttpGet]

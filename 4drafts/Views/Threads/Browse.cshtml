@@ -1,71 +1,14 @@
 ﻿@model List<ThreadsBrowseModel>
 @{
-    ViewBag.Title = "Threads";
-    var user = await this.userManager.GetUserAsync(User);
-    var userId = user == null ? null : user.Id;
-
-    var rules = new List<string>();
-    rules.Add("Stories must have a minimum of 500 characters.");
-    rules.Add("Poems must have a minimum of 100 characters.");
-    rules.Add("Prompts must be between 50 and 500 characters long.");
-    rules.Add("Plagiarism will result in a ban");
-    rules.Add("No immature / sexually explicit content");
-    rules.Add("Avoid racism and political debates");
-    rules.Add("Avoid detailed uses of suicide, and mental health stereotypes");
+    ViewBag.Title = "Browse";
 }
 <div class="container-fluid">
     <div class="row">
         <div id="threads-section" class="col-8">
             <partial name="_ThreadsPartial" model="@Model" />
         </div>
-        <div class="col">
-            <table class="table table-hover w-100">
-                <tbody>
-                    <tr>
-                        <td class="border dark-stripes text-center p-5">
-                            <h2><a class="btn-link">ADVERTISE HERE</a></h2>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border gray-stripes">
-                            <h3 class="pt-2 text-center"><i class="fal fa-users"></i> Top Users</h3>
-                            <hr class="w-50" />
-                            <ul class="list-group list-group-flusht">
-                                <li class="list-group-item bg-transparent">An item</li>
-                                <li class="list-group-item bg-transparent">A second item</li>
-                                <li class="list-group-item bg-transparent">A third item</li>
-                                <li class="list-group-item bg-transparent">A fourth item</li>
-                                <li class="list-group-item bg-transparent">And a fifth one</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border gray-stripes">
-                            <h3 class="pt-2 text-center"><i class="fal fa-books"></i> Top Threads</h3>
-                            <hr class="w-50" />
-                            <ul class="list-group list-group-flusht">
-                                <li class="list-group-item bg-transparent">An item</li>
-                                <li class="list-group-item bg-transparent">A second item</li>
-                                <li class="list-group-item bg-transparent">A third item</li>
-                                <li class="list-group-item bg-transparent">A fourth item</li>
-                                <li class="list-group-item bg-transparent">And a fifth one</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border gray-stripes">
-                            <h3 class="pt-2 text-center"><i class="fal fa-shield"></i> Posting Rules</h3>
-                            <hr class="w-50" />
-                            <ul class="list-group list-group-flusht">
-                                @foreach (var rule in rules)
-                                {
-                                    <li class="list-group-item bg-transparent">@rule</li>
-                                }
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-4">
+            @await Component.InvokeAsync("Sideview")
         </div>
     </div>
 </div>

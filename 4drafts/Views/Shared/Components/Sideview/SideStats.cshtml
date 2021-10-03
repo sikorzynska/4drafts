@@ -1,0 +1,79 @@
+﻿@model StatisticsViewModel
+@{ 
+    var avatar = "";
+}
+<table class="table table-hover table-fixed w-100">
+    <tbody>
+        <tr>
+            <td class="border dark-stripes text-center p-5">
+                <h2><a class="btn-link">ADVERTISE HERE</a></h2>
+            </td>
+        </tr>
+        <tr>
+            <td class="border gray-stripes">
+                <h3 class="pt-2 text-center"><i class="fal fa-users"></i> Top Users</h3>
+                <hr class="w-50" />
+                <ul class="list-group list-group-flusht">
+                    @{
+                        int n = 0;
+                        foreach (var user in Model.Users)
+                        {
+                            n++;
+                            avatar = String.IsNullOrWhiteSpace(user.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : user.AvatarUrl;
+                            <li class="list-group-item bg-transparent">
+                                <span>@n.</span>
+                                <a class="btn-link ml-1" onclick="popUp('/Users/Peek/','peek-profile', null, '@user.Username')">
+                                    <img src="@avatar" style="width: 30px; height: 30px; border-radius: 50%;" alt="Avatar" />
+                                    @user.Username
+                                </a>
+                                <span class="badge badge-success border edges">patron</span>
+                            </li>
+                        }
+                    }
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td class="border gray-stripes">
+                <h3 class="pt-2 text-center"><i class="fal fa-books"></i> Top Stories</h3>
+                <hr class="w-50" />
+                <ul class="list-group list-group-flusht">
+                    @{
+                        foreach (var thread in Model.Threads)
+                        {
+                            <li class="list-group-item bg-transparent">
+                                <div class="row w-100 mr-auto ml-auto">
+                                     <div class="col-8 pl-0 pr-0">
+                                         <a class="btn-link text-break" asp-controller="threads" asp-action="read" asp-route-t="@thread.Id">@thread.Title</a>
+                                         <br />
+                                         <span class="text-muted">by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a></span>
+                                     </div>
+                                     <div class="col pl-0 pr-0">
+                                         <span class="text-muted pl-2 pr-2 float-right"><i class="fas fa-heart text-danger"></i> @thread.Points</span>
+                                     </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td class="border gray-stripes">
+                <h3 class="pt-2 text-center"><i class="fal fa-shield"></i> Posting Rules</h3>
+                <hr class="w-50" />
+                <ul class="list-group list-group-flusht">
+                    @foreach (var rule in Model.Rules)
+                    {
+                        <li class="list-group-item bg-transparent">@rule</li>
+                    }
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td class="border dark-stripes text-center p-5">
+                <h2><a class="btn-link">ADVERTISE HERE</a></h2>
+            </td>
+        </tr>
+    </tbody>
+</table>

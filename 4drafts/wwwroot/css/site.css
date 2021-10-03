@@ -755,6 +755,15 @@ hide-empty:empty {
     background-size: 14.14px 14.14px;
 }
 
+.graph {
+    font-size: 25px;
+    letter-spacing: 0.1em;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: #1861ac;
+    text-shadow: 2px 2px #ff1f8f, 3px 3px #000000;
+}
+
 
 
          
