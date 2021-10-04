@@ -34,10 +34,11 @@ namespace _4drafts.Data.Migrations
                     Occupation = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true),
                     Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Discord = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Youtube = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Twitter = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Instagram = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Facebook = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Patreon = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AboutMe = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Points = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -61,12 +62,27 @@ namespace _4drafts.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Badges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cost = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Badges", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GenreTypeId = table.Column<int>(type: "int", nullable: false),
                     SimplifiedName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -74,6 +90,19 @@ namespace _4drafts.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genres", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ThreadTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ThreadTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,15 +212,42 @@ namespace _4drafts.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserBadges",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BadgeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserBadges", x => new { x.UserId, x.BadgeId });
+                    table.ForeignKey(
+                        name: "FK_UserBadges_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserBadges_Badges_BadgeId",
+                        column: x => x.BadgeId,
+                        principalTable: "Badges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Drafts",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    ThreadTypeId = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstGenre = table.Column<int>(type: "int", nullable: false),
+                    SecondGenre = table.Column<int>(type: "int", nullable: false),
+                    ThirdGenre = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,6 +258,12 @@ namespace _4drafts.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Drafts_ThreadTypes_ThreadTypeId",
+                        column: x => x.ThreadTypeId,
+                        principalTable: "ThreadTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,13 +271,12 @@ namespace _4drafts.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Points = table.Column<int>(type: "int", nullable: false),
-                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: false)
+                    ThreadTypeId = table.Column<int>(type: "int", nullable: false),
+                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,9 +288,9 @@ namespace _4drafts.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Threads_Genres_GenreId",
-                        column: x => x.GenreId,
-                        principalTable: "Genres",
+                        name: "FK_Threads_ThreadTypes_ThreadTypeId",
+                        column: x => x.ThreadTypeId,
+                        principalTable: "ThreadTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -239,7 +300,7 @@ namespace _4drafts.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Points = table.Column<int>(type: "int", nullable: false),
                     AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -260,6 +321,30 @@ namespace _4drafts.Data.Migrations
                         principalTable: "Threads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GenreThreads",
+                columns: table => new
+                {
+                    GenreId = table.Column<int>(type: "int", nullable: false),
+                    ThreadId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GenreThreads", x => new { x.GenreId, x.ThreadId });
+                    table.ForeignKey(
+                        name: "FK_GenreThreads_Genres_GenreId",
+                        column: x => x.GenreId,
+                        principalTable: "Genres",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GenreThreads_Threads_ThreadId",
+                        column: x => x.ThreadId,
+                        principalTable: "Threads",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -365,14 +450,29 @@ namespace _4drafts.Data.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Drafts_ThreadTypeId",
+                table: "Drafts",
+                column: "ThreadTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GenreThreads_ThreadId",
+                table: "GenreThreads",
+                column: "ThreadId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Threads_AuthorId",
                 table: "Threads",
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Threads_GenreId",
+                name: "IX_Threads_ThreadTypeId",
                 table: "Threads",
-                column: "GenreId");
+                column: "ThreadTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserBadges_BadgeId",
+                table: "UserBadges",
+                column: "BadgeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserComments_CommentId",
@@ -406,6 +506,12 @@ namespace _4drafts.Data.Migrations
                 name: "Drafts");
 
             migrationBuilder.DropTable(
+                name: "GenreThreads");
+
+            migrationBuilder.DropTable(
+                name: "UserBadges");
+
+            migrationBuilder.DropTable(
                 name: "UserComments");
 
             migrationBuilder.DropTable(
@@ -413,6 +519,12 @@ namespace _4drafts.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Genres");
+
+            migrationBuilder.DropTable(
+                name: "Badges");
 
             migrationBuilder.DropTable(
                 name: "Comments");
@@ -424,7 +536,7 @@ namespace _4drafts.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Genres");
+                name: "ThreadTypes");
         }
     }
 }

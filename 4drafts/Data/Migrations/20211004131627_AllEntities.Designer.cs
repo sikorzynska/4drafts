@@ -4,14 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using _4drafts.Data;
 
 namespace _4drafts.Data.Migrations
 {
     [DbContext(typeof(_4draftsDbContext))]
-    [Migration("20210924171050_name")]
-    partial class name
+    [Migration("20211004131627_AllEntities")]
+    partial class AllEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,6 +154,25 @@ namespace _4drafts.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("_4drafts.Data.Models.Badge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Badges");
+                });
+
             modelBuilder.Entity("_4drafts.Data.Models.Comment", b =>
                 {
                     b.Property<string>("Id")
@@ -167,8 +184,8 @@ namespace _4drafts.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -207,12 +224,6 @@ namespace _4drafts.Data.Migrations
                     b.Property<int>("FirstGenre")
                         .HasColumnType("int");
 
-                    b.Property<string>("Prompt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PromptId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SecondGenre")
                         .HasColumnType("int");
 
@@ -224,8 +235,8 @@ namespace _4drafts.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -246,6 +257,9 @@ namespace _4drafts.Data.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GenreTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -297,18 +311,13 @@ namespace _4drafts.Data.Migrations
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
-                    b.Property<string>("Prompt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PromptId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ThreadTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -327,10 +336,6 @@ namespace _4drafts.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SimplifiedName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -452,6 +457,21 @@ namespace _4drafts.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("_4drafts.Data.Models.UserBadge", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("BadgeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "BadgeId");
+
+                    b.HasIndex("BadgeId");
+
+                    b.ToTable("UserBadges");
                 });
 
             modelBuilder.Entity("_4drafts.Data.Models.UserComment", b =>
@@ -611,6 +631,25 @@ namespace _4drafts.Data.Migrations
                     b.Navigation("ThreadType");
                 });
 
+            modelBuilder.Entity("_4drafts.Data.Models.UserBadge", b =>
+                {
+                    b.HasOne("_4drafts.Data.Models.Badge", "Badge")
+                        .WithMany("UserBadges")
+                        .HasForeignKey("BadgeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("_4drafts.Data.Models.User", "User")
+                        .WithMany("UserBadges")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Badge");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("_4drafts.Data.Models.UserComment", b =>
                 {
                     b.HasOne("_4drafts.Data.Models.Comment", "Comment")
@@ -649,6 +688,11 @@ namespace _4drafts.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("_4drafts.Data.Models.Badge", b =>
+                {
+                    b.Navigation("UserBadges");
+                });
+
             modelBuilder.Entity("_4drafts.Data.Models.Comment", b =>
                 {
                     b.Navigation("UserComments");
@@ -682,6 +726,8 @@ namespace _4drafts.Data.Migrations
                     b.Navigation("Drafts");
 
                     b.Navigation("Threads");
+
+                    b.Navigation("UserBadges");
 
                     b.Navigation("UserComments");
 

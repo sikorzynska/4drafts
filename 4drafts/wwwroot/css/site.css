@@ -764,6 +764,23 @@ hide-empty:empty {
     text-shadow: 2px 2px #ff1f8f, 3px 3px #000000;
 }
 
+.poem {
+    line-height: 2.3;
+}
+
+.story {
+    line-height: normal;
+}
+
+.comment-box {
+    white-space: pre-wrap;
+    overflow-y: hidden;
+}
+
+.mh-145px {
+    max-height: 145px;
+}
+
 
 
          

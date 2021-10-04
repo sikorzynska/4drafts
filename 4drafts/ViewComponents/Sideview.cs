@@ -24,7 +24,7 @@ namespace _4drafts.ViewComponents
         {
             var stories = this.data.Threads
                 .Include(t => t.Author)
-                .Where(t => t.ThreadTypeId == 1 || t.ThreadTypeId == 4)
+                .Where(t => t.ThreadTypeId == 1)
                 .OrderByDescending(t => t.Points)
                 .Select(t => new ThreadsBrowseModel
                 {
@@ -39,7 +39,7 @@ namespace _4drafts.ViewComponents
                 .Take(5)
                 .ToList();
 
-            var poems = this.data.Threads
+            var poems = await this.data.Threads
                 .Include(t => t.Author)
                 .Where(t => t.ThreadTypeId == 2)
                 .OrderByDescending(t => t.Points)
@@ -54,9 +54,9 @@ namespace _4drafts.ViewComponents
                     Points = t.Points,
                 })
                 .Take(5)
-                .ToList();
+                .ToListAsync();
 
-            var users = this.data.Users
+            var users = await this.data.Users
                 .Include(u => u.Threads)
                 .Include(u => u.Comments)
                 .OrderByDescending(u => u.Points)
@@ -69,7 +69,7 @@ namespace _4drafts.ViewComponents
                     CommentCount = u.Comments.Count(),
                 })
                 .Take(5)
-                .ToList();
+                .ToListAsync();
 
             var rules = new List<string>();
             rules.Add("Stories must have a minimum of 500 characters.");

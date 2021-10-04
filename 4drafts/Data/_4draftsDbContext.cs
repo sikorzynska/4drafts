@@ -16,12 +16,17 @@ namespace _4drafts.Data
         public DbSet<Genre> Genres { get; init; }
         public DbSet<Comment> Comments { get; init; }
         public DbSet<Draft> Drafts { get; init; }
+        public DbSet<Badge> Badges { get; init; }
         public DbSet<UserThread> UserThreads { get; init; }
         public DbSet<UserComment> UserComments { get; init; }
         public DbSet<GenreThread> GenreThreads { get; init; }
+        public DbSet<UserBadge> UserBadges { get; init; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Badge>()
+                .HasKey(b => b.Id);
+
             builder
                 .Entity<Thread>()
                 .HasOne(t => t.Author)
@@ -89,6 +94,19 @@ namespace _4drafts.Data
                 .HasOne(uc => uc.Comment)
                 .WithMany(c => c.UserComments)
                 .HasForeignKey(uc => uc.CommentId);
+
+            builder.Entity<UserBadge>()
+                .HasOne(ub => ub.User)
+                .WithMany(u => u.UserBadges)
+                .HasForeignKey(ub => ub.UserId);
+
+            builder.Entity<UserBadge>()
+                .HasOne(ub => ub.Badge)
+                .WithMany(b => b.UserBadges)
+                .HasForeignKey(ub => ub.BadgeId);
+
+            builder.Entity<UserBadge>()
+                .HasKey(gt => new { gt.UserId, gt.BadgeId });
 
             builder.Entity<GenreThread>()
                 .HasKey(gt => new { gt.GenreId, gt.ThreadId });

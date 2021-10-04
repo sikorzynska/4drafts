@@ -74,10 +74,6 @@
                              }
                              <br />
                              <div class="mt-2 mb-2">
-                                 @if (thread.ThreadTypeId == 4)
-                                 {
-                                     <span class="badge-pill badge-dark">PROMPT INSPIRED</span>
-                                 }
                                  <span class="badge-pill badge-dark">STORY</span>
                                  <a class="btn-link d-inline" asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id">
                                      @thread.Title
@@ -86,10 +82,6 @@
                              <div>
                                  <span class="text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></span>&nbsp;
                                  <span class="text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></span>&nbsp;
-                                 @if (thread.ThreadTypeId == 4)
-                                 {
-                                     <a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.PromptId" class="btn-link text-muted"><i class="fal fa-lightbulb"></i>&nbsp;<span>[PROMPT]</span></a>
-                                 }
                              </div>
                          </td>
                     </tr>

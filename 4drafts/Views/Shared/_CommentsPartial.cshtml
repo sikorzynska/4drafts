@@ -24,18 +24,18 @@
                             <div class="d-flex flex-row align-items-start media-img-40">
                                 <textarea type="text" rows="1"
                                           style="resize: none;"
-                                          maxlength="500"
+                                          maxlength="2000"
                                           class="form-control ml-1 shadow-none edges"
                                           placeholder="Add a public comment..."
                                           id="comment-content"
-                                          onchange="checkIfEmpty(), countCharacters('comment_count', 'comment-content')"
-                                          onkeypress="checkIfEmpty(), countCharacters('comment_count', 'comment-content')"
-                                          oninput="checkIfEmpty(), countCharacters('comment_count', 'comment-content')"
-                                          onkeyup="countCharacters('comment_count', 'comment-content')"
-                                          onpaste="checkIfEmpty(), countCharacters('comment_count', 'comment-content')"
+                                          onchange="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 2000)"
+                                          onkeypress="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 2000)"
+                                          oninput="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 2000)"
+                                          onkeyup="countCharacters('comment_count', 'comment-content', 2000)"
+                                          onpaste="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 2000)"
                                           onclick="showButtons()"></textarea>
                                 <div class="input-group-append" id="counter-append">
-                                    <span class="input-group-text edges" id="comment_count">0 / 500</span>
+                                    <span class="input-group-text edges" id="comment_count">0 / 2000</span>
                                 </div>
                             </div>
                         }
@@ -98,6 +98,7 @@
                                 <span>>>&nbsp;@comment.CreatedOn</span>
                                 <a class="btn-link ml-2 d-inline"><i class="fal fa-reply"></i> [REPLY]</a>
                                 <a class="btn-link ml-2 d-inline"><i class="fal fa-flag"></i> [REPORT]</a>
+                                <a onclick="changeArrow('com-arrow@(comment.Id)', 'com@(comment.Id)', 'mh-145px')" class="btn-link ml-2 d-inline"><i id="com-arrow@(comment.Id)" class="fal fa-arrow-down"></i> [UNFOLD]</a>
                                 @if (userId == comment.AuthorId)
                                 {
                                 <div class="float-right d-inline">
@@ -111,8 +112,8 @@
                            <td align="center" class="border w-10 size-100">
                                <img src="@authorAvatar" class="size-100" />
                            </td>
-                           <td class="border p-2 comment-text" style="text-align:left; vertical-align:top;">
-                               @comment.Content
+                           <td class="border p-2" style="text-align:left; vertical-align:top;">
+                               <div id="com@(comment.Id)" class="comment-box mh-145px">@comment.Content</div>
                            </td>
                         </tr>
                     }

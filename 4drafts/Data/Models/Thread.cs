@@ -11,6 +11,7 @@ namespace _4drafts.Data.Models
         [Required]
         public string Id { get; init; } = Guid.NewGuid().ToString();
 
+        [Required]
         [MaxLength(Threads.TitleMaxLength)]
         public string Title { get; set; }
 
@@ -25,10 +26,6 @@ namespace _4drafts.Data.Models
         public int ThreadTypeId { get; set; }
 
         public ThreadType ThreadType { get; set; }
-
-        public string PromptId { get; set; }
-
-        public string Prompt { get; set; }
 
         [Required]
         public string AuthorId { get; set; }

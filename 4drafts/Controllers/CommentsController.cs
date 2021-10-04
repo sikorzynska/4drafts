@@ -49,11 +49,11 @@ namespace _4drafts.Controllers
 
             if (string.IsNullOrWhiteSpace(content)) return Json(new { isValid = false, msg = Comments.Empty });
 
-            if (characterCount > 500) return Json(new { isValid = false, msg = Comments.ReachedMax });
+            if (characterCount > Comments.MaxLength) return Json(new { isValid = false, msg = Comments.ReachedMax });
 
             var comment = new Comment
             {
-                Content = content,
+                Content = content.Trim(),
                 CreatedOn = DateTime.UtcNow.ToLocalTime(),
                 AuthorId = user.Id,
                 ThreadId = threadId
@@ -123,7 +123,7 @@ namespace _4drafts.Controllers
 
             if (string.IsNullOrWhiteSpace(model.Content)) this.ModelState.AddModelError(nameof(Content), Comments.Empty);
 
-            if (characterCount > 500) this.ModelState.AddModelError(nameof(Content), Comments.ReachedMax);
+            if (characterCount > Comments.MaxLength) this.ModelState.AddModelError(nameof(Content), Comments.ReachedMax);
 
             if (!ModelState.IsValid)
             {

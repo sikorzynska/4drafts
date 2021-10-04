@@ -16,10 +16,10 @@
             {
                 <tr id="@draft.Id" class="table-light">
                     <th class="border text-center v-middle">@draft.TypeName</th>
-                    <th class="text-truncate border" scope="row"><a class="btn-link" onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Id', '@draft.TypeId', '@draft.PromptId')">@draft.Title</a></th>
+                    <th class="text-truncate border" scope="row"><a class="btn-link" onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Id', '@draft.TypeId')">@draft.Title</a></th>
                     <td class="text-truncate border">@draft.CreatedOn</td>
                     <td class="text-truncate text-center border v-middle">
-                        <a onclick="popUp('/Drafts/Edit/', 'draft-edit', null, '@draft.Id', '@draft.TypeId', '@draft.PromptId')" class="btn-link"><i class="fal fa-lg fa-pencil"></i></a>&nbsp;
+                        <a onclick="popUp('/Drafts/Edit/', 'draft-edit', null, '@draft.Id', '@draft.TypeId')" class="btn-link"><i class="fal fa-lg fa-pencil"></i></a>&nbsp;
                         <a onclick="deletePopup('@draft.Id', '/Drafts/Delete/')" class="btn-link ml-2"><i class="fal fa-lg fa-trash"></i></a>
                     </td>
                 </tr>

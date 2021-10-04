@@ -13,6 +13,9 @@ namespace _4drafts.Data.Models
         public string Name { get; init; }
 
         [Required]
+        public int GenreTypeId { get; init; }
+
+        [Required]
         public string SimplifiedName { get; init; }
 
         [Required]

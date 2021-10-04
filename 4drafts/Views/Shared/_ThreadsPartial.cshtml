@@ -40,8 +40,6 @@
                                 <option value="0">All Types</option>
                                 <option id="1type" value="1">Story</option>
                                 <option id="2type" value="2">Poem</option>
-                                <option id="3type" value="3">Writing Prompt</option>
-                                <option id="4type" value="4">Prompt Inspired</option>
                             </select>
                         </div>
                     </div>
@@ -128,54 +126,6 @@
                                     <div>
                                         <span class="text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></span>&nbsp;
                                         <span class="text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></span>&nbsp;
-                                    </div>
-                                </td>
-                            </tr>
-                            break;
-                        }
-                    case 3:
-                        {
-                            <tr>
-                                <td class="border">
-                                    <span class="text-muted">Posted by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a> <i class="fal fa-arrow-alt-right"></i> <a class="btn-link text-muted">@thread.CreatedOn</a></span>
-                                    <div class="mt-2 mb-2">
-                                        <span class="badge-pill badge-info">WRITING PROMPT</span>
-                                        <a class="btn-link" asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id">
-                                            @thread.Content
-                                        </a>
-                                    </div>
-                                    <div>
-                                        <span class="text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></span>&nbsp;
-                                        <span class="text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></span>&nbsp;
-                                        <span class="text-muted"><i class="fal fa-reply-all"></i>&nbsp;<span>@thread.Responses Responses</span></span>&nbsp;
-                                    </div>
-                                </td>
-                            </tr>
-                            break;
-                        }
-                    case 4:
-                        {
-                            <tr>
-                                <td class="border">
-                                    <span class="text-muted mr-1">Posted by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a> <i class="fal fa-arrow-alt-right"></i> <a class="btn-link text-muted">@thread.CreatedOn</a></span>
-                                    @if (thread.GenreNames != null)
-                                    {
-                                        foreach (var genre in thread.GenreNames)
-                                        {
-                                            <span class="badge badge-secondary border">@genre</span>
-                                        }
-                                    }
-                                    <br />
-                                    <div class="mt-2 mb-2">
-                                        <span class="badge-pill badge-info">PROMPT INSPIRED</span>
-                                        <a class="btn-link d-inline" asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id">
-                                            @thread.Title
-                                        </a>
-                                    </div>
-                                    <div>
-                                        <span class="text-muted"><i class="fal fa-star"></i>&nbsp;<span>@thread.Points Points</span></span>&nbsp;
-                                        <span class="text-muted"><i class="fal fa-comment-alt"></i>&nbsp;<span>@thread.CommentCount Comments</span></span>&nbsp;
-                                        <a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.PromptId" class="btn-link text-muted"><i class="fal fa-lightbulb"></i>&nbsp;<span>[PROMPT]</span></a>
                                     </div>
                                 </td>
                             </tr>

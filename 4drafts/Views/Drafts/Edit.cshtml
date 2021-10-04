@@ -34,19 +34,6 @@
                             </td>
                         </tr>
                     </table>
-                    @{
-                        if (Model.Prompt != null)
-                        {
-                            <label asp-for="Prompt" class="form-label"></label><br />
-                            <table class="mb-3 table-fixed">
-                                <tr>
-                                    <td class="border-cut bg-secondary p-2">
-                                        <p>@Model.Prompt</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        }
-                    }
                     <div class="form-group">
                         <label asp-for="GenreIds" class="form-label"></label><br />
                         <select asp-for="GenreIds" class="selectpicker form-control edges" multiple data-max-options="3">
@@ -98,9 +85,6 @@
                 </div>
                 <div class="form-group d-none">
                     <input asp-for="TypeId" class="form-control" hidden>
-                </div>
-                <div class="form-group d-none">
-                    <input asp-for="Prompt" class="form-control" hidden>
                 </div>
                 <div class="form-group d-none">
                     <input asp-for="TypeName" class="form-control" hidden>

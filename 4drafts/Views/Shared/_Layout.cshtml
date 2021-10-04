@@ -32,9 +32,6 @@
                     <li class="nav-item">
                         <a asp-controller="Threads" asp-action="Poems" title="Poems" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-scroll"></i><span> Poems</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Prompts" title="Writing Prompts" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-lightbulb"></i><span> Prompts</span></a>
-                    </li>
                     @{
                         if (user != null)
                         {
@@ -46,7 +43,6 @@
                                 <div class="dropdown-menu">
                                     <a onclick="popUp('/Threads/Create/', 'thread-new', null, null, 1)" class="dropdown-item"><i class="fal fa-book"></i> Story</a>
                                     <a onclick="popUp('/Threads/Create/', 'thread-new', null, null, 2)" class="dropdown-item"><i class="fal fa-scroll"></i> Poem</a>
-                                    <a onclick="popUp('/Threads/Create/', 'thread-new', null, null, 3)" class="dropdown-item"><i class="fal fa-lightbulb"></i> Writing Prompt</a>
                                 </div>
                             </li>
                         }

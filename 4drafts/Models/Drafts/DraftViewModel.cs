@@ -14,12 +14,7 @@ namespace _4drafts.Models.Drafts
         public string Id { get; set; }
 
         public string TypeName { get; set; }
-        public string TypeSimplified { get; set; }
         public int TypeId { get; set; }
-        public string PromptId { get; set; }
-
-        [Display(Name = "Writing Prompt")]
-        public string Prompt { get; set; }
 
         [Required]
         [MaxLength(DataConstants.Threads.TitleMaxLength)]

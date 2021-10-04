@@ -30,43 +30,30 @@ $(function () {
     });
 });
 
-var comment_max = 500;
+var comment_max = 2000;
 $('#comment_count').html('0 / ' + comment_max);
+
 
 $("[data-toggle=popover]").popover();
 
-function countCharacters(counterId, valueId) {
+function countCharacters(counterId, valueId, max) {
     var text_length = $(document.getElementById(valueId)).val().length;
 
     var counter = document.getElementById(counterId);
-    $(counter).html(text_length + ' / ' + comment_max);
+    $(counter).html(text_length + ' / ' + max);
 };
 
-function changeArrow() {
-    var foldArrow = document.getElementById('fold-arrow');
-    var contentBody = document.getElementById('content-body');
-    if (contentBody.classList.contains('mh-600')) {
+function changeArrow(arrow, box, prop) {
+    var foldArrow = document.getElementById(arrow);
+    var contentBody = document.getElementById(box);
+    if (contentBody.classList.contains(prop)) {
         foldArrow.classList.remove('fa-arrow-down');
         foldArrow.classList.add('fa-arrow-up');
-        contentBody.classList.remove('mh-600');
+        contentBody.classList.remove(prop);
     } else {
         foldArrow.classList.remove('fa-arrow-up');
         foldArrow.classList.add('fa-arrow-down');
-        contentBody.classList.add('mh-600');
-    }
-}
-
-function showComments() {
-    var btnText = document.getElementById('show-comments');
-    var commentSection = document.getElementById('comment-section');
-
-    if (commentSection.classList.contains('d-none')) {
-        commentSection.classList.remove('d-none');
-        btnText.textContent = '[HIDE COMMENTS]';
-    }
-    else {
-        commentSection.classList.add('d-none');
-        btnText.textContent = '[SHOW COMMENTS]';
+        contentBody.classList.add(prop);
     }
 }
 
@@ -152,7 +139,7 @@ function refer(id) {
     }
 }
 
-function popUp(path, type = null, returnUrl = null, entity = null, tt = null, promptId = null) {
+function popUp(path, type = null, returnUrl = null, entity = null, tt = null) {
     switch (type) {
         case 'auth': {
             $.ajax({
@@ -173,7 +160,7 @@ function popUp(path, type = null, returnUrl = null, entity = null, tt = null, pr
             $.ajax({
                 type: 'GET',
                 url: path,
-                data: { tt : tt, promptId: promptId },
+                data: { tt : tt },
                 success: function (res) {
                     $('#staticBackdrop .modal-body').html(res);
                     $('#staticBackdrop').modal('show');
@@ -189,7 +176,7 @@ function popUp(path, type = null, returnUrl = null, entity = null, tt = null, pr
             $.ajax({
                 type: 'GET',
                 url: path,
-                data: { draftId: entity, tt: tt, promptId, promptId },
+                data: { draftId: entity, tt: tt },
                 success: function (res) {
                     $('#staticBackdrop .modal-body').html(res);
                     $('#staticBackdrop').modal('show');
