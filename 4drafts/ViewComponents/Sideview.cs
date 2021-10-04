@@ -22,9 +22,26 @@ namespace _4drafts.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var threads = this.data.Threads
+            var stories = this.data.Threads
                 .Include(t => t.Author)
                 .Where(t => t.ThreadTypeId == 1 || t.ThreadTypeId == 4)
+                .OrderByDescending(t => t.Points)
+                .Select(t => new ThreadsBrowseModel
+                {
+                    Id = t.Id,
+                    ThreadTypeId = t.ThreadTypeId,
+                    Title = t.Title,
+                    Content = t.Content,
+                    AuthorId = t.AuthorId,
+                    AuthorName = t.Author.UserName,
+                    Points = t.Points,
+                })
+                .Take(5)
+                .ToList();
+
+            var poems = this.data.Threads
+                .Include(t => t.Author)
+                .Where(t => t.ThreadTypeId == 2)
                 .OrderByDescending(t => t.Points)
                 .Select(t => new ThreadsBrowseModel
                 {
@@ -65,7 +82,8 @@ namespace _4drafts.ViewComponents
 
             return View("SideStats", new StatisticsViewModel 
             {
-                Threads = threads,
+                Stories = stories,
+                Poems = poems,
                 Users = users,
                 Rules = rules,
             });

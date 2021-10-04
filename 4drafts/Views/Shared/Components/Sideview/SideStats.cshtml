@@ -9,7 +9,7 @@
                 <h2><a class="btn-link">ADVERTISE HERE</a></h2>
             </td>
         </tr>
-        <tr>
+        @*<tr>
             <td class="border gray-stripes">
                 <h3 class="pt-2 text-center"><i class="fal fa-users"></i> Top Users</h3>
                 <hr class="w-50" />
@@ -32,25 +32,55 @@
                     }
                 </ul>
             </td>
+        </tr>*@
+        <tr>
+            <td class="border gray-stripes">
+                <h3 class="pt-2 text-center"><i class="fal fa-book"></i> Top Stories Of The Week</h3>
+                <hr class="w-75" />
+                <ul class="list-group list-group-flusht">
+                    @{
+                        foreach (var thread in Model.Stories)
+                        {
+                            var iconClass = thread.ThreadTypeId == 1 ? "fa-book" : "fa-lightbulb-on";
+                            <li class="list-group-item bg-transparent">
+                                <div class="row w-100 mr-auto ml-auto">
+                                    <div class="col-9 pl-0 pr-0">
+                                        <i class="fal @iconClass"></i>
+                                        <a class="btn-link text-break" asp-controller="threads" asp-action="read" asp-route-t="@thread.Id">@thread.Title</a>
+                                        <br />
+                                        <span class="text-muted">by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a></span>
+                                    </div>
+                                    <div class="col pl-0 pr-0">
+                                        <i class="fas fa-heart text-danger"></i><span class="text-muted pl-2 pr-2"> @thread.Points</span><br />
+                                        <i class="fas fa-comments-alt text-dark"></i><span class="text-muted pl-2 pr-2"> @thread.CommentCount</span>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </td>
         </tr>
         <tr>
             <td class="border gray-stripes">
-                <h3 class="pt-2 text-center"><i class="fal fa-books"></i> Top Stories</h3>
-                <hr class="w-50" />
+                <h3 class="pt-2 text-center"><i class="fal fa-scroll"></i> Top Poems Of The Week</h3>
+                <hr class="w-75" />
                 <ul class="list-group list-group-flusht">
                     @{
-                        foreach (var thread in Model.Threads)
+                        foreach (var thread in Model.Poems)
                         {
                             <li class="list-group-item bg-transparent">
                                 <div class="row w-100 mr-auto ml-auto">
-                                     <div class="col-8 pl-0 pr-0">
-                                         <a class="btn-link text-break" asp-controller="threads" asp-action="read" asp-route-t="@thread.Id">@thread.Title</a>
-                                         <br />
-                                         <span class="text-muted">by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a></span>
-                                     </div>
-                                     <div class="col pl-0 pr-0">
-                                         <span class="text-muted pl-2 pr-2 float-right"><i class="fas fa-heart text-danger"></i> @thread.Points</span>
-                                     </div>
+                                    <div class="col-9 pl-0 pr-0">
+                                        <i class="fal fa-scroll"></i>
+                                        <a class="btn-link text-break" asp-controller="threads" asp-action="read" asp-route-t="@thread.Id">@thread.Title</a>
+                                        <br />
+                                        <span class="text-muted">by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a></span>
+                                    </div>
+                                    <div class="col pl-0 pr-0">
+                                        <i class="fas fa-heart text-danger"></i><span class="text-muted pl-2 pr-2"> @thread.Points</span><br />
+                                        <i class="fas fa-comments-alt text-dark"></i><span class="text-muted pl-2 pr-2"> @thread.CommentCount</span>
+                                    </div>
                                 </div>
                             </li>
                         }
