@@ -10,20 +10,20 @@
 
 <div class="container-fluid">
     <div class="card">
-        <div class="card-body border gray-stripes">
+        <div class="card-body border-black gray-stripes">
             <table class="w-100 mb-4 table-fixed">
                 <thead class="invisible">
                     <tr>
-                        <th class="text-truncate border w-10" scope="col"></th>
-                        <th class="text-truncate border" scope="col"></th>
+                        <th class="text-truncate w-10" scope="col"></th>
+                        <th class="text-truncate" scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th colspan="2" class="border bg-tablehead-gray">
+                        <th colspan="2" class="border-black bg-tablehead-gray">
                             <div class="media flex-wrap w-100 align-items-center media-img-40 p-2">
                                 <a onclick="popUp('/Users/Peek/','peek-profile', null, '@Model.AuthorName')"><img src="@avatarUrl" class="d-block ui-w-40 rounded-circle border"></a>
-                                <div class="media-body ml-2 mw-120p">
+                                <div class="media-body ml-2 mw-150p">
                                     <a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, '@Model.AuthorName')">@Model.AuthorName</a>
                                     <div class="small">@Model.CreatedOn</div>
                                 </div>
@@ -35,7 +35,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <td colspan="2" class="border">
+                        <td colspan="2" class="border-black">
                             <div class="mh-600 @text" id="content-body">
                                 <h3 class="text-center pt-3 pr-2 pl-2" id="thread-title">@Model.Title</h3>
                                 <hr class="w-75 mb-0" />
@@ -44,7 +44,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="2" class="border bg-tablehead-gray">
+                        <th colspan="2" class="border-black bg-tablehead-gray">
                             <div class="media align-items-center p-2">
                                 <div id="thread-likes-section">
                                     <partial name="_ThreadLikesPartial" model="@Model" />

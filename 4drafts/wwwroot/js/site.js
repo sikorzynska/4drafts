@@ -43,17 +43,29 @@ function countCharacters(counterId, valueId, max) {
     $(counter).html(text_length + ' / ' + max);
 };
 
-function changeArrow(arrow, box, prop) {
+function changeArrow(arrow, box = null, prop = null) {
     var foldArrow = document.getElementById(arrow);
-    var contentBody = document.getElementById(box);
-    if (contentBody.classList.contains(prop)) {
-        foldArrow.classList.remove('fa-arrow-down');
-        foldArrow.classList.add('fa-arrow-up');
-        contentBody.classList.remove(prop);
-    } else {
-        foldArrow.classList.remove('fa-arrow-up');
-        foldArrow.classList.add('fa-arrow-down');
-        contentBody.classList.add(prop);
+    if (box != null && prop != null) {
+        var contentBody = document.getElementById(box);
+        if (contentBody.classList.contains(prop)) {
+            foldArrow.classList.remove('fa-arrow-down');
+            foldArrow.classList.add('fa-arrow-up');
+            contentBody.classList.remove(prop);
+        } else {
+            foldArrow.classList.remove('fa-arrow-up');
+            foldArrow.classList.add('fa-arrow-down');
+            contentBody.classList.add(prop);
+        }
+    }
+    else {
+        if (foldArrow.classList.contains('fa-arrow-down')) {
+            foldArrow.classList.remove('fa-arrow-down');
+            foldArrow.classList.add('fa-arrow-up');
+        }
+        else {
+            foldArrow.classList.remove('fa-arrow-up');
+            foldArrow.classList.add('fa-arrow-down');
+        }
     }
 }
 
@@ -506,16 +518,14 @@ function addFilterRoutes(act) {
     var filterBtn = document.getElementById('filter');
 
     var path = '';
-    switch (act) {
-        case 'prompts': {
-            path = '/threads/' + act + '?sort=' + getSelectedValue('sort-select') + '&own=' + mine + '&liked=' + liked;
-            break;
-        }
-        default: {
-            path = '/threads/' + act + '?genre=' + getSelectedValue('genre-select') + '&type=' + getSelectedValue('type-select') + '&sort=' + getSelectedValue('sort-select');
-            break;
-        }
+
+    if (act == undefined) {
+        path = '/threads/browse' + '?genre=' + getSelectedValue('genre-select') + '&type=' + getSelectedValue('type-select') + '&sort=' + getSelectedValue('sort-select');
     }
+    else {
+        path = '/threads/' + act + '?genre=' + getSelectedValue('genre-select') + '&sort=' + getSelectedValue('sort-select');
+    }
+
     $(filterBtn).attr('href', path);
 }
 

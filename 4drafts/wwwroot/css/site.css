@@ -13,6 +13,10 @@ a.navbar-brand {
   border-color: #1861ac;
 }
 
+a {
+    cursor: pointer !important;
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
@@ -42,6 +46,10 @@ html {
 
 .border-cut {
     border: 1px dashed black !important;
+}
+
+.border-black {
+    border: 1px solid black !important; 
 }
 
 .v-middle {
@@ -102,6 +110,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 5rem;
+  width: 100%;
 }
 .footer {
     margin-bottom: 0;
@@ -240,8 +249,8 @@ body {
     color: black !important;
 }
 
-.mw-120p {
-    max-width: 120px;
+.mw-150p {
+    max-width: 150px;
 }
 
 .table-fixed {
@@ -546,10 +555,8 @@ hide-empty:empty {
     background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
 }
 
-.pointthis {
-    margin-left: 10px;
-    margin-bottom: 15px;
-    height: 40px;
+.divider-line {
+    padding-top: 2rem;
 }
 
 .sk-cube-grid {
@@ -745,9 +752,6 @@ hide-empty:empty {
     text-align: center;
     white-space: nowrap;
     color: black;
-    background-image: linear-gradient(45deg, #ebebeb 25%, #f0f0f0 25%, #f0f0f0 50%, #ebebeb 50%, #ebebeb 75%, #f0f0f0 75%, #f0f0f0 100%) !important;
-    background-size: 14.14px 14.14px !important;
-    border: 1px solid black;
 }
 
 .dark-stripes {

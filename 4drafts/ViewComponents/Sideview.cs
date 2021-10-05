@@ -24,6 +24,7 @@ namespace _4drafts.ViewComponents
         {
             var stories = this.data.Threads
                 .Include(t => t.Author)
+                .Include(t => t.Comments)
                 .Where(t => t.ThreadTypeId == 1)
                 .OrderByDescending(t => t.Points)
                 .Select(t => new ThreadsBrowseModel
@@ -35,12 +36,14 @@ namespace _4drafts.ViewComponents
                     AuthorId = t.AuthorId,
                     AuthorName = t.Author.UserName,
                     Points = t.Points,
+                    CommentCount = t.Comments.Count(),
                 })
                 .Take(5)
                 .ToList();
 
             var poems = await this.data.Threads
                 .Include(t => t.Author)
+                .Include(t => t.Comments)
                 .Where(t => t.ThreadTypeId == 2)
                 .OrderByDescending(t => t.Points)
                 .Select(t => new ThreadsBrowseModel
@@ -52,6 +55,7 @@ namespace _4drafts.ViewComponents
                     AuthorId = t.AuthorId,
                     AuthorName = t.Author.UserName,
                     Points = t.Points,
+                    CommentCount = t.Comments.Count(),
                 })
                 .Take(5)
                 .ToListAsync();

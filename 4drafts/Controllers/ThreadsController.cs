@@ -787,7 +787,7 @@ namespace _4drafts.Controllers
                 }
             }
 
-            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, page, 10, GetGenres(this.data), genre, sort));
+            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, page, 15, GetGenres(this.data, 1), genre, sort));
         }
 
         public async Task<IActionResult> Poems(int genre = 0, string sort = "best", int page = 1)
@@ -993,7 +993,7 @@ namespace _4drafts.Controllers
                 }
             }
 
-            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, page, 10, GetGenres(this.data), genre, sort));
+            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, page, 10, GetGenres(this.data, 2), genre, sort));
         }
 
         [HttpGet]

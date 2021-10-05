@@ -17,29 +17,29 @@
 </head>
 <body class="bg-ocean">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-ocean-layout border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-ocean-layout border-black-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand p-0" asp-area="" asp-controller="Home" asp-action="Index">
                     <img class="layout-logo" src="https://i.imgur.com/7pLHF2D.png" alt="Logo" />
                 </a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Browse" title="Threads" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-books"></i><span> Threads</span></a>
+                        <a asp-controller="Threads" asp-action="Browse" title="Threads" class="nav-link btn-link-wh layout-anchor p-0"><i class="fal fa-books"></i><span> Threads</span></a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Stories" title="Stories" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-book"></i><span> Stories</span></a>
+                        <a asp-controller="Threads" asp-action="Stories" title="Stories" class="nav-link btn-link-wh layout-anchor p-0"><i class="fal fa-book"></i><span> Stories</span></a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Threads" asp-action="Poems" title="Poems" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-scroll"></i><span> Poems</span></a>
+                        <a asp-controller="Threads" asp-action="Poems" title="Poems" class="nav-link btn-link-wh layout-anchor p-0"><i class="fal fa-scroll"></i><span> Poems</span></a>
                     </li>
                     @{
                         if (user != null)
                         {
                             <li class="nav-item">
-                                <a asp-controller="Drafts" asp-action="All" title="My Drafts" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-drafting-compass"></i><span> Drafts</span></a>
+                                <a asp-controller="Drafts" asp-action="All" title="My Drafts" class="nav-link btn-link-wh layout-anchor p-0"><i class="fal fa-drafting-compass"></i><span> Drafts</span></a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a title="Start Thread" class="nav-link btn-link-wh layout-anchor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fal fa-file-plus"></i><span> Post</span></a>
+                                <a title="Start Thread" class="nav-link btn-link-wh layout-anchor p-0" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fal fa-file-plus"></i><span> Post</span></a>
                                 <div class="dropdown-menu">
                                     <a onclick="popUp('/Threads/Create/', 'thread-new', null, null, 1)" class="dropdown-item"><i class="fal fa-book"></i> Story</a>
                                     <a onclick="popUp('/Threads/Create/', 'thread-new', null, null, 2)" class="dropdown-item"><i class="fal fa-scroll"></i> Poem</a>
@@ -49,10 +49,10 @@
                         else
                         {
                             <li class="nav-item">
-                                <a onclick="popUp('/Authentication/Login/', 'auth', '/Drafts/All/')" title="My Drafts" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-drafting-compass"></i><span> Drafts</span></a>
+                                <a onclick="popUp('/Authentication/Login/', 'auth', '/Drafts/All/')" title="My Drafts" class="nav-link btn-link-wh layout-anchor p-0"><i class="fal fa-drafting-compass"></i><span> Drafts</span></a>
                             </li>
                             <li class="nav-item">
-                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" title="Start Thread" class="nav-link btn-link-wh layout-anchor"><i class="fal fa-file-plus"></i><span> Post</span></a>
+                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" title="Start Thread" class="nav-link btn-link-wh layout-anchor p-0"><i class="fal fa-file-plus"></i><span> Post</span></a>
                             </li>
                         }
                     }
@@ -79,7 +79,7 @@
     <div class="modal fade" tabindex="-1" role="dialog" id="form-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content bg-transparent">
-                <div class="modal-body border gray-stripes">
+                <div class="modal-body border-black gray-stripes">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -91,7 +91,7 @@
     <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content bg-transparent">
-                <div class="modal-body border gray-stripes">
+                <div class="modal-body border-black gray-stripes">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
