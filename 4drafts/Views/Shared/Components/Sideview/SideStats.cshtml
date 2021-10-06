@@ -1,6 +1,6 @@
 ﻿@model StatisticsViewModel
 
-<table class="table table-hover table-fixed w-100">
+<table class="table table-hover table-fixed w-100 separate-border">
     <tbody>
         <tr>
             <td class="border-black dark-stripes text-center p-5">
@@ -65,7 +65,7 @@
         <tr>
             <td class="border-black gray-stripes">
                 <h3 class="pt-2 text-center"><i class="fal fa-shield"></i> Posting Rules</h3>
-                <hr class="w-50" />
+                <hr class="w-75" />
                 <ul class="list-group list-group-flusht">
                     @foreach (var rule in Model.Rules)
                     {
