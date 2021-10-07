@@ -1,26 +1,67 @@
 ﻿@model List<DraftViewModel>
 
-<span id="draft-count">[@Model.Count / 10] </span>
-<table class="table table-hover table-fixed">
-    <thead class="bg-tablehead">
-        <tr>
-            <th class="text-truncate border text-center" style="width: 6%;" scope="col">Type</th>
-            <th class="text-truncate border" scope="col">Title</th>
-            <th class="text-truncate border w-15" scope="col">Last Edit</th>
-            <th class="text-truncate text-center border w-10" scope="col">Options</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var draft in Model)
+<table class="table table-hover separate-border">
+    <tbody class="gray-stripes">
+        @{ if (Model.Any())
             {
-                <tr id="@draft.Id" class="table-light">
-                    <th class="border text-center v-middle">@draft.TypeName</th>
-                    <th class="text-truncate border" scope="row"><a class="btn-link" onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Id', '@draft.TypeId')">@draft.Title</a></th>
-                    <td class="text-truncate border">@draft.CreatedOn</td>
-                    <td class="text-truncate text-center border v-middle">
-                        <a onclick="popUp('/Drafts/Edit/', 'draft-edit', null, '@draft.Id', '@draft.TypeId')" class="btn-link"><i class="fal fa-lg fa-pencil"></i></a>&nbsp;
-                        <a onclick="deletePopup('@draft.Id', '/Drafts/Delete/')" class="btn-link ml-2"><i class="fal fa-lg fa-trash"></i></a>
+                foreach (var draft in Model)
+                {
+                    switch (draft.TypeId)
+                    {
+                        case 1:
+                            {
+                                <tr id="@draft.Id">
+                                    <td class="border-black p-0">
+                                        <div class="pt-3 pl-3 pr-3">
+                                            <span class="text-muted mr-1">Created <a tabindex="0" data-placement="top" role="button" data-toggle="popover" data-trigger="focus" data-content="@draft.FullDate" class="btn-link text-muted">@draft.CreatedOn</a></span>
+                                            <div class="float-right">
+                                                <a class="btn-link" onclick="popUp('/Drafts/Edit/', 'draft-edit', null, '@draft.Id', '@draft.TypeId')"><i class="fal fa-pencil"></i> [EDIT]</a>&nbsp;&nbsp;
+                                                <a class="btn-link" onclick="deletePopup('@draft.Id', '/Drafts/Delete/')"><i class="fal fa-trash"></i> [DELETE]</a>&nbsp;&nbsp;
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="pb-4 pt-2 pl-3 pr-3">
+                                            <span class="badge-pill badge-info">STORY</span>
+                                            <a class="btn-link d-inline" onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Id', '@draft.TypeId')">
+                                                @draft.Title
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                break;
+                            }
+                        case 2:
+                            {
+                                <tr id="@draft.Id">
+                                    <td class="border-black p-0">
+                                        <div class="pt-3 pl-3 pr-3">
+                                            <span class="text-muted mr-1">Created <a tabindex="0" data-placement="top" role="button" data-toggle="popover" data-trigger="focus" data-content="@draft.FullDate" class="btn-link text-muted">@draft.CreatedOn</a></span>
+                                            <div class="float-right">
+                                                <a class="btn-link" onclick="popUp('/Drafts/Edit/', 'draft-edit', null, '@draft.Id', '@draft.TypeId')"><i class="fal fa-pencil"></i> [EDIT]</a>&nbsp;&nbsp;
+                                                <a class="btn-link" onclick="deletePopup('@draft.Id', '/Drafts/Delete/')"><i class="fal fa-trash"></i> [DELETE]</a>&nbsp;&nbsp;
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="pb-4 pt-2 pl-3 pr-3">
+                                            <span class="badge-pill badge-info">POEM</span>
+                                            <a class="btn-link d-inline" onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Id', '@draft.TypeId')">
+                                                @draft.Title
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="border-black bg-secondary text-center">
+                        <h4 class="p-3 mt-auto mb-auto">Looks like you don't have any drafts...</h4>
                     </td>
                 </tr>
             }

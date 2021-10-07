@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using _4drafts.Models.Genres;
+using System.Collections.Generic;
 
 namespace _4drafts.Models.Threads
 {
@@ -10,9 +11,10 @@ namespace _4drafts.Models.Threads
             public string Content { get; set; }
 
             public string CreatedOn { get; set; }
+            public string FullDate { get; set; }
 
-            public int Views { get; set; }
-
+            public bool Liked { get; set; }
+           
             public int Points { get; set; }
 
             public string AuthorId { get; set; }
@@ -26,6 +28,8 @@ namespace _4drafts.Models.Threads
             public int ThreadTypeId { get; set; }
 
             public string AuthorAvatarUrl { get; set; }
+
+            public List<GenresBrowseModel> Genres { get; set; }
 
             public IEnumerable<int> GenreIds { get; set; }
 

@@ -34,6 +34,8 @@ namespace _4drafts.Models.Users
 
         public string RegisteredOn { get; set; }
 
+        public int? Points { get; set; }
+
         [MaxLength(DataConstants.Users.UsernameMaxLength)]
         public string Occupation { get; set; }
 

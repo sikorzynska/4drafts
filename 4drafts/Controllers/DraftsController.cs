@@ -130,6 +130,7 @@ namespace _4drafts.Controllers
                     TypeId = d.ThreadTypeId,
                     Content = d.Content,
                     CreatedOn = this.timeWarper.TimeAgo(d.CreatedOn),
+                    FullDate = this.timeWarper.FullDate(d.CreatedOn),
                     AuthorId = d.AuthorId,
                 })
                 .ToList();

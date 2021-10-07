@@ -443,15 +443,32 @@ editPost = form => {
     }
 }
 
-function likeThread(threadId) {
+function likeThread(threadId, fromList) {
     $.ajax({
         type: 'Post',
         url: "/Threads/Like/",
-        data: { threadId: threadId },
+        data: { threadId: threadId, fromList: fromList },
         success: function (res) {
-            $('#thread-likes-section').html(res.html);
-            $('.notifyjs-corner').empty();
-            $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+            if (res.fromList) {
+                var heart = document.getElementById(res.heart);
+                if (res.liked) {
+                    heart.classList.remove('fal');
+                    heart.classList.add('fas');
+                    heart.classList.add('text-danger');
+                }
+                else {
+                    heart.classList.remove('fas');
+                    heart.classList.remove('text-danger');
+                    heart.classList.add('fal');
+                }
+                $('.notifyjs-corner').empty();
+                $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+            }
+            else {
+                $('#thread-likes-section').html(res.html);
+                $('.notifyjs-corner').empty();
+                $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+            }
         }
     })
 }
@@ -503,47 +520,36 @@ function getValue(id) {
 
 function getSelectedValue(id) {
     var elem = document.getElementById(id);
-    var selected = $(elem).children("option:selected").val();
-    return selected;
+    var selected_option = $(elem).find(":selected");
+    var selected_value = selected_option.val();
+    return selected_value;
 }
 
-$(function () {
-    $('.opt-checkbox').change(function () {
-        var act = document.getElementById('act');
-        addFilterRoutes($(act).val());
-    })
-})
-
-function addFilterRoutes(act) {
+function addFilterRoutes() {
     var filterBtn = document.getElementById('filter');
 
-    var path = '';
-
-    if (act == undefined) {
-        path = '/threads/browse' + '?genre=' + getSelectedValue('genre-select') + '&type=' + getSelectedValue('type-select') + '&sort=' + getSelectedValue('sort-select');
-    }
-    else {
-        path = '/threads/' + act + '?genre=' + getSelectedValue('genre-select') + '&sort=' + getSelectedValue('sort-select');
-    }
+    var path = '/threads/browse' + '?genre=' + getSelectedValue('genre-select') + '&type=' + getSelectedValue('type-select') + '&sort=' + getSelectedValue('sort-select');
 
     $(filterBtn).attr('href', path);
 }
 
-$(".pointthis").ready(function () {
-    var genre = $('#genre-value').val() + 'genre';
-    var sort = $('#sort-value').val();
-    var type = $('#type-value').val() + 'type';
+//$(".divider-line").ready(function () {
+//    var genre = $('#genre-value').val() + 'genre';
+//    var sort = $('#sort-value').val();
+//    var type = $('#type-value').val() + 'type';
 
-    var genreOption = document.getElementById(genre);
-    var sortOption = document.getElementById(sort);
-    var typeOption = document.getElementById(type);
+//    var genreOption = document.getElementById(genre);
+//    var sortOption = document.getElementById(sort);
+//    var typeOption = document.getElementById(type);
 
-    console.log(type);
+//    console.log(genre);
+//    console.log(sort);
+//    console.log(type);
 
-    $(genreOption).attr('selected', "");
-    $(sortOption).attr('selected', "");
-    $(typeOption).attr('selected', "");
-});
+//    $(genreOption).attr('selected', "");
+//    $(sortOption).attr('selected', "");
+//    $(typeOption).attr('selected', "");
+//});
 
 function saveDraft(title, content, genreIds, typeId, draftId, promptId) {
     try {

@@ -11,7 +11,7 @@
     @if (user != null)
     {
         <li class="dropdown">
-            <a class="dropdown-toggle media-img-40 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle border" src="@avatar" alt="Avatar" /> <span class="caret">@user.UserName</span></a>
+            <a class="dropdown-toggle media-img-40 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="@avatar" alt="Avatar" /><span class="caret"> @user.UserName</span></a>
             <ul class="dropdown-menu">
                 <li><a class="btn-link" asp-controller="Users" asp-action="Profile" asp-route-u="@user.UserName" title="Profile"><span class="dropdown-link-text"><i class="fal fa-user"></i> Profile</span></a></li>
                 <li><a class="btn-link" onclick="popUp('/Users/Manage/', 'account-manage')" title="Manage"><span class="dropdown-link-text"><i class="fal fa-user-cog"></i> Manage</span></a></li>
