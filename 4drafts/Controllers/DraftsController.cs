@@ -40,7 +40,7 @@ namespace _4drafts.Controllers
 
             if (user == null) return Unauthorized();
 
-            var draftCount = this.data.Drafts.Count(d => d.AuthorId == user.Id);
+            var draftCount = this.data.Drafts.Count(d => d.AuthorId == user.Id && d.ThreadTypeId == typeId);
 
             if (title == null) return Json(new { isValid = false, msg = Drafts.MissingTitle });
 
@@ -114,13 +114,13 @@ namespace _4drafts.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int typeId = 1)
         {
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null) return Unauthorized();
 
             var drafts = this.data.Drafts
-                .Where(d => d.AuthorId == user.Id)
+                .Where(d => d.AuthorId == user.Id && d.ThreadTypeId == typeId)
                 .Include(d => d.ThreadType)
                 .OrderByDescending(d => d.CreatedOn)
                 .Select(d => new DraftViewModel

@@ -363,6 +363,10 @@ body {
     border-radius: 0px !important;
 }
 
+.rounded {
+    border-radius: 5px !important;
+}
+
 .mw-100 {
     width: 100px;
     height: auto;
@@ -501,8 +505,8 @@ hide-empty:empty {
 }
 
 .size-100 {
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 100px;
+    max-height: 100px;
 }
 
 .comment-text {
@@ -652,7 +656,8 @@ hide-empty:empty {
         position: relative;
         background-color: #ffffff;
         border-radius: 7%;
-        margin: 4px;
+        margin-right: 6px;
+        margin-bottom: 6px;
         width: 35px;
         height: 35px;
         font-size: 18px;
@@ -660,7 +665,6 @@ hide-empty:empty {
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
         cursor: pointer;
         transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
@@ -774,6 +778,7 @@ hide-empty:empty {
 
 .story {
     line-height: normal;
+    margin-top: 1rem;
 }
 
 .comment-box {
@@ -787,6 +792,10 @@ hide-empty:empty {
 
 .separate-border {
     border-collapse: separate;
+}
+
+.bg-gray {
+    background-color: #f1f1f1;
 }
 
 

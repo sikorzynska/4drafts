@@ -10,7 +10,7 @@
 <table class="w-100 table-fixed separate-border">
     <thead class="invisible">
         <tr>
-            <th class="text-truncate w-15" scope="col"></th>
+            <th class="text-truncate w-10" scope="col"></th>
             <th class="text-truncate" scope="col"></th>
         </tr>
     </thead>
@@ -63,7 +63,7 @@
             </td>
         </tr>
         <tr>
-            <th colspan="2" class="border-black bg-tablehead-gray">
+            <th colspan="2" class="border-black bg-gray">
                 <div class="media flex-wrap w-100 align-items-center">
                     <h5 class="p-2 mt-2"><i class="fal fa-comments-alt"></i> Comments (@Model.Comments.Count())</h5>
                     <div class="dropdown ml-auto mr-0 p-2">
@@ -96,14 +96,14 @@
                             <td colspan="2">
                                 <strong><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, '@comment.AuthorName')">@comment.AuthorName</a></strong>&nbsp;
                                 <span>>>&nbsp;@comment.CreatedOn</span>
-                                <a class="btn-link ml-2 d-inline"><i class="fal fa-reply"></i> [REPLY]</a>
-                                <a class="btn-link ml-2 d-inline"><i class="fal fa-flag"></i> [REPORT]</a>
-                                <a onclick="changeArrow('com-arrow@(comment.Id)', 'com@(comment.Id)', 'mh-145px')" class="btn-link ml-2 d-inline"><i id="com-arrow@(comment.Id)" class="fal fa-arrow-down"></i> [UNFOLD]</a>
+                                <a class="btn-link ml-2 d-inline"><i class="fal fa-reply"></i> REPLY</a>
+                                <a class="btn-link ml-2 d-inline"><i class="fal fa-flag"></i> REPORT</a>
+                                <a onclick="changeArrow('com-arrow@(comment.Id)', 'com@(comment.Id)', 'mh-145px')" class="btn-link ml-2 d-inline"><i id="com-arrow@(comment.Id)" class="fal fa-arrow-down"></i> UNFOLD</a>
                                 @if (userId == comment.AuthorId)
                                 {
                                 <div class="float-right d-inline">
-                                    <a onclick="popUp('/Comments/Edit/','comment-edit', null, '@comment.Id')" class="btn-link ml-2"><i class="fal fa-pencil"></i> [EDIT]</a>
-                                    <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link ml-2"><i class="fal fa-trash"></i> [DELETE]</a>
+                                    <a onclick="popUp('/Comments/Edit/','comment-edit', null, '@comment.Id')" class="btn-link ml-2"><i class="fal fa-pencil"></i> EDIT</a>
+                                    <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link ml-2"><i class="fal fa-trash"></i> DELETE</a>
                                 </div>
                                 }
                             </td>

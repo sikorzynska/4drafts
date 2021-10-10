@@ -153,6 +153,21 @@ function refer(id) {
 
 function popUp(path, type = null, returnUrl = null, entity = null, tt = null) {
     switch (type) {
+        case 'drafts': {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                data: { typeId: tt },
+                success: function (res) {
+                    $('#form-modal .modal-body').html(res);
+                    $('#form-modal').modal('show');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+            break;
+        }
         case 'auth': {
             $.ajax({
                 type: 'GET',
@@ -370,10 +385,9 @@ function deletePost(entityId, path) {
         success: function (res) {
             if (res.isValid) {
                 if (res.entity == 'draft') {
-                    document.getElementById(entityId).remove();
                     $('.notifyjs-corner').empty();
                     $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
-                    $('#draft-count').html('[' + res.count + ' / 10]');
+                    $('#draft-count').html(res.count);
                     $('#form-modal').modal('hide');
                 }
                 else if (res.entity == 'thread') {

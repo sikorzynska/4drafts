@@ -584,18 +584,19 @@ namespace _4drafts.Controllers
 
         [HttpGet]
         [Authorize]
-        [NoDirectAccess]
-        public async Task<IActionResult> Create(string draftId = null, int tt = 1, string promptId = null)
+        public async Task<IActionResult> Create(string type = "story", string d = null)
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
             var model = new CreateThreadFormModel();
 
+            var tt = type == "story" ? 1 : 2;
+
             var genreIds = new int[3];
 
-            if (draftId != null)
+            if (d != null)
             {
-                var draft = this.data.Drafts.FirstOrDefault(d => d.Id == draftId);
+                var draft = this.data.Drafts.FirstOrDefault(x => x.Id == d);
                 model = new CreateThreadFormModel
                 {
                     Title = draft.Title,
@@ -675,7 +676,7 @@ namespace _4drafts.Controllers
                             if (model.GenreIds.Count > 3) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.TooMany);
                             else
                             {
-                                if (InexistentGenre(model.GenreIds, this.data)) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.Inexistent);
+                                if (InexistentGenre(model.GenreIds, this.data, model.TypeId)) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.Inexistent);
                             }
                         }
 
@@ -701,7 +702,7 @@ namespace _4drafts.Controllers
                             if (model.GenreIds.Count > 3) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.TooMany);
                             else
                             {
-                                if (InexistentGenre(model.GenreIds, this.data)) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.Inexistent);
+                                if (InexistentGenre(model.GenreIds, this.data, model.TypeId)) this.ModelState.AddModelError(nameof(model.GenreIds), Genres.Inexistent);
                             }
                         }
 
@@ -723,15 +724,28 @@ namespace _4drafts.Controllers
                 var thread = new Thread
                 {
                     ThreadTypeId = model.TypeId,
+                    Title = model.Title,
                     Content = model.Content,
                     CreatedOn = DateTime.UtcNow.ToLocalTime(),
                     AuthorId = user.Id,
                 };
 
+                var genreThreads = new List<GenreThread>();
+
+                foreach (var genre in model.GenreIds)
+                {
+                    genreThreads.Add(new GenreThread
+                    {
+                        GenreId = genre,
+                        ThreadId = thread.Id,
+                    });
+                }
+
+                await this.data.GenreThreads.AddRangeAsync(genreThreads);
                 await this.data.Threads.AddAsync(thread);
                 await this.data.SaveChangesAsync();
 
-                return Json(new { isValid = true, redirectUrl = Url.ActionLink("Read", "Threads", new { t = thread.Id }) });
+                return Redirect($"/threads/read?t={thread.Id}");
             }
 
             switch (model.TypeId)
@@ -739,13 +753,16 @@ namespace _4drafts.Controllers
                 case 1:
                     {
                         model.Type = "Story";
+                        model.TypeId = model.TypeId;
                         model.Genres = GetGenres(this.data, 1);
                         model.Drafts = this.data.Drafts
                             .Where(d => d.AuthorId == user.Id && d.ThreadTypeId == 1)
                             .Select(d => new DraftViewModel
                             {
                                 Id = d.Id,
-                                Title = d.Title
+                                Title = d.Title,
+                                TypeId = d.ThreadTypeId,
+                                CreatedOn = d.CreatedOn.ToString("MM/dd/yyyy hh:mm tt"),
                             })
                             .ToList();
                         break;
@@ -753,13 +770,16 @@ namespace _4drafts.Controllers
                 case 2:
                     {
                         model.Type = "Poem";
+                        model.TypeId = model.TypeId;
                         model.Genres = GetGenres(this.data, 2);
                         model.Drafts = this.data.Drafts
                             .Where(d => d.AuthorId == user.Id && d.ThreadTypeId == 2)
                             .Select(d => new DraftViewModel
                             {
                                 Id = d.Id,
-                                Title = d.Title
+                                Title = d.Title,
+                                TypeId = d.ThreadTypeId,
+                                CreatedOn = d.CreatedOn.ToString("MM/dd/yyyy hh:mm tt"),
                             })
                             .ToList();
                         break;
@@ -770,7 +790,7 @@ namespace _4drafts.Controllers
                     }
             }
 
-            return Json(new { isValid = false, html = RenderRazorViewToString(this, "Create", model) });
+            return View(model);
         }
 
         [HttpGet]
@@ -920,11 +940,11 @@ namespace _4drafts.Controllers
         }
 
         //Functions
-        private static bool InexistentGenre(ICollection<int> genreIds, _4draftsDbContext data)
+        private static bool InexistentGenre(ICollection<int> genreIds, _4draftsDbContext data, int typeId)
         {
             foreach (var genreId in genreIds)
             {
-                if (data.Genres.FirstOrDefault(g => g.Id == genreId) == null) return true;
+                if (data.Genres.FirstOrDefault(g => g.Id == genreId && g.GenreTypeId == typeId) == null) return true;
             }
             return false;
         }
@@ -954,6 +974,8 @@ namespace _4drafts.Controllers
                       {
                           Id = c.Id,
                           Name = c.Name,
+                          SimplifiedName = c.SimplifiedName,
+                          Description = c.Description,
                           GenreType = c.GenreTypeId,
                       })
                       .ToList();
@@ -966,6 +988,8 @@ namespace _4drafts.Controllers
                       {
                           Id = c.Id,
                           Name = c.Name,
+                          SimplifiedName = c.SimplifiedName,
+                          Description = c.Description,
                           GenreType = c.GenreTypeId,
                       })
                       .ToList();
@@ -980,6 +1004,7 @@ namespace _4drafts.Controllers
                       {
                           Id = c.Id,
                           Name = c.Name,
+                          SimplifiedName = c.SimplifiedName,
                           Description = c.Description,
                           GenreType = c.GenreTypeId,
                       })

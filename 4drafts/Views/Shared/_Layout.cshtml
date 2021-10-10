@@ -29,22 +29,16 @@
                     @{
                         if (user != null)
                         {
-                            <li class="nav-item">
-                                <a asp-controller="Drafts" asp-action="All" title="My Drafts" class="nav-link btn-link-wh layout-anchor p-0"><i class="fal fa-drafting-compass"></i><span> Drafts</span></a>
-                            </li>
                             <li class="nav-item dropdown">
                                 <a title="Start Thread" class="nav-link btn-link-wh layout-anchor p-0" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fal fa-file-plus"></i><span> Post</span></a>
                                 <div class="dropdown-menu">
-                                    <a onclick="popUp('/Threads/Create/', 'thread-new', null, null, 1)" class="dropdown-item"><i class="fal fa-book"></i> Story</a>
-                                    <a onclick="popUp('/Threads/Create/', 'thread-new', null, null, 2)" class="dropdown-item"><i class="fal fa-scroll"></i> Poem</a>
+                                    <a asp-controller="threads" asp-action="create" asp-route-type="story" class="dropdown-item"><i class="fal fa-book"></i> Story</a>
+                                    <a asp-controller="threads" asp-action="create" asp-route-type="poem" class="dropdown-item"><i class="fal fa-scroll"></i> Poem</a>
                                 </div>
                             </li>
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a onclick="popUp('/Authentication/Login/', 'auth', '/Drafts/All/')" title="My Drafts" class="nav-link btn-link-wh layout-anchor p-0"><i class="fal fa-drafting-compass"></i><span> Drafts</span></a>
-                            </li>
                             <li class="nav-item">
                                 <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" title="Start Thread" class="nav-link btn-link-wh layout-anchor p-0"><i class="fal fa-file-plus"></i><span> Post</span></a>
                             </li>
@@ -100,13 +94,13 @@
 
     <footer class="border-nobottom footer bg-ocean-layout">
         <div class="container text-center">
-            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-route-interstate"></i><span> [Terms of Service]</span></a>
+            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-route-interstate"></i><span> Terms of Service</span></a>
             &nbsp;
-            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-blinds"></i><span> [Privacy Policy]</span></a>
+            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-blinds"></i><span> Privacy Policy</span></a>
             &nbsp;
-            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-badge-dollar"></i><span> [Support Us]</span></a>
+            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-badge-dollar"></i><span> Support Us</span></a>
             &nbsp;
-            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-phone-alt"></i><span> [Contact Us]</span></a><br />
+            <a class="btn-link btn-link-wh layout-anchor"><i class="fal fa-phone-alt"></i><span> Contact Us</span></a><br />
             <span>Copyright © 4drafts&trade; @DateTime.UtcNow.Year. All rights reserved.</span>
         </div>
     </footer>
