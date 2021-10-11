@@ -4,10 +4,10 @@
 }
 <div class="container-fluid">
     <div class="row">
-        <div id="threads-section" class="col-8">
+        <div id="threads-section" class="col">
             <partial name="_ThreadsPartial" model="@Model" />
         </div>
-        <div class="col">
+        <div class="col-4 sidebar">
             @await Component.InvokeAsync("Sideview")
         </div>
     </div>

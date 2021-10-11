@@ -547,6 +547,28 @@ function addFilterRoutes() {
     $(filterBtn).attr('href', path);
 }
 
+function insertAtCursor(fieldId, myValue) {
+    myField = document.getElementById(fieldId);
+    //IE support
+    if (document.selection) {
+        myField.focus();
+        sel = document.selection.createRange();
+        sel.text = myValue;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == '0') {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos)
+            + myValue
+            + myField.value.substring(endPos, myField.value.length);
+        myField.selectionStart = startPos + myValue.length;
+        myField.selectionEnd = startPos + myValue.length;
+    } else {
+        myField.value += myValue;
+    }
+}
+
 //$(".divider-line").ready(function () {
 //    var genre = $('#genre-value').val() + 'genre';
 //    var sort = $('#sort-value').val();

@@ -798,6 +798,15 @@ hide-empty:empty {
     background-color: #f1f1f1;
 }
 
+@media only screen and (max-width: 1026px) {
+    .sidebar {
+        display: none;
+    }
+}
+
+strong {
+    font-weight: bold !important;
+}
 
 
          
