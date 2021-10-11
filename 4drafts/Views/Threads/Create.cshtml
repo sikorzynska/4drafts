@@ -16,7 +16,7 @@
 }
 
 <div class="container-fluid">
-    <div class="row w-100 mr-auto ml-auto">
+    <div class="row">
         <div class="col pl-0 pr-1 pb-0 pt-0">
             <table class="table separate-border">
                 <tbody class="gray-stripes">
@@ -58,6 +58,10 @@
                                             <div class="tooltip">Italics</div>
                                             <span><i class="fal fa-italic"></i></span>
                                         </a>
+                                        <a onclick="insertAtCursor('content-content', '<h4></h4>')" class="icon github border-black">
+                                            <div class="tooltip">Heading</div>
+                                            <span><i class="fal fa-heading"></i></span>
+                                        </a>
                                         <a onclick="insertAtCursor('content-content', '<del></del>')" class="icon github border-black">
                                             <div class="tooltip">Strikethrough</div>
                                             <span><i class="fal fa-strikethrough"></i></span>
@@ -65,6 +69,10 @@
                                         <a onclick="insertAtCursor('content-content', '<u></u>')" class="icon github border-black">
                                             <div class="tooltip">Underline</div>
                                             <span><i class="fal fa-underline"></i></span>
+                                        </a>
+                                        <a onclick="insertAtCursor('content-content', '<mark></mark>')" class="icon github border-black">
+                                            <div class="tooltip">Highlight</div>
+                                            <span><i class="fal fa-highlighter"></i></span>
                                         </a>
                                         <a onclick="insertAtCursor('content-content', '<sub></sub>')" class="icon github border-black">
                                             <div class="tooltip">Subscript</div>
@@ -170,31 +178,7 @@
                                     }
                                 }
                             </ul>
-                                @*<div id="accordion">
-                @{
-                    int n = 0;
-                    foreach (var genre in Model.Genres)
-                    {
-                        n++;
-                        <div class="card bg-transparent mb-1">
-                            <div class="card-header border-black" id="heading@(n)">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse@(n)" aria-expanded="false" aria-controls="collapse@(n)">
-                                        @genre.Name
-                                    </button>
-                                </h5>
-                            </div>
-
-                            <div id="collapse@(n)" class="collapse mt-1" aria-labelledby="heading@(n)" data-parent="#accordion">
-                                <div class="card-body border-black bg-secondary">
-                                    @genre.Description
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>*@
-                            </td>
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -51,9 +51,9 @@
             public const string PoemMinLengthMsg = "Poems must be at least 100 characters long.";
             public const string PromptContent = "Prompts must be between 50 and 500 characters long.";
             public const string PoemContent = "Poems must be at least 100 characters long.";
-            public const string TitleLengthMsg = "The title field must be between 3 and 100 characters long.";
+            public const string TitleLengthMsg = "The title field must be between 3 and 80 characters long.";
             public const string Disliked = "The thread has been removed from favourites.";
-            public const string Liked = "The thread has been added from favourites.";
+            public const string Liked = "The thread has been added to favourites.";
             public const string InexistentType = "Invalid thread type!";
             public const string TitleRequired = "The title field is required!";
         }
