@@ -7,7 +7,7 @@
     @{
         if (user != null)
         {
-            var liked = Model.Liked == true ? "fas" : "fal";
+            var liked = Model.Liked == true ? "fas" : "far";
             <a onclick="likeThread('@Model.Id')" class="text-danger"><i class="@liked fa-lg big-icon fa-heart"></i></a>
         }
         else

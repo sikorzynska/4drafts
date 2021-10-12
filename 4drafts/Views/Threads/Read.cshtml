@@ -4,11 +4,10 @@
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
     var avatarUrl = Model.AuthorAvatarUrl == null ? "https://i.imgur.com/Q67mO1m.png" : Model.AuthorAvatarUrl;
-    var text = Model.TypeId == 2 ? "text-center" : "";
     var textType = Model.TypeId == 1 ? "story" : "poem";
 }
 
-<div class="container-fluid">
+<div class="container-fluid" id="read-container">
     <div class="card">
         <div class="card-body border-black gray-stripes">
             <table class="w-100 mb-4 table-fixed separate-border">
@@ -36,10 +35,10 @@
                     </tr>
                     <tr>
                         <td colspan="2" class="border-black">
-                            <div class="mh-600 @text" id="content-body">
-                                <h3 class="text-center pt-3 pr-2 pl-2" id="thread-title">@Model.Title</h3>
-                                <hr class="w-75 mb-0" />
-                                <p id="thread-content" class="content-text pl-3 pr-3 pb-1 @textType">@Html.Raw(@Model.Content)</p>
+                            <div class="mh-600 p-4" id="content-body">
+                                <h3 class="text-center" id="thread-title">@Model.Title</h3>
+                                <hr class="w-75" />
+                                <div class="@textType content-text">@Html.Raw(@Model.Content)</div>
                             </div>
                         </td>
                     </tr>
@@ -52,22 +51,22 @@
                                 <div class="ml-auto mr-0 btn-group">
                                     @if (userId == Model.AuthorId)
                                     {
-                                        <div class="zoom p-2"><a class="btn-link" onclick="popUp('/Threads/Edit/', 'thread-edit', null, '@Model.Id')"><i class="fal fa-lg big-icon fa-pencil"></i></a></div>
-                                        <div class="zoom p-2"><a class="btn-link" onclick="deletePopup('@Model.Id', '/Threads/Delete/')"><i class="fal fa-lg big-icon fa-trash"></i></a></div>
+                                        <div class="zoom p-2"><a class="btn-link" onclick="popUp('/Threads/Edit/', 'thread-edit', null, '@Model.Id')"><i class="fas fa-lg big-icon fa-edit"></i></a></div>
+                                        <div class="zoom p-2"><a class="btn-link" onclick="deletePopup('@Model.Id', '/Threads/Delete/')"><i class="fas fa-lg big-icon fa-trash"></i></a></div>
                                     }
                                     @{
                                         if (userId != null)
                                         {
-                                            <div class="zoom p-2"><a onclick="showCommentRow()" class="btn-link"><i class="fal fa-lg big-icon fa-reply"></i></a></div>
-                                            <div class="zoom p-2"><a class="btn-link" asp-controller="Threads" asp-action="Report" asp-route-threadId="@Model.Id"><i class="fal fa-lg big-icon fa-flag"></i></a></div>
+                                            <div class="zoom p-2"><a onclick="showCommentRow()" class="btn-link"><i class="fas fa-lg big-icon fa-reply"></i></a></div>
+                                            <div class="zoom p-2"><a class="btn-link" asp-controller="Threads" asp-action="Report" asp-route-threadId="@Model.Id"><i class="fas fa-lg big-icon fa-flag"></i></a></div>
                                         }
                                         else
                                         {
-                                            <div class="zoom p-2"><a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="btn-link"><i class="fal fa-lg big-icon fa-reply"></i></a></div>
-                                            <div class="zoom p-2"><a class="btn-link" onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')"><i class="fal fa-lg big-icon fa-flag"></i></a></div>
+                                            <div class="zoom p-2"><a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="btn-link"><i class="fas fa-lg big-icon fa-reply"></i></a></div>
+                                            <div class="zoom p-2"><a class="btn-link" onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')"><i class="fas fa-lg big-icon fa-flag"></i></a></div>
                                         }
                                     }
-                                    <div class="zoom p-2"><a class="btn-link" onclick="changeArrow('fold-arrow', 'content-body', 'mh-600')"><i id="fold-arrow" class="fal fa-lg big-icon fa-arrow-down"></i></a></div>
+                                    <div class="zoom p-2"><a class="btn-link" onclick="changeArrow('fold-arrow', 'content-body', 'mh-600')"><i id="fold-arrow" class="fas fa-lg big-icon fa-arrow-down"></i></a></div>
                                 </div>
                             </div>
                         </th>

@@ -17,7 +17,7 @@
             <div class="wrapper float-right pb-2">
                 <a href="@Model.Website" class="icon github border-black @Class(Model.Website)">
                     <div class="tooltip">@Model.Website</div>
-                    <span><i class="fal fa-globe"></i></span>
+                    <span><i class="fas fa-globe"></i></span>
                 </a>
                 <a href="@Model.Instagram" class="icon instagram border-black @Class(Model.Instagram)">
                     <div class="tooltip">@Model.Instagram</div>
@@ -42,17 +42,17 @@
             </div>
             <div class="float-left ml-1 text-center">
                 <div class="dropdown">
-                    <a title="start thread" class="btn-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fal fa-cog"></i><span> [OPTIONS]</span></a>
+                    <a title="start thread" class="btn-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i><span> [OPTIONS]</span></a>
                     <div class="dropdown-menu">
                         @{
                             if (ownAccount)
                             {
-                                <a onclick="popUp('/Users/Manage/', 'account-manage')" class="btn-link dropdown-item" role="button"><i class="fal fa-user-cog"></i> [MANAGE]</a>
+                                <a onclick="popUp('/Users/Manage/', 'account-manage')" class="btn-link dropdown-item" role="button"><i class="fas fa-user-cog"></i> [MANAGE]</a>
                             }
                             else
                             {
-                                <a class="btn-link dropdown-item" role="button"><i class="fal fa-comment-alt-lines"></i> [MESSAGE]</a>
-                                <a class="btn-link dropdown-item" role="button"><i class="fal fa-ban"></i> [BLOCK]</a>
+                                <a class="btn-link dropdown-item" role="button"><i class="fas fa-comment-dots"></i> [MESSAGE]</a>
+                                <a class="btn-link dropdown-item" role="button"><i class="fas fa-ban"></i> [BLOCK]</a>
                             }
                         }
                     </div>
@@ -65,15 +65,15 @@
                 <tbody>
                     <tr>
                         <th colspan="2" class="border-black text-center bg-tablehead-gray">
-                            <i class="fal fa-info"></i> Information
+                            <i class="fas fa-info"></i> Information
                         </th>
                     </tr>
                     <tr>
-                        <th class="border-black w-15" scope="row"><i class="fal fa-image"></i> Avatar</th>
+                        <th class="border-black w-15" scope="row"><i class="fas fa-image"></i> Avatar</th>
                         <td class="border-black"><img class="mw-250" src="@avatar"></td>
                     </tr>
                     <tr>
-                        <th class="border-black w-15" scope="row"><i class="fal fa-envelope"></i> Email</th>
+                        <th class="border-black w-15" scope="row"><i class="fas fa-envelope"></i> Email</th>
                         <td class="border-black">@Model.Email</td>
                     </tr>
                     <tr>
@@ -106,23 +106,23 @@
                     </tr>
                     <tr>
                         <th colspan="2" class="border-black text-center bg-tablehead-gray">
-                            <i class="fal fa-trophy"></i> Statistics
+                            <i class="fas fa-trophy"></i> Statistics
                         </th>
                     </tr>
                     <tr>
-                        <th class="border-black w-15" scope="row"><i class="fal fa-star"></i> Points</th>
+                        <th class="border-black w-15" scope="row"><i class="fas fa-star"></i> Points</th>
                         <td class="border-black">@Model.Points</td>
                     </tr>
                     <tr>
-                        <th class="border-black w-15" scope="row"><i class="fal fa-medal"></i> Awards</th>
+                        <th class="border-black w-15" scope="row"><i class="fas fa-medal"></i> Awards</th>
                         <td class="border-black">11</td>
                     </tr>
                     <tr>
-                        <th class="border-black w-15" scope="row"><i class="fal fa-books"></i> Threads</th>
+                        <th class="border-black w-15" scope="row"><i class="fas fa-list"></i> Threads</th>
                         <td class="border-black">@Model.ThreadCount</td>
                     </tr>
                     <tr>
-                        <th class="border-black w-15" scope="row"><i class="fal fa-comments-alt"></i> Comments</th>
+                        <th class="border-black w-15" scope="row"><i class="fas fa-comments"></i> Comments</th>
                         <td class="border-black">@Model.CommentCount</td>
                     </tr>
                 </tbody>

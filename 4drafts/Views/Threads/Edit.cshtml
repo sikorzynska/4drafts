@@ -3,14 +3,6 @@
 @{
     ViewBag.Title = "Edit";
     Layout = null;
-    var rules = new List<string>();
-    rules.Add("Stories must have a minimum of 500 characters.");
-    rules.Add("Poems must have a minimum of 100 characters.");
-    rules.Add("Prompts must be between 50 and 500 characters long.");
-    rules.Add("Plagiarism will result in a ban");
-    rules.Add("No immature / sexually explicit content");
-    rules.Add("Avoid racism and political debates");
-    rules.Add("Avoid detailed uses of suicide, and mental health stereotypes");
 }
 
 <div class="container">
@@ -18,21 +10,8 @@
         <form id="thread-edit-formdata" asp-controller="Threads" asp-action="Edit">
             <div class="row justify-content-center">
                 <div class="col card-body form-body">
-                    <h2 align="center"><i class="fal fa-edit"></i> Edit @Model.Type</h2>
+                    <h2 align="center"><i class="fas fa-edit"></i> Edit @Model.Type</h2>
                     <hr />
-                    <table class="mb-3 table-fixed w-100 separate-border" align="center">
-                        <tr>
-                            <td class="border-cut bg-secondary p-2">
-                                <h4 class="text-center">Rules</h4>
-                                <ul>
-                                    @foreach (var rule in rules)
-                                    {
-                                        <li>@rule</li>
-                                    }
-                                </ul>
-                            </td>
-                        </tr>
-                    </table>
                     <div class="form-group d-none">
                         <input asp-for="Id" class="form-control" hidden>
                     </div>
@@ -52,8 +31,8 @@
                 </div>
                 <div class="form-footer">
                     <div class="text-secondary" align="center">
-                        <a onclick="refer('thread-edit-formdata')" class="btn btn-sm btn-outline-info"><i class="fal fa-save"></i> Save Changes</a>
-                        <button class="btn btn-sm btn-outline-dark" type="button" onclick="cancelModal()"><i class="fal fa-times"></i> Cancel</button>
+                        <a onclick="refer('thread-edit-formdata')" class="btn btn-sm btn-outline-info"><i class="fas fa-save"></i> Save Changes</a>
+                        <button class="btn btn-sm btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-times"></i> Cancel</button>
                     </div>
                 </div>
             </div>

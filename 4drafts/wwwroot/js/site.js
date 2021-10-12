@@ -18,6 +18,16 @@
 
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    $('#content-content').summernote({
+        height: 135,
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['insert', ['link']],
+            ['view', ['codeview', 'help']]
+        ]
+    });
 });
 
 $(function () {
@@ -466,14 +476,14 @@ function likeThread(threadId, fromList) {
             if (res.fromList) {
                 var heart = document.getElementById(res.heart);
                 if (res.liked) {
-                    heart.classList.remove('fal');
+                    heart.classList.remove('far');
                     heart.classList.add('fas');
                     heart.classList.add('text-danger');
                 }
                 else {
                     heart.classList.remove('fas');
                     heart.classList.remove('text-danger');
-                    heart.classList.add('fal');
+                    heart.classList.add('far');
                 }
                 $('.notifyjs-corner').empty();
                 $.notify(res.msg, { globalPosition: 'top left', className: 'success' });

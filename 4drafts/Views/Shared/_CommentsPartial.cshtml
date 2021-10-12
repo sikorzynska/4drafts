@@ -53,10 +53,10 @@
                     }
                     <div class="mt-2 text-right" id="comment-buttons">
                         <a class="btn btn-sm btn-outline-info d-none mr-2" id="comment-button" onclick="comment('@Model.Id', getValue('comment-content'))">
-                            <i class="fal fa-check"></i> COMMENT
+                            <i class="fas fa-check"></i> COMMENT
                         </a>
                         <a class="btn btn-sm btn-outline-dark" id="cancel" onclick="hideCommentRow()">
-                            <i class="fal fa-times"></i> CANCEL
+                            <i class="fas fa-times"></i> CANCEL
                         </a>
                     </div>
                 </div>
@@ -65,15 +65,7 @@
         <tr>
             <th colspan="2" class="border-black bg-gray">
                 <div class="media flex-wrap w-100 align-items-center">
-                    <h5 class="p-2 mt-2"><i class="fal fa-comments-alt"></i> Comments (@Model.Comments.Count())</h5>
-                    <div class="dropdown ml-auto mr-0 p-2">
-                        <a class="btn-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fal fa-sort"></i><span> [SORT]</span></a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-link-text d-block"><a onclick="sort('@Model.Id', 'top')" class="btn-link" href="#"><i class="fas fa-sort-amount-up"></i><span> [top]</span> </a></li>
-                            <li class="dropdown-link-text d-block"><a onclick="sort('@Model.Id', 'oldest')" class="btn-link" href="#"><i class="fas fa-sort-numeric-up-alt"></i><span> [oldest]</span> </a></li>
-                            <li class="dropdown-link-text d-block"><a onclick="sort('@Model.Id', 'newest')" class="btn-link" href="#"><i class="fas fa-sort-numeric-down-alt"></i><span> [newest]</span> </a></li>
-                        </ul>
-                    </div>
+                    <h5 class="p-2 mt-2"><i class="far fa-comment-alt"></i> Comments (@Model.Comments.Count())</h5>
                 </div>
             </th>
         </tr>
@@ -95,15 +87,15 @@
                         <tr>
                             <td colspan="2">
                                 <strong><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, '@comment.AuthorName')">@comment.AuthorName</a></strong>&nbsp;
-                                <span>>>&nbsp;@comment.CreatedOn</span>
-                                <a class="btn-link ml-2 d-inline"><i class="fal fa-reply"></i> REPLY</a>
-                                <a class="btn-link ml-2 d-inline"><i class="fal fa-flag"></i> REPORT</a>
-                                <a onclick="changeArrow('com-arrow@(comment.Id)', 'com@(comment.Id)', 'mh-145px')" class="btn-link ml-2 d-inline"><i id="com-arrow@(comment.Id)" class="fal fa-arrow-down"></i> UNFOLD</a>
+                                <span><i class="fas fa-caret-right"></i>&nbsp;@comment.CreatedOn</span>
+                                @*<a class="btn-link ml-2 d-inline"><i class="fal fa-reply"></i> REPLY</a>*@
+                                <a class="btn-link ml-2 d-inline"><i class="fas fa-flag"></i> REPORT</a>
+                                <a onclick="changeArrow('com-arrow@(comment.Id)', 'com@(comment.Id)', 'mh-145px')" class="btn-link ml-2 d-inline"><i id="com-arrow@(comment.Id)" class="fas fa-arrow-down"></i> UNFOLD</a>
                                 @if (userId == comment.AuthorId)
                                 {
                                 <div class="float-right d-inline">
-                                    <a onclick="popUp('/Comments/Edit/','comment-edit', null, '@comment.Id')" class="btn-link ml-2"><i class="fal fa-pencil"></i> EDIT</a>
-                                    <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link ml-2"><i class="fal fa-trash"></i> DELETE</a>
+                                    <a onclick="popUp('/Comments/Edit/','comment-edit', null, '@comment.Id')" class="btn-link ml-2"><i class="fas fa-pencil-alt"></i> EDIT</a>
+                                    <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link ml-2"><i class="fas fa-trash"></i> DELETE</a>
                                 </div>
                                 }
                             </td>

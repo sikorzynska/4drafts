@@ -774,6 +774,7 @@ hide-empty:empty {
 
 .poem {
     line-height: 2.3;
+    text-align: center;
 }
 
 .story {
@@ -808,6 +809,11 @@ strong {
     font-weight: bold !important;
 }
 
+
+.note-editing-area {
+    background-color: #fff;
+    word-break: break-word;
+}
 
          
          

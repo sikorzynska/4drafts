@@ -4,14 +4,14 @@
 }
 
 @{
-    <a onclick="popUp('/Threads/Create/', 'thread-new')" class="dropdown-item"><i class="fal fa-file-plus"></i> New</a>
+    <a onclick="popUp('/Threads/Create/', 'thread-new')" class="dropdown-item"><i class="fas fa-folder-plus"></i> New</a>
     @if (Model.Any())
     {
         <div class="dropdown-divider"></div>
         foreach (var draft in Model)
         {
             iconClass = draft.TypeId == 1 ? "fa-book" : "fa-scroll";
-            <a onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Title', '@draft.Content')" class="dropdown-item"><i class="fal @iconClass"></i> @draft.Title <span class="badge badge-info">@draft.CreatedOn</span></a>
+            <a onclick="popUp('/Threads/Create/', 'thread-draft', null, '@draft.Title', '@draft.Content')" class="dropdown-item"><i class="fas @iconClass"></i> @draft.Title <span class="badge badge-info">@draft.CreatedOn</span></a>
         }
     }
 }

@@ -14,7 +14,7 @@
                 <div class="user-heading round mb-1">
                     <img src="@avatar">
                     <h1>@Model.Username</h1>
-                    <span><i class="fal fa-envelope"></i> @Model.Email</span><br />
+                    <span><i class="fas fa-envelope"></i> @Model.Email</span><br />
                     <span>Member since @Model.RegisteredOn</span><br />
                     <span class="badge bg-info">new user </span>
                 </div>
@@ -22,23 +22,23 @@
                     <tbody>
                         <tr>
                             <th colspan="2" class="border-black text-center bg-tablehead-gray">
-                                <i class="fal fa-trophy"></i> Statistics
+                                <i class="fas fa-trophy"></i> Statistics
                             </th>
                         </tr>
                         <tr>
-                            <th class="border-black w-40" scope="row"><i class="fal fa-star"></i> Points</th>
+                            <th class="border-black w-40" scope="row"><i class="fas fa-star"></i> Points</th>
                             <td class="border-black">@Model.Points</td>
                         </tr>
                         <tr>
-                            <th class="border-black w-40" scope="row"><i class="fal fa-medal"></i> Awards</th>
+                            <th class="border-black w-40" scope="row"><i class="fas fa-medal"></i> Awards</th>
                             <td class="border-black">11</td>
                         </tr>
                         <tr>
-                            <th class="border-black w-40" scope="row"><i class="fal fa-books"></i> Threads</th>
+                            <th class="border-black w-40" scope="row"><i class="fas fa-list"></i> Threads</th>
                             <td class="border-black">@Model.ThreadCount</td>
                         </tr>
                         <tr>
-                            <th class="border-black w-40" scope="row"><i class="fal fa-comments-alt"></i> Comments</th>
+                            <th class="border-black w-40" scope="row"><i class="fas fa-comments"></i> Comments</th>
                             <td class="border-black">@Model.CommentCount</td>
                         </tr>
                     </tbody>
@@ -47,6 +47,6 @@
     </div>
 </div>
 <div align="center">
-    <a asp-controller="Users" asp-action="Profile" asp-route-u="@Model.Username" class="btn btn-sm btn-outline-info"><i class="fal fa-eye"></i> Profile</a>
-    <button class="btn btn-sm btn-outline-dark" type="button" onclick="cancelModal()"><i class="fal fa-times"></i> Close</button>
+    <a asp-controller="Users" asp-action="Profile" asp-route-u="@Model.Username" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i> Profile</a>
+    <button class="btn btn-sm btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-times"></i> Close</button>
 </div>

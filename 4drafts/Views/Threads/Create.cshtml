@@ -29,8 +29,8 @@
                                 </ul>
                             </div>
                             <form asp-controller="Threads" asp-action="Create" method="post">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
+                                <div class="form-group  mb-3">
+                                    <div class="input-group">
                                         <input asp-for="Title" type="text"
                                                maxlength="80"
                                                id="title-content"
@@ -49,45 +49,11 @@
                                     <span asp-validation-for="Title" class="small text-danger"></span>
                                 </div>
                                 <div class="form-group">
-                                    <div class="wrapper">
-                                        <a onclick="insertAtCursor('content-content', '<strong></strong>')" class="icon github border-black">
-                                            <div class="tooltip">Bold</div>
-                                            <span><i class="fal fa-bold"></i></span>
-                                        </a>
-                                        <a onclick="insertAtCursor('content-content', '<i></i>')" class="icon github border-black">
-                                            <div class="tooltip">Italics</div>
-                                            <span><i class="fal fa-italic"></i></span>
-                                        </a>
-                                        <a onclick="insertAtCursor('content-content', '<h4></h4>')" class="icon github border-black">
-                                            <div class="tooltip">Heading</div>
-                                            <span><i class="fal fa-heading"></i></span>
-                                        </a>
-                                        <a onclick="insertAtCursor('content-content', '<del></del>')" class="icon github border-black">
-                                            <div class="tooltip">Strikethrough</div>
-                                            <span><i class="fal fa-strikethrough"></i></span>
-                                        </a>
-                                        <a onclick="insertAtCursor('content-content', '<u></u>')" class="icon github border-black">
-                                            <div class="tooltip">Underline</div>
-                                            <span><i class="fal fa-underline"></i></span>
-                                        </a>
-                                        <a onclick="insertAtCursor('content-content', '<mark></mark>')" class="icon github border-black">
-                                            <div class="tooltip">Highlight</div>
-                                            <span><i class="fal fa-highlighter"></i></span>
-                                        </a>
-                                        <a onclick="insertAtCursor('content-content', '<sub></sub>')" class="icon github border-black">
-                                            <div class="tooltip">Subscript</div>
-                                            <span><i class="fal fa-subscript"></i></span>
-                                        </a>
-                                        <a onclick="insertAtCursor('content-content', '<sup></sup>')" class="icon github border-black">
-                                            <div class="tooltip">Superscript</div>
-                                            <span><i class="fal fa-superscript"></i></span>
-                                        </a>
-                                    </div>
-                                    <textarea asp-for="Content" rows="6" class="form-control border-black" placeholder="Text" id="content-content"></textarea>
+                                    <textarea asp-for="Content" class="form-control border-black" placeholder="Text" id="content-content"></textarea>
                                     <span asp-validation-for="Content" class="small text-danger"></span>
                                 </div>
                                 <div class="form-group">
-                                    <label asp-for="GenreIds" class="form-label"></label><a class="btn-link float-right"><i class="fal fa-question-circle"></i> Have questions about the genres ?</a><br />
+                                    <label asp-for="GenreIds" class="form-label"></label><a class="btn-link float-right"><i class="fas fa-question-circle"></i> Have questions about the genres ?</a><br />
                                     <select asp-for="GenreIds" class="selectpicker form-control border-black" id="genre-content" multiple data-max-options="3">
                                         @{
                                             if (Model.GenreIds != null)
@@ -124,10 +90,10 @@
                                 <div class="text-secondary text-right mt-4">
                                     <div class="dropdown d-inline">
                                         <a class="btn btn-sm btn-outline-info dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fal fa-save"></i> Save as draft
+                                            <i class="fas fa-save"></i> Save as draft
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a onclick="saveDraft(getValue('title-content'), getValue('content-content'), getValue('genre-content'), '@Model.TypeId', null)" class="dropdown-item"><i class="fal fa-layer-plus"></i> New</a>
+                                            <a onclick="saveDraft(getValue('title-content'), getValue('content-content'), getValue('genre-content'), '@Model.TypeId', null)" class="dropdown-item"><i class="fas fa-folder-plus"></i> New</a>
                                             @if (Model.Drafts.Any())
                                             {
                                                 <div class="dropdown-divider"></div>
@@ -148,12 +114,12 @@
                                                         default:
                                                             break;
                                                     }
-                                                    <a class="dropdown-item" onclick="saveDraft(getValue('title-content'), getValue('content-content'), getValue('genre-content'), '@Model.TypeId', '@draft.Id')"><i class="fal @draftIcon"></i> @draft.Title <span class="badge badge-info">@draft.CreatedOn</span></a>
+                                                    <a class="dropdown-item" onclick="saveDraft(getValue('title-content'), getValue('content-content'), getValue('genre-content'), '@Model.TypeId', '@draft.Id')"><i class="fas @draftIcon"></i> @draft.Title <span class="badge badge-info">@draft.CreatedOn</span></a>
                                                 }
                                             }
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fal fa-plus"></i> Post</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i> Post</button>
                                 </div>
                             </form>
                         </td>
@@ -166,7 +132,7 @@
                 <tbody class="gray-stripes">
                     <tr>
                         <td class="border-black">
-                            <h4 class="pt-2 text-center"><i class="fal fa-shield"></i> Before Posting</h4>
+                            <h4 class="pt-2 text-center"><i class="fas fa-shield"></i> Before Posting</h4>
                             <hr class="w-75" />
                             <ul class="list-group list-group-flush">
                                 @{

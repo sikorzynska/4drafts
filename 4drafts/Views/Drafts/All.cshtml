@@ -19,7 +19,7 @@
                 <div class="mb-1 bg-gray">
                     <div class="p-2 border-black">
                         <span class="badge badge-pill badge-info">@type.ToUpper()</span> <a class="btn-link" asp-controller="threads" asp-action="create" asp-route-type="@type" asp-route-d="@draft.Id">@draft.Title</a>
-                        <a class="btn-link float-right" onclick="deletePopup('@draft.Id', '/Drafts/Delete/')"><i class="fal fa-trash"></i></a>
+                        <a class="btn-link float-right" onclick="deletePopup('@draft.Id', '/Drafts/Delete/')"><i class="fas fa-trash"></i></a>
                         <br />
                         <span>@draft.FullDate</span>
                     </div>

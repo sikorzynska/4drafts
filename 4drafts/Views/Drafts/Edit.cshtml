@@ -3,15 +3,6 @@
 @{
     ViewBag.Title = "Edit";
     Layout = null;
-
-    var rules = new List<string>();
-    rules.Add("Stories must have a minimum of 500 characters.");
-    rules.Add("Poems must have a minimum of 100 characters.");
-    rules.Add("Prompts must be between 50 and 500 characters long.");
-    rules.Add("Plagiarism will result in a ban");
-    rules.Add("No immature / sexually explicit content");
-    rules.Add("Avoid racism and political debates");
-    rules.Add("Avoid detailed uses of suicide, and mental health stereotypes");
 }
 
 <div class="container">
@@ -21,19 +12,6 @@
                 <div class="col card-body form-body">
                     <h2 align="center"><i class="fas fa-edit"></i> Edit @Model.TypeName</h2>
                     <hr />
-                    <table class="mb-3 table-fixed w-100" align="center">
-                        <tr>
-                            <td class="border-cut bg-secondary p-2">
-                                <h4 class="text-center">Rules</h4>
-                                <ul>
-                                    @foreach (var rule in rules)
-                                    {
-                                        <li>@rule</li>
-                                    }
-                                </ul>
-                            </td>
-                        </tr>
-                    </table>
                     <div class="form-group">
                         <label asp-for="GenreIds" class="form-label"></label><br />
                         <select asp-for="GenreIds" class="selectpicker form-control edges" multiple data-max-options="3">
