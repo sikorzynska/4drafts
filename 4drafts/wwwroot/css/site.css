@@ -145,8 +145,8 @@ body {
     max-width: 10%;
 }
 
-.mw-250 {
-    max-width: 250px;
+.mw-200 {
+    max-width: 200px;
 }
 
 .media-img img {
@@ -770,6 +770,10 @@ hide-empty:empty {
     -webkit-text-stroke-width: 3px;
     -webkit-text-stroke-color: #1861ac;
     text-shadow: 2px 2px #ff1f8f, 3px 3px #000000;
+}
+
+.border-none {
+    border: none !important;
 }
 
 .poem {

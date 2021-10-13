@@ -14,6 +14,23 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body gray-stripes border-black">
+            @{
+                if (ownAccount)
+                {
+                    <div class="float-left pl-1 pb-2">
+                        <a asp-controller="users" asp-action="manage" class="btn btn-sm btn-outline-primary"><i class="fas fa-user-cog"></i> MANAGE</a>
+                        <div class="dropdown d-inline">
+                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bars"></i> THREADS
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" asp-controller="users" asp-action="threads" asp-route-t="mine">MINE</a>
+                                <a class="dropdown-item" asp-controller="users" asp-action="threads" asp-route-t="liked">LIKED</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
             <div class="wrapper float-right pb-2">
                 <a href="@Model.Website" class="icon github border-black @Class(Model.Website)">
                     <div class="tooltip">@Model.Website</div>
@@ -40,37 +57,19 @@
                     <span><i class="fab fa-patreon"></i></span>
                 </a>
             </div>
-            <div class="float-left ml-1 text-center">
-                <div class="dropdown">
-                    <a title="start thread" class="btn-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i><span> [OPTIONS]</span></a>
-                    <div class="dropdown-menu">
-                        @{
-                            if (ownAccount)
-                            {
-                                <a onclick="popUp('/Users/Manage/', 'account-manage')" class="btn-link dropdown-item" role="button"><i class="fas fa-user-cog"></i> [MANAGE]</a>
-                            }
-                            else
-                            {
-                                <a class="btn-link dropdown-item" role="button"><i class="fas fa-comment-dots"></i> [MESSAGE]</a>
-                                <a class="btn-link dropdown-item" role="button"><i class="fas fa-ban"></i> [BLOCK]</a>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
             <div class="w-25 mr-auto ml-auto text-center">
                 <h4>@Model.Username</h4>
             </div>
             <table class="table mt-3 separate-border">
                 <tbody>
                     <tr>
-                        <th colspan="2" class="border-black text-center bg-tablehead-gray">
+                        <th colspan="2" class="border-black text-center bg-gray">
                             <i class="fas fa-info"></i> Information
                         </th>
                     </tr>
                     <tr>
                         <th class="border-black w-15" scope="row"><i class="fas fa-image"></i> Avatar</th>
-                        <td class="border-black"><img class="mw-250" src="@avatar"></td>
+                        <td class="border-black"><img class="mw-200" src="@avatar"></td>
                     </tr>
                     <tr>
                         <th class="border-black w-15" scope="row"><i class="fas fa-envelope"></i> Email</th>
@@ -101,11 +100,7 @@
                         <td class="border-black">@Model.Occupation</td>
                     </tr>
                     <tr>
-                        <th class="border-black w-15" scope="row">About me</th>
-                        <td class="border-black">@Model.AboutMe</td>
-                    </tr>
-                    <tr>
-                        <th colspan="2" class="border-black text-center bg-tablehead-gray">
+                        <th colspan="2" class="border-black text-center bg-gray">
                             <i class="fas fa-trophy"></i> Statistics
                         </th>
                     </tr>
