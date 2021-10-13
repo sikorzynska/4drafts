@@ -11,12 +11,14 @@
     @if (user != null)
     {
         <li class="dropdown">
-            <a class="dropdown-toggle media-img-40 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle border" src="@avatar" alt="Avatar" /> <span class="caret">@user.UserName</span></a>
+            <a class="dropdown-toggle media-img-40 btn-link layout-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="@avatar" alt="Avatar" /><span class="caret"> @user.UserName</span></a>
             <ul class="dropdown-menu">
-                <li><a asp-controller="Users" asp-action="Profile" asp-route-u="@user.UserName" title="Profile"><span class="dropdown-link-text"><i class="fal fa-user"></i> Profile</span></a></li>
-                <li><a onclick="popUp('/Users/Manage/', 'account-manage')" title="Manage"><span class="dropdown-link-text"><i class="fal fa-user-cog"></i> Manage</span></a></li>
+                <li><a class="btn-link" asp-controller="Users" asp-action="Profile" asp-route-u="@user.UserName" title="Profile"><span class="dropdown-link-text"><i class="fas fa-user"></i> Profile</span></a></li>
+                <li><a class="btn-link" asp-controller="users" asp-action="manage" title="Manage"><span class="dropdown-link-text"><i class="fas fa-user-cog"></i> Manage</span></a></li>
+                <li><a class="btn-link" asp-controller="users" asp-action="threads" asp-route-t="mine" title="Manage"><span class="dropdown-link-text"><i class="fas fa-bars"></i> My threads</span></a></li>
+                <li><a class="btn-link" asp-controller="users" asp-action="threads" asp-route-t="liked" title="Manage"><span class="dropdown-link-text"><i class="fas fa-heart"></i> Liked threads</span></a></li>
                 <li role="separator" class="dropdown-divider"></li>
-                <li><a asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@Context.Request.GetDisplayUrl()"><span class="dropdown-link-text"><i class="fal fa-sign-out"></i> Logout</span></a></li>
+                <li><a class="btn-link" asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@Context.Request.GetDisplayUrl()"><span class="dropdown-link-text"><i class="fas fa-sign-out-alt"></i> Logout</span></a></li>
             </ul>
         </li>
     }

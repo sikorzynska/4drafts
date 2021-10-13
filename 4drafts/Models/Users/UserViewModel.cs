@@ -12,6 +12,8 @@ namespace _4drafts.Models.Users
 
         public string Username { get; set; }
 
+        public int TabIndex { get; set; }
+
         [Display(Name = "Avatar URL")]
         [Url]
         [RegularExpression(DataConstants.Users.ImageUrlRegex,
@@ -33,6 +35,8 @@ namespace _4drafts.Models.Users
         public string Email { get; set; }
 
         public string RegisteredOn { get; set; }
+
+        public int? Points { get; set; }
 
         [MaxLength(DataConstants.Users.UsernameMaxLength)]
         public string Occupation { get; set; }

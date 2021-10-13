@@ -14,10 +14,6 @@ namespace _4drafts.Data.Models
         [Required]
         public int ThreadTypeId { get; set; }
 
-        public string PromptId { get; set; }
-
-        public string Prompt { get; set; }
-
         [Required]
         [MaxLength(Threads.TitleMaxLength)]
         public string Title { get; set; }

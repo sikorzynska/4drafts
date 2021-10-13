@@ -4,6 +4,13 @@ namespace _4drafts.Services
 {
     public class TimeWarper : ITimeWarper
     {
+        public string FullDate(DateTime time)
+        {
+            string result = time.ToString("dddd, dd MMMM yyyy HH:mm:ss");
+
+            return result;
+        }
+
         public string TimeAgo(DateTime time)
         {
             string result = string.Empty;

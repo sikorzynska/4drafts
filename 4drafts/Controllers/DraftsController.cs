@@ -34,21 +34,19 @@ namespace _4drafts.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Save(string title, string content, int[] genreIds, string draftId = null, int typeId = 0, string promptId = null)
+        public async Task<IActionResult> Save(string title, string content, int[] genreIds, string draftId = null, int typeId = 0)
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
             if (user == null) return Unauthorized();
 
-            var draftCount = this.data.Drafts.Count(d => d.AuthorId == user.Id);
+            var draftCount = this.data.Drafts.Count(d => d.AuthorId == user.Id && d.ThreadTypeId == typeId);
 
             if (title == null) return Json(new { isValid = false, msg = Drafts.MissingTitle });
 
             if(draftCount >= 10) return Json(new { isValid = false, msg = Drafts.ReachedLimit });
 
-            if (typeId < 1 || typeId > 4) return Json(new { isValid = false, msg = Global.GeneralError });
-
-            if (typeId == 4 && promptId == null) return Json(new { isValid = false, msg = Global.GeneralError });
+            if (typeId < 1 || typeId > 2) return Json(new { isValid = false, msg = Global.GeneralError });
 
             if (draftId == null)
             {
@@ -86,26 +84,6 @@ namespace _4drafts.Controllers
                             };
                             break;
                         }
-                    case 4:
-                        {
-                            draft = new Draft
-                            {
-                                Title = title,
-                                Content = content,
-                                ThreadTypeId = typeId,
-                                FirstGenre = genreIds.Length > 0 ? genreIds[0] : 0,
-                                SecondGenre = genreIds.Length > 1 ? genreIds[1] : 0,
-                                ThirdGenre = genreIds.Length > 2 ? genreIds[2] : 0,
-                                PromptId = promptId,
-                                Prompt = this.data.Threads
-                                        .Where(t => t.ThreadTypeId == 3)
-                                        .FirstOrDefault(t => t.Id == promptId)
-                                        .Content,
-                                CreatedOn = DateTime.UtcNow.ToLocalTime(),
-                                AuthorId = user.Id,
-                            };
-                            break;
-                        }
                     default:
                         break;
                 }
@@ -136,13 +114,13 @@ namespace _4drafts.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int typeId = 1)
         {
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null) return Unauthorized();
 
             var drafts = this.data.Drafts
-                .Where(d => d.AuthorId == user.Id)
+                .Where(d => d.AuthorId == user.Id && d.ThreadTypeId == typeId)
                 .Include(d => d.ThreadType)
                 .OrderByDescending(d => d.CreatedOn)
                 .Select(d => new DraftViewModel
@@ -150,10 +128,9 @@ namespace _4drafts.Controllers
                     Id = d.Id,
                     Title = d.Title,
                     TypeId = d.ThreadTypeId,
-                    TypeSimplified = d.ThreadType.Name,
-                    PromptId = d.PromptId,
                     Content = d.Content,
                     CreatedOn = this.timeWarper.TimeAgo(d.CreatedOn),
+                    FullDate = this.timeWarper.FullDate(d.CreatedOn),
                     AuthorId = d.AuthorId,
                 })
                 .ToList();
@@ -220,10 +197,8 @@ namespace _4drafts.Controllers
                 new DraftViewModel 
                 { 
                     Id = draft.Id, 
-                    Genres = GetGenres(this.data), 
+                    Genres = GetGenres(this.data, draft.ThreadTypeId), 
                     GenreIds = GetGenreIds(draft.Id, this.data), 
-                    Prompt = draft.Prompt,
-                    PromptId = draft.PromptId,
                     TypeId = draft.ThreadTypeId, 
                     TypeName = draft.ThreadType.Name, 
                     Title = draft.Title, 
@@ -247,7 +222,7 @@ namespace _4drafts.Controllers
 
             if (!ModelState.IsValid)
             {
-                model.Genres = GetGenres(this.data);
+                model.Genres = GetGenres(this.data, model.TypeId);
                 return Json(new { isValid = false,
                     html = RenderRazorViewToString(this, "Edit", model)
                 });
@@ -280,7 +255,6 @@ namespace _4drafts.Controllers
                         d.SecondGenre,
                         d.ThirdGenre,
                     },
-                    PromptId = d.PromptId,
                     TypeId = d.ThreadTypeId,
                     Title = d.Title,
                     Content = d.Content,
@@ -308,14 +282,35 @@ namespace _4drafts.Controllers
             return genreIds;
         }
 
-        private static List<GenresBrowseModel> GetGenres(_4draftsDbContext data)
-        => data
-          .Genres
-          .Select(c => new GenresBrowseModel
-          {
-              Id = c.Id,
-              Name = c.Name
-          })
-          .ToList();
+        private static List<GenresBrowseModel> GetGenres(_4draftsDbContext data, int typeId = 0)
+        {
+            var genres = new List<GenresBrowseModel>();
+
+            if (typeId != 0)
+            {
+                genres = data
+                  .Genres
+                  .Where(g => g.GenreTypeId == typeId)
+                  .Select(c => new GenresBrowseModel
+                  {
+                      Id = c.Id,
+                      Name = c.Name
+                  })
+                  .ToList();
+            }
+            else
+            {
+                genres = data
+                  .Genres
+                  .Select(c => new GenresBrowseModel
+                  {
+                      Id = c.Id,
+                      Name = c.Name
+                  })
+                  .ToList();
+            }
+
+            return genres;
+        }
     }
 }

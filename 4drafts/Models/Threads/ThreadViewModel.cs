@@ -12,10 +12,6 @@ namespace _4drafts.Models.Threads
         public int TypeId { get; init; }
 
         public string Type { get; init; }
-        public string Prompt { get; set; }
-        public string PromptId { get; init; }
-
-        public int Responses { get; init; }
 
         public string Title { get; set; }
 

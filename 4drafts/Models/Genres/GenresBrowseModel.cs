@@ -13,6 +13,7 @@ namespace _4drafts.Models.Genres
         public string Description { get; set; }
 
         public int ThreadCount { get; set; }
+        public int GenreType { get; set; }
 
         public ThreadViewModel LastEntry { get; set; }
     }

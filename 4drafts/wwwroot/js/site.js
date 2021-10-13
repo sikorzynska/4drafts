@@ -18,6 +18,16 @@
 
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    $('#content-content').summernote({
+        height: 135,
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['insert', ['link']],
+            ['view', ['codeview', 'help']]
+        ]
+    });
 });
 
 $(function () {
@@ -30,43 +40,42 @@ $(function () {
     });
 });
 
-var comment_max = 500;
+var comment_max = 2000;
 $('#comment_count').html('0 / ' + comment_max);
+
 
 $("[data-toggle=popover]").popover();
 
-function countCharacters(counterId, valueId) {
+function countCharacters(counterId, valueId, max) {
     var text_length = $(document.getElementById(valueId)).val().length;
 
     var counter = document.getElementById(counterId);
-    $(counter).html(text_length + ' / ' + comment_max);
+    $(counter).html(text_length + ' / ' + max);
 };
 
-function changeArrow() {
-    var foldArrow = document.getElementById('fold-arrow');
-    var contentBody = document.getElementById('content-body');
-    if (contentBody.classList.contains('mh-600')) {
-        foldArrow.classList.remove('fa-arrow-down');
-        foldArrow.classList.add('fa-arrow-up');
-        contentBody.classList.remove('mh-600');
-    } else {
-        foldArrow.classList.remove('fa-arrow-up');
-        foldArrow.classList.add('fa-arrow-down');
-        contentBody.classList.add('mh-600');
-    }
-}
-
-function showComments() {
-    var btnText = document.getElementById('show-comments');
-    var commentSection = document.getElementById('comment-section');
-
-    if (commentSection.classList.contains('d-none')) {
-        commentSection.classList.remove('d-none');
-        btnText.textContent = '[HIDE COMMENTS]';
+function changeArrow(arrow, box = null, prop = null) {
+    var foldArrow = document.getElementById(arrow);
+    if (box != null && prop != null) {
+        var contentBody = document.getElementById(box);
+        if (contentBody.classList.contains(prop)) {
+            foldArrow.classList.remove('fa-arrow-down');
+            foldArrow.classList.add('fa-arrow-up');
+            contentBody.classList.remove(prop);
+        } else {
+            foldArrow.classList.remove('fa-arrow-up');
+            foldArrow.classList.add('fa-arrow-down');
+            contentBody.classList.add(prop);
+        }
     }
     else {
-        commentSection.classList.add('d-none');
-        btnText.textContent = '[SHOW COMMENTS]';
+        if (foldArrow.classList.contains('fa-arrow-down')) {
+            foldArrow.classList.remove('fa-arrow-down');
+            foldArrow.classList.add('fa-arrow-up');
+        }
+        else {
+            foldArrow.classList.remove('fa-arrow-up');
+            foldArrow.classList.add('fa-arrow-down');
+        }
     }
 }
 
@@ -152,8 +161,23 @@ function refer(id) {
     }
 }
 
-function popUp(path, type = null, returnUrl = null, entity = null, tt = null, promptId = null) {
+function popUp(path, type = null, returnUrl = null, entity = null, tt = null) {
     switch (type) {
+        case 'drafts': {
+            $.ajax({
+                type: 'GET',
+                url: path,
+                data: { typeId: tt },
+                success: function (res) {
+                    $('#form-modal .modal-body').html(res);
+                    $('#form-modal').modal('show');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+            break;
+        }
         case 'auth': {
             $.ajax({
                 type: 'GET',
@@ -173,7 +197,7 @@ function popUp(path, type = null, returnUrl = null, entity = null, tt = null, pr
             $.ajax({
                 type: 'GET',
                 url: path,
-                data: { tt : tt, promptId: promptId },
+                data: { tt : tt },
                 success: function (res) {
                     $('#staticBackdrop .modal-body').html(res);
                     $('#staticBackdrop').modal('show');
@@ -189,7 +213,7 @@ function popUp(path, type = null, returnUrl = null, entity = null, tt = null, pr
             $.ajax({
                 type: 'GET',
                 url: path,
-                data: { draftId: entity, tt: tt, promptId, promptId },
+                data: { draftId: entity, tt: tt },
                 success: function (res) {
                     $('#staticBackdrop .modal-body').html(res);
                     $('#staticBackdrop').modal('show');
@@ -371,10 +395,9 @@ function deletePost(entityId, path) {
         success: function (res) {
             if (res.isValid) {
                 if (res.entity == 'draft') {
-                    document.getElementById(entityId).remove();
                     $('.notifyjs-corner').empty();
                     $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
-                    $('#draft-count').html('[' + res.count + ' / 10]');
+                    $('#draft-count').html(res.count);
                     $('#form-modal').modal('hide');
                 }
                 else if (res.entity == 'thread') {
@@ -444,15 +467,32 @@ editPost = form => {
     }
 }
 
-function likeThread(threadId) {
+function likeThread(threadId, fromList) {
     $.ajax({
         type: 'Post',
         url: "/Threads/Like/",
-        data: { threadId: threadId },
+        data: { threadId: threadId, fromList: fromList },
         success: function (res) {
-            $('#thread-likes-section').html(res.html);
-            $('.notifyjs-corner').empty();
-            $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+            if (res.fromList) {
+                var heart = document.getElementById(res.heart);
+                if (res.liked) {
+                    heart.classList.remove('far');
+                    heart.classList.add('fas');
+                    heart.classList.add('text-danger');
+                }
+                else {
+                    heart.classList.remove('fas');
+                    heart.classList.remove('text-danger');
+                    heart.classList.add('far');
+                }
+                $('.notifyjs-corner').empty();
+                $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+            }
+            else {
+                $('#thread-likes-section').html(res.html);
+                $('.notifyjs-corner').empty();
+                $.notify(res.msg, { globalPosition: 'top left', className: 'success' });
+            }
         }
     })
 }
@@ -504,49 +544,58 @@ function getValue(id) {
 
 function getSelectedValue(id) {
     var elem = document.getElementById(id);
-    var selected = $(elem).children("option:selected").val();
-    return selected;
+    var selected_option = $(elem).find(":selected");
+    var selected_value = selected_option.val();
+    return selected_value;
 }
 
-$(function () {
-    $('.opt-checkbox').change(function () {
-        var act = document.getElementById('act');
-        addFilterRoutes($(act).val());
-    })
-})
-
-function addFilterRoutes(act) {
+function addFilterRoutes() {
     var filterBtn = document.getElementById('filter');
 
-    var path = '';
-    switch (act) {
-        case 'prompts': {
-            path = '/threads/' + act + '?sort=' + getSelectedValue('sort-select') + '&own=' + mine + '&liked=' + liked;
-            break;
-        }
-        default: {
-            path = '/threads/' + act + '?genre=' + getSelectedValue('genre-select') + '&type=' + getSelectedValue('type-select') + '&sort=' + getSelectedValue('sort-select');
-            break;
-        }
-    }
+    var path = '/threads/browse' + '?genre=' + getSelectedValue('genre-select') + '&type=' + getSelectedValue('type-select') + '&sort=' + getSelectedValue('sort-select');
+
     $(filterBtn).attr('href', path);
 }
 
-$(".pointthis").ready(function () {
-    var genre = $('#genre-value').val() + 'genre';
-    var sort = $('#sort-value').val();
-    var type = $('#type-value').val() + 'type';
+function insertAtCursor(fieldId, myValue) {
+    myField = document.getElementById(fieldId);
+    //IE support
+    if (document.selection) {
+        myField.focus();
+        sel = document.selection.createRange();
+        sel.text = myValue;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == '0') {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos)
+            + myValue
+            + myField.value.substring(endPos, myField.value.length);
+        myField.selectionStart = startPos + myValue.length;
+        myField.selectionEnd = startPos + myValue.length;
+    } else {
+        myField.value += myValue;
+    }
+}
 
-    var genreOption = document.getElementById(genre);
-    var sortOption = document.getElementById(sort);
-    var typeOption = document.getElementById(type);
+//$(".divider-line").ready(function () {
+//    var genre = $('#genre-value').val() + 'genre';
+//    var sort = $('#sort-value').val();
+//    var type = $('#type-value').val() + 'type';
 
-    console.log(type);
+//    var genreOption = document.getElementById(genre);
+//    var sortOption = document.getElementById(sort);
+//    var typeOption = document.getElementById(type);
 
-    $(genreOption).attr('selected', "");
-    $(sortOption).attr('selected', "");
-    $(typeOption).attr('selected', "");
-});
+//    console.log(genre);
+//    console.log(sort);
+//    console.log(type);
+
+//    $(genreOption).attr('selected', "");
+//    $(sortOption).attr('selected', "");
+//    $(typeOption).attr('selected', "");
+//});
 
 function saveDraft(title, content, genreIds, typeId, draftId, promptId) {
     try {

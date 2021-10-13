@@ -1,125 +1,113 @@
 ﻿@model UserViewModel
 @{
-    ViewBag.Title = "Manage Profile";
-    Layout = null;
+    ViewBag.Title = "Manage";
 }
-<div class="container">
-    <div class="main-body">
-        <form id="profile-manage-formdata" asp-controller="Users" asp-action="Manage" method="post">
-            <div class="row justify-content-center">
-                <div class="col card-body form-body">
-                    <h2 align="center"><i class="fal fa-user-cog"></i> Manage</h2>
-                    <hr />
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link btn-link active" data-toggle="tab" href="#editProfile"><i class="fal fa-user"></i> Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn-link" data-toggle="tab" href="#editLinks"><i class="fal fa-link"></i> Links</a>
-                        </li>
-                    </ul>
-                    <div id="myTabContent" class="tab-content">
-                        <div class="tab-pane fade active show" id="editProfile">
-                            <div class="form-group">
-                                <label asp-for="AvatarUrl"></label>
-                                <input type="url" asp-for="AvatarUrl" class="form-control" placeholder="https://image.flaticon.com/icons/png/512/64/64572.png">
-                                <span asp-validation-for="AvatarUrl" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="FirstName"></label>
-                                <input asp-for="FirstName" class="form-control" placeholder="John">
-                                <span asp-validation-for="FirstName" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="LastName"></label>
-                                <input asp-for="LastName" class="form-control" placeholder="Luther">
-                                <span asp-validation-for="LastName" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Age"></label>
-                                <input asp-for="Age" class="form-control" placeholder="27">
-                                <span asp-validation-for="Age" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Gender"></label>
-                                <select asp-for="Gender" class="form-control" placeholder="@Model.Gender">
-                                    <option></option>
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                </select>
-                                <span asp-validation-for="Gender" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Occupation"></label>
-                                <input asp-for="Occupation" class="form-control" placeholder="Detective">
-                                <span asp-validation-for="Occupation" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="AboutMe"></label>
-                                <textarea asp-for="AboutMe" class="form-control" placeholder="More about me..."></textarea>
-                                <span asp-validation-for="AboutMe" class="small text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="editLinks">
-                            <div class="form-group">
-                                <label asp-for="Website"></label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="website"><i class="fas fa-lg fa-globe big-icon"></i></span>
-                                    <input type="url" asp-for="Website" class="form-control" placeholder="https://www.website.com" aria-describedby="website">
-                                </div>
-                                <span asp-validation-for="Website" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Twitter"></label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="twitter"><i class="fab fa-lg fa-twitter big-icon"></i></span>
-                                    <input type="url" asp-for="Twitter" class="form-control" placeholder="https://twitter.com/example" aria-describedby="twitter">
-                                </div>
-                                <span asp-validation-for="Twitter" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Instagram"></label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="instagram"><i class="fab fa-lg fa-instagram big-icon"></i></span>
-                                    <input type="url" asp-for="Instagram" class="form-control" placeholder="https://www.instagram.com/example" aria-describedby="instagram">
-                                </div>
-                                <span asp-validation-for="Instagram" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Facebook"></label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="facebook"><i class="fab fa-lg fa-facebook big-icon"></i></span>
-                                    <input type="url" asp-for="Facebook" class="form-control" placeholder="https://www.facebook.com/example" aria-describedby="facebook">
-                                </div>
-                                <span asp-validation-for="Facebook" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Youtube"></label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="discord"><i class="fab fa-lg fa-youtube big-icon"></i></span>
-                                    <input type="url" asp-for="Youtube" class="form-control" placeholder="https://www.youtube.com/user/example" aria-describedby="youtube">
-                                </div>
-                                <span asp-validation-for="Youtube" class="small text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Patreon"></label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="discord"><i class="fab fa-lg fa-patreon big-icon"></i></span>
-                                    <input type="url" asp-for="Patreon" class="form-control" placeholder="https://www.patreon.com/example" aria-describedby="patreon">
-                                </div>
-                                <span asp-validation-for="Patreon" class="small text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-footer">
-                    <div class="text-secondary" align="center">
-                        <a class="btn btn-outline-primary" onclick="refer('profile-manage-formdata')"><i class="fas fa-save"></i> Save Changes</a>
-                        <button class="btn btn-outline-dark" type="button" onclick="cancelModal()"><i class="fas fa-times"></i> Cancel</button>
-                    </div>
-                </div>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body gray-stripes border-black">
+            <div class="w-25 mr-auto ml-auto text-center">
+                <h4><i class="fas fa-user-cog"></i> MANAGE PROFILE</h4>
+                <hr />
             </div>
-        </form>
+            <form asp-controller="Users" asp-action="Manage" method="post">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="text-center"><i class="fas fa-info"></i> Information</h5>
+                        <hr class="w-50" />
+                        <div class="form-group">
+                            <label asp-for="AvatarUrl"></label>
+                            <input type="url" asp-for="AvatarUrl" class="form-control" placeholder="https://image.flaticon.com/icons/png/512/64/64572.png">
+                            <span asp-validation-for="AvatarUrl" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FirstName"></label>
+                            <input asp-for="FirstName" class="form-control" placeholder="John">
+                            <span asp-validation-for="FirstName" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="LastName"></label>
+                            <input asp-for="LastName" class="form-control" placeholder="Luther">
+                            <span asp-validation-for="LastName" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Age"></label>
+                            <input asp-for="Age" class="form-control" placeholder="27">
+                            <span asp-validation-for="Age" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Gender"></label>
+                            <select asp-for="Gender" class="form-control" placeholder="@Model.Gender">
+                                <option></option>
+                                <option>Male</option>
+                                <option>Female</option>
+                            </select>
+                            <span asp-validation-for="Gender" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Occupation"></label>
+                            <input asp-for="Occupation" class="form-control" placeholder="Detective">
+                            <span asp-validation-for="Occupation" class="small text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="text-center"><i class="fas fa-link"></i> Links</h5>
+                        <hr class="w-50" />
+                        <div class="form-group">
+                            <label asp-for="Website"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="website"><i class="fas fa-lg fa-globe big-icon"></i></span>
+                                <input type="url" asp-for="Website" class="form-control" placeholder="https://www.website.com" aria-describedby="website">
+                            </div>
+                            <span asp-validation-for="Website" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Twitter"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="twitter"><i class="fab fa-lg fa-twitter big-icon"></i></span>
+                                <input type="url" asp-for="Twitter" class="form-control" placeholder="https://twitter.com/example" aria-describedby="twitter">
+                            </div>
+                            <span asp-validation-for="Twitter" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Instagram"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="instagram"><i class="fab fa-lg fa-instagram big-icon"></i></span>
+                                <input type="url" asp-for="Instagram" class="form-control" placeholder="https://www.instagram.com/example" aria-describedby="instagram">
+                            </div>
+                            <span asp-validation-for="Instagram" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Facebook"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="facebook"><i class="fab fa-lg fa-facebook big-icon"></i></span>
+                                <input type="url" asp-for="Facebook" class="form-control" placeholder="https://www.facebook.com/example" aria-describedby="facebook">
+                            </div>
+                            <span asp-validation-for="Facebook" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Youtube"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="discord"><i class="fab fa-lg fa-youtube big-icon"></i></span>
+                                <input type="url" asp-for="Youtube" class="form-control" placeholder="https://www.youtube.com/user/example" aria-describedby="youtube">
+                            </div>
+                            <span asp-validation-for="Youtube" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Patreon"></label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="discord"><i class="fab fa-lg fa-patreon big-icon"></i></span>
+                                <input type="url" asp-for="Patreon" class="form-control" placeholder="https://www.patreon.com/example" aria-describedby="patreon">
+                            </div>
+                            <span asp-validation-for="Patreon" class="small text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="text-secondary" align="right">
+                    <button type="submit" class="btn btn-sm btn-outline-info"><i class="fas fa-save"></i> Save Changes</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

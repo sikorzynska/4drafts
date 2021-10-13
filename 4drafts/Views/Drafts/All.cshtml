@@ -2,16 +2,36 @@
 
 @{ 
     ViewBag.Title = "Drafts";
+    Layout = null;
+
+    var type = "";
 }
 
 
 <div class="container-fluid">
-    <div class="jumbotron jumbotron-fluid bg-ocean-circles">
-        <div class="container">
-            <h1 class="display-3 strokeme">@ViewBag.Title</h1>
-        </div>
-    </div>
-    <div id="drafts-container">
-        <partial name="_DraftsPartial" model="@Model" />
-    </div>
+    <h5>Drafts @Model.Count() / 10</h5>
+    <hr />
+    @{ if (Model.Any())
+        {
+            foreach (var draft in Model)
+            {
+                type = draft.TypeId == 1 ? "story" : "poem";
+                <div class="mb-1 bg-gray">
+                    <div class="p-2 border-black">
+                        <span class="badge badge-pill badge-info">@type.ToUpper()</span> <a class="btn-link" asp-controller="threads" asp-action="create" asp-route-type="@type" asp-route-d="@draft.Id">@draft.Title</a>
+                        <a class="btn-link float-right" onclick="deletePopup('@draft.Id', '/Drafts/Delete/')"><i class="fas fa-trash"></i></a>
+                        <br />
+                        <span>@draft.FullDate</span>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+           <div class="text-center">
+               <img src="~/images/snoo-drafts.png" alt="Draft" />
+               <h5>Your drafts will live here</h5>
+           </div>
+        }
+    }
 </div>

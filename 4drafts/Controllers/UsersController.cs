@@ -10,6 +10,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using static _4drafts.Services.ControllerExtensions;
 using static _4drafts.Data.DataConstants;
+using _4drafts.Models.Threads;
+using _4drafts.Services;
+using _4drafts.Models.Genres;
+using System.Collections.Generic;
+using _4drafts.Models.Shared;
 
 namespace _4drafts.Controllers
 {
@@ -17,11 +22,14 @@ namespace _4drafts.Controllers
     {
         private readonly _4draftsDbContext data;
         private readonly UserManager<User> userManager;
+        private readonly ITimeWarper timeWarper;
         public UsersController(_4draftsDbContext data,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            ITimeWarper timeWarper)
         {
             this.data = data;
             this.userManager = userManager;
+            this.timeWarper = timeWarper;
         }
 
         [HttpGet]
@@ -38,6 +46,7 @@ namespace _4drafts.Controllers
                 Username = user.UserName,
                 AvatarUrl = user.AvatarUrl,
                 Email = user.Email,
+                Points = user.Points,
                 RegisteredOn = user.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
                 ThreadCount = UserThreadCount(user.Id, this.data),
                 CommentCount = UserCommentCount(user.Id, this.data),
@@ -49,7 +58,6 @@ namespace _4drafts.Controllers
 
         [HttpGet]
         [Authorize]
-        [NoDirectAccess]
         public async Task<IActionResult> Manage()
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -89,7 +97,7 @@ namespace _4drafts.Controllers
             if (model.Gender != "Male" && model.Gender != "Female" && model.Gender != string.Empty && model.Gender != null)
                 this.ModelState.AddModelError(nameof(model.Gender), Users.InvalidGender);
 
-            if (!ModelState.IsValid) return Json(new { isValid = false, html = RenderRazorViewToString(this, "Manage", model) });
+            if (!ModelState.IsValid) return View(model);
 
             var userId = this.userManager.GetUserId(this.User);
 
@@ -112,7 +120,77 @@ namespace _4drafts.Controllers
 
             await this.data.SaveChangesAsync();
 
-            return Json(new { isValid = true, msg = Users.ProfileUpdated });
+            return Redirect($"/Users/Profile?u={user.UserName}");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Threads(string t = "mine", int page = 1)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            var threads = new List<ThreadsBrowseModel>();
+
+            switch (t)
+            {
+                case "mine":
+                    {
+                      threads = this.data.Threads
+                      .Where(t => t.AuthorId == user.Id)
+                      .Include(t => t.Comments)
+                      .Include(t => t.GenreThreads)
+                      .Include(t => t.ThreadType)
+                      .OrderByDescending(t => t.CreatedOn)
+                      .Select(t => new ThreadsBrowseModel
+                      {
+                          Id = t.Id,
+                          Title = t.Title,
+                          ThreadTypeId = t.ThreadTypeId,
+                          Content = t.Content,
+                          ThreadTypeName = t.ThreadType.Name,
+                          Genres = GetGenres(this.data, 0, t.Id),
+                          CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                          FullDate = this.timeWarper.FullDate(t.CreatedOn),
+                          Points = t.Points,
+                          Liked = ThreadIsLiked(t.Id, user.Id, this.data),
+                          AuthorId = t.AuthorId,
+                          AuthorName = t.Author.UserName,
+                          AuthorAvatarUrl = t.Author.AvatarUrl,
+                          CommentCount = ThreadCommentCount(t.Id, this.data),
+                      }).ToList();
+                        break;
+                    }
+                case "liked":
+                    {
+                        threads = this.data.Threads
+                        .Where(t => this.data.UserThreads.Any(x => x.ThreadId == t.Id && x.UserId == user.Id))
+                        .Include(t => t.Comments)
+                        .Include(t => t.GenreThreads)
+                        .Include(t => t.ThreadType)
+                        .OrderByDescending(t => t.CreatedOn)
+                        .Select(t => new ThreadsBrowseModel
+                        {
+                            Id = t.Id,
+                            Title = t.Title,
+                            ThreadTypeId = t.ThreadTypeId,
+                            Content = t.Content,
+                            ThreadTypeName = t.ThreadType.Name,
+                            Liked = ThreadIsLiked(t.Id, user.Id, this.data),
+                            Genres = GetGenres(this.data, 0, t.Id),
+                            CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
+                            FullDate = this.timeWarper.FullDate(t.CreatedOn),
+                            Points = t.Points,
+                            AuthorId = t.AuthorId,
+                            AuthorName = t.Author.UserName,
+                            AuthorAvatarUrl = t.Author.AvatarUrl,
+                            CommentCount = ThreadCommentCount(t.Id, this.data),
+                        }).ToList();
+                        break;
+                    }
+                default:
+                    break;
+            }
+
+            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, page, 10, GetGenres(this.data), 0, null, 0, t));
         }
 
         [HttpGet]
@@ -135,6 +213,7 @@ namespace _4drafts.Controllers
                 RegisteredOn = user.RegisteredOn.ToString("MMMM yyyy", CultureInfo.InvariantCulture),
                 Gender = user.Gender,
                 Age = user.Age,
+                Points = user.Points,
                 Occupation = user.Occupation,
                 Website = user.Website,
                 Youtube = user.Youtube,
@@ -151,6 +230,62 @@ namespace _4drafts.Controllers
         }
 
         //Functions
+        private static bool ThreadIsLiked(string threadId, string userId, _4draftsDbContext data)
+                => data.UserThreads.Any(ut => ut.UserId == userId && ut.ThreadId == threadId);
+        private static List<GenresBrowseModel> GetGenres(_4draftsDbContext data, int typeId = 0, string threadId = null)
+        {
+            var genres = new List<GenresBrowseModel>();
+
+            if (threadId == null)
+            {
+                if (typeId != 0)
+                {
+                    genres = data
+                      .Genres
+                      .Where(g => g.GenreTypeId == typeId)
+                      .Select(c => new GenresBrowseModel
+                      {
+                          Id = c.Id,
+                          Name = c.Name,
+                          SimplifiedName = c.SimplifiedName,
+                          Description = c.Description,
+                          GenreType = c.GenreTypeId,
+                      })
+                      .ToList();
+                }
+                else
+                {
+                    genres = data
+                      .Genres
+                      .Select(c => new GenresBrowseModel
+                      {
+                          Id = c.Id,
+                          Name = c.Name,
+                          SimplifiedName = c.SimplifiedName,
+                          Description = c.Description,
+                          GenreType = c.GenreTypeId,
+                      })
+                      .ToList();
+                }
+            }
+            else
+            {
+                genres = data
+                     .Genres
+                     .Where(g => data.GenreThreads.Any(x => x.ThreadId == threadId && x.GenreId == g.Id))
+                     .Select(c => new GenresBrowseModel
+                     {
+                         Id = c.Id,
+                         Name = c.Name,
+                         SimplifiedName = c.SimplifiedName,
+                         Description = c.Description,
+                         GenreType = c.GenreTypeId,
+                     })
+                     .ToList();
+            }
+
+            return genres;
+        }
         private static int UserThreadCount(string userId, _4draftsDbContext data)
                 => data.Threads.Count(t => t.AuthorId == userId);
 

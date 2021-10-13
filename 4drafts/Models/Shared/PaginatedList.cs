@@ -16,13 +16,17 @@ namespace _4drafts.Models.Shared
         public string SortType { get; set; }
         public int Type { get; set; }
 
+        public string ThreadSwitch { get; set; }
+
+
         public PaginatedList(List<T> items, 
             int count, int pageIndex, 
             int pageSize, 
             IEnumerable<GenresBrowseModel> genres, 
             int genre = 0, 
             string sort = null, 
-            int type = 0)
+            int type = 0,
+            string threadSwitch = "mine")
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
@@ -30,6 +34,7 @@ namespace _4drafts.Models.Shared
             Genre = genre;
             SortType = sort;
             Type = type;
+            ThreadSwitch = threadSwitch;
             this.AddRange(items);
         }
 
@@ -55,11 +60,12 @@ namespace _4drafts.Models.Shared
             IEnumerable<GenresBrowseModel> genres, 
             int genre = 0, 
             string sort = null,
-            int type = 0)
+            int type = 0,
+            string threadSwitch = "mine")
         {
             var count = source.Count();
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            return new PaginatedList<T>(items, count, pageIndex, pageSize, genres, genre, sort, type);
+            return new PaginatedList<T>(items, count, pageIndex, pageSize, genres, genre, sort, type, threadSwitch);
         }
     }
 }

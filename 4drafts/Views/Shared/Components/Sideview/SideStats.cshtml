@@ -1,41 +1,15 @@
 ﻿@model StatisticsViewModel
-@{ 
-    var avatar = "";
-}
-<table class="table table-hover table-fixed w-100">
+
+<table class="table table-hover table-fixed w-100 separate-border">
     <tbody>
         <tr>
-            <td class="border dark-stripes text-center p-5">
+            <td class="border-black dark-stripes text-center p-5">
                 <h2><a class="btn-link">ADVERTISE HERE</a></h2>
             </td>
         </tr>
-        @*<tr>
-            <td class="border gray-stripes">
-                <h3 class="pt-2 text-center"><i class="fal fa-users"></i> Top Users</h3>
-                <hr class="w-50" />
-                <ul class="list-group list-group-flusht">
-                    @{
-                        int n = 0;
-                        foreach (var user in Model.Users)
-                        {
-                            n++;
-                            avatar = String.IsNullOrWhiteSpace(user.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : user.AvatarUrl;
-                            <li class="list-group-item bg-transparent">
-                                <span>@n.</span>
-                                <a class="btn-link ml-1" onclick="popUp('/Users/Peek/','peek-profile', null, '@user.Username')">
-                                    <img src="@avatar" style="width: 30px; height: 30px; border-radius: 50%;" alt="Avatar" />
-                                    @user.Username
-                                </a>
-                                <span class="badge badge-success border edges">patron</span>
-                            </li>
-                        }
-                    }
-                </ul>
-            </td>
-        </tr>*@
         <tr>
-            <td class="border gray-stripes">
-                <h3 class="pt-2 text-center"><i class="fal fa-book"></i> Top Stories Of The Week</h3>
+            <td class="border-black gray-stripes">
+                <h3 class="pt-2 text-center">Top Stories Of The Week</h3>
                 <hr class="w-75" />
                 <ul class="list-group list-group-flusht">
                     @{
@@ -45,14 +19,13 @@
                             <li class="list-group-item bg-transparent">
                                 <div class="row w-100 mr-auto ml-auto">
                                     <div class="col-9 pl-0 pr-0">
-                                        <i class="fal @iconClass"></i>
                                         <a class="btn-link text-break" asp-controller="threads" asp-action="read" asp-route-t="@thread.Id">@thread.Title</a>
                                         <br />
                                         <span class="text-muted">by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a></span>
                                     </div>
                                     <div class="col pl-0 pr-0">
-                                        <i class="fas fa-heart text-danger"></i><span class="text-muted pl-2 pr-2"> @thread.Points</span><br />
-                                        <i class="fas fa-comments-alt text-dark"></i><span class="text-muted pl-2 pr-2"> @thread.CommentCount</span>
+                                        <i class="fas fa-heart text-danger"></i><span class="text-muted"> @thread.Points</span><br />
+                                        <i class="fas fa-comment-alt text-dark"></i><span class="text-muted"> @thread.CommentCount</span>
                                     </div>
                                 </div>
                             </li>
@@ -62,8 +35,8 @@
             </td>
         </tr>
         <tr>
-            <td class="border gray-stripes">
-                <h3 class="pt-2 text-center"><i class="fal fa-scroll"></i> Top Poems Of The Week</h3>
+            <td class="border-black gray-stripes">
+                <h3 class="pt-2 text-center">Top Poems Of The Week</h3>
                 <hr class="w-75" />
                 <ul class="list-group list-group-flusht">
                     @{
@@ -72,37 +45,19 @@
                             <li class="list-group-item bg-transparent">
                                 <div class="row w-100 mr-auto ml-auto">
                                     <div class="col-9 pl-0 pr-0">
-                                        <i class="fal fa-scroll"></i>
                                         <a class="btn-link text-break" asp-controller="threads" asp-action="read" asp-route-t="@thread.Id">@thread.Title</a>
                                         <br />
                                         <span class="text-muted">by <a class="btn-link text-muted" onclick="popUp('/Users/Peek/','peek-profile', null, '@thread.AuthorName')">@thread.AuthorName</a></span>
                                     </div>
                                     <div class="col pl-0 pr-0">
-                                        <i class="fas fa-heart text-danger"></i><span class="text-muted pl-2 pr-2"> @thread.Points</span><br />
-                                        <i class="fas fa-comments-alt text-dark"></i><span class="text-muted pl-2 pr-2"> @thread.CommentCount</span>
+                                        <i class="fas fa-heart text-danger"></i><span class="text-muted"> @thread.Points</span><br />
+                                        <i class="fas fa-comment-alt text-dark"></i><span class="text-muted"> @thread.CommentCount</span>
                                     </div>
                                 </div>
                             </li>
                         }
                     }
                 </ul>
-            </td>
-        </tr>
-        <tr>
-            <td class="border gray-stripes">
-                <h3 class="pt-2 text-center"><i class="fal fa-shield"></i> Posting Rules</h3>
-                <hr class="w-50" />
-                <ul class="list-group list-group-flusht">
-                    @foreach (var rule in Model.Rules)
-                    {
-                        <li class="list-group-item bg-transparent">@rule</li>
-                    }
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td class="border dark-stripes text-center p-5">
-                <h2><a class="btn-link">ADVERTISE HERE</a></h2>
             </td>
         </tr>
     </tbody>

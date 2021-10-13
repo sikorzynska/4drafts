@@ -44,6 +44,7 @@ namespace _4drafts.Data.Models
 
         public int Points { get; set; }
 
+        public ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
         public ICollection<Draft> Drafts { get; set; } = new List<Draft>();
         public ICollection<Thread> Threads { get; set; } = new List<Thread>();
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
