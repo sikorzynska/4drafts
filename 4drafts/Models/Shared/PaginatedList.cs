@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace _4drafts.Models.Shared
 {
+    //comment
     public class PaginatedList<T> : List<T>
     {
         public int PageIndex { get; private set; }

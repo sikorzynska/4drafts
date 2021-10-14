@@ -4,6 +4,7 @@
     {
         public class Global
         {
+            //comment
             public const string UnauthorizedAction = "Whoops! Looks like you're not authorized to do this...";
             public const string GeneralError = "Whoops! Looks like something went wrong...";
         }

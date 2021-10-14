@@ -7,6 +7,7 @@ namespace _4drafts.Data.Models
 {
     public class Comment
     {
+        //comment
         [Key]
         [Required]
         public string Id { get; init; } = Guid.NewGuid().ToString();

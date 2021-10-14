@@ -7,6 +7,7 @@ namespace _4drafts.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            //comment
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new

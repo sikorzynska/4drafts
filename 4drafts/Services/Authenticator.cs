@@ -5,6 +5,7 @@ namespace _4drafts.Services
 {
     public class Authenticator : IAuthenticator
     {
+        //comment
         private readonly _4draftsDbContext data;
         public Authenticator(_4draftsDbContext data) => this.data = data;
 

@@ -6,6 +6,7 @@ namespace _4drafts.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            //comment
             migrationBuilder.AlterColumn<string>(
                 name: "Content",
                 table: "Comments",

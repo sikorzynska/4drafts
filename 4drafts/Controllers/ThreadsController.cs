@@ -935,6 +935,7 @@ namespace _4drafts.Controllers
 
             var tvm = new ThreadViewModel
             {
+                //comment
                 Id = threadId,
                 Points = points,
                 Liked = liked,

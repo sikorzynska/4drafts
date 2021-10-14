@@ -80,6 +80,7 @@ namespace _4drafts.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
+            //comment
             var currentUser = await this.userManager.GetUserAsync(this.User);
 
             if (currentUser != null) return RedirectToAction("Index", "Home");

@@ -31,6 +31,7 @@ namespace _4drafts.Infrastructure
 
         private static void SeedThreadTypes(_4draftsDbContext data)
         {
+            //comment
             if (data.ThreadTypes.Any()) return;
 
             data.ThreadTypes.AddRange(new[]

@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using static _4drafts.Services.ControllerExtensions;
 using static _4drafts.Data.DataConstants;
-using _4drafts.Services;
 
 namespace _4drafts.Controllers
 {
@@ -29,6 +28,7 @@ namespace _4drafts.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> Peek(string u)
         {
+            //comment
             var user = await this.userManager.FindByNameAsync(u);
 
             if (user == null) return Json(new { isValid = false, msg = Global.GeneralError });
