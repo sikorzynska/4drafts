@@ -28,14 +28,14 @@
                                           class="form-control ml-1 shadow-none edges"
                                           placeholder="Add a public comment..."
                                           id="comment-content"
-                                          onchange="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 2000)"
-                                          onkeypress="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 2000)"
-                                          oninput="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 2000)"
-                                          onkeyup="countCharacters('comment_count', 'comment-content', 2000)"
-                                          onpaste="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 2000)"
+                                          onchange="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 500)"
+                                          onkeypress="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 500)"
+                                          oninput="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 500)"
+                                          onkeyup="countCharacters('comment_count', 'comment-content', 500)"
+                                          onpaste="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 500)"
                                           onclick="showButtons()"></textarea>
                                 <div class="input-group-append" id="counter-append">
-                                    <span class="input-group-text edges" id="comment_count">0 / 2000</span>
+                                    <span class="input-group-text edges" id="comment_count">0 / 500</span>
                                 </div>
                             </div>
                         }
@@ -69,48 +69,53 @@
                 </div>
             </th>
         </tr>
-            @{
-                if (!Model.Comments.Any())
-                {
-                    <tr>
-                        <th colspan="2" class="border-black text-center">
-                            <h4 class="p-3 mt-auto mb-auto">Looks like the comment section is empty...</h4>
-                        </th>
-                    </tr>
-                }
-                else
-                {
-                    foreach (var comment in Model.Comments)
-                    {
-                        var authorAvatar = "";
-                        authorAvatar = String.IsNullOrWhiteSpace(comment.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : comment.AuthorAvatarUrl;
-                        <tr>
-                            <td colspan="2">
-                                <strong><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, '@comment.AuthorName')">@comment.AuthorName</a></strong>&nbsp;
-                                <span><i class="fas fa-caret-right"></i>&nbsp;@comment.CreatedOn</span>
-                                @*<a class="btn-link ml-2 d-inline"><i class="fal fa-reply"></i> REPLY</a>*@
-                                <a class="btn-link ml-2 d-inline"><i class="fas fa-flag"></i> REPORT</a>
-                                <a onclick="changeArrow('com-arrow@(comment.Id)', 'com@(comment.Id)', 'mh-145px')" class="btn-link ml-2 d-inline"><i id="com-arrow@(comment.Id)" class="fas fa-arrow-down"></i> UNFOLD</a>
-                                @if (userId == comment.AuthorId)
-                                {
-                                <div class="float-right d-inline">
-                                    <a onclick="popUp('/Comments/Edit/','comment-edit', null, '@comment.Id')" class="btn-link ml-2"><i class="fas fa-pencil-alt"></i> EDIT</a>
-                                    <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link ml-2"><i class="fas fa-trash"></i> DELETE</a>
-                                </div>
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                           <td align="center" class="border-black w-10 size-100">
-                               <img src="@authorAvatar" class="size-100" />
-                           </td>
-                           <td class="border-black p-2" style="text-align:left; vertical-align:top;">
-                               <div id="com@(comment.Id)" class="comment-box mh-145px">@comment.Content</div>
-                           </td>
-                        </tr>
-                    }
-
-                }
-            }
     </tbody>
 </table>
+@{
+    if (Model.Comments.Any())
+    {
+    <div class="container-fluid mt-3">
+        <div class="alert alert-dismissible alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            The comments are randomly generated sentences and artificially injected for testing purposes, your human brain will not be able to understand their meaning, or lack thereof, so we suggest you don't try and make sense of them.
+        </div>
+        @foreach (var comment in Model.Comments)
+        {
+            var authorAvatar = "";
+            authorAvatar = String.IsNullOrWhiteSpace(comment.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : comment.AuthorAvatarUrl;
+            <div class="mt-3">
+                <div class="d-flex flex-row align-items-center commented-user media-img-40">
+                    <img class="rounded-circle" src="@authorAvatar">
+                    <h5 class="mr-2 mt-2 ml-1 d-inline"><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, '@comment.AuthorName')">@comment.AuthorName</a></h5>
+                    <i class="fas fa-caret-right"></i><span class="text-muted ml-2">@comment.CreatedOn</span>
+                    <div>
+                        @if (userId == comment.AuthorId)
+                        {
+                            <a onclick="popUp('/Comments/Edit/','comment-edit', null, '@comment.Id')" class="btn-link pl-2"><i class="fas fa-pencil-alt"></i></a>
+                            <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link pl-2"><i class="fas fa-trash"></i></a>
+                        }
+                    </div>
+                </div>
+                <div class="pl-1 pr-1 pt-1 pb-1" style="white-space: pre-wrap;">@comment.Content</div>
+                <div class="reply-section ml-1">
+                    <div class="d-flex flex-row align-items-center">
+                        @{
+                            var liked = comment.Liked == true ? "fas" : "far";
+                            if (user != null)
+                            {
+                                <a class="text-danger" onclick="likeComment('@comment.Id')"><i class="@liked fa-heart"></i></a>
+                                <span class="ml-2">@comment.Points</span>
+                            }
+                            else
+                            {
+                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="text-danger"><i class="far fa-heart"></i></a>
+                                <span class="ml-2">@comment.Points</span>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    }
+}

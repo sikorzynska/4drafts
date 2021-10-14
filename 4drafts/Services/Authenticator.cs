@@ -9,12 +9,12 @@ namespace _4drafts.Services
         public Authenticator(_4draftsDbContext data) => this.data = data;
 
         public bool EmailExists(string email)
-            => this.data.Users.FirstOrDefault(u => u.Email == email) != null;
+            => this.data.Users.FirstOrDefault(u => u.Email.ToLower() == email.ToLower()) != null;
 
         public bool EmailTaken(string email) 
-            => this.data.Users.FirstOrDefault(u => u.Email == email) != null;
+            => this.data.Users.FirstOrDefault(u => u.Email.ToLower() == email.ToLower()) != null;
 
         public bool UsernameTaken(string username) 
-            => this.data.Users.FirstOrDefault(u => u.UserName == username) != null;
+            => this.data.Users.FirstOrDefault(u => u.UserName.ToLower() == username.ToLower()) != null;
     }
 }

@@ -24,7 +24,7 @@ namespace _4drafts.Infrastructure
             SeedGenres(data);
             SeedUsers(data);
             SeedThreads(data);
-            //SeedComments(data);
+            SeedComments(data);
 
             return app;
         }
@@ -165,209 +165,182 @@ namespace _4drafts.Infrastructure
             {
                 new User{
                     Id = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
-                    UserName = "Dave",
-                    NormalizedUserName = "Dave".ToUpper(),
+                    UserName = "Dave_Chappelle",
                     Email = "david88@gmail.com",
-                    NormalizedEmail = "david88@gmail.com".ToUpper(),
                     FirstName = "David",
-                    LastName = "Copperfield",
+                    LastName = "Chappelle",
+                    Instagram = "https://www.instagram.com/davechappelle",
+                    Twitter = "https://twitter.com/davechappelle?lang=en",
                     Points = rnd.Next(0, 1000),
                     RegisteredOn = RandomDayFunc(),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://i.redd.it/7qalrjf53th51.png",
+                    AvatarUrl = "https://www.biography.com/.image/t_share/MTQzMzA3MzU5NDg4MzIxMDk2/dave-chappelle_gettyimages-481295252jpg.jpg",
                 },
                 new User{
                     Id = "faf3e481-7f75-4261-bd8f-05bb00212239",
-                    UserName = "LadyBug",
-                    NormalizedUserName = "LadyBug".ToUpper(),
+                    UserName = "Kristen_Bell",
                     Email = "kristen@gmail.com",
-                    NormalizedEmail = "kristen@gmail.com".ToUpper(),
                     FirstName = "Kristen",
-                    LastName = "Seinfeld",
+                    LastName = "Bell",
+                    Instagram = "https://www.instagram.com/kristenanniebell",
+                    Twitter = "https://twitter.com/kristenbell",
                     Points = rnd.Next(0, 1000),
                     RegisteredOn = RandomDayFunc(),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://cdn.pixabay.com/photo/2021/08/07/07/37/woman-6527938_960_720.png",
+                    AvatarUrl = "https://www.pinkvilla.com/files/styles/amp_metadata_content_image/public/kristen-bell-reveals-why-she-wont-post-her-kids-faces-from-social-media.jpg",
                 },
                 new User{
                     Id = "f76ba675-da23-45ae-b351-7854af84d238",
-                    UserName = "Randy",
-                    NormalizedUserName = "Randy".ToUpper(),
+                    UserName = "Bradley_Cooper",
                     Email = "clipper77@gmail.com",
-                    NormalizedEmail = "clipper77@gmail.com".ToUpper(),
-                    FirstName = "Ronald",
-                    LastName = "Raegan",
+                    FirstName = "Bradley",
+                    LastName = "Cooper",
+                    Instagram = "https://www.instagram.com/bradleycooper__original/",
                     Points = rnd.Next(0, 1000),
                     RegisteredOn = RandomDayFunc(),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://cdn.pixabay.com/photo/2016/03/31/19/57/avatar-1295404_960_720.png",
+                    AvatarUrl = "https://cdn.britannica.com/57/199057-050-CCE5410A/Bradley-Cooper-2008.jpg",
                 },
                 new User{
                     Id = "742466ec-5456-4f41-8b02-5ca6c710fa76",
-                    UserName = "Ratata",
-                    NormalizedUserName = "Ratata".ToUpper(),
+                    UserName = "Sandra_Bullock",
                     Email = "malibu@gmail.com",
-                    NormalizedEmail = "malibu@gmail.com".ToUpper(),
                     RegisteredOn = RandomDayFunc(),
                     Points = rnd.Next(0, 1000),
+                    Instagram = "https://www.instagram.com/sandra.bullock.official/",
+                    Twitter = "https://twitter.com/sbullockweb/",
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://cdn.pixabay.com/photo/2019/09/14/09/44/cat-4475583_960_720.png",
+                    AvatarUrl = "https://www.business-voice-magazin.com/wp-content/uploads/2017/03/sandra-607x780.jpg",
                 },
                 new User{
                     Id = "efe1761c-030d-4329-a41a-bca51041bd2b",
-                    UserName = "MagicalProwess",
-                    NormalizedUserName = "MagicalProwess".ToUpper(),
+                    UserName = "Ian_Somerhalder",
                     Email = "zenmaster@gmail.com",
-                    NormalizedEmail = "zenmaster@gmail.com".ToUpper(),
-                    FirstName = "Kiki",
+                    FirstName = "Ian",
+                    Instagram = "https://www.instagram.com/iansomerhalder/",
                     Points = rnd.Next(0, 1000),
                     RegisteredOn = RandomDayFunc(),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://cdn.pixabay.com/photo/2020/02/19/12/25/pug-4862083_960_720.png",
+                    AvatarUrl = "https://media1.popsugar-assets.com/files/thumbor/mSw6KtNHwv_Cqbo4Ujx3ZA28PoQ/878x0:2139x1261/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2020/04/20/766/n/1922398/4101d0a75e9dda8ba7da41.08531277_/i/Ian-Somerhalder.jpg",
                 },
                 new User{
                     Id = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
-                    UserName = "Annie",
-                    NormalizedUserName = "Annie".ToUpper(),
-                    Email = "anastasia@gmail.com",
-                    NormalizedEmail = "anastasia@gmail.com".ToUpper(),
-                    FirstName = "Annie",
+                    UserName = "Ben_Affleck",
+                    Email = "ben@gmail.com",
+                    FirstName = "Ben",
                     Points = rnd.Next(0, 1000),
-                    LastName = "Ruok",
+                    LastName = "Affleck",
+                    Twitter = "https://twitter.com/benaffleck/",
                     RegisteredOn = RandomDayFunc(),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://cdn.pixabay.com/photo/2013/11/28/11/30/lips-220244_960_720.jpg",
+                    AvatarUrl = "https://upload.wikimedia.org/wikipedia/commons/7/70/Ben_Affleck_by_Gage_Skidmore_3.jpg",
                 },
                 new User{
                     Id = "5386f041-5c28-4572-a60b-81f04ad32e61",
-                    UserName = "Janitor",
-                    NormalizedUserName = "Janitor".ToUpper(),
+                    UserName = "John_Krasinski",
                     Email = "janjan@gmail.com",
-                    NormalizedEmail = "janjan@gmail.com".ToUpper(),
-                    FirstName = "Roberto",
+                    FirstName = "John",
                     Points = rnd.Next(0, 1000),
-                    LastName = "Rodrigez",
+                    LastName = "Krasinski",
+                    Instagram = "https://www.instagram.com/johnkrasinski/",
                     RegisteredOn = RandomDayFunc(),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://static.vecteezy.com/system/resources/previews/001/952/720/non_2x/mexican-cartoon-man-design-vector.jpg",
+                    AvatarUrl = "https://media.vanityfair.com/photos/5f008d41184617200a49bb9d/2:3/w_886,h_1329,c_limit/john-krasinski.jpg",
                 },
                 new User{
                     Id = "68091adf-6141-48d9-8374-4693f21c6882",
-                    UserName = "Orochimaru",
-                    NormalizedUserName = "Orochimaru".ToUpper(),
-                    Email = "snakeboy@gmail.com",
-                    NormalizedEmail = "snakeboy@gmail.com".ToUpper(),
+                    UserName = "Emily_Blunt",
+                    Email = "emily@gmail.com",
                     RegisteredOn = RandomDayFunc(),
                     Points = rnd.Next(0, 1000),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://www.looper.com/img/gallery/why-orochimarus-character-arc-in-naruto-makes-no-sense/intro-1614956886.jpg",
+                    AvatarUrl = "https://www.looper.com/img/gallery/the-biggest-emily-blunt-movies-of-all-time/intro-1625754125.jpg",
                 },
                 new User{
                     Id = "f3e14356-cd02-4756-baf1-93fbce922a45",
-                    UserName = "Zombie",
-                    NormalizedUserName = "Zombie".ToUpper(),
-                    Email = "zombie@gmail.com",
-                    NormalizedEmail = "zombie@gmail.com".ToUpper(),
-                    FirstName = "Zom",
-                    LastName = "Bie",
+                    UserName = "Bobby_Lee",
+                    Email = "bobo@gmail.com",
+                    FirstName = "Slept",
+                    LastName = "King",
+                    Youtube = "https://www.youtube.com/c/TigerBelly",
                     Points = rnd.Next(0, 1000),
                     RegisteredOn = RandomDayFunc(),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/zombie_avatar_monster_dead-512.png",
+                    AvatarUrl = "https://www.themoviedb.org/t/p/w235_and_h235_face/90TyhVb7OfyHPmj3ZVX6hEjHGlD.jpg",
                 },
                 new User{
                     Id = Guid.NewGuid().ToString(),
-                    UserName = "Hoodini",
-                    NormalizedUserName = "Hoodini".ToUpper(),
-                    Email = "Hoodini@gmail.com".ToLower(),
-                    NormalizedEmail = "zombie@gmail.com".ToUpper(),
-                    FirstName = "Pendejo",
-                    Youtube = "www.youtube.com",
-                    Twitter = "www.twitter.com",
-                    Points = rnd.Next(0, 1000),
-                    Instagram = "www.instagram.com",
-                    RegisteredOn = RandomDayFunc(),
-                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://i.pinimg.com/originals/66/cd/ee/66cdee36e7c372b7d51212eb802634fb.jpg",
-                },
-                new User{
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "QskoSeksa69",
-                    NormalizedUserName = "QskoSeksa69".ToUpper(),
-                    Email = "qskoseksa@gmail.com",
-                    NormalizedEmail = "qskoseksa@gmail.com".ToUpper(),
-                    FirstName = "Poopie",
-                    LastName = "Pants",
-                    Youtube = "www.youtube.com",
-                    Twitter = "www.twitter.com",
-                    Points = rnd.Next(0, 1000),
-                    Instagram = "www.instagram.com",
-                    RegisteredOn = RandomDayFunc(),
-                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://i.dailymail.co.uk/i/pix/2015/01/20/24DE2A9B00000578-0-image-a-1_1421752994677.jpg",
-                },
-                new User{
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "Stoqn_Kolev",
-                    NormalizedUserName = "Stoqn_Kolev".ToUpper(),
-                    Email = "stoikata@gmail.com",
-                    NormalizedEmail = "stoikata@gmail.com".ToUpper(),
-                    FirstName = "Stoqn",
-                    LastName = "Kolev",
-                    Youtube = "www.youtube.com",
-                    Twitter = "www.twitter.com",
-                    Points = rnd.Next(0, 1000),
-                    Instagram = "www.instagram.com",
-                    RegisteredOn = RandomDayFunc(),
-                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://pbs.twimg.com/profile_images/1245854439975550976/IsJ1Baek_400x400.jpg",
-                },
-                new User{
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "MajorTortoise",
-                    NormalizedUserName = "MajorTortoise".ToUpper(),
-                    Email = "emailatemail@gmail.com",
-                    NormalizedEmail = "emailatemail@gmail.com".ToUpper(),
+                    UserName = "David_Duchovny",
+                    Email = "davidduchovny@gmail.com".ToLower(),
                     FirstName = "David",
-                    LastName = "Spade",
-                    Youtube = "www.youtube.com",
-                    Facebook = "www.facebook.com",
                     Points = rnd.Next(0, 1000),
-                    Instagram = "www.instagram.com",
+                    Instagram = "https://www.instagram.com/davidduchovny/",
                     RegisteredOn = RandomDayFunc(),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://i.pinimg.com/736x/e5/6f/0e/e56f0ef1ed61bf011aab7e11956666e4.jpg",
+                    AvatarUrl = "https://cdn.britannica.com/w:400,h:300,c:crop/79/198779-050-E2F5E68E/David-Duchovny-2009.jpg",
                 },
                 new User{
                     Id = Guid.NewGuid().ToString(),
-                    UserName = "derp",
-                    NormalizedUserName = "derp".ToUpper(),
-                    Email = "derp@gmail.com",
-                    NormalizedEmail = "derp@gmail.com".ToUpper(),
-                    Facebook = "www.facebook.com",
-                    Website = "www.website.com",
-                    RegisteredOn = RandomDayFunc(),
+                    UserName = "Jake_Gyllenhaal",
+                    Email = "jakeyboy@gmail.com",
+                    FirstName = "Jake",
+                    LastName = "Gyllenhaal",
                     Points = rnd.Next(0, 1000),
+                    RegisteredOn = RandomDayFunc(),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://assets.thehansindia.com/h-upload/2020/06/10/975863-image-3.jpg",
+                    AvatarUrl = "https://upload.wikimedia.org/wikipedia/commons/0/0e/Jake_Gyllenhaal_2019_by_Glenn_Francis.jpg",
                 },
                 new User{
                     Id = Guid.NewGuid().ToString(),
-                    UserName = "Why_Tho",
-                    NormalizedUserName = "Why_Tho".ToUpper(),
+                    UserName = "Margot_Robbie",
+                    Email = "stoikata@gmail.com",
+                    FirstName = "Margot",
+                    LastName = "Robbie",
+                    Points = rnd.Next(0, 1000),
+                    Instagram = "https://www.instagram.com/margotrobbie_best/",
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://www.thewikifeed.com/wp-content/uploads/2021/07/margot-robbie-1.jpg",
+                },
+                new User{
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = "Denzel_Washington",
+                    Email = "denzel@gmail.com",
+                    FirstName = "Denzel",
+                    LastName = "Washington",
+                    Points = rnd.Next(0, 1000),
+                    RegisteredOn = RandomDayFunc(),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://www.biography.com/.image/t_share/MTgwNTA3MTI3MjY0MzIyNjQ4/gettyimages-645661872.jpg",
+                },
+                new User{
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = "Halle_Berry",
+                    Email = "halle@gmail.com",
+                    RegisteredOn = RandomDayFunc(),
+                    Points = rnd.Next(0, 1000),
+                    PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
+                    AvatarUrl = "https://media.allure.com/photos/5e76692670d58b00083d3d3e/1:1/w_2456,h_2456,c_limit/halle%20berry.jpg",
+                },
+                new User{
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = "Bryan_Cranston",
                     Email = "ytho@gmail.com",
-                    NormalizedEmail = "ytho@gmail.com".ToUpper(),
-                    FirstName = "y",
-                    LastName = "thoo",
-                    Youtube = "www.youtube.com",
-                    Twitter = "www.twitter.com",
-                    Instagram = "www.instagram.com",
+                    FirstName = "Bryan",
+                    LastName = "Cranston",
+                    Instagram = "https://www.instagram.com/bryancranston/",
                     RegisteredOn = RandomDayFunc(),
                     Points = rnd.Next(0, 1000),
                     PasswordHash = "AQAAAAEAACcQAAAAEKqhj3W0v2DYkh2A+hnzRAUvmzET8VyXfIgcfxyPr/zkvwcEVIMAl5UAV3P9pIL+uA==",
-                    AvatarUrl = "https://en.meming.world/images/en/thumb/e/e2/Crying_Cat_screaming.jpg/300px-Crying_Cat_screaming.jpg",
+                    AvatarUrl = "https://m.media-amazon.com/images/M/MV5BMTA2NjEyMTY4MTVeQTJeQWpwZ15BbWU3MDQ5NDAzNDc@._V1_.jpg",
                 },
             };
+
+            foreach (var user in users)
+            {
+                user.NormalizedUserName = user.UserName.ToUpper();
+                user.NormalizedEmail = user.Email.ToUpper();
+            }
 
             data.Users.AddRange(users);
             data.SaveChanges();
@@ -385,8 +358,7 @@ namespace _4drafts.Infrastructure
                     Id = "fe016357-389e-4d3f-b335-1e3a9f17ffb3",
                     ThreadTypeId = 1,
                     Title = "The Stalker",
-                    Content = @"
-It was a typical fall morning- I sought out my usual seat at the local bistro down the street; the previous day had been an excruciatingly long one, and the one thing that got me through was knowing I always had my solo-breakfast date in the morning.
+                    Content = @"It was a typical fall morning- I sought out my usual seat at the local bistro down the street; the previous day had been an excruciatingly long one, and the one thing that got me through was knowing I always had my solo-breakfast date in the morning.
 
 I sat down on the familiar comfort of the wicker chair, basking in the morning light streaming through the large glass window.
 
@@ -414,8 +386,7 @@ Every woman that had gone missing was one who had taken one of my lovers away. S
                     Id = "972026cd-3505-4f04-9ac7-382c6541ba70",
                     ThreadTypeId = 1,
                     Title = "Instant Messaging",
-                    Content = @"
-It all started on the 14th night of march, the night of my parents’ 20th wedding anniversary.
+                    Content = @"It all started on the 14th night of march, the night of my parents’ 20th wedding anniversary.
 
 It was a wonderful, sunny day, if memory serves. Surprisingly warm for before the beginning of spring. The beautiful weather was perfect for the atmosphere of the day—being married for twenty years is obviously a momentous occasion, so my parents had booked a table at our favorite Italian restaurant. 
 
@@ -432,8 +403,7 @@ In a state of sheer anxiety, I started to run to the restaurant. I made it about
                     Id = "937e8c3d-5474-4e32-b019-cbe628bba891",
                     ThreadTypeId = 1,
                     Title = "Darkness in the Rearview Mirror",
-                    Content = @"
-In the summer of 2013, I found myself driving home alone on highway 902 from a party. It was almost midnight, and needless to say it was pitch black. As was usual at night, I was on edge. I had the radio off, and could hear nothing but the muffle roar of tires on pavement and the dull hum of the engine. I stole a glance into the middle rear view mirror, and saw nothing but darkness through the back window. 
+                    Content = @"In the summer of 2013, I found myself driving home alone on highway 902 from a party. It was almost midnight, and needless to say it was pitch black. As was usual at night, I was on edge. I had the radio off, and could hear nothing but the muffle roar of tires on pavement and the dull hum of the engine. I stole a glance into the middle rear view mirror, and saw nothing but darkness through the back window. 
 
 I know that I looked backward and saw nothing. I’m sure of it. Just the seemingly endless blackness of the night. I remember it so clearly because not 10 seconds later a car passed me to the left. Headlights on. I had one of those sudden adrenaline rushes like when you think you see a person outside your bedroom window when it’s just a tree, or when you start awake at night with the feeling of falling. Ten seconds earlier, nothing had been behind me. Suddenly, a car. I drove the rest of the way home shivering and knowing something was off.  
 
@@ -453,8 +423,7 @@ And I had inadvertently driven it home with me.
                     Id = "e78055f5-d6da-4ab4-a05d-000a3c5c5281",
                     ThreadTypeId = 1,
                     Title = "Roommate Troubles",
-                    Content = @"
-This actually happened to me a few years back at the University of the Arts in Philadelphia. 
+                    Content = @"This actually happened to me a few years back at the University of the Arts in Philadelphia. 
 
 My sophomore year, I roomed with a girl named Kara. She was a jazz vocalist, but her main interest was opera. We had a small room on the sixth floor of a dormitory called Juniper Hall. The walls were thin, and her last night singing and voice practices would keep me up late. After a month or so of lost sleep, I convinced her to move her last night practices to the music studios in the Merriam theater building a block away. 
 
@@ -482,8 +451,7 @@ The mattress below me creaked.
                     Id = "aa5067eb-6029-48f3-968a-6ab92d66b953",
                     ThreadTypeId = 1,
                     Title = "Kids in the Dark",
-                    Content = @"
-Growing up poor in the Deep South meant sharing a lot with my little brother, Ollie. Most often, we'd pass toys, clothes, and skin conditions between us. Up until he was six, we even shared a bed. Neither of us was happy about that.
+                    Content = @"Growing up poor in the Deep South meant sharing a lot with my little brother, Ollie. Most often, we'd pass toys, clothes, and skin conditions between us. Up until he was six, we even shared a bed. Neither of us was happy about that.
 
 It was my 10th birthday when that changed. I got one present that year, and it was a bed of my own. Ollie was jealous right away, and I could understand why. He had to keep that half-broken down frame with the worn out mattress. The one I'd gotten wasn't much better, but not being broken and worn was enough.
 
@@ -529,8 +497,7 @@ I had always wondered why the noise stopped the second I was sharing my bed. Now
                     Id = "df049477-da1e-4a0c-a779-729db036e4d9",
                     ThreadTypeId = 1,
                     Title = "My sister was a sociopath. Then she had surgery.",
-                    Content = @"
-There was always something wrong with Annie. For years, it felt like I was the only one who knew.
+                    Content = @"There was always something wrong with Annie. For years, it felt like I was the only one who knew.
 
 When we were kids, we used to see our little cousins quite often. Our house, their house. My mom and aunt drank wine and bonded over having lost their husbands, my uncle in the grave and my dad, in jail. Annie and I were much older than the other kids, but I’d still hang out with them, just to be safe and keep an eye on my sister. If I left her alone with them, someone would wind up hurt. One time, she’d stuck a clothespin on their cat and watched it run circles around the room. She was twelve. Another time, she’d pressured our youngest cousin to drop that same cat out a third floor window, mocking him for not wanting to do it. “I can’t believe you’re actually scared,” I’d heard her say. By the time I got up there, my little cousin had let go. The cat was fine, thank god. But my cousin was not. He was traumatized, screaming and crying behind his bedroom door. Annie told Mom that she was really sorry and that she’d learned in school that cats could survive such falls. It was all bullshit, Annie had never felt sorry a day in her life. But Mom ate it up every time, because Annie was her special little girl.
 
@@ -728,8 +695,7 @@ On the morning of the first day of school, Mom and Annie were up and moving pret
                     Id = "0760686a-6598-43e6-9ed7-87f340c78d7c",
                     ThreadTypeId = 1,
                     Title = "I pretended to be a missing girl.",
-                    Content = @"
-Mikayla Murray went missing twelve years ago, on the eve of her 18th birthday. She didn’t have any big plans or anything, but her friends described her as having been in a particularly good mood for what was an otherwise perfectly normal Friday. She’d gone to school, soccer practice, work, and then came home for a night of movies with her kid brother, James. He was more excited for her birthday than she was. Even wanted to stay awake with her until midnight but, of course, had fallen asleep right away. When he woke in the middle of the night, he saw her headlights shining through his window and watched as they rushed down their country road, not knowing that it was the last he’d ever see of her. The poor kid was only five and would be forever tormented over why she’d left him, or why she’d never come back.
+                    Content = @"Mikayla Murray went missing twelve years ago, on the eve of her 18th birthday. She didn’t have any big plans or anything, but her friends described her as having been in a particularly good mood for what was an otherwise perfectly normal Friday. She’d gone to school, soccer practice, work, and then came home for a night of movies with her kid brother, James. He was more excited for her birthday than she was. Even wanted to stay awake with her until midnight but, of course, had fallen asleep right away. When he woke in the middle of the night, he saw her headlights shining through his window and watched as they rushed down their country road, not knowing that it was the last he’d ever see of her. The poor kid was only five and would be forever tormented over why she’d left him, or why she’d never come back.
 
 It wasn’t until the sun came up on that cold Saturday morning that anyone realized something was wrong. Her parents entered her room to wish her a happy birthday, only to find her bed empty, car gone, and phone off. They’d started their rounds of calls to all Mikayla’s friends, but nobody had seen or heard from her. Panic really started to set in when Mikayla’s car was found abandoned on the side of a heavily wooded road, facing the wrong direction, practically in the middle of nowhere. There were no parks or hiking trails, nor were there any signs of a struggle, or any evidence of where she might have gone next.
 
@@ -999,8 +965,7 @@ I finally looked at him. “I killed Mikayla.”
                     Id = "49e9dbca-b7c0-4852-987d-73c265ee0b3f",
                     ThreadTypeId = 1,
                     Title = "The beginning of a story",
-                    Content = @"
-Right now, the car is headed silent down the highway. It's dark, and there is nobody driving. I snuggle up in my seat and listen to the hum of its parts. I have turned my set off. It shows nothing but reports of destruction and plagues. The world on fire. The world gone mad.
+                    Content = @"Right now, the car is headed silent down the highway. It's dark, and there is nobody driving. I snuggle up in my seat and listen to the hum of its parts. I have turned my set off. It shows nothing but reports of destruction and plagues. The world on fire. The world gone mad.
 
 Most of the interstates have shut down. They want people to stay in one place. The car is moving along the back roads, switching from one lonely little highway to another. We are headed towards the answer, towards the key to defeating Q. I hope we get there fast.
 
@@ -1184,8 +1149,7 @@ I pick up the notebook and begin to write.
                     Id = "1894e044-dd59-4000-8865-6804b13c8cd5",
                     ThreadTypeId = 1,
                     Title = "The Hayloft",
-                    Content = @"
-I like mornin’ best in summer. Chet don’t, cuz he’s fifteen and likes his sleep, but I’d rather make my own breakfast, get chores done quick – enjoy the rest of the day if Mama gives me a choice. Let Chet take the afternoon. He thinks he’s winnin’, but he ain’t. Molly moves a lot during late milkin’, sheep and horses need rounding up. It’s harder and dang hotter, and more flies – that’s a fact.
+                    Content = @"I like mornin’ best in summer. Chet don’t, cuz he’s fifteen and likes his sleep, but I’d rather make my own breakfast, get chores done quick – enjoy the rest of the day if Mama gives me a choice. Let Chet take the afternoon. He thinks he’s winnin’, but he ain’t. Molly moves a lot during late milkin’, sheep and horses need rounding up. It’s harder and dang hotter, and more flies – that’s a fact.
 
 Sun’s not close to bein’ up, but the air is cool and fresh, not too wet, and the sweet scent of lilacs fills the barn when I prop them big doors open. I breathe deep. Molly kicks a leg back, swishes her tail as I shift the stool and nudge the bucket back. I give her smooth tan flank a pat, “Whoa there, Girl,” and go back to milkin’. I got a weird feeling. Look for Roscoe out the doors, but he ain’t there – dumb dog. There’s a flicker in the floodlight circle outside. I gasp, feelin’ off. Sometimes I spot a Luna moth in the light all glowy-green and big. They don’t stay long, too smart. Bats chase ‘em, but I ain’t never seen a bat catch a Luna moth. I might like that, I think, maybe.
 
@@ -1260,8 +1224,7 @@ Molly moos again. I think about that tipped bucket – I ain’t never tipped on
                     Id = "b0194a3c-711b-4aff-93f1-8ecaaef7d389",
                     ThreadTypeId = 1,
                     Title = "A Crack in the Dam",
-                    Content = @"
-Leo Banks drove furiously down the road towards town. His mind raced as he considered the implications of what he’d just seen and just how he was going to warn everyone. The sun was setting now and by the time he would get there it would be nightfall. It was Halloween. Kids would be everywhere. The fire department would be kicking off its annual Trunk or Treat festivities along Main Street. He didn’t want to create chaos. But who? Who should he go to in order to get the word out that the dam, the giant Gilboa Dam was going to break and flood the entire town?
+                    Content = @"Leo Banks drove furiously down the road towards town. His mind raced as he considered the implications of what he’d just seen and just how he was going to warn everyone. The sun was setting now and by the time he would get there it would be nightfall. It was Halloween. Kids would be everywhere. The fire department would be kicking off its annual Trunk or Treat festivities along Main Street. He didn’t want to create chaos. But who? Who should he go to in order to get the word out that the dam, the giant Gilboa Dam was going to break and flood the entire town?
 
 A member of the fire department. They would be around. He could go to one of them first, maybe suggest an orderly evacuation. He’d have to pull someone aside from the festivities which would surely cause a scene. Maybe that wasn’t the best approach. If someone were to overhear him it could cause the very mayhem he was trying to avoid. Bedlam on top of an impending flood wasn’t what he wanted. He wanted to find the right person or organization to appropriately deal with the impending disaster.
 
@@ -1395,8 +1358,7 @@ When it was all said and done, the only survivors left were in the surrounding h
                     Id = "57cf58c3-44a5-4a32-a83a-49b36d8bf7c6",
                     ThreadTypeId = 1,
                     Title = "They Only Take One",
-                    Content = @"
-Take in that fresh air girl! Damn it feels great to be back. Everything looks smaller though.
+                    Content = @"Take in that fresh air girl! Damn it feels great to be back. Everything looks smaller though.
 
 “Yeah, because you were like three feet tall last time you were here, ya walnut.” Buddy “Bud” Jake looked at Gwen with a smile. The classic platonic boy-girl relationship where no sexual tension existed. Mostly.
 
@@ -1544,8 +1506,7 @@ Bud’s driver side window shattered. Gwen screamed. She buried her head in her 
                     Id = "e8d2f57f-2832-421f-aac0-207ea9b5e3e5",
                     ThreadTypeId = 1,
                     Title = "Don’t Trust the Boy",
-                    Content = @"
-They didn’t believe me. Not the couple’s family after their house burned down. Not the daycare when half the kids mysteriously fell ill. And not the police when I attempted to end this plague with my bare hands. For perhaps the final time, I am begging you, all of you, please believe me when I say that god damn boy is evil.
+                    Content = @"They didn’t believe me. Not the couple’s family after their house burned down. Not the daycare when half the kids mysteriously fell ill. And not the police when I attempted to end this plague with my bare hands. For perhaps the final time, I am begging you, all of you, please believe me when I say that god damn boy is evil.
 
 Many years ago, I had lived next to a beautiful couple. The two were happily married, well-known in the community, and had big dreams of starting a family. When the day finally arrived to present their beautiful baby boy to the world, everyone was ecstatic.
 
@@ -1639,8 +1600,7 @@ So I write this as a direct warning. If in your life you see a child you feel is
                     Id = "ffa37ac4-575a-4b06-b4b9-23365c62d15c",
                     ThreadTypeId = 1,
                     Title = "The Malice of Mary Marble",
-                    Content = @"
-Have you ever known one of those people who made you feel truly unsettled? For me, it was Mary Marble. She was a pretty girl, all things considered. She had long, straight jet black hair, a fair complexion and spoke in a cute, squeaky voice. She was neither bigger nor smaller than any of the other kids at Grady junior high, but she was always quiet and somber. Some would call her simple or slow as she seemed very withdrawn and never went out of her way to talk to anyone, but her grades were above average and she was always quick to correctly answer any question the teacher would send her way.
+                    Content = @"Have you ever known one of those people who made you feel truly unsettled? For me, it was Mary Marble. She was a pretty girl, all things considered. She had long, straight jet black hair, a fair complexion and spoke in a cute, squeaky voice. She was neither bigger nor smaller than any of the other kids at Grady junior high, but she was always quiet and somber. Some would call her simple or slow as she seemed very withdrawn and never went out of her way to talk to anyone, but her grades were above average and she was always quick to correctly answer any question the teacher would send her way.
 
 By all accounts, there was nothing off putting about the girl, at first, but there was something in her eyes that would always send a shiver down my spine. At times, while kids loudly yelled and stomped through the halls of the school, Mary would just lean with her back against the wall and stare. A lot of times she would just gaze off into space, seemingly lost in her thoughts, but other times she would lock eyes with one of us fellow students. There was something unnerving about the way her dark eyes seemed to cut into us so deep that we couldn’t look away. It was as though she had us in a trance and was somehow feeding on our subconscious minds.
 
@@ -1834,8 +1794,7 @@ I’m supposed to meet with a new publisher in the city tomorrow at a cafe named
                     Id = "52de4f3a-7ec4-464f-a6e0-aa77c881cc53",
                     ThreadTypeId = 1,
                     Title = "Traveler In The Dark",
-                    Content = @"
-The glow of the setting sun entrenched the peaceful Italian countryside in a blazing red haze. The small rural highway was surrounded by rich forests currently going through the enchanting transformation of autumn. The picturesque landscape was unfortunately lost on the highways sole traveler Chiara Gallo. She sat behind the wheel of her car with a complete lack of interest in the stunning world around her. Her family reunion had gone exactly how she expected it would. It was 2 days straight of “Chiara when are you getting married?” “You aren’t getting any younger so you might want to start thinking about children.”
+                    Content = @"The glow of the setting sun entrenched the peaceful Italian countryside in a blazing red haze. The small rural highway was surrounded by rich forests currently going through the enchanting transformation of autumn. The picturesque landscape was unfortunately lost on the highways sole traveler Chiara Gallo. She sat behind the wheel of her car with a complete lack of interest in the stunning world around her. Her family reunion had gone exactly how she expected it would. It was 2 days straight of “Chiara when are you getting married?” “You aren’t getting any younger so you might want to start thinking about children.”
 
 She let out a frustrated sigh. It wasn’t that she hadn’t tried to start a family however her dating life was in shambles and when it came to children she didn’t know where to start. “I just don’t understand them.” Chiara said out loud to the crisp country air. Speaking her thoughts out loud was something of a bad habit she had picked up over the years. Living alone was a quiet life and sometimes you needed someone to talk to even if it was yourself. “Add that to the list of things that make me so dateable.” She shook her head and turned up the radio wanting to drown out her whole weekend.
 
@@ -1913,8 +1872,7 @@ They did not investigate the matter any further and that is a shame because had 
                     Id = "e6409d32-32ff-4186-9c3f-d63523794eae",
                     ThreadTypeId = 1,
                     Title = "Have You Seen the Blue Man?",
-                    Content = @"
-Honestly, I never wanted to relive this part of my life again, but something has happened that has forced me to do so. I don’t even remember much, the entire part of my life when the event happened seemed like a blur, like it wasn’t even real – for the longest time I even thought I had dreamt it up, or maybe I knew it was real but refused to entertain the idea out of fear alone. I was a fool to think I could have just erased something like that from my past; it looks like my past has finally caught up with me. I’m going to recall my experience from when I was a child, I’m going to try to remember as much as I can, but like I said, much of it is a blur. This surreal experience terrorized me for three years of my life, beginning when I was seven years old; I called this experience, ‘the Blue Man’.
+                    Content = @"Honestly, I never wanted to relive this part of my life again, but something has happened that has forced me to do so. I don’t even remember much, the entire part of my life when the event happened seemed like a blur, like it wasn’t even real – for the longest time I even thought I had dreamt it up, or maybe I knew it was real but refused to entertain the idea out of fear alone. I was a fool to think I could have just erased something like that from my past; it looks like my past has finally caught up with me. I’m going to recall my experience from when I was a child, I’m going to try to remember as much as I can, but like I said, much of it is a blur. This surreal experience terrorized me for three years of my life, beginning when I was seven years old; I called this experience, ‘the Blue Man’.
 
 Everything began with a door. One night I would go to sleep, tucked behind my big pink and purple bedsheets, my blue nightlight in the corner of the room, illuminating the closet door that I was always so afraid of. I dosed off to sleep after my parents kissed me goodnight, nothing seemed amiss. I had quite a vivid dream that night; usually, dreams are forgotten quite easily, you remember them for a few minutes upon waking up and then they fade away, never to be remembered again, there are only a handful of dreams that stand out enough to be remembered, and this was one of those dreams.
 
@@ -1964,8 +1922,7 @@ My hands were shaking as I parted his long hair away from his neck, to reveal a 
                     Id = "8725ba9f-490d-460a-b6cf-d19d9c2ecb37",
                     ThreadTypeId = 1,
                     Title = "The Bar at the Edge of Eternity",
-                    Content = @"
-Don’t ask me how I got there, because I can’t remember. I’d been drinking heavily that night, out on a bender to end all benders. I was angry, and the booze didn’t help. It never did if truth be told, but I couldn’t stop myself. I vaguely recall downing shots in a busy bar and making an ill-advised pass at an attractive young lady who was out with her boyfriend. Needless to say, this didn’t go down too well.
+                    Content = @"Don’t ask me how I got there, because I can’t remember. I’d been drinking heavily that night, out on a bender to end all benders. I was angry, and the booze didn’t help. It never did if truth be told, but I couldn’t stop myself. I vaguely recall downing shots in a busy bar and making an ill-advised pass at an attractive young lady who was out with her boyfriend. Needless to say, this didn’t go down too well.
 
 Punches were thrown, and I was forcibly removed from the premises. After that, the rest of the night is something of a blur. What I do remember is waking up in the squalid backroom of a dark pub, my head throbbing and mouth tasting of vomit. My body was covered in bruises, probably as a result of the fight, and my clothes were ripped and soiled.
 
@@ -2177,8 +2134,7 @@ So, even though I dread the day of my inevitable demise, I can at least look for
                     Id = "8a8e339a-8c68-4bad-9b29-c926b6aca412",
                     ThreadTypeId = 1,
                     Title = "Crimson Eyes",
-                    Content = @"
-It’s been an hour now and she hasn’t found a thing. She’s heard so many rumors about this old factory and all the things that have happened here since it closed down. She’s still intrigued about why it closed, or more specifically, the lack of reason. Apparently one day the owner just shut it down abruptly and laid off all his employees. And then, he just vanished. Never to be seen or heard from again. Then there’s all the stories about the “meetings” that took place here in the years after. She really thought that this would be a good place to catch some evidence, or just something in general. For as long as she could remember, she wanted to be a paranormal investigator and get some form of undeniable proof that ghosts and cryptids exist. She’s never been too scared of anything and tends to face most of her challenges head on. She prided herself on her bravery and courage, especially since her parents praised that trait of her’s as well. Nothing has ever stopped her before, and she wasn’t about to start letting it happen today. Most of her peers make fun of her for believing this stuff and started calling her “Carrie” even though that wasn’t her real name, but they seemed to think it fit her better. It used to bother her but then one day she just though to herself “screw it” and started to embrace it.
+                    Content = @"It’s been an hour now and she hasn’t found a thing. She’s heard so many rumors about this old factory and all the things that have happened here since it closed down. She’s still intrigued about why it closed, or more specifically, the lack of reason. Apparently one day the owner just shut it down abruptly and laid off all his employees. And then, he just vanished. Never to be seen or heard from again. Then there’s all the stories about the “meetings” that took place here in the years after. She really thought that this would be a good place to catch some evidence, or just something in general. For as long as she could remember, she wanted to be a paranormal investigator and get some form of undeniable proof that ghosts and cryptids exist. She’s never been too scared of anything and tends to face most of her challenges head on. She prided herself on her bravery and courage, especially since her parents praised that trait of her’s as well. Nothing has ever stopped her before, and she wasn’t about to start letting it happen today. Most of her peers make fun of her for believing this stuff and started calling her “Carrie” even though that wasn’t her real name, but they seemed to think it fit her better. It used to bother her but then one day she just though to herself “screw it” and started to embrace it.
 
 ‘Drip’
 
@@ -2202,8 +2158,7 @@ Suddenly, everything around her began to melt away. The walls, furniture, framed
                     Id = "331900b4-2c7e-4682-b0b8-5c5928eec238",
                     ThreadTypeId = 1,
                     Title = "Notes In The Dark",
-                    Content = @"
-Monday 28 December 18:00
+                    Content = @"Monday 28 December 18:00
 
 I’m not sure how long humans are supposed to stay sane without human interaction but I’ve been doing alright so far I think. The silence is much worse anyway.
 
@@ -2555,8 +2510,7 @@ I don’t know if this gun can still fire. But I’m going to try anyway. I’m 
                     Id = "6aa06fee-025d-4120-aa4e-9b6310273443",
                     ThreadTypeId = 1,
                     Title = "Room With No Windows",
-                    Content = @"
-As his aged, wrinkled fingers weaved through the long beard flowing from his face, that noise came again. Only this time, it was louder.
+                    Content = @"As his aged, wrinkled fingers weaved through the long beard flowing from his face, that noise came again. Only this time, it was louder.
 
 There he sat, hunched over the stained oak table that had arrived years ago with no explanation. It had come whilst he slept; absent one night, and there the following morning. Probably from the people above, he deduced. That’s where he got everything. In this room with no windows. The only room he’d ever known in his eighty-four years on this earth.
 
@@ -2586,8 +2540,7 @@ It was a box, and judging from the deep depression in the adjacent sand, it appe
                     Id = "651c10e9-6439-479e-8fad-c5784ecff65b",
                     ThreadTypeId = 1,
                     Title = "The Cat Killed Curiosity",
-                    Content = @"
-My years of school have finally come to an end. With that in mind, I wanted to enjoy myself as much as I could before coming to grips with the rigors of adult life. After all, I did bust my ass within those four years just to earn a worthless piece of paper that says “I did it”. Either way, it didn’t matter. I was going to graduate and move on with my life, so I suppose I’d treat myself with a nice quiet slice of relaxation.
+                    Content = @"My years of school have finally come to an end. With that in mind, I wanted to enjoy myself as much as I could before coming to grips with the rigors of adult life. After all, I did bust my ass within those four years just to earn a worthless piece of paper that says “I did it”. Either way, it didn’t matter. I was going to graduate and move on with my life, so I suppose I’d treat myself with a nice quiet slice of relaxation.
 
 But before I left, I purchased several books about the paranormal. Reading the accounts of those who’ve witnessed such phenomena had always stimulated my morbid curiosity of searching for untold apparitions. Upon finishing purchasing said books, I made my way to my lifelong friend’s house, Vinny LaMotta. Oh, I’m Tony, by the way. My surname is irrelevant.
 
@@ -2880,8 +2833,7 @@ Trust me.
                     Id = "9fd6f1e8-ccf1-4a78-b3f1-c70bdbd2733e",
                     ThreadTypeId = 1,
                     Title = "No Face, No Case",
-                    Content = @"
-My name is detective Derek Wallace, of the Cook County Sheriff’s Department, in Cook County, Illinois, and for the last two and a half months I have been assigned to one of the most brutal, and confounding cases that I have seen in my time as an investigator. Admittedly, I haven’t been a detective quite as long as some of my colleagues, but I highly doubt anything that comes along the rest of my career will ever top this.
+                    Content = @"My name is detective Derek Wallace, of the Cook County Sheriff’s Department, in Cook County, Illinois, and for the last two and a half months I have been assigned to one of the most brutal, and confounding cases that I have seen in my time as an investigator. Admittedly, I haven’t been a detective quite as long as some of my colleagues, but I highly doubt anything that comes along the rest of my career will ever top this.
 
 It all started on a relatively normal Thursday evening. I was sat in my office getting ready to go home, when there came a knock at my door. I got up, and went to open it, only to be greeted by Captain Woods, an older, balding man, who had a glum look on his face. I inquired as to what was wrong. He didn’t answer, he just handed me a case file, and walked away without saying a word. Strange, I get that Captain Woods wasn’t a big talker, but that was unusual, even for him. I wondered what could have possibly been in that file that had him so dour and flustered. I sat back down at my desk, lamenting that whatever may be in this folder was likely going to keep at the office even longer, and would just delay me further from going home, and seeing my beautiful wife, Mallory. When I opened the file, I was greeted with some of the most vile, and obscene pictures and information that I had ever come across, in my 15 years on the force.
 
@@ -2922,8 +2874,7 @@ Also, what’s that whirring sound?
                     Id = "e98d96ea-7c4a-4228-8373-f9f6bb3a8880",
                     ThreadTypeId = 1,
                     Title = "Digger of the Dead",
-                    Content = @"
-Many people ask me why I would ever choose the field of grave digging as my chosen career. Why choose such a depressing and creepy job when I could be almost anything else? Well to be honest I never understood the aversion to it. Death is something we all face at some point or another. It is the one certainty in life, so why do we fear it so much? To me death is a beautiful transition of existence from one plane to another. I am deeply honored to help provide peace to the deceased and their loved ones. Well others may look at a graveyard and get chills down their spine, I see it as a place of peace and tranquility. That was before tonight, before I knew the truth beneath the surface.
+                    Content = @"Many people ask me why I would ever choose the field of grave digging as my chosen career. Why choose such a depressing and creepy job when I could be almost anything else? Well to be honest I never understood the aversion to it. Death is something we all face at some point or another. It is the one certainty in life, so why do we fear it so much? To me death is a beautiful transition of existence from one plane to another. I am deeply honored to help provide peace to the deceased and their loved ones. Well others may look at a graveyard and get chills down their spine, I see it as a place of peace and tranquility. That was before tonight, before I knew the truth beneath the surface.
 
 I work for the Hemlock Hill cemetery, one of the oldest and largest graveyards in North America. There are over 100,000 graves, some of which date back to the late 1700’s. There is real history here both above and below the grounds. However it seems that even the mighty have limits as the cemetery is running out of room with only a small section near the back left to bury loved ones. I was assigned to dig the grave for one of our last residents. The man was a well liked and respected member of the community. He was a giant man at over 6 foot 5 and well over 300 pounds. The casket was bigger then some automobiles so a simple 6 foot deep grave wasn’t going to cut it. If I was going to bury this man it would be with kindness and dignity, in a grave worthy of his greatness.
 
@@ -2985,8 +2936,7 @@ I can feel the pressure crushing my organs as my lungs will with dirt. My inevit
                     Id = "f1767a58-5c40-4a1d-b256-bb96fa60d9ea",
                     ThreadTypeId = 1,
                     Title = "The Light Hungers",
-                    Content = @"
-t has been the way of things since the dawn of time. Evil has always been birthed by darkness. The strong feed on the weak and the lesser. Not always for survival, but sometimes, just to revel in its cruel power. To inflict suffering for the sheer pleasure of it. Though the methods and locations may change over the long eons, the story is always the same.
+                    Content = @"It has been the way of things since the dawn of time. Evil has always been birthed by darkness. The strong feed on the weak and the lesser. Not always for survival, but sometimes, just to revel in its cruel power. To inflict suffering for the sheer pleasure of it. Though the methods and locations may change over the long eons, the story is always the same.
 
 The creature crept from the shadows towards the little girl. For the last few hours, it had toyed with her, meticulously building her fear to deliciously intoxicating levels. The darkness was strength, power, and the creature’s to command. Patiently it watched her the last two nights, learning her hopes and fears. Oh, how it loved to let its victims desperately grasp at hope after playing on their fears for a while. Then letting them feel a hint of relief before snatching it away. Crushing them under the weight of their terror when it moved in for the kill. As the creature got closer, it could see her trembling under the blanket.
 
@@ -3032,8 +2982,7 @@ After carefully cutting the screen out of the window a serial killer quietly sli
                     Id = "fe8b0fc3-174f-4270-8e77-de2c00e6c47c",
                     ThreadTypeId = 1,
                     Title = "Confessions Of A Fisherman In A Town Called Langurst",
-                    Content = @"
-Langurst is a small place, quaint and quiet. A seaside village which I’d never seen the outside of. The comforting sound of the salt waves breaking against rock was seldom disturbed by the modern hardships one might find inland, Langurst was a bit behind the times you could say, traditional maybe. Most labor to be found in the village was exactly what would be expected of a place so agricultural and simple, farming, manual labor, lighthouse keeping for a lonely few and fishing most of all, it was what our town was known for after all. It was the kind of coastal refuge where hither-to little ever seemed to happen, so when something finally did it sent shockwaves throughout the old hamlet.
+                    Content = @"Langurst is a small place, quaint and quiet. A seaside village which I’d never seen the outside of. The comforting sound of the salt waves breaking against rock was seldom disturbed by the modern hardships one might find inland, Langurst was a bit behind the times you could say, traditional maybe. Most labor to be found in the village was exactly what would be expected of a place so agricultural and simple, farming, manual labor, lighthouse keeping for a lonely few and fishing most of all, it was what our town was known for after all. It was the kind of coastal refuge where hither-to little ever seemed to happen, so when something finally did it sent shockwaves throughout the old hamlet.
 
 Almost symbolically, a violent wind rose upon the land on the day I got the news. A local boy hadn’t come home the previous evening. His parents had cared for the child in a cottage not two minutes’ walk from my own. Sam his name was, he’d had his sixth birthday within the last month. The story was he had been let out to ride his tricycle along the cobbled streets before dinner. I admit I knew young Sammy very little; I only learnt his name after he disappeared but nevertheless, I found myself among the first to volunteer for the search parties.
 
@@ -3157,8 +3106,7 @@ He smiled at me softly, almost apologetically but not quite.
                     Id = "b2f87ea3-676e-4e8c-9878-908a24ee4354",
                     ThreadTypeId = 1,
                     Title = "Nell’s House",
-                    Content = @"
-Everybody’s got a story. I don’t believe in ghosts but if you ever asked me if I’d been somewhere haunted, this is the story I’d tell.
+                    Content = @"Everybody’s got a story. I don’t believe in ghosts but if you ever asked me if I’d been somewhere haunted, this is the story I’d tell.
 
 Down the road I lived on as a kid, there was an old dilapidated house. It was small and the yard was always overgrown and bushy. It was surrounded by woods on almost all sides and on the western side there was a pond that you could kind of see from the road.
 
@@ -3204,8 +3152,7 @@ It still stands to this day. Dad says he’ll fix it up or bulldoze it but he ne
                     Id = "f3cd7787-ead6-4eae-899c-e5952e4934c1",
                     ThreadTypeId = 1,
                     Title = "Summer Nights",
-                    Content = @"
-Summer nights in the small college town were something straight out of a Pulp magazine: a risqué combination of nostalgia, science fiction and impossible stories. Every year from May to August, the place was left largely empty due to the legion of students who had skipped town for the break. Vacated dormitories languished across campus and the streets were quiet, even when they shouldn’t be. Time lurched, unbothered. The resulting desolate landscape was beautiful and haunting; the perfect setting for a massacre in a Tarantino film. Only the locals remained for the most part, taking care of the city’s mundane functions and pretending any of it mattered.
+                    Content = @"Summer nights in the small college town were something straight out of a Pulp magazine: a risqué combination of nostalgia, science fiction and impossible stories. Every year from May to August, the place was left largely empty due to the legion of students who had skipped town for the break. Vacated dormitories languished across campus and the streets were quiet, even when they shouldn’t be. Time lurched, unbothered. The resulting desolate landscape was beautiful and haunting; the perfect setting for a massacre in a Tarantino film. Only the locals remained for the most part, taking care of the city’s mundane functions and pretending any of it mattered.
 
 I had just finished my Junior year at St. Dominic University and, as usual, going back home abroad was not a feasible option; so I stayed behind working for the school’s Grounds Department digging holes, mowing grass and whacking weeds. The pay was minimum-wage but doing it full time meant I had enough cash to cover rent, buy groceries and even venture the occasional dance with the devil at the local watering hole. Life used to be cheap in small-town America. Every day after sundown, temperatures would drop to double-digits while a cool breeze tempered the hot asphalt. In the absence of a skyline, darkness followed. By the time I’d burned through a joint and drank a six of Modelos sitting on my rooftop, conditions were just perfect to go for a walk. I wandered the streets at night equipped with a 30GB 5th Generation iPod filled with enough angst to get the girl and take revenge on my enemies. Walking carelessly down the middle of the road, submerged under electric guitars high on overdrive pedal effects; every step taken was a reassurance of my dominion over the city in the dark. I was powerful. I was alive. I was wrong.
 
@@ -3291,21 +3238,19 @@ Sometimes I lay awake at night, unable to sleep; wondering if the sound of loomi
                 {
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
-                    Title = "No Man Is An Island",
-                    Content = @"
-No man is an island,
-Entire of itself, 
-Every man is a piece of the continent,                            
-A part of the main.                             
-If a clod be washed away by the sea,                            
-Europe is the less.                          
-As well as if a promontory were.                       
-As well as if a manor of thy friend’s                            
-Or of thine own were:                             
-Any man’s death diminishes me,                           
-Because I am involved in mankind,                   
-And therefore never send to know for whom the bell tolls;                             
-It tolls for thee.",
+                    Title = "A Day Away",
+                    Content = @"Some feelings are shallow, some feelings are deep.
+Some make us smile, some make us weep.
+
+Some we love, some we don't.
+Some we'll savor, some we won't.
+
+Some grounding, some uplifting,
+Some long-lasting, some constantly shifting.
+
+No matter what feelings I'm feeling today,
+I know tomorrow is only a day away.
+",
                     Points = rnd.Next(1000),
                     CreatedOn = RandomDayFunc(),
                 },
@@ -3314,8 +3259,7 @@ It tolls for thee.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "Still I Rise",
-                    Content = @"
-You may write me down in history
+                    Content = @"You may write me down in history
 With your bitter, twisted lies,
 You may tread me in the very dirt
 But still, like dust, I’ll rise.
@@ -3366,8 +3310,7 @@ I rise.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "Stopping By Woods On A Snowy Evening",
-                    Content = @"
-Whose woods these are I think I know.
+                    Content = @"Whose woods these are I think I know.
 His house is in the village though;
 He will not see me stopping here
 To watch his woods fill up with snow.
@@ -3391,8 +3334,7 @@ And miles to go before I sleep.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "Shall I Compare Thee To A Summer Day ?",
-                    Content = @"
-Shall I compare thee to a summer’s day?
+                    Content = @"Shall I compare thee to a summer’s day?
 Thou art more lovely and more temperate.
 Rough winds do shake the darling buds of May,
 And summer’s lease hath all too short a date.
@@ -3414,8 +3356,7 @@ So long lives this, and this gives life to thee.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "There Will Come Soft Rain",
-                    Content = @"
-There will come soft rain and the smell of the ground,
+                    Content = @"There will come soft rain and the smell of the ground,
 And swallows circling with their shimmering sound;
 And frogs in the pools singing at night,
 And wild plum trees in tremulous white;
@@ -3435,8 +3376,7 @@ Would scarcely know that we were gone.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "If You Forget Me",
-                    Content = @"
-I want you to know
+                    Content = @"I want you to know
 one thing.
 You know how this is:
 if I look
@@ -3492,8 +3432,7 @@ without leaving mine.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "O Captain! My Captain!",
-                    Content = @"
-O Captain! my Captain! our fearful trip is done;
+                    Content = @"O Captain! my Captain! our fearful trip is done;
 The ship has weather’d every rack, the prize we sought is won;
 The port is near, the bells I hear, the people all exulting,
 While follow eyes the steady keel, the vessel grim and daring:
@@ -3525,8 +3464,7 @@ Fallen cold and dead.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "Fire And Ice",
-                    Content = @"
-Some say the world will end in fire,
+                    Content = @"Some say the world will end in fire,
 Some say in ice.
 From what I’ve tasted of desire
 I hold with those who favor fire.
@@ -3543,8 +3481,7 @@ And would suffice.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "The Road Not Taken",
-                    Content = @"
-Two roads diverged in a yellow wood,
+                    Content = @"Two roads diverged in a yellow wood,
 And sorry I could not travel both
 And be one traveler, long I stood
 And looked down one as far as I could
@@ -3572,8 +3509,7 @@ And that has made all the difference.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "Dreams",
-                    Content = @"
-Hold fast to dreams
+                    Content = @"Hold fast to dreams
 For if dreams die
 Life is a broken-winged bird
 That cannot fly.
@@ -3589,8 +3525,7 @@ Frozen with snow.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "Trees",
-                    Content = @"
-I think that I shall never see
+                    Content = @"I think that I shall never see
 A poem lovely as a tree.
 A tree whose hungry mouth is prest
 Against the earth’s sweet flowing breast;
@@ -3610,8 +3545,7 @@ But only God can make a tree.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "Ozymandias",
-                    Content = @"
-I met a traveller from an antique land
+                    Content = @"I met a traveller from an antique land
 Who said: `Two vast and trunkless legs of stone
 Stand in the desert. Near them, on the sand,
 Half sunk, a shattered visage lies, whose frown,
@@ -3633,8 +3567,7 @@ The lone and level sands stretch far away.’",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "Love After Love",
-                    Content = @"
-The time will come
+                    Content = @"The time will come
 when, with elation
 you will greet yourself arriving
 at your own door, in your own mirror
@@ -3657,8 +3590,7 @@ Sit. Feast on your life.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "Remember",
-                    Content = @"
-Remember me when I am gone away,
+                    Content = @"Remember me when I am gone away,
 Gone far away into the silent land;
 When you can no more hold me by the hand,
 Nor I half turn to go yet turning stay.
@@ -3680,8 +3612,7 @@ Than that you should remember and be sad.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "A Fairy Song",
-                    Content = @"
-Over hill, over dale,
+                    Content = @"Over hill, over dale,
 Thorough bush, thorough brier,
 Over park, over pale,
 Thorough flood, thorough fire!
@@ -3703,8 +3634,7 @@ And hang a pearl in every cowslip’s ear.",
                     Id = Guid.NewGuid().ToString(),
                     ThreadTypeId = 2,
                     Title = "Do Not Stand At My Grave And Weep",
-                    Content = @"
-Do not stand at my grave and weep
+                    Content = @"Do not stand at my grave and weep
 I am not there. I do not sleep.
 I am a thousand winds that blow.
 I am the diamond glints on snow.
@@ -3775,6 +3705,67 @@ I am not there. I did not die.",
         {
             if (data.Comments.Any(c => c.Id == "20bf1ac5-1a97-4854-a9ec-467f06a82fb9")) return;
 
+            var sentences = new List<string>
+            {
+                "A dead duck doesn't fly backward.",
+                "The furnace repairman indicated the heating system was acting as an air conditioner.",
+                "I can't believe this is the eighth time I'm smashing open my piggy bank on the same day!",
+                "There's a message for you if you look up.",
+                "Imagine his surprise when he discovered that the safe was full of pudding.",
+                "It isn't true that my mattress is made of cotton candy.",
+                "Thirty years later, she still thought it was okay to put the toilet paper roll under rather than over.",
+                "She had convinced her kids that any mushroom found on the ground would kill them if they touched it.",
+                "Pantyhose and heels are an interesting choice of attire for the beach.",
+                "Harrold felt confident that nobody would ever suspect his spy pigeon.",
+                "I've never seen a more beautiful brandy glass filled with wine.",
+                "He was so preoccupied with whether or not he could that he failed to stop to consider if he should.",
+                "He picked up trash in his spare time to dump in his neighbor's yard.",
+                "She had a habit of taking showers in lemonade.",
+                "After coating myself in vegetable oil I found my success rate skyrocketed.",
+                "The urgent care center was flooded with patients after the news of a new deadly virus was made public.",
+                "Mr. Montoya knows the way to the bakery even though he's never been there.",
+                "When motorists sped in and out of traffic, all she could think of was those in need of a transplant.",
+                "The Japanese yen for commerce is still well-known.",
+                "Everyone pretends to like wheat until you mention barley.",
+                "All you need to do is pick up the pen and begin.",
+                "I caught my squirrel rustling through my gym bag.",
+                "They did nothing as the raccoon attacked the lady’s bag of food.",
+                "Joe discovered that traffic cones make excellent megaphones.",
+                "The shark-infested South Pine channel was the only way in or out.",
+                "I only enjoy window shopping when the windows are transparent.",
+                "Garlic ice-cream was her favorite.",
+                "Nothing seemed out of place except the washing machine in the bar.",
+                "He wondered if it could be called a beach if there was no sand.",
+                "The clock within this blog and the clock on my laptop are 1 hour different from each other.",
+                "The bees decided to have a mutiny against their queen.",
+                "It's difficult to understand the lengths he'd go to remain short.",
+                "They decided to plant an orchard of cotton candy.",
+                "After fighting off the alligator, Brian still had to face the anaconda.",
+                "He dreamed of leaving his law firm to open a portable dog wash.",
+                "There have been days when I wished to be separated from my body, but today wasn’t one of those days.",
+                "Most shark attacks occur about 10 feet from the beach since that's where the people are.",
+                "The small white buoys marked the location of hundreds of crab pots.",
+                "I purchased a baby clown from the Russian terrorist black market.",
+                "While all her friends were positive that Mary had a sixth sense, she knew she actually had a seventh sense.",
+                "I always dreamed about being stranded on a desert island until it actually happened.",
+                "Smoky the Bear secretly started the fires.",
+                "Your girlfriend bought your favorite cookie crisp cereal but forgot to get milk.",
+                "It's not possible to convince a monkey to give you a banana by promising it infinite bananas when they die.",
+                "The golden retriever loved the fireworks each Fourth of July.",
+                "Tom got a small piece of pie.",
+                "She wanted to be rescued, but only if it was Tuesday and raining.",
+                "She was the type of girl that always burnt sugar to show she cared.",
+                "Jim liked driving around town with his hazard lights on.",
+                "She works two jobs to make ends meet; at least, that was her reason for not having time to join us.",
+                "He went on a whiskey diet and immediately lost three days.",
+                "I love bacon, beer, birds, and baboons.",
+                "The bird had a belief that it was really a groundhog.",
+                "The teenage boy was accused of breaking his arm simply to get out of the test.",
+                "Bill ran from the giraffe toward the dolphin.",
+                "If you're visiting this page, you're likely here because you're searching for a random sentence. Sometimes a random word just isn't enough, and that is where the random sentence generator comes into play. By inputting the desired number, you can make a list of as many random sentences as you want or need. Producing random sentences can be helpful in a number of different ways.",
+
+            };
+
             Random rnd = new Random();
             var comments = new List<Comment>
             {
@@ -3784,281 +3775,25 @@ I am not there. I did not die.",
                     Content = "Amazing, I absolutely love it",
                     CreatedOn = RandomDayFunc(),
                     Points = rnd.Next(100),
-                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
-                    ThreadId = "f3cd7787-ead6-4eae-899c-e5952e4934c1"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "Great, wish there was more",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "eb6d0403-1b52-454a-a3bc-bc8aa534c4a1",
-                    ThreadId = "b2f87ea3-676e-4e8c-9878-908a24ee4354"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "Very interesting",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
-                    ThreadId = "57cf58c3-44a5-4a32-a83a-49b36d8bf7c6"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "that one was goooooooooooood",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
-                    ThreadId = "f1767a58-5c40-4a1d-b256-bb96fa60d9ea"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "love the twist at the end",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
-                    ThreadId = "57cf58c3-44a5-4a32-a83a-49b36d8bf7c6"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "is there a part 2 by any chance ?????",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
-                    ThreadId = "e78055f5-d6da-4ab4-a05d-000a3c5c5281"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "kinda drags out at the end tbh, but interesting nevertheless",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "8bcfa261-c8a2-4e83-866b-85e2649b2bde",
-                    ThreadId = "aa5067eb-6029-48f3-968a-6ab92d66b953"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "I didn't get it",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "f76ba675-da23-45ae-b351-7854af84d238",
-                    ThreadId = "651c10e9-6439-479e-8fad-c5784ecff65b"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "the main character is so boring",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "f76ba675-da23-45ae-b351-7854af84d238",
-                    ThreadId = "937e8c3d-5474-4e32-b019-cbe628bba891"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "what is it about white people trying to hunt ghosts",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "f76ba675-da23-45ae-b351-7854af84d238",
-                    ThreadId = "0760686a-6598-43e6-9ed7-87f340c78d7c"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "I didn't get it",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
+                    AuthorId = "6aaa7f52-73b9-4ea1-8899-efa54cac082e",
                     ThreadId = "fe016357-389e-4d3f-b335-1e3a9f17ffb3"
                 },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "the main character is so boring",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
-                    ThreadId = "fe8b0fc3-174f-4270-8e77-de2c00e6c47c"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "what is it about white people trying to hunt ghosts",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
-                    ThreadId = "ffa37ac4-575a-4b06-b4b9-23365c62d15c"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "Everyone was busy, so I went to the movie alone.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "742466ec-5456-4f41-8b02-5ca6c710fa76",
-                    ThreadId = "f3cd7787-ead6-4eae-899c-e5952e4934c1"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "The gloves protect my feet from excess work.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "742466ec-5456-4f41-8b02-5ca6c710fa76",
-                    ThreadId = "f1767a58-5c40-4a1d-b256-bb96fa60d9ea"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "There are no heroes in a punk rock band.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "742466ec-5456-4f41-8b02-5ca6c710fa76",
-                    ThreadId = "e98d96ea-7c4a-4228-8373-f9f6bb3a8880"
-                },
-                 new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "The book is in front of the table.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
-                    ThreadId = "e8d2f57f-2832-421f-aac0-207ea9b5e3e5"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "We're careful about orange ping pong balls because people might think they're fruit.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
-                    ThreadId = "e98d96ea-7c4a-4228-8373-f9f6bb3a8880"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "Eating eggs on Thursday for choir practice was recommended.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "faf3e481-7f75-4261-bd8f-05bb00212239",
-                    ThreadId = "e8d2f57f-2832-421f-aac0-207ea9b5e3e5"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "Jerry liked to look at paintings while eating garlic ice cream.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
-                    ThreadId = "e78055f5-d6da-4ab4-a05d-000a3c5c5281"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "I thought red would have felt warmer in summer but I didn't think about the equator.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
-                    ThreadId = "e6409d32-32ff-4186-9c3f-d63523794eae"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "Last Friday I saw a spotted striped blue worm shake hands with a legless lizard.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "efe1761c-030d-4329-a41a-bca51041bd2b",
-                    ThreadId = "df049477-da1e-4a0c-a779-729db036e4d9"
-                },
-                 new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "She did her best to help him.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
-                    ThreadId = "b2f87ea3-676e-4e8c-9878-908a24ee4354"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "He had reached the point where he was paranoid about being paranoid.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
-                    ThreadId = "b0194a3c-711b-4aff-93f1-8ecaaef7d389"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "She hadn't had her cup of coffee, and that made things all the worse.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "5386f041-5c28-4572-a60b-81f04ad32e61",
-                    ThreadId = "aa5067eb-6029-48f3-968a-6ab92d66b953"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "Toddlers feeding raccoons surprised even the seasoned park ranger.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
-                    ThreadId = "e78055f5-d6da-4ab4-a05d-000a3c5c5281"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "The Guinea fowl flies through the air with all the grace of a turtle.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
-                    ThreadId = "e6409d32-32ff-4186-9c3f-d63523794eae"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "It was the first time he had ever seen someone cook dinner on an elephant.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "68091adf-6141-48d9-8374-4693f21c6882",
-                    ThreadId = "df049477-da1e-4a0c-a779-729db036e4d9"
-                },
-                 new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "Thigh-high in the water, the fisherman’s hope for dinner soon turned to despair.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
-                    ThreadId = "b2f87ea3-676e-4e8c-9878-908a24ee4354"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "The irony of the situation wasn't lost on anyone in the room.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
-                    ThreadId = "b0194a3c-711b-4aff-93f1-8ecaaef7d389"
-                },
-                new Comment
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = "A dead duck doesn't fly backward.",
-                    CreatedOn = RandomDayFunc(),
-                    Points = rnd.Next(100),
-                    AuthorId = "f3e14356-cd02-4756-baf1-93fbce922a45",
-                    ThreadId = "aa5067eb-6029-48f3-968a-6ab92d66b953"
-                },
-
             };
+
+            for (int i = 0; i < 500; i++)
+            {
+                var comment = new Comment
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = sentences.OrderBy(c => Guid.NewGuid().ToString()).FirstOrDefault(),
+                    AuthorId = data.Users.OrderBy(u => Guid.NewGuid().ToString()).FirstOrDefault().Id,
+                    ThreadId = data.Threads.OrderBy(u => Guid.NewGuid().ToString()).FirstOrDefault().Id,
+                    Points = rnd.Next(400),
+                    CreatedOn = RandomDayFunc(),
+                };
+
+                comments.Add(comment);
+            }
 
             data.Comments.AddRange(comments);
             data.SaveChanges();

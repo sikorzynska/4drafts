@@ -40,7 +40,7 @@ $(function () {
     });
 });
 
-var comment_max = 2000;
+var comment_max = 500;
 $('#comment_count').html('0 / ' + comment_max);
 
 
@@ -253,8 +253,13 @@ function popUp(path, type = null, returnUrl = null, entity = null, tt = null) {
                 url: path,
                 data: { u: entity },
                 success: function (res) {
-                    $('#form-modal .modal-body').html(res);
-                    $('#form-modal').modal('show');
+                    if (res.isValid) {
+                        $('#form-modal .modal-body').html(res.html);
+                        $('#form-modal').modal('show');
+                    }
+                    else {
+                        $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
+                    }
                 },
                 error: function (err) {
                     console.log(err);
@@ -549,34 +554,31 @@ function getSelectedValue(id) {
     return selected_value;
 }
 
-function addFilterRoutes() {
-    var filterBtn = document.getElementById('filter');
-
-    var path = '/threads/browse' + '?genre=' + getSelectedValue('genre-select') + '&type=' + getSelectedValue('type-select') + '&sort=' + getSelectedValue('sort-select');
-
-    $(filterBtn).attr('href', path);
+function IsEmpty(str) {
+    if (/\S/.test(str)) {
+        return false;
+    }
+    return true;
 }
 
-function insertAtCursor(fieldId, myValue) {
-    myField = document.getElementById(fieldId);
-    //IE support
-    if (document.selection) {
-        myField.focus();
-        sel = document.selection.createRange();
-        sel.text = myValue;
-    }
-    //MOZILLA and others
-    else if (myField.selectionStart || myField.selectionStart == '0') {
-        var startPos = myField.selectionStart;
-        var endPos = myField.selectionEnd;
-        myField.value = myField.value.substring(0, startPos)
-            + myValue
-            + myField.value.substring(endPos, myField.value.length);
-        myField.selectionStart = startPos + myValue.length;
-        myField.selectionEnd = startPos + myValue.length;
-    } else {
-        myField.value += myValue;
-    }
+
+function addFilterRoutes() {
+    var filterBtn = document.getElementById('filter');
+    var type = IsEmpty(getSelectedValue('type-select')) == false ? '&type=' + getSelectedValue('type-select') : null;
+    var genre = IsEmpty(getSelectedValue('genre-select')) == false ? '&genre=' + getSelectedValue('genre-select') : null;
+    var sort = IsEmpty(getSelectedValue('sort-select')) == false ? '&sort=' + getSelectedValue('sort-select') : null;
+    var liked = getValue('is_liked') == 'True' ? '&liked=true' : null;
+    var user = IsEmpty(getValue('is_u')) == false ? '&u=' + getValue('is_u') : null;
+
+    var path = '/threads/browse?page=1';
+
+    if (type != null) path += type;
+    if (genre != null) path += genre;
+    if (sort != null) path += sort;
+    if (liked != null) path += liked;
+    if (user != null) path += user;
+
+    $(filterBtn).attr('href', path);
 }
 
 //$(".divider-line").ready(function () {

@@ -56,7 +56,7 @@ namespace _4drafts.Controllers
             {
                 var user = new User
                 {
-                    UserName = model.Username,
+                    UserName = model.Username.Replace(" ", "_"),
                     Email = model.Email
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
