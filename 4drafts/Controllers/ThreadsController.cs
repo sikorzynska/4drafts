@@ -97,7 +97,7 @@ namespace _4drafts.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Browse(int genre = 0, int type = 0, string sort = "best", int page = 1)
+        public async Task<IActionResult> Browse(int genre = 0, int type = 0, string sort = "best", int page = 1, string u = null, bool liked = false)
         {
             var threads = new List<ThreadsBrowseModel>();
 
@@ -121,7 +121,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -148,7 +147,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -173,7 +171,6 @@ namespace _4drafts.Controllers
                                 Title = t.Title,
                                 ThreadTypeId = t.ThreadTypeId,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 ThreadTypeName = t.ThreadType.Name,
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
@@ -199,7 +196,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -232,7 +228,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -260,7 +255,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -287,7 +281,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -313,7 +306,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -346,7 +338,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -374,7 +365,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -401,7 +391,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -427,7 +416,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -460,7 +448,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -488,7 +475,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -515,7 +501,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -541,7 +526,6 @@ namespace _4drafts.Controllers
                                 ThreadTypeId = t.ThreadTypeId,
                                 ThreadTypeName = t.ThreadType.Name,
                                 Content = t.Content,
-                                Liked = ThreadIsLiked(t.Id, user.Id, this.data),
                                 Genres = GetGenres(this.data, 0, t.Id),
                                 CreatedOn = this.timeWarper.TimeAgo(t.CreatedOn),
                                 FullDate = this.timeWarper.FullDate(t.CreatedOn),
@@ -556,11 +540,15 @@ namespace _4drafts.Controllers
                 }
             }
 
+            if (u != null) threads = threads.Where(t => t.AuthorName == u).ToList();
+
+            if (liked) threads = threads.Where(t => this.data.UserThreads.Any(ut => ut.ThreadId == t.Id && ut.UserId == user.Id)).ToList();
+
             if(user != null) 
                 foreach (var thread in threads) 
                     if (ThreadIsLiked(thread.Id, user.Id, this.data)) thread.Liked = true;
 
-            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, page, 10, GetGenres(this.data), genre, sort, type));
+            return View(PaginatedList<ThreadsBrowseModel>.Create(threads, page, 10, GetGenres(this.data), genre, sort, type, liked, u));
         }
 
         [HttpGet]
@@ -947,6 +935,7 @@ namespace _4drafts.Controllers
 
             var tvm = new ThreadViewModel
             {
+                //comment
                 Id = threadId,
                 Points = points,
                 Liked = liked,

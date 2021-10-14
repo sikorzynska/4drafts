@@ -5,6 +5,7 @@
     var avatar = "";
     if (user != null) avatar = String.IsNullOrWhiteSpace(user.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : user.AvatarUrl;
     else avatar = "https://image.flaticon.com/icons/png/512/64/64572.png";
+    //comment
 }
 
 <ul class="navbar-nav">
@@ -15,8 +16,8 @@
             <ul class="dropdown-menu">
                 <li><a class="btn-link" asp-controller="Users" asp-action="Profile" asp-route-u="@user.UserName" title="Profile"><span class="dropdown-link-text"><i class="fas fa-user"></i> Profile</span></a></li>
                 <li><a class="btn-link" asp-controller="users" asp-action="manage" title="Manage"><span class="dropdown-link-text"><i class="fas fa-user-cog"></i> Manage</span></a></li>
-                <li><a class="btn-link" asp-controller="users" asp-action="threads" asp-route-t="mine" title="Manage"><span class="dropdown-link-text"><i class="fas fa-bars"></i> My threads</span></a></li>
-                <li><a class="btn-link" asp-controller="users" asp-action="threads" asp-route-t="liked" title="Manage"><span class="dropdown-link-text"><i class="fas fa-heart"></i> Liked threads</span></a></li>
+                <li><a class="btn-link" asp-controller="threads" asp-action="browse" asp-route-u="@user.UserName" title="Manage"><span class="dropdown-link-text"><i class="fas fa-bars"></i> My threads</span></a></li>
+                <li><a class="btn-link" asp-controller="threads" asp-action="browse" asp-route-liked="true" title="Manage"><span class="dropdown-link-text"><i class="fas fa-heart"></i> Liked threads</span></a></li>
                 <li role="separator" class="dropdown-divider"></li>
                 <li><a class="btn-link" asp-controller="Authentication" asp-action="Logout" asp-route-returnUrl="@Context.Request.GetDisplayUrl()"><span class="dropdown-link-text"><i class="fas fa-sign-out-alt"></i> Logout</span></a></li>
             </ul>

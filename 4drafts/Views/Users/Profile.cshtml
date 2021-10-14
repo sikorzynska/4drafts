@@ -7,6 +7,7 @@
     var ownAccount = userId == Model.Id;
     string Class(string prop)
     {
+        //comment
         return prop == null ? "d-none" : "";
     }
 }
@@ -24,8 +25,8 @@
                                 <i class="fas fa-bars"></i> THREADS
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" asp-controller="users" asp-action="threads" asp-route-t="mine">MINE</a>
-                                <a class="dropdown-item" asp-controller="users" asp-action="threads" asp-route-t="liked">LIKED</a>
+                                <a class="dropdown-item" asp-controller="threads" asp-action="browse" asp-route-u="@Model.Username">MINE</a>
+                                <a class="dropdown-item" asp-controller="threads" asp-action="browse" asp-route-liked="true">LIKED</a>
                             </div>
                         </div>
                     </div>

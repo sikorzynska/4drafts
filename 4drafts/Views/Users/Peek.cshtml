@@ -6,43 +6,44 @@
     Layout = null;
     var avatar = "";
     avatar = String.IsNullOrWhiteSpace(Model.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : Model.AvatarUrl;
+    //comment
 }
 
 <div class="container-fluid mb-1">
     <div class="col" align="center">
         <div class="profile-info col">
-                <div class="user-heading round mb-1">
-                    <img src="@avatar">
-                    <h1>@Model.Username</h1>
-                    <span><i class="fas fa-envelope"></i> @Model.Email</span><br />
-                    <span>Member since @Model.RegisteredOn</span><br />
-                    <span class="badge bg-info">new user </span>
-                </div>
-                <table class="table mt-3 separate-border">
-                    <tbody>
-                        <tr>
-                            <th colspan="2" class="border-black text-center bg-tablehead-gray">
-                                <i class="fas fa-trophy"></i> Statistics
-                            </th>
-                        </tr>
-                        <tr>
-                            <th class="border-black w-40" scope="row"><i class="fas fa-star"></i> Points</th>
-                            <td class="border-black">@Model.Points</td>
-                        </tr>
-                        <tr>
-                            <th class="border-black w-40" scope="row"><i class="fas fa-medal"></i> Awards</th>
-                            <td class="border-black">11</td>
-                        </tr>
-                        <tr>
-                            <th class="border-black w-40" scope="row"><i class="fas fa-list"></i> Threads</th>
-                            <td class="border-black">@Model.ThreadCount</td>
-                        </tr>
-                        <tr>
-                            <th class="border-black w-40" scope="row"><i class="fas fa-comments"></i> Comments</th>
-                            <td class="border-black">@Model.CommentCount</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="user-heading round mb-1">
+                <img src="@avatar">
+                <h1>@Model.Username</h1>
+                <span><i class="fas fa-envelope"></i> @Model.Email</span><br />
+                <span>Member since @Model.RegisteredOn</span><br />
+                <span class="badge bg-info">new user </span>
+            </div>
+            <table class="table mt-3 separate-border">
+                <tbody>
+                    <tr>
+                        <th colspan="2" class="border-black text-center bg-tablehead-gray">
+                            <i class="fas fa-trophy"></i> Statistics
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="border-black w-40" scope="row"><i class="fas fa-star"></i> Points</th>
+                        <td class="border-black">@Model.Points</td>
+                    </tr>
+                    <tr>
+                        <th class="border-black w-40" scope="row"><i class="fas fa-medal"></i> Awards</th>
+                        <td class="border-black">11</td>
+                    </tr>
+                    <tr>
+                        <th class="border-black w-40" scope="row"><i class="fas fa-list"></i> Threads</th>
+                        <td class="border-black">@Model.ThreadCount</td>
+                    </tr>
+                    <tr>
+                        <th class="border-black w-40" scope="row"><i class="fas fa-comments"></i> Comments</th>
+                        <td class="border-black">@Model.CommentCount</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

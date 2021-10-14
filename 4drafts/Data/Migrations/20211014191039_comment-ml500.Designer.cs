@@ -3,18 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4drafts.Data;
 
 namespace _4drafts.Data.Migrations
 {
     [DbContext(typeof(_4draftsDbContext))]
-    partial class _4draftsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211014191039_comment-ml500")]
+    partial class commentml500
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            //comment
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.10")

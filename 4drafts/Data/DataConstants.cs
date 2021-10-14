@@ -4,6 +4,7 @@
     {
         public class Global
         {
+            //comment
             public const string UnauthorizedAction = "Whoops! Looks like you're not authorized to do this...";
             public const string GeneralError = "Whoops! Looks like something went wrong...";
         }
@@ -60,12 +61,12 @@
 
         public class Comments
         {
-            public const int MaxLength = 4000;
+            public const int MaxLength = 1000;
             public const string Inexistent = "Whoops! Looks like no such comment exists...";
             public const string Updated = "The comment has been updated.";
             public const string Deleted = "The comment has been deleted.";
             public const string Empty = "Comments cannot be empty...";
-            public const string ReachedMax = "Comments cannot be longer than 2000 characters...";
+            public const string ReachedMax = "Comments cannot be longer than 500 characters...";
         }
 
         public class Drafts

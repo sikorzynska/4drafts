@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace _4drafts.Models.Shared
 {
+    //comment
     public class PaginatedList<T> : List<T>
     {
         public int PageIndex { get; private set; }
@@ -15,8 +16,8 @@ namespace _4drafts.Models.Shared
         public int Genre { get; set; }
         public string SortType { get; set; }
         public int Type { get; set; }
-
-        public string ThreadSwitch { get; set; }
+        public bool Liked { get; set; }
+        public string Author { get; set; }
 
 
         public PaginatedList(List<T> items, 
@@ -26,7 +27,8 @@ namespace _4drafts.Models.Shared
             int genre = 0, 
             string sort = null, 
             int type = 0,
-            string threadSwitch = "mine")
+            bool liked = false,
+            string author = null)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
@@ -34,7 +36,8 @@ namespace _4drafts.Models.Shared
             Genre = genre;
             SortType = sort;
             Type = type;
-            ThreadSwitch = threadSwitch;
+            Liked = liked;
+            Author = author;
             this.AddRange(items);
         }
 
@@ -61,11 +64,12 @@ namespace _4drafts.Models.Shared
             int genre = 0, 
             string sort = null,
             int type = 0,
-            string threadSwitch = "mine")
+            bool liked = false,
+            string author = null)
         {
             var count = source.Count();
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            return new PaginatedList<T>(items, count, pageIndex, pageSize, genres, genre, sort, type, threadSwitch);
+            return new PaginatedList<T>(items, count, pageIndex, pageSize, genres, genre, sort, type, liked, author);
         }
     }
 }

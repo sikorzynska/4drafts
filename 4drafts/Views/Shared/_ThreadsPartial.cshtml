@@ -3,15 +3,16 @@
     var user = await this.userManager.GetUserAsync(User);
     var userId = user == null ? null : user.Id;
     var avatar = "";
-    var act = "browse";
-
     var heart = "";
+    //comment
 }
 
 <table class="table table-hover separate-border">
     <tbody class="gray-stripes">
         <tr>
             <td class="border-black bg-secondary text-center">
+                <input type="hidden" class="d-none invisible" id="is_liked" value="@Model.Liked.ToString()" />
+                <input type="hidden" class="d-none invisible" id="is_u" value="@Model.Author" />
                 <button class="btn btn-outline-dark" type="button" data-toggle="collapse" data-target="#filter-collapse" aria-expanded="false" aria-controls="collapseExample">
                     FILTERING & SORTING <i class="fas fa-list"></i>
                 </button>
@@ -161,7 +162,15 @@
                                         </div>
                                         <hr />
                                         <div class="pb-3 pl-3 pr-3">
-                                            <a onclick="likeThread('@thread.Id', true)" class="btn-link"><i id="heart@(thread.Id)" class="@heart fa-lg fa-heart"></i></a><span> @thread.Points</span>&nbsp;&nbsp;
+                                            @if (userId != null)
+                                            {
+                                                <a onclick="likeThread('@thread.Id', true)" class="btn-link"><i id="heart@(thread.Id)" class="@heart fa-lg fa-heart"></i></a><span> @thread.Points</span>
+                                            }
+                                            else
+                                            {
+                                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="btn-link"><i id="heart@(thread.Id)" class="@heart fa-lg fa-heart"></i></a><span> @thread.Points</span>
+                                            }
+                                            &nbsp; &nbsp;
                                             <a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="btn-link"><i class="far fa-lg fa-comment-alt"></i></a><span> @thread.CommentCount</span>&nbsp;&nbsp;
                                             <a class="btn-link"><i class="fas fa-lg fa-share-alt"></i> Share</a>&nbsp;&nbsp;
                                             <a class="btn-link"><i class="fas fa-lg fa-flag"></i> Report</a>&nbsp;&nbsp;
@@ -193,7 +202,15 @@
                                         </div>
                                         <hr />
                                         <div class="pb-3 pl-3 pr-3">
-                                            <a onclick="likeThread('@thread.Id', true)" class="btn-link"><i id="heart@(thread.Id)" class="@heart fa-lg fa-heart"></i></a><span> @thread.Points</span>&nbsp;&nbsp;
+                                            @if (userId != null)
+                                            {
+                                                <a onclick="likeThread('@thread.Id', true)" class="btn-link"><i id="heart@(thread.Id)" class="@heart fa-lg fa-heart"></i></a><span> @thread.Points</span>
+                                            }
+                                            else
+                                            {
+                                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="btn-link"><i id="heart@(thread.Id)" class="@heart fa-lg fa-heart"></i></a><span> @thread.Points</span>
+                                            }
+                                            &nbsp; &nbsp;
                                             <a asp-controller="Threads" asp-action="Read" asp-route-t="@thread.Id" class="btn-link"><i class="far fa-lg fa-comment-alt"></i></a><span> @thread.CommentCount</span>&nbsp;&nbsp;
                                             <a class="btn-link"><i class="fas fa-lg fa-share-alt"></i> Share</a>&nbsp;&nbsp;
                                             <a class="btn-link"><i class="fas fa-lg fa-flag"></i> Report</a>&nbsp;&nbsp;
@@ -225,48 +242,65 @@
     var nextDisabled = !Model.NextPage ? "disabled" : "";
 }
 <div class="container w-100">
-    <div class="text-center">
-        <a asp-controller="Threads" asp-action="@act"
-           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
-           asp-route-type="@Model.Type" asp-route-page="1"
-           class="btn btn-sm btn-secondary @prevDisabled">
-            <i class="fas fa-angle-double-left"></i>
-        </a>
-        <a asp-controller="Threads" asp-action="@act"
-           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
-           asp-route-type="@Model.Type" asp-route-page="@(Model.PageIndex - 1)"
-           class="btn btn-sm btn-secondary @prevDisabled">
-            <i class="fas fa-angle-left"></i>
-        </a>
-
-        @{
-            for (int i = 1; i <= Model.TotalPages; i++)
-            {
-                if (i == Model.PageIndex)
+        <ul class="pagination justify-content-center">
+            <li class="page-item @prevDisabled">
+                <a asp-controller="threads" asp-action="browse"
+                   asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
+                   asp-route-type="@Model.Type" asp-route-page="1"
+                   asp-route-u="@Model.Author" asp-route-liked="@Model.Liked"
+                   class="page-link">
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+            </li>
+            <li class="page-item @prevDisabled">
+                <a asp-controller="threads" asp-action="browse"
+                   asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
+                   asp-route-type="@Model.Type" asp-route-page="@(Model.PageIndex - 1)"
+                   asp-route-u="@Model.Author" asp-route-liked="@Model.Liked"
+                   class="page-link">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            </li>
+            @{
+                for (int i = 1; i <= Model.TotalPages; i++)
                 {
-                    <a class="btn btn-secondary disabled">@i</a>
-                }
-                else
-                {
-                    <a asp-controller="Threads" asp-action="@act"
-                       asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
-                       asp-route-type="@Model.Type" asp-route-page="@i" class="btn btn-sm btn-secondary">
-                        @i
-                    </a>
+                    if (i == Model.PageIndex)
+                    {
+                        <li class="page-item active">
+                            <a class="page-link">@i</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a asp-controller="threads" asp-action="browse"
+                               asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
+                               asp-route-type="@Model.Type" asp-route-page="@i"
+                               asp-route-u="@Model.Author" asp-route-liked="@Model.Liked"
+                               class="page-link">
+                                @i
+                            </a>
+                        </li>
+                    }
                 }
             }
-        }
-        <a asp-controller="Threads" asp-action="@act"
-           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
-           asp-route-type="@Model.Type" asp-route-page="@(Model.PageIndex + 1)"
-           class="btn btn-sm btn-secondary @nextDisabled">
-            <i class="fas fa-angle-right"></i>
-        </a>
-        <a asp-controller="Threads" asp-action="Browse"
-           asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
-           asp-route-type="@Model.Type" asp-route-page="@Model.TotalPages"
-           class="btn btn-sm btn-secondary @nextDisabled">
-            <i class="fas fa-angle-double-right"></i>
-        </a>
-    </div>
+        <li class="page-item @nextDisabled">
+            <a asp-controller="threads" asp-action="browse"
+               asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
+               asp-route-type="@Model.Type" asp-route-page="@(Model.PageIndex + 1)"
+               asp-route-u="@Model.Author" asp-route-liked="@Model.Liked"
+               class="page-link">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        </li>
+            <li class="page-item @nextDisabled">
+                <a asp-controller="threads" asp-action="browse"
+                   asp-route-genre="@Model.Genre" asp-route-sort="@Model.SortType"
+                   asp-route-type="@Model.Type" asp-route-page="@Model.TotalPages"
+                   asp-route-u="@Model.Author" asp-route-liked="@Model.Liked"
+                   class="page-link">
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+            </li>
+        </ul>
 </div>
