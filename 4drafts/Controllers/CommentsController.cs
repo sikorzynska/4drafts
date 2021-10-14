@@ -65,7 +65,8 @@ namespace _4drafts.Controllers
 
             var comments = this.data.Comments
                 .Where(c => c.ThreadId == threadId)
-                .OrderByDescending(c => c.CreatedOn)
+                .OrderByDescending(c => c.AuthorId == user.Id)
+                .ThenByDescending(c => c.Points)
                 .Select(c => new CommentViewModel
                 {
                     Id = c.Id,
@@ -136,7 +137,8 @@ namespace _4drafts.Controllers
 
             var comments = this.data.Comments
                 .Where(c => c.ThreadId == comment.ThreadId)
-                .OrderByDescending(c => c.CreatedOn)
+                .OrderByDescending(c => c.AuthorId == user.Id)
+                .ThenByDescending(c => c.Points)
                 .Select(c => new CommentViewModel
                 {
                     Id = c.Id,
@@ -198,7 +200,8 @@ namespace _4drafts.Controllers
 
             var comments = this.data.Comments
                 .Where(c => c.ThreadId == thread.Id)
-                .OrderByDescending(c => c.CreatedOn)
+                .OrderByDescending(c => c.AuthorId == user.Id)
+                .ThenByDescending(c => c.Points)
                 .Select(c => new CommentViewModel
                 {
                     Id = c.Id,
@@ -256,7 +259,8 @@ namespace _4drafts.Controllers
 
             var comments = this.data.Comments
                   .Where(c => c.ThreadId == comment.ThreadId)
-                  .OrderByDescending(c => c.CreatedOn)
+                  .OrderByDescending(c => c.AuthorId == userId)
+                  .ThenByDescending(c => c.Points)
                   .Select(c => new CommentViewModel
                   {
                       Id = c.Id,

@@ -75,7 +75,8 @@ namespace _4drafts.Controllers
                 Liked = liked,
                 GenreIds = thread.GenreThreads.Select(gt => gt.GenreId),
                 Comments = thread.Comments
-                .OrderByDescending(t => t.CreatedOn)
+                .OrderByDescending(t => t.AuthorId == userId)
+                .ThenByDescending(t => t.Points)
                 .Select(c => new CommentViewModel
                 {
                     Id = c.Id,

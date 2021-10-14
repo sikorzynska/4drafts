@@ -26,7 +26,7 @@
                                 <textarea type="text" rows="1"
                                           style="resize: none;"
                                           maxlength="2000"
-                                          class="form-control ml-1 shadow-none edges"
+                                          class="form-control ml-1 shadow-none border-black"
                                           placeholder="Add a public comment..."
                                           id="comment-content"
                                           onchange="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 500)"
@@ -36,7 +36,7 @@
                                           onpaste="checkIfEmpty(), countCharacters('comment_count', 'comment-content', 500)"
                                           onclick="showButtons()"></textarea>
                                 <div class="input-group-append" id="counter-append">
-                                    <span class="input-group-text edges" id="comment_count">0 / 500</span>
+                                    <span class="input-group-text border-black" id="comment_count">0 / 500</span>
                                 </div>
                             </div>
                         }
@@ -75,48 +75,44 @@
 @{
     if (Model.Comments.Any())
     {
-    <div class="container-fluid mt-3">
-        <div class="alert alert-dismissible alert-info">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            The comments are randomly generated sentences and artificially injected for testing purposes, your human brain will not be able to understand their meaning, or lack thereof, so we suggest you don't try and make sense of them.
+        <div class="container-fluid mt-3">
+            @foreach (var comment in Model.Comments)
+            {
+                var authorAvatar = "";
+                authorAvatar = String.IsNullOrWhiteSpace(comment.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : comment.AuthorAvatarUrl;
+                <div class="mt-3">
+                    <div class="d-flex flex-row align-items-center commented-user media-img-40">
+                        <img class="rounded-circle" src="@authorAvatar">
+                        <h5 class="mr-2 mt-2 ml-1 d-inline"><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, '@comment.AuthorName')">@comment.AuthorName</a></h5>
+                        <i class="fas fa-caret-right"></i><span class="text-muted ml-2">@comment.CreatedOn</span>
+                        <div>
+                            @if (userId == comment.AuthorId)
+                            {
+                                <a onclick="popUp('/Comments/Edit/','comment-edit', null, '@comment.Id')" class="btn-link pl-2"><i class="fas fa-pencil-alt"></i></a>
+                                <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link pl-2"><i class="fas fa-trash"></i></a>
+                            }
+                        </div>
+                    </div>
+                    <div class="pl-1 pr-1 pt-1 pb-1" style="white-space: pre-wrap;">@comment.Content</div>
+                    <div class="reply-section ml-1">
+                        <div class="d-flex flex-row align-items-center">
+                            @{
+                                var liked = comment.Liked == true ? "fas" : "far";
+                                if (user != null)
+                                {
+                                    <a class="text-danger" onclick="likeComment('@comment.Id')"><i class="@liked fa-heart"></i></a>
+                                    <span class="ml-2">@comment.Points</span>
+                                }
+                                else
+                                {
+                                    <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="text-danger"><i class="far fa-heart"></i></a>
+                                    <span class="ml-2">@comment.Points</span>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
-        @foreach (var comment in Model.Comments)
-        {
-            var authorAvatar = "";
-            authorAvatar = String.IsNullOrWhiteSpace(comment.AuthorAvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : comment.AuthorAvatarUrl;
-            <div class="mt-3">
-                <div class="d-flex flex-row align-items-center commented-user media-img-40">
-                    <img class="rounded-circle" src="@authorAvatar">
-                    <h5 class="mr-2 mt-2 ml-1 d-inline"><a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, '@comment.AuthorName')">@comment.AuthorName</a></h5>
-                    <i class="fas fa-caret-right"></i><span class="text-muted ml-2">@comment.CreatedOn</span>
-                    <div>
-                        @if (userId == comment.AuthorId)
-                        {
-                            <a onclick="popUp('/Comments/Edit/','comment-edit', null, '@comment.Id')" class="btn-link pl-2"><i class="fas fa-pencil-alt"></i></a>
-                            <a onclick="deletePopup('@comment.Id', '/Comments/Delete/')" class="btn-link pl-2"><i class="fas fa-trash"></i></a>
-                        }
-                    </div>
-                </div>
-                <div class="pl-1 pr-1 pt-1 pb-1" style="white-space: pre-wrap;">@comment.Content</div>
-                <div class="reply-section ml-1">
-                    <div class="d-flex flex-row align-items-center">
-                        @{
-                            var liked = comment.Liked == true ? "fas" : "far";
-                            if (user != null)
-                            {
-                                <a class="text-danger" onclick="likeComment('@comment.Id')"><i class="@liked fa-heart"></i></a>
-                                <span class="ml-2">@comment.Points</span>
-                            }
-                            else
-                            {
-                                <a onclick="popUp('/Authentication/Login/', 'auth', '@Context.Request.GetDisplayUrl()')" class="text-danger"><i class="far fa-heart"></i></a>
-                                <span class="ml-2">@comment.Points</span>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
     }
 }

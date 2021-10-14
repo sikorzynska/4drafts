@@ -294,7 +294,7 @@ namespace _4drafts.Infrastructure
                 new User{
                     Id = Guid.NewGuid().ToString(),
                     UserName = "Margot_Robbie",
-                    Email = "stoikata@gmail.com",
+                    Email = "margotrobbie@gmail.com",
                     FirstName = "Margot",
                     LastName = "Robbie",
                     Points = rnd.Next(0, 1000),

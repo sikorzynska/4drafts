@@ -2,11 +2,9 @@
 
 @{
     ViewBag.Title = "Peek";
-    var user = await this.userManager.GetUserAsync(User);
     Layout = null;
     var avatar = "";
     avatar = String.IsNullOrWhiteSpace(Model.AvatarUrl) ? "https://image.flaticon.com/icons/png/512/64/64572.png" : Model.AvatarUrl;
-    //comment
 }
 
 <div class="container-fluid mb-1">
@@ -14,7 +12,7 @@
         <div class="profile-info col">
             <div class="user-heading round mb-1">
                 <img src="@avatar">
-                <h1>@Model.Username</h1>
+                <h4>@Model.Username</h4>
                 <span><i class="fas fa-envelope"></i> @Model.Email</span><br />
                 <span>Member since @Model.RegisteredOn</span><br />
                 <span class="badge bg-info">new user </span>

@@ -28,8 +28,9 @@ namespace _4drafts.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> Peek(string u)
         {
-            //comment
-            var user = await this.userManager.FindByNameAsync(u);
+            var user = await this.data.Users
+                .Include(x => x.UserThreads)
+                .FirstOrDefaultAsync(x => x.UserName == u);
 
             if (user == null) return Json(new { isValid = false, msg = Global.GeneralError });
 
@@ -46,7 +47,9 @@ namespace _4drafts.Controllers
 
             };
 
-            return Json(new { isValid = true, html = RenderRazorViewToString(this, "Peek", res) });
+            var html = RenderRazorViewToString(this, "Peek", res);
+
+            return Json(new { isValid = true, html, redirect = $"/Users/Profile?u={u}" });
         }
 
         [HttpGet]

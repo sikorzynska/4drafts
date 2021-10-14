@@ -22,10 +22,15 @@ $(document).ready(function () {
         height: 135,
         toolbar: [
             // [groupName, [list of button]]
-            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['insert', ['link']],
-            ['view', ['codeview', 'help']]
+            ['style'],
+            ['bold'],
+            ['italic'],
+            ['underline'],
+            ['strikethrough'],
+            ['superscript'],
+            ['subscript'],
+            ['link'],
+            ['codeview'],
         ]
     });
 });
@@ -254,10 +259,18 @@ function popUp(path, type = null, returnUrl = null, entity = null, tt = null) {
                 data: { u: entity },
                 success: function (res) {
                     if (res.isValid) {
-                        $('#form-modal .modal-body').html(res.html);
-                        $('#form-modal').modal('show');
+                        if (res.html == '') {
+                            console.log('at redirect');
+                            window.location.href = res.redirect;
+                        }
+                        else {
+                            console.log('at modal');
+                            $('#form-modal .modal-body').html(res.html);
+                            $('#form-modal').modal('show');
+                        }
                     }
                     else {
+                        console.log('at message');
                         $.notify(res.msg, { globalPosition: 'top left', className: 'error' });
                     }
                 },

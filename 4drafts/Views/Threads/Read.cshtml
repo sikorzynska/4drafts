@@ -23,7 +23,7 @@
                         <th colspan="2" class="border-black bg-gray">
                             <div class="media flex-wrap w-100 align-items-center media-img-40 p-2">
                                 <a onclick="popUp('/Users/Peek/','peek-profile', null, '@Model.AuthorName')"><img src="@avatarUrl" class="d-block ui-w-40 rounded-circle border"></a>
-                                <div class="media-body ml-2 mw-150p">
+                                <div class="media-body ml-2 mw-200">
                                     <a class="btn-link" onclick="popUp('/Users/Peek/','peek-profile', null, '@Model.AuthorName')">@Model.AuthorName</a>
                                     <div class="small">@Model.CreatedOn</div>
                                 </div>
@@ -59,7 +59,7 @@
                                         if (userId != null)
                                         {
                                             <div class="zoom p-2"><a onclick="showCommentRow()" class="btn-link"><i class="fas fa-lg big-icon fa-reply"></i></a></div>
-                                            <div class="zoom p-2"><a class="btn-link" asp-controller="Threads" asp-action="Report" asp-route-threadId="@Model.Id"><i class="fas fa-lg big-icon fa-flag"></i></a></div>
+                                            <div class="zoom p-2"><a class="btn-link"><i class="fas fa-lg big-icon fa-flag"></i></a></div>
                                         }
                                         else
                                         {
@@ -76,6 +76,10 @@
             </table>
             <hr />
             <div id="comment-section">
+                <div class="alert alert-dismissible alert-info m-1">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    The comments are randomly generated sentences and are not meant to make sense. They exist strictly for testing purposes.
+                </div>
                 <partial name="_CommentsPartial" model="@Model" />
             </div>
         </div>
